@@ -1,0 +1,35 @@
+{
+  "model_file": "social_cnn.tflite",
+  "task": "social_signal",
+  "sampling_frequency_hz": 12.5,
+  "window_samples": 50,
+  "step_samples": 25,
+  "input": {
+    "shape": [
+      1,
+      50,
+      3
+    ],
+    "channels": [
+      "accelX",
+      "accelY",
+      "accelZ"
+    ],
+    "units": "g (raw accelerometer values)",
+    "dtype": "float32"
+  },
+  "output": {
+    "shape": [
+      1,
+      4
+    ],
+    "classes": [
+      "breathingNormally",
+      "coughing",
+      "hyperventilation",
+      "other"
+    ],
+    "dtype": "float32"
+  },
+  "normalization": "inside the model \u2013 feed raw values"
+}
