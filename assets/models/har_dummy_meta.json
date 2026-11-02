@@ -1,0 +1,42 @@
+{
+  "model_file": "har_dummy.tflite",
+  "task": "daily_activity",
+  "sampling_frequency_hz": 12.5,
+  "window_samples": 50,
+  "step_samples": 25,
+  "input": {
+    "shape": [
+      1,
+      50,
+      3
+    ],
+    "channels": [
+      "accelX",
+      "accelY",
+      "accelZ"
+    ],
+    "units": "g (raw accelerometer values)",
+    "dtype": "float32"
+  },
+  "output": {
+    "shape": [
+      1,
+      11
+    ],
+    "classes": [
+      "sittingStanding",
+      "lyingBack",
+      "lyingLeft",
+      "lyingRight",
+      "lyingStomach",
+      "normalWalking",
+      "shuffleWalking",
+      "ascending",
+      "descending",
+      "running",
+      "miscMovement"
+    ],
+    "dtype": "float32"
+  },
+  "normalization": "inside the model \u2013 feed raw values"
+}

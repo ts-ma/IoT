@@ -1,0 +1,33 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// tflite_flutter compiles its Java for JVM 11 but leaves its Kotlin at the
+// toolchain default (JVM 21 here), and Gradle refuses to build a module whose
+// Java and Kotlin targets disagree ("Inconsistent JVM Target Compatibility").
+// We cannot edit the plugin's own build file (it lives in the pub cache), so
+// this block reaches into that one subproject and compiles its Kotlin for
+// JVM 11 as well. Other plugins and the app itself are left untouched.
+// This can be removed once a tflite_flutter release fixes its build file.
+subprojects { p ->
+    if (p.name == "tflite_flutter") {
+        p.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+    }
+}
