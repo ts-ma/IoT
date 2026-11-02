@@ -5,6 +5,7 @@ import 'globals.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'home.dart';
 import 'har.dart';
+import 'social.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -108,11 +109,22 @@ void main() async {
   }
 
 
-  runApp(const MyApp());
+  // Independent of HAR and its example check. Social receives no BLE samples
+  // yet; the app owns this single session and closes it at the end of its life.
+  final socialSession = SocialClassifierSession();
+  try {
+    await socialSession.load();
+  } catch (e) {
+    debugPrint('Could not load Social model: $e');
+  }
+
+  runApp(MyApp(socialSession: socialSession));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, this.socialSession});
+
+  final SocialClassifierSession? socialSession;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -142,6 +154,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       unawaited(_historyWriter.flush());
     } else if (state == AppLifecycleState.detached) {
       unawaited(_historyWriter.shutdown());
+      widget.socialSession?.dispose();
     }
   }
 
@@ -149,6 +162,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _historyWriter.dispose();
+    widget.socialSession?.dispose();
     super.dispose();
   }
 
