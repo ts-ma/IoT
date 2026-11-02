@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _historyWriter.dispose();
-    _socialProcessor.endSession();
+    _socialProcessor.dispose();
     widget.socialSession?.dispose();
     super.dispose();
   }

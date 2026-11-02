@@ -48,6 +48,76 @@ class MyHomePageState extends State<MyHomePage> {
   // the first full window of samples has been classified.
   String activity = "";
 
+  @override
+  void initState() {
+    super.initState();
+    widget.socialProcessor?.addListener(_socialChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.socialProcessor != widget.socialProcessor) {
+      oldWidget.socialProcessor?.removeListener(_socialChanged);
+      widget.socialProcessor?.addListener(_socialChanged);
+    }
+  }
+
+  void _socialChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    widget.socialProcessor?.removeListener(_socialChanged);
+    super.dispose();
+  }
+
+  Widget _socialResult() {
+    final processor = widget.socialProcessor;
+    final status = processor?.status ?? SocialPredictionStatus.unavailable;
+    final event = processor?.latestPrediction;
+    final statusText = switch (status) {
+      SocialPredictionStatus.unavailable => 'Social model unavailable',
+      SocialPredictionStatus.disconnected => 'Disconnected',
+      SocialPredictionStatus.collecting => 'Collecting data...',
+      SocialPredictionStatus.ready => 'Live prediction',
+      SocialPredictionStatus.error => 'Social inference error — reconnect to retry',
+    };
+    final label = switch (event?.prediction.label) {
+      'breathingNormally' => 'Normal Breathing',
+      'coughing' => 'Coughing',
+      'hyperventilation' => 'Hyperventilating',
+      'other' => 'Other Social Signals',
+      _ => null,
+    };
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        key: const ValueKey('social-signal-result'),
+        children: [
+          const Text('Social Signal',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(statusText,
+              key: const ValueKey('social-prediction-status'),
+              textAlign: TextAlign.center),
+          if (event != null && label != null) ...[
+            Text(label, key: const ValueKey('social-prediction-label')),
+            Text(
+              'Confidence: ${(event.prediction.confidence * 100).toStringAsFixed(1)}%',
+              key: const ValueKey('social-prediction-confidence'),
+            ),
+          ],
+          Text(
+            'Social predictions are most reliable for stationary activities.',
+            style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
   var activities = [
     'Standing',
     'Lying down on left',
@@ -151,6 +221,8 @@ class MyHomePageState extends State<MyHomePage> {
               Text(
                 harClassifier == null ? "Classifier not available" : activity,
               ),
+              const SizedBox(height: 10),
+              _socialResult(),
               const SizedBox(height: 10),
               const Text(
                 'Activity',
