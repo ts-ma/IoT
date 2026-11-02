@@ -1,0 +1,17 @@
+WARNING:tensorflow:5 out of the last 13 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x11fa9fb00> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:5 out of the last 13 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x11f1c5940> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+teammate_cnn@50|seed=0           score 0.225  balanced 0.225 min-class 0.000  rot30 0.242  (8.6 s)
+teammate_cnn@50|seed=1           score 0.232  balanced 0.232 min-class 0.000  rot30 0.237  (8.6 s)
+teammate_cnn@50|seed=2           score 0.234  balanced 0.234 min-class 0.000  rot30 0.229  (8.7 s)
+harry_full@50|seed=0             score 0.788  balanced 0.788 min-class 0.485  rot30 0.767  (110.2 s)
+harry_full@50|seed=1             score 0.788  balanced 0.788 min-class 0.560  rot30 0.758  (122.2 s)
+harry_full@50|seed=2             score 0.795  balanced 0.795 min-class 0.588  rot30 0.742  (122.4 s)
+harry_full@100|seed=0            score 0.835  balanced 0.835 min-class 0.554  rot30 0.831  (113.5 s)
+harry_full@100|seed=1            score 0.840  balanced 0.840 min-class 0.585  rot30 0.826  (109.0 s)
+harry_full@100|seed=2            score 0.829  balanced 0.829 min-class 0.551  rot30 0.758  (109.6 s)
+harry_nograv@100|seed=0          score 0.791  balanced 0.791 min-class 0.478  rot30 0.789  (109.8 s)
+harry_nograv@100|seed=1          score 0.809  balanced 0.809 min-class 0.541  rot30 0.810  (110.2 s)
+harry_nograv@100|seed=2          score 0.814  balanced 0.814 min-class 0.536  rot30 0.766  (109.9 s)
+harry_feat@100|seed=0            score 0.816  balanced 0.816 min-class 0.539  rot30 0.819  (26.3 s)
+harry_feat@100|seed=1            score 0.826  balanced 0.826 min-class 0.612  rot30 0.826  (26.3 s)
+harry_feat@100|seed=2            score 0.827  balanced 0.827 min-class 0.592  rot30 0.829  (26.5 s)

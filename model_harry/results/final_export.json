@@ -1,0 +1,34 @@
+{
+ "har": {
+  "selected": "harry_full@50",
+  "cv_scores": {
+   "harry_feat@50": 0.9664021164021165,
+   "harry_full@50": 0.9937301587301587
+  },
+  "export": {
+   "file": "harry_har.tflite",
+   "size_kb": 131.6,
+   "argmax_agreement": 1.0,
+   "max_abs_dprob": 3.5762786865234375e-07,
+   "sum_to_one": 2.384185791015625e-07
+  },
+  "params": 26112
+ },
+ "social": {
+  "selected": "harry_full@100",
+  "cv_scores": {
+   "harry_feat@100": 0.823117954911433,
+   "harry_full@100": 0.834842995169082,
+   "harry_full@50": 0.7903852513227513,
+   "harry_nograv@100": 0.8049516908212561
+  },
+  "export": {
+   "file": "harry_social.tflite",
+   "size_kb": 225.9,
+   "argmax_agreement": 1.0,
+   "max_abs_dprob": 1.3768672943115234e-05,
+   "sum_to_one": 1.1920928955078125e-07
+  },
+  "params": 42065
+ }
+}

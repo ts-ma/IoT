@@ -1,0 +1,1847 @@
+{
+ "teammate_cnn@50|seed=0": {
+  "fold_mean": {
+   "breathingNormally": 0.0,
+   "coughing": 0.3333333333333333,
+   "hyperventilation": 0.0,
+   "other": 0.5684523809523809,
+   "BALANCED": 0.22544642857142858,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.22544642857142858
+  },
+  "fold_std": {
+   "breathingNormally": 0.0,
+   "coughing": 0.4714045207910317,
+   "hyperventilation": 0.0,
+   "other": 0.4203599074769845,
+   "BALANCED": 0.03531679847114827,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.03531679847114827
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.75,
+    "BALANCED": 0.1875,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.1875,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.6607142857142857,
+    "BALANCED": 0.16517857142857142,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.16517857142857142,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 1.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 1.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.0,
+   "coughing": 0.3333333333333333,
+   "hyperventilation": 0.0,
+   "other": 0.5821428571428572,
+   "BALANCED": 0.22886904761904764,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.22886904761904764
+  },
+  "confusion": [
+   [
+    0,
+    56,
+    28,
+    84
+   ],
+   [
+    0,
+    56,
+    0,
+    112
+   ],
+   [
+    0,
+    56,
+    0,
+    112
+   ],
+   [
+    0,
+    206,
+    28,
+    326
+   ]
+  ],
+  "recording_vote_acc": 0.3684210526315789,
+  "rotation_score": {
+   "15": 0.23288690476190477,
+   "30": 0.2418154761904762
+  },
+  "train_seconds": 8.6
+ },
+ "teammate_cnn@50|seed=1": {
+  "fold_mean": {
+   "breathingNormally": 0.16666666666666666,
+   "coughing": 0.16666666666666666,
+   "hyperventilation": 0.16666666666666666,
+   "other": 0.42857142857142855,
+   "BALANCED": 0.23214285714285712,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.23214285714285712
+  },
+  "fold_std": {
+   "breathingNormally": 0.372677996249965,
+   "coughing": 0.37267799624996495,
+   "hyperventilation": 0.372677996249965,
+   "other": 0.4349720453915502,
+   "BALANCED": 0.025774565588822584,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.025774565588822584
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.75,
+    "BALANCED": 0.1875,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.1875,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.8214285714285714,
+    "BALANCED": 0.20535714285714285,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.20535714285714285,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 1.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 1.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.16666666666666666,
+   "coughing": 0.16666666666666666,
+   "hyperventilation": 0.16666666666666666,
+   "other": 0.4642857142857143,
+   "BALANCED": 0.24107142857142858,
+   "MIN_CLASS": 0.16666666666666666,
+   "SCORE": 0.24107142857142858
+  },
+  "confusion": [
+   [
+    28,
+    0,
+    82,
+    58
+   ],
+   [
+    28,
+    28,
+    28,
+    84
+   ],
+   [
+    28,
+    28,
+    28,
+    84
+   ],
+   [
+    84,
+    105,
+    111,
+    260
+   ]
+  ],
+  "recording_vote_acc": 0.3157894736842105,
+  "rotation_score": {
+   "15": 0.21155753968253968,
+   "30": 0.23735119047619047
+  },
+  "train_seconds": 8.6
+ },
+ "teammate_cnn@50|seed=2": {
+  "fold_mean": {
+   "breathingNormally": 0.16666666666666666,
+   "coughing": 0.3333333333333333,
+   "hyperventilation": 0.0,
+   "other": 0.4360119047619048,
+   "BALANCED": 0.2340029761904762,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.2340029761904762
+  },
+  "fold_std": {
+   "breathingNormally": 0.372677996249965,
+   "coughing": 0.4714045207910317,
+   "hyperventilation": 0.0,
+   "other": 0.4419542647573255,
+   "BALANCED": 0.02412424529296648,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.02412424529296648
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.75,
+    "BALANCED": 0.1875,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.1875,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.8660714285714286,
+    "BALANCED": 0.21651785714285715,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.21651785714285715,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 1.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.0,
+    "other": 0.0,
+    "BALANCED": 0.25,
+    "MIN_CLASS": 0.0,
+    "SCORE": 0.25,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.16666666666666666,
+   "coughing": 0.3333333333333333,
+   "hyperventilation": 0.0,
+   "other": 0.4732142857142857,
+   "BALANCED": 0.24330357142857142,
+   "MIN_CLASS": 0.0,
+   "SCORE": 0.24330357142857142
+  },
+  "confusion": [
+   [
+    28,
+    73,
+    11,
+    56
+   ],
+   [
+    28,
+    56,
+    0,
+    84
+   ],
+   [
+    28,
+    56,
+    0,
+    84
+   ],
+   [
+    84,
+    183,
+    28,
+    265
+   ]
+  ],
+  "recording_vote_acc": 0.3157894736842105,
+  "rotation_score": {
+   "15": 0.2462797619047619,
+   "30": 0.22854662698412698
+  },
+  "train_seconds": 8.7
+ },
+ "harry_full@50|seed=0": {
+  "fold_mean": {
+   "breathingNormally": 0.8690476190476191,
+   "coughing": 0.7202380952380952,
+   "hyperventilation": 0.8035714285714287,
+   "other": 0.7584325396825397,
+   "BALANCED": 0.7878224206349206,
+   "MIN_CLASS": 0.48462301587301587,
+   "SCORE": 0.7878224206349206
+  },
+  "fold_std": {
+   "breathingNormally": 0.08908708063747481,
+   "coughing": 0.32694776535379666,
+   "hyperventilation": 0.26785714285714285,
+   "other": 0.14893265408527726,
+   "BALANCED": 0.08131640190416553,
+   "MIN_CLASS": 0.24746217956094047,
+   "SCORE": 0.08131640190416553
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.8214285714285714,
+    "coughing": 0.8214285714285714,
+    "hyperventilation": 0.8571428571428571,
+    "other": 0.6071428571428571,
+    "BALANCED": 0.7767857142857143,
+    "MIN_CLASS": 0.6071428571428571,
+    "SCORE": 0.7767857142857143,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.8571428571428571,
+    "coughing": 1.0,
+    "hyperventilation": 0.9642857142857143,
+    "other": 0.8482142857142857,
+    "BALANCED": 0.9174107142857143,
+    "MIN_CLASS": 0.8482142857142857,
+    "SCORE": 0.9174107142857143,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.9285714285714286,
+    "coughing": 0.9642857142857143,
+    "hyperventilation": 0.8928571428571429,
+    "other": 0.7023809523809523,
+    "BALANCED": 0.8720238095238095,
+    "MIN_CLASS": 0.7023809523809523,
+    "SCORE": 0.8720238095238095,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.32142857142857145,
+    "hyperventilation": 1.0,
+    "other": 0.5476190476190477,
+    "BALANCED": 0.7172619047619047,
+    "MIN_CLASS": 0.32142857142857145,
+    "SCORE": 0.7172619047619047,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.7142857142857143,
+    "coughing": 0.21428571428571427,
+    "hyperventilation": 0.8928571428571429,
+    "other": 0.9404761904761905,
+    "BALANCED": 0.6904761904761905,
+    "MIN_CLASS": 0.21428571428571427,
+    "SCORE": 0.6904761904761905,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.8928571428571429,
+    "coughing": 1.0,
+    "hyperventilation": 0.21428571428571427,
+    "other": 0.9047619047619048,
+    "BALANCED": 0.7529761904761905,
+    "MIN_CLASS": 0.21428571428571427,
+    "SCORE": 0.7529761904761905,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8690476190476191,
+   "coughing": 0.7202380952380952,
+   "hyperventilation": 0.8035714285714286,
+   "other": 0.7553571428571428,
+   "BALANCED": 0.7870535714285716,
+   "MIN_CLASS": 0.7202380952380952,
+   "SCORE": 0.7870535714285716
+  },
+  "confusion": [
+   [
+    146,
+    0,
+    0,
+    22
+   ],
+   [
+    0,
+    121,
+    11,
+    36
+   ],
+   [
+    0,
+    8,
+    135,
+    25
+   ],
+   [
+    75,
+    60,
+    2,
+    423
+   ]
+  ],
+  "recording_vote_acc": 0.7894736842105263,
+  "rotation_score": {
+   "15": 0.7803819444444445,
+   "30": 0.7669890873015873
+  },
+  "train_seconds": 110.2
+ },
+ "harry_full@50|seed=1": {
+  "fold_mean": {
+   "breathingNormally": 0.8035714285714287,
+   "coughing": 0.7797619047619048,
+   "hyperventilation": 0.8095238095238096,
+   "other": 0.7599206349206349,
+   "BALANCED": 0.7881944444444445,
+   "MIN_CLASS": 0.5595238095238094,
+   "SCORE": 0.7881944444444445
+  },
+  "fold_std": {
+   "breathingNormally": 0.1620316379620976,
+   "coughing": 0.22907001672492688,
+   "hyperventilation": 0.268583670778059,
+   "other": 0.20207921795686448,
+   "BALANCED": 0.07931080733650268,
+   "MIN_CLASS": 0.2027307900705524,
+   "SCORE": 0.07931080733650268
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6428571428571429,
+    "hyperventilation": 0.7142857142857143,
+    "other": 0.7142857142857143,
+    "BALANCED": 0.7678571428571429,
+    "MIN_CLASS": 0.6428571428571429,
+    "SCORE": 0.7678571428571429,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.8571428571428571,
+    "coughing": 0.9642857142857143,
+    "hyperventilation": 1.0,
+    "other": 0.8571428571428571,
+    "BALANCED": 0.9196428571428571,
+    "MIN_CLASS": 0.8571428571428571,
+    "SCORE": 0.9196428571428571,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.5714285714285714,
+    "coughing": 0.9642857142857143,
+    "hyperventilation": 0.9285714285714286,
+    "other": 0.7142857142857143,
+    "BALANCED": 0.7946428571428572,
+    "MIN_CLASS": 0.5714285714285714,
+    "SCORE": 0.7946428571428572,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.35714285714285715,
+    "hyperventilation": 1.0,
+    "other": 0.36904761904761907,
+    "BALANCED": 0.6815476190476191,
+    "MIN_CLASS": 0.35714285714285715,
+    "SCORE": 0.6815476190476191,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.6785714285714286,
+    "coughing": 0.75,
+    "hyperventilation": 0.9642857142857143,
+    "other": 1.0,
+    "BALANCED": 0.8482142857142857,
+    "MIN_CLASS": 0.6785714285714286,
+    "SCORE": 0.8482142857142857,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.7142857142857143,
+    "coughing": 1.0,
+    "hyperventilation": 0.25,
+    "other": 0.9047619047619048,
+    "BALANCED": 0.7172619047619048,
+    "MIN_CLASS": 0.25,
+    "SCORE": 0.7172619047619048,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8035714285714286,
+   "coughing": 0.7797619047619048,
+   "hyperventilation": 0.8095238095238095,
+   "other": 0.7625,
+   "BALANCED": 0.7888392857142859,
+   "MIN_CLASS": 0.7625,
+   "SCORE": 0.7888392857142859
+  },
+  "confusion": [
+   [
+    135,
+    0,
+    0,
+    33
+   ],
+   [
+    0,
+    131,
+    7,
+    30
+   ],
+   [
+    0,
+    10,
+    136,
+    22
+   ],
+   [
+    68,
+    65,
+    0,
+    427
+   ]
+  ],
+  "recording_vote_acc": 0.8157894736842105,
+  "rotation_score": {
+   "15": 0.7435515873015873,
+   "30": 0.7580605158730158
+  },
+  "train_seconds": 122.2
+ },
+ "harry_full@50|seed=2": {
+  "fold_mean": {
+   "breathingNormally": 0.8571428571428572,
+   "coughing": 0.7559523809523809,
+   "hyperventilation": 0.7916666666666666,
+   "other": 0.7757936507936508,
+   "BALANCED": 0.795138888888889,
+   "MIN_CLASS": 0.5882936507936508,
+   "SCORE": 0.795138888888889
+  },
+  "fold_std": {
+   "breathingNormally": 0.12198750911856664,
+   "coughing": 0.14640921281248623,
+   "hyperventilation": 0.25788308360041035,
+   "other": 0.17130268011229666,
+   "BALANCED": 0.061946401848210986,
+   "MIN_CLASS": 0.16689385970024104,
+   "SCORE": 0.061946401848210986
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.9285714285714286,
+    "coughing": 0.6428571428571429,
+    "hyperventilation": 0.6785714285714286,
+    "other": 0.5892857142857143,
+    "BALANCED": 0.7098214285714286,
+    "MIN_CLASS": 0.5892857142857143,
+    "SCORE": 0.7098214285714286,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.8214285714285714,
+    "coughing": 0.8928571428571429,
+    "hyperventilation": 1.0,
+    "other": 0.875,
+    "BALANCED": 0.8973214285714286,
+    "MIN_CLASS": 0.8214285714285714,
+    "SCORE": 0.8973214285714286,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.9642857142857143,
+    "coughing": 0.7857142857142857,
+    "hyperventilation": 0.7857142857142857,
+    "other": 0.6904761904761905,
+    "BALANCED": 0.8065476190476191,
+    "MIN_CLASS": 0.6904761904761905,
+    "SCORE": 0.8065476190476191,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.5,
+    "hyperventilation": 1.0,
+    "other": 0.5595238095238095,
+    "BALANCED": 0.7648809523809523,
+    "MIN_CLASS": 0.5,
+    "SCORE": 0.7648809523809523,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.6428571428571429,
+    "coughing": 0.7857142857142857,
+    "hyperventilation": 1.0,
+    "other": 0.9404761904761905,
+    "BALANCED": 0.8422619047619049,
+    "MIN_CLASS": 0.6428571428571429,
+    "SCORE": 0.8422619047619049,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.7857142857142857,
+    "coughing": 0.9285714285714286,
+    "hyperventilation": 0.2857142857142857,
+    "other": 1.0,
+    "BALANCED": 0.75,
+    "MIN_CLASS": 0.2857142857142857,
+    "SCORE": 0.75,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8571428571428571,
+   "coughing": 0.7559523809523809,
+   "hyperventilation": 0.7916666666666666,
+   "other": 0.7714285714285715,
+   "BALANCED": 0.794047619047619,
+   "MIN_CLASS": 0.7559523809523809,
+   "SCORE": 0.794047619047619
+  },
+  "confusion": [
+   [
+    144,
+    0,
+    0,
+    24
+   ],
+   [
+    0,
+    127,
+    3,
+    38
+   ],
+   [
+    0,
+    10,
+    133,
+    25
+   ],
+   [
+    70,
+    57,
+    1,
+    432
+   ]
+  ],
+  "recording_vote_acc": 0.868421052631579,
+  "rotation_score": {
+   "15": 0.7610367063492064,
+   "30": 0.7416914682539683
+  },
+  "train_seconds": 122.4
+ },
+ "harry_full@100|seed=0": {
+  "fold_mean": {
+   "breathingNormally": 0.9202898550724637,
+   "coughing": 0.7898550724637682,
+   "hyperventilation": 0.8623188405797101,
+   "other": 0.7693236714975845,
+   "BALANCED": 0.8354468599033816,
+   "MIN_CLASS": 0.5543478260869564,
+   "SCORE": 0.8354468599033816
+  },
+  "fold_std": {
+   "breathingNormally": 0.05842215759636631,
+   "coughing": 0.2589502664522556,
+   "hyperventilation": 0.2251047038696966,
+   "other": 0.16851613343309252,
+   "BALANCED": 0.06163341202535733,
+   "MIN_CLASS": 0.1737997819595863,
+   "SCORE": 0.06163341202535733
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.8695652173913043,
+    "coughing": 0.8260869565217391,
+    "hyperventilation": 0.782608695652174,
+    "other": 0.5,
+    "BALANCED": 0.7445652173913043,
+    "MIN_CLASS": 0.5,
+    "SCORE": 0.7445652173913043,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.782608695652174,
+    "BALANCED": 0.9347826086956521,
+    "MIN_CLASS": 0.782608695652174,
+    "SCORE": 0.9347826086956521,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.8260869565217391,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.7391304347826086,
+    "BALANCED": 0.8913043478260869,
+    "MIN_CLASS": 0.7391304347826086,
+    "SCORE": 0.8913043478260869,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6086956521739131,
+    "hyperventilation": 1.0,
+    "other": 0.6521739130434783,
+    "BALANCED": 0.8152173913043479,
+    "MIN_CLASS": 0.6086956521739131,
+    "SCORE": 0.8152173913043479,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.9130434782608695,
+    "coughing": 0.30434782608695654,
+    "hyperventilation": 1.0,
+    "other": 1.0,
+    "BALANCED": 0.8043478260869565,
+    "MIN_CLASS": 0.30434782608695654,
+    "SCORE": 0.8043478260869565,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 1.0,
+    "hyperventilation": 0.391304347826087,
+    "other": 0.9420289855072463,
+    "BALANCED": 0.8224637681159421,
+    "MIN_CLASS": 0.391304347826087,
+    "SCORE": 0.8224637681159421,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.9202898550724637,
+   "coughing": 0.7898550724637681,
+   "hyperventilation": 0.8623188405797102,
+   "other": 0.7565217391304347,
+   "BALANCED": 0.8322463768115943,
+   "MIN_CLASS": 0.7565217391304347,
+   "SCORE": 0.8322463768115943
+  },
+  "confusion": [
+   [
+    127,
+    0,
+    0,
+    11
+   ],
+   [
+    0,
+    109,
+    1,
+    28
+   ],
+   [
+    0,
+    5,
+    119,
+    14
+   ],
+   [
+    59,
+    53,
+    0,
+    348
+   ]
+  ],
+  "recording_vote_acc": 0.8157894736842105,
+  "rotation_score": {
+   "15": 0.8282004830917874,
+   "30": 0.8306159420289857
+  },
+  "train_seconds": 113.5
+ },
+ "harry_full@100|seed=1": {
+  "fold_mean": {
+   "breathingNormally": 0.9057971014492754,
+   "coughing": 0.8188405797101449,
+   "hyperventilation": 0.8260869565217392,
+   "other": 0.8109903381642511,
+   "BALANCED": 0.8404287439613527,
+   "MIN_CLASS": 0.5851449275362318,
+   "SCORE": 0.8404287439613527
+  },
+  "fold_std": {
+   "breathingNormally": 0.10170774527259566,
+   "coughing": 0.23603619528843955,
+   "hyperventilation": 0.2572208601347659,
+   "other": 0.14836527641319328,
+   "BALANCED": 0.03676545770256205,
+   "MIN_CLASS": 0.18127713566797118,
+   "SCORE": 0.03676545770256205
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.9130434782608695,
+    "hyperventilation": 0.6956521739130435,
+    "other": 0.6847826086956522,
+    "BALANCED": 0.8233695652173914,
+    "MIN_CLASS": 0.6847826086956522,
+    "SCORE": 0.8233695652173914,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.8260869565217391,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.8478260869565217,
+    "BALANCED": 0.9184782608695652,
+    "MIN_CLASS": 0.8260869565217391,
+    "SCORE": 0.9184782608695652,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.7391304347826086,
+    "coughing": 1.0,
+    "hyperventilation": 0.9565217391304348,
+    "other": 0.6956521739130435,
+    "BALANCED": 0.8478260869565217,
+    "MIN_CLASS": 0.6956521739130435,
+    "SCORE": 0.8478260869565217,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6086956521739131,
+    "hyperventilation": 1.0,
+    "other": 0.6376811594202898,
+    "BALANCED": 0.8115942028985508,
+    "MIN_CLASS": 0.6086956521739131,
+    "SCORE": 0.8115942028985508,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.8695652173913043,
+    "coughing": 0.391304347826087,
+    "hyperventilation": 1.0,
+    "other": 1.0,
+    "BALANCED": 0.8152173913043479,
+    "MIN_CLASS": 0.391304347826087,
+    "SCORE": 0.8152173913043479,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.30434782608695654,
+    "other": 1.0,
+    "BALANCED": 0.8260869565217391,
+    "MIN_CLASS": 0.30434782608695654,
+    "SCORE": 0.8260869565217391,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.9057971014492754,
+   "coughing": 0.8188405797101449,
+   "hyperventilation": 0.8260869565217391,
+   "other": 0.8065217391304348,
+   "BALANCED": 0.8393115942028986,
+   "MIN_CLASS": 0.8065217391304348,
+   "SCORE": 0.8393115942028986
+  },
+  "confusion": [
+   [
+    125,
+    0,
+    0,
+    13
+   ],
+   [
+    0,
+    113,
+    0,
+    25
+   ],
+   [
+    0,
+    8,
+    114,
+    16
+   ],
+   [
+    47,
+    42,
+    0,
+    371
+   ]
+  ],
+  "recording_vote_acc": 0.8157894736842105,
+  "rotation_score": {
+   "15": 0.8383152173913043,
+   "30": 0.8260869565217392
+  },
+  "train_seconds": 109.0
+ },
+ "harry_full@100|seed=2": {
+  "fold_mean": {
+   "breathingNormally": 0.8840579710144927,
+   "coughing": 0.8623188405797101,
+   "hyperventilation": 0.753623188405797,
+   "other": 0.8146135265700482,
+   "BALANCED": 0.828653381642512,
+   "MIN_CLASS": 0.5507246376811593,
+   "SCORE": 0.828653381642512
+  },
+  "fold_std": {
+   "breathingNormally": 0.1714805734231773,
+   "coughing": 0.1555863083593035,
+   "hyperventilation": 0.35647460510866213,
+   "other": 0.13247228845700668,
+   "BALANCED": 0.11139023256657116,
+   "MIN_CLASS": 0.23233651509973036,
+   "SCORE": 0.11139023256657116
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6521739130434783,
+    "hyperventilation": 0.13043478260869565,
+    "other": 0.5978260869565217,
+    "BALANCED": 0.5951086956521738,
+    "MIN_CLASS": 0.13043478260869565,
+    "SCORE": 0.5951086956521738,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.8260869565217391,
+    "BALANCED": 0.9565217391304348,
+    "MIN_CLASS": 0.8260869565217391,
+    "SCORE": 0.9565217391304348,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.7391304347826086,
+    "coughing": 0.8695652173913043,
+    "hyperventilation": 1.0,
+    "other": 0.8840579710144928,
+    "BALANCED": 0.8731884057971014,
+    "MIN_CLASS": 0.7391304347826086,
+    "SCORE": 0.8731884057971014,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6521739130434783,
+    "hyperventilation": 1.0,
+    "other": 0.6956521739130435,
+    "BALANCED": 0.8369565217391305,
+    "MIN_CLASS": 0.6521739130434783,
+    "SCORE": 0.8369565217391305,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.5652173913043478,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.8840579710144928,
+    "BALANCED": 0.8623188405797101,
+    "MIN_CLASS": 0.5652173913043478,
+    "SCORE": 0.8623188405797101,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.391304347826087,
+    "other": 1.0,
+    "BALANCED": 0.8478260869565217,
+    "MIN_CLASS": 0.391304347826087,
+    "SCORE": 0.8478260869565217,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8840579710144928,
+   "coughing": 0.8623188405797102,
+   "hyperventilation": 0.7536231884057971,
+   "other": 0.8043478260869565,
+   "BALANCED": 0.8260869565217391,
+   "MIN_CLASS": 0.7536231884057971,
+   "SCORE": 0.8260869565217391
+  },
+  "confusion": [
+   [
+    122,
+    0,
+    0,
+    16
+   ],
+   [
+    0,
+    119,
+    0,
+    19
+   ],
+   [
+    0,
+    21,
+    104,
+    13
+   ],
+   [
+    56,
+    34,
+    0,
+    370
+   ]
+  ],
+  "recording_vote_acc": 0.8421052631578947,
+  "rotation_score": {
+   "15": 0.7697765700483091,
+   "30": 0.7583031400966185
+  },
+  "train_seconds": 109.6
+ },
+ "harry_nograv@100|seed=0": {
+  "fold_mean": {
+   "breathingNormally": 0.8913043478260869,
+   "coughing": 0.753623188405797,
+   "hyperventilation": 0.7318840579710145,
+   "other": 0.7886473429951689,
+   "BALANCED": 0.7913647342995169,
+   "MIN_CLASS": 0.47826086956521746,
+   "SCORE": 0.7913647342995169
+  },
+  "fold_std": {
+   "breathingNormally": 0.1414436325792981,
+   "coughing": 0.2802765160262857,
+   "hyperventilation": 0.25028863824884845,
+   "other": 0.1788948638374089,
+   "BALANCED": 0.07696196220507695,
+   "MIN_CLASS": 0.15269063409931505,
+   "SCORE": 0.07696196220507695
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6086956521739131,
+    "hyperventilation": 0.6956521739130435,
+    "other": 0.6304347826086957,
+    "BALANCED": 0.7336956521739131,
+    "MIN_CLASS": 0.6086956521739131,
+    "SCORE": 0.7336956521739131,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.6521739130434783,
+    "BALANCED": 0.9021739130434783,
+    "MIN_CLASS": 0.6521739130434783,
+    "SCORE": 0.9021739130434783,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.7391304347826086,
+    "coughing": 1.0,
+    "hyperventilation": 0.4782608695652174,
+    "other": 0.8840579710144928,
+    "BALANCED": 0.7753623188405797,
+    "MIN_CLASS": 0.4782608695652174,
+    "SCORE": 0.7753623188405797,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.9565217391304348,
+    "hyperventilation": 1.0,
+    "other": 0.5652173913043478,
+    "BALANCED": 0.8804347826086956,
+    "MIN_CLASS": 0.5652173913043478,
+    "SCORE": 0.8804347826086956,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.6521739130434783,
+    "coughing": 0.21739130434782608,
+    "hyperventilation": 0.8695652173913043,
+    "other": 1.0,
+    "BALANCED": 0.6847826086956521,
+    "MIN_CLASS": 0.21739130434782608,
+    "SCORE": 0.6847826086956521,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.7391304347826086,
+    "hyperventilation": 0.34782608695652173,
+    "other": 1.0,
+    "BALANCED": 0.7717391304347826,
+    "MIN_CLASS": 0.34782608695652173,
+    "SCORE": 0.7717391304347826,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8913043478260869,
+   "coughing": 0.7536231884057971,
+   "hyperventilation": 0.7318840579710145,
+   "other": 0.7739130434782608,
+   "BALANCED": 0.7876811594202898,
+   "MIN_CLASS": 0.7318840579710145,
+   "SCORE": 0.7876811594202898
+  },
+  "confusion": [
+   [
+    123,
+    0,
+    0,
+    15
+   ],
+   [
+    0,
+    104,
+    0,
+    34
+   ],
+   [
+    0,
+    11,
+    101,
+    26
+   ],
+   [
+    50,
+    54,
+    0,
+    356
+   ]
+  ],
+  "recording_vote_acc": 0.7631578947368421,
+  "rotation_score": {
+   "15": 0.7803442028985508,
+   "30": 0.7891002415458935
+  },
+  "train_seconds": 109.8
+ },
+ "harry_nograv@100|seed=1": {
+  "fold_mean": {
+   "breathingNormally": 0.8043478260869565,
+   "coughing": 0.7246376811594204,
+   "hyperventilation": 0.9202898550724637,
+   "other": 0.7886473429951691,
+   "BALANCED": 0.8094806763285023,
+   "MIN_CLASS": 0.5410628019323671,
+   "SCORE": 0.8094806763285023
+  },
+  "fold_std": {
+   "breathingNormally": 0.24044434815995736,
+   "coughing": 0.3420412672813318,
+   "hyperventilation": 0.17823730255433107,
+   "other": 0.15412634461177072,
+   "BALANCED": 0.1074056231096074,
+   "MIN_CLASS": 0.24289478434737266,
+   "SCORE": 0.1074056231096074
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6521739130434783,
+    "hyperventilation": 1.0,
+    "other": 0.7065217391304348,
+    "BALANCED": 0.8396739130434783,
+    "MIN_CLASS": 0.6521739130434783,
+    "SCORE": 0.8396739130434783,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.8260869565217391,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.8369565217391305,
+    "BALANCED": 0.9157608695652174,
+    "MIN_CLASS": 0.8260869565217391,
+    "SCORE": 0.9157608695652174,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.6521739130434783,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.6956521739130435,
+    "BALANCED": 0.8369565217391305,
+    "MIN_CLASS": 0.6521739130434783,
+    "SCORE": 0.8369565217391305,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6521739130434783,
+    "hyperventilation": 1.0,
+    "other": 0.5507246376811594,
+    "BALANCED": 0.8007246376811594,
+    "MIN_CLASS": 0.5507246376811594,
+    "SCORE": 0.8007246376811594,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.34782608695652173,
+    "coughing": 0.043478260869565216,
+    "hyperventilation": 1.0,
+    "other": 0.9420289855072463,
+    "BALANCED": 0.5833333333333333,
+    "MIN_CLASS": 0.043478260869565216,
+    "SCORE": 0.5833333333333333,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.5217391304347826,
+    "other": 1.0,
+    "BALANCED": 0.8804347826086957,
+    "MIN_CLASS": 0.5217391304347826,
+    "SCORE": 0.8804347826086957,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8043478260869565,
+   "coughing": 0.7246376811594203,
+   "hyperventilation": 0.9202898550724637,
+   "other": 0.7869565217391304,
+   "BALANCED": 0.8090579710144928,
+   "MIN_CLASS": 0.7246376811594203,
+   "SCORE": 0.8090579710144928
+  },
+  "confusion": [
+   [
+    111,
+    0,
+    0,
+    27
+   ],
+   [
+    0,
+    100,
+    2,
+    36
+   ],
+   [
+    0,
+    0,
+    127,
+    11
+   ],
+   [
+    51,
+    47,
+    0,
+    362
+   ]
+  ],
+  "recording_vote_acc": 0.8157894736842105,
+  "rotation_score": {
+   "15": 0.7963466183574878,
+   "30": 0.8100845410628018
+  },
+  "train_seconds": 110.2
+ },
+ "harry_nograv@100|seed=2": {
+  "fold_mean": {
+   "breathingNormally": 0.8333333333333334,
+   "coughing": 0.782608695652174,
+   "hyperventilation": 0.8550724637681159,
+   "other": 0.785024154589372,
+   "BALANCED": 0.8140096618357489,
+   "MIN_CLASS": 0.536231884057971,
+   "SCORE": 0.8140096618357489
+  },
+  "fold_std": {
+   "breathingNormally": 0.27316053369522847,
+   "coughing": 0.27952610901428854,
+   "hyperventilation": 0.2183553503379618,
+   "other": 0.19212770530859058,
+   "BALANCED": 0.10450306250670643,
+   "MIN_CLASS": 0.20696621379489458,
+   "SCORE": 0.10450306250670643
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.9130434782608695,
+    "hyperventilation": 0.6956521739130435,
+    "other": 0.5978260869565217,
+    "BALANCED": 0.8016304347826086,
+    "MIN_CLASS": 0.5978260869565217,
+    "SCORE": 0.8016304347826086,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.8369565217391305,
+    "BALANCED": 0.9592391304347826,
+    "MIN_CLASS": 0.8369565217391305,
+    "SCORE": 0.9592391304347826,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.7391304347826086,
+    "coughing": 1.0,
+    "hyperventilation": 1.0,
+    "other": 0.855072463768116,
+    "BALANCED": 0.8985507246376812,
+    "MIN_CLASS": 0.7391304347826086,
+    "SCORE": 0.8985507246376812,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.34782608695652173,
+    "hyperventilation": 1.0,
+    "other": 0.463768115942029,
+    "BALANCED": 0.7028985507246376,
+    "MIN_CLASS": 0.34782608695652173,
+    "SCORE": 0.7028985507246376,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.2608695652173913,
+    "coughing": 0.43478260869565216,
+    "hyperventilation": 1.0,
+    "other": 0.9565217391304348,
+    "BALANCED": 0.6630434782608696,
+    "MIN_CLASS": 0.2608695652173913,
+    "SCORE": 0.6630434782608696,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.43478260869565216,
+    "other": 1.0,
+    "BALANCED": 0.8586956521739131,
+    "MIN_CLASS": 0.43478260869565216,
+    "SCORE": 0.8586956521739131,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8333333333333334,
+   "coughing": 0.782608695652174,
+   "hyperventilation": 0.855072463768116,
+   "other": 0.7782608695652173,
+   "BALANCED": 0.8123188405797102,
+   "MIN_CLASS": 0.7782608695652173,
+   "SCORE": 0.8123188405797102
+  },
+  "confusion": [
+   [
+    115,
+    0,
+    0,
+    23
+   ],
+   [
+    0,
+    108,
+    1,
+    29
+   ],
+   [
+    0,
+    7,
+    118,
+    13
+   ],
+   [
+    52,
+    50,
+    0,
+    358
+   ]
+  ],
+  "recording_vote_acc": 0.7894736842105263,
+  "rotation_score": {
+   "15": 0.7892512077294686,
+   "30": 0.7658514492753623
+  },
+  "train_seconds": 109.9
+ },
+ "harry_feat@100|seed=0": {
+  "fold_mean": {
+   "breathingNormally": 0.8260869565217391,
+   "coughing": 0.7826086956521738,
+   "hyperventilation": 0.8623188405797101,
+   "other": 0.7928743961352657,
+   "BALANCED": 0.815972222222222,
+   "MIN_CLASS": 0.5392512077294686,
+   "SCORE": 0.815972222222222
+  },
+  "fold_std": {
+   "breathingNormally": 0.2188357807324855,
+   "coughing": 0.32536151189338625,
+   "hyperventilation": 0.18517293245189329,
+   "other": 0.13064289400560583,
+   "BALANCED": 0.08360596658878496,
+   "MIN_CLASS": 0.22698648034739022,
+   "SCORE": 0.08360596658878496
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.9130434782608695,
+    "coughing": 0.08695652173913043,
+    "hyperventilation": 1.0,
+    "other": 0.7391304347826086,
+    "BALANCED": 0.6847826086956521,
+    "MIN_CLASS": 0.08695652173913043,
+    "SCORE": 0.6847826086956521,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.8695652173913043,
+    "hyperventilation": 1.0,
+    "other": 0.6847826086956522,
+    "BALANCED": 0.8885869565217391,
+    "MIN_CLASS": 0.6847826086956522,
+    "SCORE": 0.8885869565217391,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.4782608695652174,
+    "coughing": 1.0,
+    "hyperventilation": 0.4782608695652174,
+    "other": 0.9565217391304348,
+    "BALANCED": 0.7282608695652173,
+    "MIN_CLASS": 0.4782608695652174,
+    "SCORE": 0.7282608695652173,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.7391304347826086,
+    "hyperventilation": 1.0,
+    "other": 0.6086956521739131,
+    "BALANCED": 0.8369565217391304,
+    "MIN_CLASS": 0.6086956521739131,
+    "SCORE": 0.8369565217391304,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.8695652173913043,
+    "other": 0.8115942028985508,
+    "BALANCED": 0.9202898550724637,
+    "MIN_CLASS": 0.8115942028985508,
+    "SCORE": 0.9202898550724637,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.5652173913043478,
+    "coughing": 1.0,
+    "hyperventilation": 0.8260869565217391,
+    "other": 0.9565217391304348,
+    "BALANCED": 0.8369565217391304,
+    "MIN_CLASS": 0.5652173913043478,
+    "SCORE": 0.8369565217391304,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8260869565217391,
+   "coughing": 0.782608695652174,
+   "hyperventilation": 0.8623188405797102,
+   "other": 0.7847826086956522,
+   "BALANCED": 0.8139492753623188,
+   "MIN_CLASS": 0.782608695652174,
+   "SCORE": 0.8139492753623188
+  },
+  "confusion": [
+   [
+    114,
+    0,
+    0,
+    24
+   ],
+   [
+    0,
+    108,
+    2,
+    28
+   ],
+   [
+    0,
+    3,
+    119,
+    16
+   ],
+   [
+    69,
+    20,
+    10,
+    361
+   ]
+  ],
+  "recording_vote_acc": 0.8421052631578947,
+  "rotation_score": {
+   "15": 0.8034420289855072,
+   "30": 0.8189915458937197
+  },
+  "train_seconds": 26.3
+ },
+ "harry_feat@100|seed=1": {
+  "fold_mean": {
+   "breathingNormally": 0.8695652173913043,
+   "coughing": 0.7753623188405796,
+   "hyperventilation": 0.8695652173913043,
+   "other": 0.7904589371980676,
+   "BALANCED": 0.8262379227053139,
+   "MIN_CLASS": 0.6123188405797101,
+   "SCORE": 0.8262379227053139
+  },
+  "fold_std": {
+   "breathingNormally": 0.17391304347826086,
+   "coughing": 0.2910302264930899,
+   "hyperventilation": 0.10941789036624275,
+   "other": 0.0953207703809994,
+   "BALANCED": 0.07282972332314284,
+   "MIN_CLASS": 0.20791545993338512,
+   "SCORE": 0.07282972332314284
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 0.21739130434782608,
+    "hyperventilation": 1.0,
+    "other": 0.6630434782608695,
+    "BALANCED": 0.7092391304347826,
+    "MIN_CLASS": 0.21739130434782608,
+    "SCORE": 0.7092391304347826,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.6956521739130435,
+    "coughing": 0.9565217391304348,
+    "hyperventilation": 0.8695652173913043,
+    "other": 0.6739130434782609,
+    "BALANCED": 0.7989130434782609,
+    "MIN_CLASS": 0.6739130434782609,
+    "SCORE": 0.7989130434782609,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.5652173913043478,
+    "coughing": 1.0,
+    "hyperventilation": 0.6956521739130435,
+    "other": 0.8985507246376812,
+    "BALANCED": 0.7898550724637681,
+    "MIN_CLASS": 0.5652173913043478,
+    "SCORE": 0.7898550724637681,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.5652173913043478,
+    "hyperventilation": 1.0,
+    "other": 0.7681159420289855,
+    "BALANCED": 0.8333333333333333,
+    "MIN_CLASS": 0.5652173913043478,
+    "SCORE": 0.8333333333333333,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 1.0,
+    "hyperventilation": 0.8695652173913043,
+    "other": 0.8695652173913043,
+    "BALANCED": 0.9347826086956521,
+    "MIN_CLASS": 0.8695652173913043,
+    "SCORE": 0.9347826086956521,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.9130434782608695,
+    "hyperventilation": 0.782608695652174,
+    "other": 0.8695652173913043,
+    "BALANCED": 0.8913043478260869,
+    "MIN_CLASS": 0.782608695652174,
+    "SCORE": 0.8913043478260869,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8695652173913043,
+   "coughing": 0.7753623188405797,
+   "hyperventilation": 0.8695652173913043,
+   "other": 0.7782608695652173,
+   "BALANCED": 0.8231884057971015,
+   "MIN_CLASS": 0.7753623188405797,
+   "SCORE": 0.8231884057971015
+  },
+  "confusion": [
+   [
+    120,
+    0,
+    0,
+    18
+   ],
+   [
+    0,
+    107,
+    7,
+    24
+   ],
+   [
+    0,
+    6,
+    120,
+    12
+   ],
+   [
+    65,
+    25,
+    12,
+    358
+   ]
+  ],
+  "recording_vote_acc": 0.8947368421052632,
+  "rotation_score": {
+   "15": 0.7958937198067632,
+   "30": 0.8259359903381641
+  },
+  "train_seconds": 26.3
+ },
+ "harry_feat@100|seed=2": {
+  "fold_mean": {
+   "breathingNormally": 0.8333333333333334,
+   "coughing": 0.7753623188405797,
+   "hyperventilation": 0.8768115942028984,
+   "other": 0.8230676328502415,
+   "BALANCED": 0.8271437198067632,
+   "MIN_CLASS": 0.592391304347826,
+   "SCORE": 0.8271437198067632
+  },
+  "fold_std": {
+   "breathingNormally": 0.18686662258300907,
+   "coughing": 0.21654424344179612,
+   "hyperventilation": 0.1710206336406659,
+   "other": 0.11140772475947312,
+   "BALANCED": 0.05700627819183419,
+   "MIN_CLASS": 0.1482078935487072,
+   "SCORE": 0.05700627819183419
+  },
+  "per_fold": [
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 0.391304347826087,
+    "hyperventilation": 1.0,
+    "other": 0.6304347826086957,
+    "BALANCED": 0.7445652173913043,
+    "MIN_CLASS": 0.391304347826087,
+    "SCORE": 0.7445652173913043,
+    "fold": "posture=sitting"
+   },
+   {
+    "breathingNormally": 0.9130434782608695,
+    "coughing": 0.8260869565217391,
+    "hyperventilation": 1.0,
+    "other": 0.7282608695652174,
+    "BALANCED": 0.8668478260869564,
+    "MIN_CLASS": 0.7282608695652174,
+    "SCORE": 0.8668478260869564,
+    "fold": "posture=standing"
+   },
+   {
+    "breathingNormally": 0.6956521739130435,
+    "coughing": 1.0,
+    "hyperventilation": 0.5217391304347826,
+    "other": 0.9130434782608695,
+    "BALANCED": 0.782608695652174,
+    "MIN_CLASS": 0.5217391304347826,
+    "SCORE": 0.782608695652174,
+    "fold": "posture=back"
+   },
+   {
+    "breathingNormally": 1.0,
+    "coughing": 0.6086956521739131,
+    "hyperventilation": 1.0,
+    "other": 0.8695652173913043,
+    "BALANCED": 0.8695652173913043,
+    "MIN_CLASS": 0.6086956521739131,
+    "SCORE": 0.8695652173913043,
+    "fold": "posture=left"
+   },
+   {
+    "breathingNormally": 0.9565217391304348,
+    "coughing": 1.0,
+    "hyperventilation": 0.8260869565217391,
+    "other": 0.8405797101449275,
+    "BALANCED": 0.9057971014492754,
+    "MIN_CLASS": 0.8260869565217391,
+    "SCORE": 0.9057971014492754,
+    "fold": "posture=right"
+   },
+   {
+    "breathingNormally": 0.4782608695652174,
+    "coughing": 0.8260869565217391,
+    "hyperventilation": 0.9130434782608695,
+    "other": 0.9565217391304348,
+    "BALANCED": 0.7934782608695652,
+    "MIN_CLASS": 0.4782608695652174,
+    "SCORE": 0.7934782608695652,
+    "fold": "posture=stomach"
+   }
+  ],
+  "pooled": {
+   "breathingNormally": 0.8333333333333334,
+   "coughing": 0.7753623188405797,
+   "hyperventilation": 0.8768115942028986,
+   "other": 0.808695652173913,
+   "BALANCED": 0.8235507246376812,
+   "MIN_CLASS": 0.7753623188405797,
+   "SCORE": 0.8235507246376812
+  },
+  "confusion": [
+   [
+    115,
+    0,
+    0,
+    23
+   ],
+   [
+    0,
+    107,
+    11,
+    20
+   ],
+   [
+    0,
+    7,
+    121,
+    10
+   ],
+   [
+    51,
+    23,
+    14,
+    372
+   ]
+  ],
+  "recording_vote_acc": 0.868421052631579,
+  "rotation_score": {
+   "15": 0.7610205314009661,
+   "30": 0.8286533816425122
+  },
+  "train_seconds": 26.5
+ }
+}
