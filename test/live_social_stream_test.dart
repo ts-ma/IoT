@@ -276,11 +276,16 @@ void main() {
 
   testWidgets('app wiring survives rebuilds and ignores the CSV recording flag',
       (tester) async {
+    final appRepository = _RepositoryDouble();
+    final appWriter = PredictionHistoryWriter(
+      openRepository: () async => appRepository,
+    );
     final session = SocialClassifierSession(loader: () async => social);
     await session.load();
     await tester.pumpWidget(MyApp(
       socialSession: session,
       onSocialPrediction: events.add,
+      createHistoryWriter: () => appWriter,
     ));
     final home = tester.widget<MyHomePage>(find.byType(MyHomePage));
     final connectedProcessor = home.socialProcessor!;
@@ -296,6 +301,7 @@ void main() {
     await tester.pumpWidget(MyApp(
       socialSession: session,
       onSocialPrediction: events.add,
+      createHistoryWriter: () => appWriter,
     ));
     expect(tester.widget<MyHomePage>(find.byType(MyHomePage)).socialProcessor,
         same(connectedProcessor));
@@ -306,6 +312,10 @@ void main() {
     expect(events, hasLength(2));
     state.recording = false; // No real CSV sink was opened in this test.
     await tester.pumpWidget(const SizedBox.shrink());
+    await appWriter.shutdown();
+    expect(appRepository.saved, hasLength(2));
+    expect(appRepository.saved.map((r) => r.taskType),
+        everyElement(PredictionTaskType.social));
     expect(connectedProcessor.isActive, isFalse);
     expect(session.classifier, isNull);
   });

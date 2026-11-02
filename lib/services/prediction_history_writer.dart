@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import '../har.dart';
 import '../models/prediction_record.dart';
 import 'prediction_repository.dart';
+import 'social_sample_processor.dart';
 
 /// Application-owned, lazy SQLite connection with a bounded FIFO. Failures drop
 /// only the affected record: automatic retries could duplicate a committed row.
@@ -48,6 +49,23 @@ class PredictionHistoryWriter extends ChangeNotifier {
         label: prediction.label,
         timestamp: timestamp,
         confidence: prediction.confidence,
+        source: PredictionSource.live,
+      ));
+    } catch (error) {
+      _failure(error, dropped: true);
+    }
+  }
+
+  /// Capture only a NEW live Social event, not the processor's cached result.
+  /// Preserve its inference-completion timestamp; the writer clock is for HAR.
+  void captureSocial(SocialPredictionEvent? event) {
+    if (event == null) return;
+    try {
+      enqueue(PredictionRecord(
+        taskType: PredictionTaskType.social,
+        label: event.prediction.label,
+        timestamp: event.completedAt,
+        confidence: event.prediction.confidence,
         source: PredictionSource.live,
       ));
     } catch (error) {

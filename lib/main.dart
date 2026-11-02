@@ -135,10 +135,18 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, this.socialSession, this.onSocialPrediction});
+  const MyApp({
+    super.key,
+    this.socialSession,
+    this.onSocialPrediction,
+    this.createHistoryWriter,
+  });
 
   final SocialClassifierSession? socialSession;
   final void Function(SocialPredictionEvent)? onSocialPrediction;
+
+  /// Optional factory for tests. The app owns and disposes the returned writer.
+  final PredictionHistoryWriter Function()? createHistoryWriter;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -153,10 +161,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
     // Created after main's example comparison. Opens SQLite lazily on the first
     // live result, using a connection independent of the History screen.
-    _historyWriter = PredictionHistoryWriter()..addListener(_reportHistoryError);
+    _historyWriter =
+        (widget.createHistoryWriter?.call() ?? PredictionHistoryWriter())
+      ..addListener(_reportHistoryError);
     _socialProcessor = SocialSampleProcessor(
       classifier: () => widget.socialSession?.classifier,
-      onPrediction: (event) => widget.onSocialPrediction?.call(event),
+      onPrediction: (event) {
+        // Single Social persistence owner: the raw new-inference callback,
+        // never Home notifications, cached predictions, or startup examples.
+        _historyWriter.captureSocial(event);
+        widget.onSocialPrediction?.call(event);
+      },
     );
     WidgetsBinding.instance.addObserver(this);
   }
