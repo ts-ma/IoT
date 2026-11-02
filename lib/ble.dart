@@ -140,7 +140,7 @@ Future<void> scanForRespeck(MyHomePageState _ui) async {
   print("end of scanning");
 }
 
-Future<void> notify() async {
+Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
   final firstPacket = Completer<void>();
   BluetoothService? ser;
   BluetoothCharacteristic? cha;
@@ -267,12 +267,13 @@ Future<void> notify() async {
 
         // Live HAR: pass every sample to the activity classifier, whether or
         // not we are recording. addSample() returns null for most samples and
-        // a prediction only when a new window has been classified (every 25
-        // samples for the dummy model). `?? prediction` keeps an earlier
-        // prediction from this packet rather than overwriting it with null.
-        // If the model failed to load, harClassifier is null and this line
-        // does nothing.
-        prediction = harClassifier?.addSample(x, y, z) ?? prediction;
+        // a prediction only when a new window has been classified. Emit each
+        // raw result once, while retaining the latest result for packet UI.
+        final newPrediction = harClassifier?.addSample(x, y, z);
+        if (newPrediction != null) {
+          onPrediction?.call(newPrediction);
+          prediction = newPrediction;
+        }
 
         seqNumInPacket++;
       }
@@ -335,7 +336,7 @@ Future<void> notify() async {
   }
 }
 
-Future<void> connectToRespeck() async {
+Future<void> connectToRespeck({void Function(HarPrediction)? onPrediction}) async {
   // Nothing to connect to unless a scan found the respeck. This check has to
   // come before the first use of `respeck` below, not after it.
   if (respeck == null) {
@@ -406,7 +407,7 @@ Future<void> connectToRespeck() async {
         .connect(license: License.nonprofit, autoConnect: false, mtu: null);
     // Keep the caller's connecting guard active through service discovery,
     // notification setup, and receipt of the first usable acceleration packet.
-    await notify();
+    await notify(onPrediction: onPrediction);
     if (respeck?.isConnected != true || _lastPacketAt == null) {
       throw StateError('Respeck disconnected during setup');
     }

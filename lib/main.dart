@@ -7,6 +7,8 @@ import 'home.dart';
 import 'har.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'dart:async';
+import 'services/prediction_history_writer.dart';
 
 // This file starts the app and displays the home screen.
 
@@ -109,8 +111,46 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  late final PredictionHistoryWriter _historyWriter;
+
+  @override
+  void initState() {
+    super.initState();
+    // Created after main's example comparison. Opens SQLite lazily on the first
+    // live result, using a connection independent of the History screen.
+    _historyWriter = PredictionHistoryWriter()..addListener(_reportHistoryError);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void _reportHistoryError() {
+    debugPrint('History persistence: errors=${_historyWriter.errorCount}, '
+        'dropped=${_historyWriter.droppedRecordCount}, '
+        'lastError=${_historyWriter.lastError}');
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      unawaited(_historyWriter.flush());
+    } else if (state == AppLifecycleState.detached) {
+      unawaited(_historyWriter.shutdown());
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _historyWriter.dispose();
+    super.dispose();
+  }
 
   // This widget is the root of your application.
   @override
@@ -121,7 +161,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: "PDIoT"),
+      home: MyHomePage(title: "PDIoT", historyWriter: _historyWriter),
     );
   }
 }

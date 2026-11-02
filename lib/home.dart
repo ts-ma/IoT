@@ -6,13 +6,16 @@ import 'ble.dart';
 import 'globals.dart';
 import 'har.dart';
 import 'history.dart';
+import 'services/prediction_history_writer.dart';
 import 'dart:io';
 
 // The home page includes buttons to connect to the respeck, enter capture
 // metadata and start recording.
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, this.historyWriter});
+
+  final PredictionHistoryWriter? historyWriter;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -252,7 +255,7 @@ class MyHomePageState extends State<MyHomePage> {
         showLongToast("Respeck $respeckUUID not found - is it awake?");
         return;
       }
-      await connectToRespeck();
+      await connectToRespeck(onPrediction: widget.historyWriter?.capture);
     } catch (e) {
       print("Connect failed: $e");
       showLongToast(
