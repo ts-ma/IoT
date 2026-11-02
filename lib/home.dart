@@ -5,6 +5,7 @@ import 'utils.dart';
 import 'ble.dart';
 import 'globals.dart';
 import 'har.dart';
+import 'history.dart';
 import 'dart:io';
 
 // The home page includes buttons to connect to the respeck, enter capture
@@ -91,6 +92,18 @@ class MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HistoryPage()),
+              );
+            },
+            icon: const Icon(Icons.history),
+            label: const Text('History'),
+          ),
+        ],
       ),
       // Scrollable, so that the controls stay reachable on short screens.
       // The "Detected activity" lines made the page taller than some screens.
@@ -223,13 +236,17 @@ class MyHomePageState extends State<MyHomePage> {
       showToast("Already connecting...");
       return;
     }
-    if (respeckConnected) {
+    if (respeckStreaming) {
       showToast("Already connected");
       return;
     }
 
     connecting = true;
     try {
+      // Release a stale link before scanning; a connected sensor may no
+      // longer advertise and would otherwise never appear in scan results.
+      ui = this;
+      if (respeck != null) await disconnect();
       await scanForRespeck(this);
       if (respeck == null) {
         showLongToast("Respeck $respeckUUID not found - is it awake?");
@@ -238,7 +255,8 @@ class MyHomePageState extends State<MyHomePage> {
       await connectToRespeck();
     } catch (e) {
       print("Connect failed: $e");
-      showLongToast("Could not connect to the Respeck");
+      showLongToast(
+          "Could not receive Respeck data - wake it and press Connect again");
     } finally {
       connecting = false;
     }
@@ -285,7 +303,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   // Start recording respeck data to CSV
   void record() async {
-    if (!received_packet) {
+    if (!received_packet || !respeckStreaming) {
       showToast("Please connect to a Respeck first");
       return;
     }

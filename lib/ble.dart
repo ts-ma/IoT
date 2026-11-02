@@ -16,6 +16,15 @@ import 'har.dart';
 BluetoothDevice? respeck;
 late MyHomePageState ui;
 StreamSubscription<BluetoothConnectionState>? subscription2;
+StreamSubscription<List<int>>? _packetSubscription;
+DateTime? _lastPacketAt;
+
+// A cached connection flag alone cannot tell whether the sensor is streaming.
+bool get respeckStreaming =>
+    respeckConnected &&
+    respeck?.isConnected == true &&
+    _lastPacketAt != null &&
+    DateTime.now().difference(_lastPacketAt!) < const Duration(seconds: 10);
 
 // 0 until a supported respeck has been identified during scanning
 int respeckVersion = 0;
@@ -132,11 +141,12 @@ Future<void> scanForRespeck(MyHomePageState _ui) async {
 }
 
 Future<void> notify() async {
+  final firstPacket = Completer<void>();
   BluetoothService? ser;
   BluetoothCharacteristic? cha;
 
   if (respeck == null) {
-    return;
+    throw StateError('No Respeck selected');
   }
 
   // Service discovery
@@ -167,8 +177,8 @@ Future<void> notify() async {
 
   // Subscribe to acceleration values
   if (cha != null) {
+    await _packetSubscription?.cancel();
     final subscription3 = cha.onValueReceived.listen((value) {
-      ui.received_packet = true;
       // onValueReceived is updated:
       //   - anytime read() is called
       //   - anytime a notification arrives (if subscribed)
@@ -187,10 +197,14 @@ Future<void> notify() async {
       ByteData bd = ul.buffer.asByteData();
 
       // A truncated packet would make the header reads below throw
-      if (bd.lengthInBytes < sampleDataOffset) {
+      if (bd.lengthInBytes < sampleDataOffset + sampleBytes) {
         print("Ignoring short packet of ${bd.lengthInBytes} bytes");
         return;
       }
+
+      _lastPacketAt = packet_received_ts;
+      ui.received_packet = true;
+      if (!firstPacket.isCompleted) firstPacket.complete();
 
       int ts = bd.getUint32(0);
       ts = (ts * 197 * 1000 / 32768)
@@ -304,6 +318,7 @@ Future<void> notify() async {
         prediction: prediction,
       );
     });
+    _packetSubscription = subscription3;
 
     // cleanup: cancel subscription when disconnected
     respeck!.cancelWhenDisconnected(subscription3);
@@ -314,9 +329,9 @@ Future<void> notify() async {
     // Note: If a characteristic supports both **notifications** and **indications**,
     // it will default to **notifications**. This matches how CoreBluetooth works on iOS.
     await cha.setNotifyValue(true);
+    await firstPacket.future.timeout(const Duration(seconds: 10));
   } else {
-    print("Acceleration characteristic not found");
-    showLongToast("This Respeck did not offer any acceleration data");
+    throw StateError('Acceleration characteristic not found');
   }
 }
 
@@ -336,18 +351,6 @@ Future<void> connectToRespeck() async {
   // listen for disconnection
   subscription2 =
       respeck!.connectionState.listen((BluetoothConnectionState state) async {
-    if (state == BluetoothConnectionState.connected) {
-      print("CONNECTED to Respeck $respeckUUID");
-      respeckConnected = true;
-      showToast("Connected to Respeck $respeckUUID");
-      try {
-        await notify();
-      } catch (e) {
-        print("Could not subscribe to acceleration data: $e");
-        showLongToast("Could not read data from the Respeck");
-      }
-    }
-
     if (state == BluetoothConnectionState.disconnected) {
       // 1. typically, start a periodic timer that tries to
       //    reconnect, or just call connect() again right now
@@ -355,6 +358,7 @@ Future<void> connectToRespeck() async {
       print(
           "DISCONNECT: ${respeck?.disconnectReason?.code} ${respeck?.disconnectReason?.description}");
       respeckConnected = false;
+      _lastPacketAt = null;
       // Empty the classifier's window, so that after a reconnect it waits
       // for a full window of fresh samples instead of classifying a window
       // that spans the gap in the data
@@ -397,14 +401,33 @@ Future<void> connectToRespeck() async {
   //    so the caller's "connecting" guard covers the whole attempt and a
   //    failure reaches its catch block.
   //  - note: autoConnect is incompatible with mtu argument, so you must call requestMtu yourself
-  await respeck!
-      .connect(license: License.nonprofit, autoConnect: false, mtu: null);
-
-  // The connectionState listener above receives the connected event and calls
-  // notify() from there, so there is nothing more to do here.
+  try {
+    await respeck!
+        .connect(license: License.nonprofit, autoConnect: false, mtu: null);
+    // Keep the caller's connecting guard active through service discovery,
+    // notification setup, and receipt of the first usable acceleration packet.
+    await notify();
+    if (respeck?.isConnected != true || _lastPacketAt == null) {
+      throw StateError('Respeck disconnected during setup');
+    }
+    respeckConnected = true;
+    showToast("Connected to Respeck $respeckUUID");
+  } catch (_) {
+    await disconnect();
+    rethrow;
+  }
 }
 
 Future<void> disconnect() async {
+  respeckConnected = false;
+  _lastPacketAt = null;
+  ui.received_packet = false;
+  harClassifier?.reset();
+  if (ui.recording) {
+    await ui.stopRecording(message: "Respeck disconnected - recording stopped");
+  }
+  await _packetSubscription?.cancel();
+  _packetSubscription = null;
   // Close the recording cleanly first, so that buffered samples reach the file
   final IOSink? sink = csvSink;
   csvSink = null;
@@ -416,9 +439,8 @@ Future<void> disconnect() async {
   }
   csvFile = null;
 
-  await respeck?.disconnect();
   // cancel to prevent duplicate listeners
   await subscription2?.cancel();
   subscription2 = null;
-  respeckConnected = false;
+  await respeck?.disconnect();
 }
