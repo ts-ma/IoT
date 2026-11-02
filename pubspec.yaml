@@ -75,6 +75,10 @@ flutter:
     - assets/models/har_cnn.tflite
     - assets/models/har_cnn_meta.json
     - assets/models/har_cnn_example.json
+    # Verified Social CNN assets; inference integration is a later stage.
+    - assets/models/social_cnn.tflite
+    - assets/models/social_cnn_meta.json
+    - assets/models/social_cnn_example.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
