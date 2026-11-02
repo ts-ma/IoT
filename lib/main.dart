@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'globals.dart';
@@ -10,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'services/prediction_history_writer.dart';
+import 'services/social_sample_processor.dart';
 
 // This file starts the app and displays the home screen.
 
@@ -109,8 +111,8 @@ void main() async {
   }
 
 
-  // Independent of HAR and its example check. Social receives no BLE samples
-  // yet; the app owns this single session and closes it at the end of its life.
+  // Independent of HAR and its example check. The app owns one Social session
+  // and supplies it to the decoded-sample processor for live BLE inference.
   final socialSession = SocialClassifierSession();
   try {
     await socialSession.load();
@@ -118,13 +120,25 @@ void main() async {
     debugPrint('Could not load Social model: $e');
   }
 
-  runApp(MyApp(socialSession: socialSession));
+  runApp(MyApp(
+    socialSession: socialSession,
+    onSocialPrediction: (event) {
+      // Debug-only, once per completed inference, never per acceleration sample.
+      if (kDebugMode) {
+        debugPrint('Social: ${event.prediction.label} '
+            'confidence=${event.prediction.confidence.toStringAsFixed(4)} '
+            'completed=${event.completedAt.toIso8601String()} '
+            'processingUs=${event.processingDuration.inMicroseconds}');
+      }
+    },
+  ));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, this.socialSession});
+  const MyApp({super.key, this.socialSession, this.onSocialPrediction});
 
   final SocialClassifierSession? socialSession;
+  final void Function(SocialPredictionEvent)? onSocialPrediction;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -132,6 +146,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final PredictionHistoryWriter _historyWriter;
+  late final SocialSampleProcessor _socialProcessor;
 
   @override
   void initState() {
@@ -139,6 +154,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Created after main's example comparison. Opens SQLite lazily on the first
     // live result, using a connection independent of the History screen.
     _historyWriter = PredictionHistoryWriter()..addListener(_reportHistoryError);
+    _socialProcessor = SocialSampleProcessor(
+      classifier: () => widget.socialSession?.classifier,
+      onPrediction: (event) => widget.onSocialPrediction?.call(event),
+    );
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -154,6 +173,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       unawaited(_historyWriter.flush());
     } else if (state == AppLifecycleState.detached) {
       unawaited(_historyWriter.shutdown());
+      _socialProcessor.endSession();
       widget.socialSession?.dispose();
     }
   }
@@ -162,6 +182,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _historyWriter.dispose();
+    _socialProcessor.endSession();
     widget.socialSession?.dispose();
     super.dispose();
   }
@@ -175,7 +196,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: "PDIoT", historyWriter: _historyWriter),
+      home: MyHomePage(
+        title: "PDIoT",
+        historyWriter: _historyWriter,
+        socialProcessor: _socialProcessor,
+      ),
     );
   }
 }

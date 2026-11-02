@@ -6,6 +6,7 @@ import 'utils.dart';
 import 'home.dart';
 import 'globals.dart';
 import 'har.dart';
+import 'services/social_sample_processor.dart';
 
 // This file contains the BLE code to scan for and connect to a respeck sensor.
 // Once connected, we notify the acceleration characteristic and decode the
@@ -18,6 +19,25 @@ late MyHomePageState ui;
 StreamSubscription<BluetoothConnectionState>? subscription2;
 StreamSubscription<List<int>>? _packetSubscription;
 DateTime? _lastPacketAt;
+SocialSampleProcessor? _activeSocialProcessor;
+
+/// Process one already-decoded XYZ sample in g. HAR's raw result is still
+/// emitted immediately, once, before independent Social processing. No I/O is
+/// awaited here; the existing HAR callback enqueues history writes as before.
+HarPrediction? processDecodedSample(
+  double x,
+  double y,
+  double z, {
+  void Function(HarPrediction)? onPrediction,
+  SocialSampleProcessor? socialProcessor,
+}) {
+  final newPrediction = harClassifier?.addSample(x, y, z);
+  if (newPrediction != null) {
+    onPrediction?.call(newPrediction);
+  }
+  socialProcessor?.addSample(x, y, z);
+  return newPrediction;
+}
 
 // A cached connection flag alone cannot tell whether the sensor is streaming.
 bool get respeckStreaming =>
@@ -140,7 +160,10 @@ Future<void> scanForRespeck(MyHomePageState _ui) async {
   print("end of scanning");
 }
 
-Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
+Future<void> notify({
+  void Function(HarPrediction)? onPrediction,
+  SocialSampleProcessor? socialProcessor,
+}) async {
   final firstPacket = Completer<void>();
   BluetoothService? ser;
   BluetoothCharacteristic? cha;
@@ -178,6 +201,9 @@ Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
   // Subscribe to acceleration values
   if (cha != null) {
     await _packetSubscription?.cancel();
+    _activeSocialProcessor?.endSession();
+    _activeSocialProcessor = socialProcessor;
+    socialProcessor?.startSession();
     final subscription3 = cha.onValueReceived.listen((value) {
       // onValueReceived is updated:
       //   - anytime read() is called
@@ -269,9 +295,12 @@ Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
         // not we are recording. addSample() returns null for most samples and
         // a prediction only when a new window has been classified. Emit each
         // raw result once, while retaining the latest result for packet UI.
-        final newPrediction = harClassifier?.addSample(x, y, z);
+        final newPrediction = processDecodedSample(
+          x, y, z,
+          onPrediction: onPrediction,
+          socialProcessor: socialProcessor,
+        );
         if (newPrediction != null) {
-          onPrediction?.call(newPrediction);
           prediction = newPrediction;
         }
 
@@ -318,6 +347,12 @@ Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
         // display only changes when there is something new to show
         prediction: prediction,
       );
+    }, onError: (Object error, StackTrace stack) {
+      // A notification error confirms an interruption, but says nothing about
+      // how many samples were lost. Preserve existing HAR/connection handling.
+      socialProcessor?.resetStream();
+    }, onDone: () {
+      socialProcessor?.endSession();
     });
     _packetSubscription = subscription3;
 
@@ -336,7 +371,10 @@ Future<void> notify({void Function(HarPrediction)? onPrediction}) async {
   }
 }
 
-Future<void> connectToRespeck({void Function(HarPrediction)? onPrediction}) async {
+Future<void> connectToRespeck({
+  void Function(HarPrediction)? onPrediction,
+  SocialSampleProcessor? socialProcessor,
+}) async {
   // Nothing to connect to unless a scan found the respeck. This check has to
   // come before the first use of `respeck` below, not after it.
   if (respeck == null) {
@@ -364,6 +402,7 @@ Future<void> connectToRespeck({void Function(HarPrediction)? onPrediction}) asyn
       // for a full window of fresh samples instead of classifying a window
       // that spans the gap in the data
       harClassifier?.reset();
+      socialProcessor?.endSession();
       // Require a fresh packet before a new recording can be started
       ui.received_packet = false;
 
@@ -407,7 +446,7 @@ Future<void> connectToRespeck({void Function(HarPrediction)? onPrediction}) asyn
         .connect(license: License.nonprofit, autoConnect: false, mtu: null);
     // Keep the caller's connecting guard active through service discovery,
     // notification setup, and receipt of the first usable acceleration packet.
-    await notify(onPrediction: onPrediction);
+    await notify(onPrediction: onPrediction, socialProcessor: socialProcessor);
     if (respeck?.isConnected != true || _lastPacketAt == null) {
       throw StateError('Respeck disconnected during setup');
     }
@@ -424,6 +463,8 @@ Future<void> disconnect() async {
   _lastPacketAt = null;
   ui.received_packet = false;
   harClassifier?.reset();
+  _activeSocialProcessor?.endSession();
+  _activeSocialProcessor = null;
   if (ui.recording) {
     await ui.stopRecording(message: "Respeck disconnected - recording stopped");
   }
