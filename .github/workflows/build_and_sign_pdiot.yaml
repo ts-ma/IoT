@@ -1,0 +1,147 @@
+name: Build and sign pdiot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Clean
+        run: flutter clean
+
+      - name: Create ios folder
+        run: flutter create --platforms=ios . --project-name=pdiot --org=uk.ac.ed.informatics
+
+      - name: Verify pubspec.yaml unchanged
+        run: |
+          if ! git diff --exit-code pubspec.yaml > /dev/null 2>&1; then
+            echo "ERROR: pubspec.yaml was modified! Flutter create overwrote it."
+            exit 1
+          fi
+
+      - name: Fix bundle ID to match provisioning profile
+        env:
+          TARGET_BUNDLE_ID: 'uk.ac.ed.informatics.pdiot'
+        run: |
+          # Update Info.plist
+          plutil -replace CFBundleIdentifier -string "$TARGET_BUNDLE_ID" ios/Runner/Info.plist
+          
+          # Update project.pbxproj
+          perl -pi -e "s/PRODUCT_BUNDLE_IDENTIFIER = [^;]*/PRODUCT_BUNDLE_IDENTIFIER = $TARGET_BUNDLE_ID/g" ios/Runner.xcodeproj/project.pbxproj
+          
+          echo "✓ Bundle ID updated to: $TARGET_BUNDLE_ID"
+
+      - name: Verify bundle ID integrity
+        run: |
+          # Extract from Info.plist (read next line after key, strip tags and trailing ;)
+          INFO_BID=$(awk '/<key>CFBundleIdentifier<\/key>/{getline; gsub(/<\/?string>/,""); gsub(/;/,""); gsub(/[[:space:]]+/,""); print}' ios/Runner/Info.plist)
+          
+          # Extract from project.pbxproj (get value after =, strip trailing ;)
+          PROJECT_BID=$(grep "PRODUCT_BUNDLE_IDENTIFIER" ios/Runner.xcodeproj/project.pbxproj | head -1 | sed 's/.*= //' | sed 's/;//')
+          
+          echo "Info.plist bundle ID: '$INFO_BID'"
+          echo "Project bundle ID: '$PROJECT_BID'"
+          echo "Info.plist length: ${#INFO_BID}"
+          echo "Project length: ${#PROJECT_BID}"
+          
+          if [ "$INFO_BID" != "$PROJECT_BID" ]; then
+            echo "ERROR: Bundle IDs don't match!"
+            echo "Diff:"
+            diff <(echo "$INFO_BID") <(echo "$PROJECT_BID") || true
+            exit 1
+          fi
+          echo "✓ Bundle ID consistency verified: $INFO_BID"
+
+      - name: Add BLE and camera permissions using plutil
+        run: |
+          IOS_INFO_PLIST=ios/Runner/Info.plist
+          plutil -insert NSBluetoothAlwaysUsageDescription -string "This app uses Bluetooth to connect to nearby devices" "$IOS_INFO_PLIST"
+          plutil -insert NSBluetoothPeripheralUsageDescription -string "This app uses Bluetooth to communicate with peripheral devices" "$IOS_INFO_PLIST"
+          plutil -insert NSCameraUsageDescription -string "We need camera access to scan QR codes" "$IOS_INFO_PLIST"
+          plutil -insert UIFileSharingEnabled -bool true "$IOS_INFO_PLIST"
+          plutil -insert LSSupportsOpeningDocumentsInPlace -bool true "$IOS_INFO_PLIST"
+
+      - name: Flutter pub get
+        run: |
+          flutter pub get
+
+      - name: Print installed packages
+        run : flutter pub deps --style=compact
+  
+      - name: Flutter analyze, test, build
+        run: |
+          #flutter analyze
+          #flutter test
+          flutter build ios --release --no-codesign
+
+      - name: Decode cert + provisioning, install to keychain & profiles
+        env:
+          P12_BASE64: ${{ secrets.P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12_CERT_NAME: ${{ secrets.P12_CERT_NAME }}
+          MOBILEPROVISION_BASE64: ${{ secrets.PDIOT_MOBILEPROVISION_BASE64 }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p ~/certs
+
+          echo "$P12_BASE64" | base64 --decode > ~/certs/cert.p12
+          echo "$MOBILEPROVISION_BASE64" | base64 --decode > ~/certs/profile.mobileprovision
+
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp ~/certs/profile.mobileprovision "$HOME/Library/MobileDevice/Provisioning Profiles/"
+
+          security create-keychain -p "" build.keychain
+          security set-keychain-settings -lut 21600 build.keychain
+          security unlock-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+
+          security import ~/certs/cert.p12 \
+            -k "$HOME/Library/Keychains/build.keychain-db" \
+            -P "$P12_PASSWORD" \
+            -T /usr/bin/codesign
+
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+            -s -k "" "$HOME/Library/Keychains/build.keychain-db"
+
+          security find-identity -v -p codesigning || true
+
+      - name: Build Signed IPA with Flutter
+        env:
+          P12_CERT_NAME: ${{ secrets.P12_CERT_NAME }}
+          DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
+        run: |
+          set -euo pipefail
+
+          cat > ExportOptions.plist <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>development</string>
+            <key>signingStyle</key>
+            <string>automatic</string>
+          </dict>
+          </plist>
+          EOF
+
+          flutter build ipa --release \
+            --export-options-plist=ExportOptions.plist
+
+          ls -lah build/ios/ipa/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ipa
+          path: build/ios/ipa/*.ipa
