@@ -249,6 +249,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   static const Color _seed = Color(0xFF00796B);
 
+  // Floating messages ("Connected…", "Logged in as…") appear above the round
+  // Home button. Fixed (full-width) ones would push the docked button up and
+  // squeeze in between it and the bottom bar.
+  static const SnackBarThemeData _snackBars =
+      SnackBarThemeData(behavior: SnackBarBehavior.floating);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -260,11 +266,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: _seed),
         useMaterial3: true,
+        snackBarTheme: _snackBars,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: _seed, brightness: Brightness.dark),
         useMaterial3: true,
+        snackBarTheme: _snackBars,
       ),
       themeMode: ThemeMode.system,
       home: AppShell(

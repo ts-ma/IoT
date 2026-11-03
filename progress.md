@@ -166,3 +166,4 @@ I streamed the 44 bundled recordings through the real TFLite models (LiteRT), us
 
 - 2026-11-03: tracker created; evaluation done; decisions recorded.
 - 2026-11-03: Tasks 0–6 implemented, tests and docs updated (see above).
+- 2026-11-03: messages (snackbars) now float above the Home button instead of pushing it up (`main.dart` theme); regression test in `widget_test`.

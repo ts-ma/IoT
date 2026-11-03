@@ -54,6 +54,21 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
+  testWidgets('messages float above the Home button without moving it',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp(startPerfSampler: false));
+    await tester.pump();
+    final home = find.byKey(const ValueKey('tab-home'));
+    final before = tester.getRect(home);
+    ScaffoldMessenger.of(tester.element(find.text('PDIoT')))
+        .showSnackBar(const SnackBar(content: Text('Logged in as harry')));
+    await tester.pumpAndSettle();
+    expect(tester.getRect(home), before);
+    expect(tester.getRect(find.byType(SnackBar)).bottom,
+        lessThanOrEqualTo(before.top));
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   group('sentenceToCamelCase', () {
     test('joins the words of an activity name', () {
       expect(sentenceToCamelCase('Lying down on left'), 'lyingDownOnLeft');
