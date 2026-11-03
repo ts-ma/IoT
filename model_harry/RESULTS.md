@@ -100,3 +100,39 @@ posture fold is the worst case (minimum class recall ≈56 %).
 Both use builtin TFLite ops only (no Flex) and follow the Lab 4 contract, so the app template loads them by
 changing the two asset paths. The social model's first prediction arrives after 8 s; after that it updates
 every 2 s.
+
+---
+
+## Lab3-B9 subject-wise 10-fold CV on datasetJan2026 (added 2026-11-03, at Harry's request)
+
+This is an explicit exception to the real-data-only policy. B9 needs many subjects, so it has to train on
+`datasetJan2026`.
+
+**Folds:** an exact replica of B9 `make_folds()` (seed 0). The per-activity fold table is identical to her
+notebook. The official Learn fold CSV is still not available.
+
+**Models:** both are retrained per fold for 32 fixed epochs, with training and test windows at step 25.
+- **Hers:** her CNN with her B9 recipe. Per-fold HAR accuracy matches her notebook within ±0.6 pp (fold 0:
+  91.1 vs 91.4; fold 9: 92.1 vs 92.1).
+- **Mine:** `harry_full` (HAR 4 s, social 8 s) with my recipe, using the same epoch and window budget as hers.
+
+**Social caveat:** in `social_signal` the `N_x` file names are recording indices, not subjects. So B9 folds for
+social are recording-wise, not truly subject-wise.
+
+Graded metric, per-class recall (%), mean over folds. Full table: `results/b9_tables.md`.
+
+| task | model | folds | window acc (B9 metric) | static mean | dynamic mean | social balanced | weakest class |
+|---|---|---|---|---|---|---|---|
+| HAR | hers | 10 | 91.3 ± 1.2 | 97.3 | 86.2 | – | miscMovement 75.9 |
+| HAR | **mine** | 10 | **93.6 ± 1.1** | 97.2 | **90.9** | – | miscMovement 83.9 |
+| HAR | mine as shipped (trained on IoT/data only) | 10 | 71.6 ± 2.2 | 93.3 | 54.5 | – | ascending 18.5 |
+| social | hers | 10 | 66.7 ± 1.3 | – | – | 56.8 | hyperventilation 40.1 |
+| social | **mine** | 2 of 10 (run in progress) | 79.8 ± 0.2 | – | – | **82.0** | other 75.8 |
+| social | mine as shipped (trained on IoT/data only) | 10 | 60.0 ± 1.2 | – | – | 46.1 | hyperventilation 20.4 |
+
+**Reading it:**
+- Under the marking protocol, my architecture and recipe beat hers on both tasks.
+- HAR: dynamic +4.7 pp (normalWalking +5.2, shuffleWalking +6.6, miscMovement +8.0). Static is unchanged.
+- Social: +25 pp balanced. Her breathing and hyperventilation recalls are 43 % and 40 %; mine are 91 % and 80 %.
+- The models trained only on Harry's data do not transfer to other people. To get both, train the improved
+  architecture on `datasetJan2026` and fine-tune on real data (option B above).

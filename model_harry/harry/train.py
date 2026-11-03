@@ -11,6 +11,8 @@ import keras
 RECIPES = {
     "teammate": dict(epochs=32, batch=64, train_step=25),
     "harry": dict(epochs=60, batch=64, train_step=6, lr=2e-3, wd=1e-4, smoothing=0.1),
+    # Lab3-B9 scale (datasetJan2026, ~24k-80k windows/fold): same recipe, compute budget matched to hers
+    "harry_b9": dict(epochs=32, batch=64, train_step=25, lr=2e-3, wd=1e-4, smoothing=0.1),
 }
 
 

@@ -1,0 +1,13 @@
+har her fold 0: window acc 0.9111  score 0.9206  (48.5 s)
+har her fold 1: window acc 0.8903  score 0.8895  (44.7 s)
+WARNING:tensorflow:5 out of the last 5 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x12032e840> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:6 out of the last 6 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x12032e840> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+har her fold 2: window acc 0.9227  score 0.9346  (46.7 s)
+har her fold 3: window acc 0.9065  score 0.9112  (50.0 s)
+har her fold 4: window acc 0.9101  score 0.9063  (47.7 s)
+har her fold 5: window acc 0.9208  score 0.9291  (47.0 s)
+har her fold 6: window acc 0.9230  score 0.9270  (52.9 s)
+har her fold 7: window acc 0.9299  score 0.9245  (51.9 s)
+har her fold 8: window acc 0.8958  score 0.9060  (45.2 s)
+har her fold 9: window acc 0.9211  score 0.9265  (45.9 s)
+har her DONE

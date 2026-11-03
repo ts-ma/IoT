@@ -1,0 +1,456 @@
+{
+ "fold_table": {
+  "0": {
+   "breathingNormally": 106,
+   "coughing": 99,
+   "hyperventilation": 104,
+   "other": 343
+  },
+  "1": {
+   "breathingNormally": 106,
+   "coughing": 99,
+   "hyperventilation": 104,
+   "other": 343
+  },
+  "2": {
+   "breathingNormally": 106,
+   "coughing": 99,
+   "hyperventilation": 104,
+   "other": 342
+  },
+  "3": {
+   "breathingNormally": 106,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "4": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "5": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "6": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "7": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "8": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  },
+  "9": {
+   "breathingNormally": 105,
+   "coughing": 98,
+   "hyperventilation": 103,
+   "other": 342
+  }
+ },
+ "folds": {
+  "0": {
+   "breathingNormally": 0.5265635507733692,
+   "coughing": 0.6424418604651163,
+   "hyperventilation": 0.3849343469246717,
+   "other": 0.8184873949579832,
+   "BALANCED": 0.5931067882802852,
+   "MIN_CLASS": 0.3849343469246717,
+   "SCORE": 0.5931067882802852,
+   "window_acc": 0.6747519294377067,
+   "recording_vote_acc": 0.7055214723926381,
+   "n_test_windows": 9070,
+   "confusion": [
+    [
+     783,
+     5,
+     0,
+     699
+    ],
+    [
+     1,
+     884,
+     111,
+     380
+    ],
+    [
+     36,
+     86,
+     557,
+     768
+    ],
+    [
+     379,
+     344,
+     141,
+     3896
+    ]
+   ],
+   "seconds": 150.4
+  },
+  "1": {
+   "breathingNormally": 0.5158520475561427,
+   "coughing": 0.689327485380117,
+   "hyperventilation": 0.44275862068965516,
+   "other": 0.7717824900272937,
+   "BALANCED": 0.6049301609133022,
+   "MIN_CLASS": 0.44275862068965516,
+   "SCORE": 0.6049301609133022,
+   "window_acc": 0.6643210555250137,
+   "recording_vote_acc": 0.6993865030674846,
+   "n_test_windows": 9095,
+   "confusion": [
+    [
+     781,
+     12,
+     4,
+     717
+    ],
+    [
+     1,
+     943,
+     59,
+     365
+    ],
+    [
+     6,
+     88,
+     642,
+     714
+    ],
+    [
+     436,
+     421,
+     230,
+     3676
+    ]
+   ],
+   "seconds": 153.4
+  },
+  "2": {
+   "breathingNormally": 0.43729481286933686,
+   "coughing": 0.5639152666179693,
+   "hyperventilation": 0.4544198895027624,
+   "other": 0.8503472953062513,
+   "BALANCED": 0.57649431607408,
+   "MIN_CLASS": 0.43729481286933686,
+   "SCORE": 0.57649431607408,
+   "window_acc": 0.6749532504674953,
+   "recording_vote_acc": 0.7081413210445469,
+   "n_test_windows": 9091,
+   "confusion": [
+    [
+     666,
+     5,
+     9,
+     843
+    ],
+    [
+     3,
+     772,
+     85,
+     509
+    ],
+    [
+     39,
+     59,
+     658,
+     692
+    ],
+    [
+     318,
+     216,
+     177,
+     4040
+    ]
+   ],
+   "seconds": 149.8
+  },
+  "3": {
+   "breathingNormally": 0.4313593539703903,
+   "coughing": 0.6176470588235294,
+   "hyperventilation": 0.39804469273743015,
+   "other": 0.873815041078576,
+   "BALANCED": 0.5802165366524815,
+   "MIN_CLASS": 0.39804469273743015,
+   "SCORE": 0.5802165366524815,
+   "window_acc": 0.6868698060941828,
+   "recording_vote_acc": 0.736517719568567,
+   "n_test_windows": 9025,
+   "confusion": [
+    [
+     641,
+     2,
+     0,
+     843
+    ],
+    [
+     3,
+     840,
+     76,
+     441
+    ],
+    [
+     45,
+     80,
+     570,
+     737
+    ],
+    [
+     228,
+     264,
+     107,
+     4148
+    ]
+   ],
+   "seconds": 131.6
+  },
+  "4": {
+   "breathingNormally": 0.4118050789293068,
+   "coughing": 0.604992657856094,
+   "hyperventilation": 0.45627644569816644,
+   "other": 0.8510951979780961,
+   "BALANCED": 0.5810423451154159,
+   "MIN_CLASS": 0.4118050789293068,
+   "SCORE": 0.5810423451154159,
+   "window_acc": 0.6802448525319977,
+   "recording_vote_acc": 0.7160493827160493,
+   "n_test_windows": 8985,
+   "confusion": [
+    [
+     600,
+     1,
+     10,
+     846
+    ],
+    [
+     0,
+     824,
+     54,
+     484
+    ],
+    [
+     14,
+     130,
+     647,
+     627
+    ],
+    [
+     332,
+     307,
+     68,
+     4041
+    ]
+   ],
+   "seconds": 127.5
+  },
+  "5": {
+   "breathingNormally": 0.4690934065934066,
+   "coughing": 0.6281296023564065,
+   "hyperventilation": 0.37359550561797755,
+   "other": 0.8440405748098055,
+   "BALANCED": 0.578714772344399,
+   "MIN_CLASS": 0.37359550561797755,
+   "SCORE": 0.578714772344399,
+   "window_acc": 0.6758082497212932,
+   "recording_vote_acc": 0.7006172839506173,
+   "n_test_windows": 8970,
+   "confusion": [
+    [
+     683,
+     0,
+     13,
+     760
+    ],
+    [
+     0,
+     853,
+     52,
+     453
+    ],
+    [
+     15,
+     124,
+     532,
+     753
+    ],
+    [
+     390,
+     297,
+     51,
+     3994
+    ]
+   ],
+   "seconds": 127.9
+  },
+  "6": {
+   "breathingNormally": 0.34513274336283184,
+   "coughing": 0.5794117647058824,
+   "hyperventilation": 0.4311797752808989,
+   "other": 0.8376842105263158,
+   "BALANCED": 0.5483521234689822,
+   "MIN_CLASS": 0.34513274336283184,
+   "SCORE": 0.5483521234689822,
+   "window_acc": 0.6540042208152838,
+   "recording_vote_acc": 0.6820987654320988,
+   "n_test_windows": 9003,
+   "confusion": [
+    [
+     507,
+     4,
+     2,
+     956
+    ],
+    [
+     1,
+     788,
+     100,
+     471
+    ],
+    [
+     50,
+     79,
+     614,
+     681
+    ],
+    [
+     277,
+     324,
+     170,
+     3979
+    ]
+   ],
+   "seconds": 127.9
+  },
+  "7": {
+   "breathingNormally": 0.4075342465753425,
+   "coughing": 0.575,
+   "hyperventilation": 0.33798882681564246,
+   "other": 0.8379230607525752,
+   "BALANCED": 0.53961153353589,
+   "MIN_CLASS": 0.33798882681564246,
+   "SCORE": 0.53961153353589,
+   "window_acc": 0.649017649017649,
+   "recording_vote_acc": 0.6666666666666666,
+   "n_test_windows": 9009,
+   "confusion": [
+    [
+     595,
+     7,
+     2,
+     856
+    ],
+    [
+     0,
+     782,
+     55,
+     523
+    ],
+    [
+     32,
+     115,
+     484,
+     801
+    ],
+    [
+     380,
+     312,
+     79,
+     3986
+    ]
+   ],
+   "seconds": 132.2
+  },
+  "8": {
+   "breathingNormally": 0.2592847317744154,
+   "coughing": 0.5645756457564576,
+   "hyperventilation": 0.4178370786516854,
+   "other": 0.858647566884348,
+   "BALANCED": 0.5250862557667266,
+   "MIN_CLASS": 0.2592847317744154,
+   "SCORE": 0.5250862557667266,
+   "window_acc": 0.6473273942093541,
+   "recording_vote_acc": 0.6805555555555556,
+   "n_test_windows": 8980,
+   "confusion": [
+    [
+     377,
+     0,
+     0,
+     1077
+    ],
+    [
+     0,
+     765,
+     71,
+     519
+    ],
+    [
+     21,
+     121,
+     595,
+     687
+    ],
+    [
+     218,
+     348,
+     105,
+     4076
+    ]
+   ],
+   "seconds": 122.9
+  },
+  "9": {
+   "breathingNormally": 0.48181194234728897,
+   "coughing": 0.5564575645756458,
+   "hyperventilation": 0.3086074177746676,
+   "other": 0.8526315789473684,
+   "BALANCED": 0.5498771259112427,
+   "MIN_CLASS": 0.3086074177746676,
+   "SCORE": 0.5498771259112427,
+   "window_acc": 0.6614392169947726,
+   "recording_vote_acc": 0.6929012345679012,
+   "n_test_windows": 8991,
+   "confusion": [
+    [
+     702,
+     0,
+     2,
+     753
+    ],
+    [
+     0,
+     754,
+     82,
+     519
+    ],
+    [
+     18,
+     96,
+     441,
+     874
+    ],
+    [
+     403,
+     236,
+     61,
+     4050
+    ]
+   ],
+   "seconds": 849.2
+  }
+ }
+}

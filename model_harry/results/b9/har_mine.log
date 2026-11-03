@@ -1,0 +1,13 @@
+har mine fold 0: window acc 0.9310  score 0.9408  (111.8 s)
+WARNING:tensorflow:5 out of the last 27 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x11db76480> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+har mine fold 1: window acc 0.9213  score 0.9194  (114.5 s)
+WARNING:tensorflow:5 out of the last 27 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x11d36f2e0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+har mine fold 2: window acc 0.9256  score 0.9381  (118.5 s)
+har mine fold 3: window acc 0.9384  score 0.9425  (122.1 s)
+har mine fold 4: window acc 0.9418  score 0.9370  (107.5 s)
+har mine fold 5: window acc 0.9356  score 0.9440  (98.7 s)
+har mine fold 6: window acc 0.9480  score 0.9513  (104.2 s)
+har mine fold 7: window acc 0.9579  score 0.9520  (104.2 s)
+har mine fold 8: window acc 0.9215  score 0.9307  (103.8 s)
+har mine fold 9: window acc 0.9406  score 0.9468  (110.0 s)
+har mine DONE

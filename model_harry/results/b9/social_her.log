@@ -1,0 +1,13 @@
+social her fold 0: window acc 0.6748  score 0.5931  (150.4 s)
+social her fold 1: window acc 0.6643  score 0.6049  (153.4 s)
+WARNING:tensorflow:5 out of the last 11 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x120681e40> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+WARNING:tensorflow:5 out of the last 11 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x120681e40> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+social her fold 2: window acc 0.6750  score 0.5765  (149.8 s)
+social her fold 3: window acc 0.6869  score 0.5802  (131.6 s)
+social her fold 4: window acc 0.6802  score 0.5810  (127.5 s)
+social her fold 5: window acc 0.6758  score 0.5787  (127.9 s)
+social her fold 6: window acc 0.6540  score 0.5484  (127.9 s)
+social her fold 7: window acc 0.6490  score 0.5396  (132.2 s)
+social her fold 8: window acc 0.6473  score 0.5251  (122.9 s)
+social her fold 9: window acc 0.6614  score 0.5499  (849.2 s)
+social her DONE
