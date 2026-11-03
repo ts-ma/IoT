@@ -84,7 +84,7 @@ void main() {
     expect(labelFinder, findsNothing);
     processor.startSession();
     await tester.pump();
-    expect(status(tester), 'Collecting data...');
+    expect(status(tester), 'Collecting data... (first result after about 8 s)');
     feed(99);
     await tester.pump();
     expect(labelFinder, findsNothing);
@@ -143,19 +143,19 @@ void main() {
     processor.startSession();
     feed(99);
     await tester.pump();
-    expect(status(tester), 'Collecting data...');
+    expect(status(tester), 'Collecting data... (first result after about 8 s)');
     expect(labelFinder, findsNothing);
     feed(1);
     await tester.pump();
     processor.resetStream();
     await tester.pump();
-    expect(status(tester), 'Collecting data...');
+    expect(status(tester), 'Collecting data... (first result after about 8 s)');
     expect(labelFinder, findsNothing);
     feed(100);
     await tester.pump();
     processor.startSession(); // Even without a separate end-session event.
     await tester.pump();
-    expect(status(tester), 'Collecting data...');
+    expect(status(tester), 'Collecting data... (first result after about 8 s)');
     expect(labelFinder, findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -197,7 +197,8 @@ void main() {
     );
     feed(100);
     await tester.pump();
-    expect(find.text('running (91%)'), findsOneWidget);
+    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Confidence: 91%'), findsOneWidget);
     expect(labelFinder, findsOneWidget);
     // Moving HAR output neither changes nor suppresses Social probabilities.
     expect(tester.widget<Text>(labelFinder).data, 'Normal Breathing');
@@ -207,11 +208,12 @@ void main() {
     await tester.pump();
     expect(status(tester), 'Social inference error — reconnect to retry');
     expect(labelFinder, findsNothing);
-    expect(find.text('running (91%)'), findsOneWidget);
+    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Confidence: 91%'), findsOneWidget);
     runner.fail = false;
     processor.startSession();
     await tester.pump();
-    expect(status(tester), 'Collecting data...');
+    expect(status(tester), 'Collecting data... (first result after about 8 s)');
     await tester.pumpWidget(const SizedBox.shrink());
   });
 

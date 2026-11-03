@@ -11,3 +11,7 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Native (CMake) build caches - machine specific
+.cxx/
+**/.cxx/

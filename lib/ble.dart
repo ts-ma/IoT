@@ -6,6 +6,8 @@ import 'utils.dart';
 import 'home.dart';
 import 'globals.dart';
 import 'har.dart';
+import 'services/app_metrics.dart';
+import 'services/live_feed.dart';
 import 'services/social_sample_processor.dart';
 
 // This file contains the BLE code to scan for and connect to a respeck sensor.
@@ -308,6 +310,8 @@ Future<void> notify({
       }
 
       ui.recorded_samples += samplesWritten;
+      appMetrics.recordPacket(
+          packetSeqNumber, seqNumInPacket, packet_received_ts);
 
       // write to the CSV file. All appends go through one open sink, so they
       // stay in order - reopening the file per packet let concurrent writes
@@ -403,8 +407,11 @@ Future<void> connectToRespeck({
       // that spans the gap in the data
       harClassifier?.reset();
       socialProcessor?.endSession();
+      appMetrics.endStream();
+      liveFeed.session.breakRun();
       // Require a fresh packet before a new recording can be started
       ui.received_packet = false;
+      ui.connectionChanged();
 
       // A disconnect in the middle of a recording used to leave `recording`
       // true and the CSV sink open. No further samples arrive, the elapsed
@@ -451,6 +458,7 @@ Future<void> connectToRespeck({
       throw StateError('Respeck disconnected during setup');
     }
     respeckConnected = true;
+    ui.connectionChanged();
     showToast("Connected to Respeck $respeckUUID");
   } catch (_) {
     await disconnect();
@@ -465,6 +473,8 @@ Future<void> disconnect() async {
   harClassifier?.reset();
   _activeSocialProcessor?.endSession();
   _activeSocialProcessor = null;
+  appMetrics.endStream();
+  liveFeed.session.breakRun();
   if (ui.recording) {
     await ui.stopRecording(message: "Respeck disconnected - recording stopped");
   }
@@ -485,4 +495,5 @@ Future<void> disconnect() async {
   await subscription2?.cancel();
   subscription2 = null;
   await respeck?.disconnect();
+  ui.connectionChanged();
 }

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
+import 'services/app_metrics.dart';
+
 // This file runs live human activity recognition (HAR) on the acceleration
 // stream from the respeck.
 //
@@ -10,7 +12,7 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 //     and passes every sample to HarClassifier.addSample() below.
 //  2. The samples are collected in a sliding window (SampleWindow). The model
 //     always looks at the most recent `window_samples` samples (50 for
-//     harry_har, i.e. 4 seconds at 12.5 Hz).
+//     harry_har_cnn, i.e. 4 seconds at 12.5 Hz).
 //  3. Every `step_samples` samples (25, i.e. every 2 seconds) the current
 //     window is handed to the TFLite model. Consecutive windows therefore
 //     overlap by half, which gives a new prediction every 2 seconds while
@@ -31,8 +33,8 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 // Paths of the model and its metadata inside the app bundle. These files must
 // also be listed under `assets:` in pubspec.yaml, otherwise they are not
 // packaged into the app and loading fails at startup.
-const String harModelAsset = 'assets/models/harry_har.tflite';
-const String harMetaAsset = 'assets/models/harry_har_meta.json';
+const String harModelAsset = 'assets/models/harry_har_cnn.tflite';
+const String harMetaAsset = 'assets/models/harry_har_cnn_meta.json';
 
 // A fixed length sliding window of [x, y, z] samples.
 //
@@ -45,9 +47,9 @@ const String harMetaAsset = 'assets/models/harry_har_meta.json';
 // This class knows nothing about TFLite, so the windowing logic can be unit
 // tested on its own (see test/widget_test.dart).
 class SampleWindow {
-  // Number of samples the model looks at in one go (50 for harry_har)
+  // Number of samples the model looks at in one go (50 for harry_har_cnn)
   final int length;
-  // Number of new samples between two classifications (25 for harry_har)
+  // Number of new samples between two classifications (25 for harry_har_cnn)
   final int step;
   // The buffered samples, oldest first. Each entry is [x, y, z] in g.
   final List<List<double>> _samples = [];
@@ -120,7 +122,7 @@ class HarClassifier {
   // starts (just without live HAR).
   static Future<HarClassifier> load() async {
     // The metadata JSON describes the model: the class names, the window
-    // length and the step between windows (see harry_har_meta.json)
+    // length and the step between windows (see harry_har_cnn_meta.json)
     final meta = jsonDecode(await rootBundle.loadString(harMetaAsset));
     final classes = List<String>.from(meta['output']['classes']);
     // Load the .tflite model into an interpreter, ready to run
@@ -146,7 +148,12 @@ class HarClassifier {
     // isolate, which is fine for a model as small as this one, but a much
     // bigger model may need to run in a background isolate to keep the UI
     // smooth.
+    // The time spent in the model call is recorded for the Performance page
+    // (model cost / latency figures for the report).
+    final timer = Stopwatch()..start();
     _interpreter.run(window.batch, output);
+    timer.stop();
+    appMetrics.recordHarInference(timer.elapsed);
     final probs = output[0];
     // Pick the class with the highest probability (argmax)
     int best = 0;

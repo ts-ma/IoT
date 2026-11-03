@@ -16,7 +16,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Map<String, dynamic> metadata() => jsonDecode(
-        File('assets/models/harry_social_meta.json').readAsStringSync(),
+        File('assets/models/harry_social_rnn_meta.json').readAsStringSync(),
       ) as Map<String, dynamic>;
 
   Future<SocialClassifier> load(_FakeRunner runner) =>
@@ -107,7 +107,7 @@ void main() {
   });
 
   final invalidMetadata = <String, void Function(Map<String, dynamic>)>{
-    'model file': (m) => m['model_file'] = 'harry_har.tflite',
+    'model file': (m) => m['model_file'] = 'harry_har_cnn.tflite',
     'task': (m) => m['task'] = 'daily_activity',
     'rate': (m) => m['sampling_frequency_hz'] = 25,
     'window': (m) => m['window_samples'] = 49,

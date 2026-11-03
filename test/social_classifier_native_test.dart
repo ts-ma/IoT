@@ -13,7 +13,7 @@ void main() {
     final classifier = await SocialClassifier.load();
     addTearDown(classifier.dispose);
     final example = jsonDecode(await rootBundle.loadString(
-        'assets/models/harry_social_example.json')) as Map<String, dynamic>;
+        'assets/models/harry_social_rnn_example.json')) as Map<String, dynamic>;
     SocialPrediction? prediction;
     for (final row in example['input_window'] as List<dynamic>) {
       prediction = classifier.addSample((row[0] as num).toDouble(),

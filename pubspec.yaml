@@ -72,13 +72,15 @@ flutter:
   # Files must be listed here to be packaged into the app. To use a different
   # model, replace these files and update the paths here and in har.dart.
   assets:
-    - assets/models/harry_har.tflite
-    - assets/models/harry_har_meta.json
-    - assets/models/harry_har_example.json
+    - assets/models/harry_har_cnn.tflite
+    - assets/models/harry_har_cnn_meta.json
+    - assets/models/harry_har_cnn_example.json
     # Live Social signal recognition model, metadata and parity example.
-    - assets/models/harry_social.tflite
-    - assets/models/harry_social_meta.json
-    - assets/models/harry_social_example.json
+    - assets/models/harry_social_rnn.tflite
+    - assets/models/harry_social_rnn_meta.json
+    - assets/models/harry_social_rnn_example.json
+    # Recorded RESpeck data for the demo's replay mode (Harry's cleaned CW2 recordings).
+    - assets/demo/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

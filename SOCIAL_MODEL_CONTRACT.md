@@ -1,5 +1,5 @@
 > Historical contract for the previous social_cnn candidate. The app now uses
-> assets/models/harry_social.tflite with a [1, 100, 3] input (8 seconds).
+> assets/models/harry_social_rnn.tflite with a [1, 100, 3] input (8 seconds).
 > See README.md and test/social_model_contract_test.dart for the current assets.
 
 # Social CNN model contract — Stage 4A

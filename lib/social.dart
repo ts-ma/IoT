@@ -6,8 +6,15 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 
 import 'har.dart' show SampleWindow;
 
-const socialModelAsset = 'assets/models/harry_social.tflite';
-const socialMetaAsset = 'assets/models/harry_social_meta.json';
+const socialModelAsset = 'assets/models/harry_social_rnn.tflite';
+const socialMetaAsset = 'assets/models/harry_social_rnn_meta.json';
+
+/// Contract of the bundled Social model (must match its _meta.json): 100
+/// samples = 8 s at 12.5 Hz, long enough to contain whole breaths; a new
+/// result every 25 samples = 2 s.
+const int socialWindowSamples = 100;
+const int socialStepSamples = 25;
+const double socialWindowSeconds = socialWindowSamples / 12.5;
 const socialLabels = [
   'breathingNormally',
   'coughing',
@@ -71,7 +78,8 @@ class SocialClassifier {
   SocialClassifier._(this._runner);
 
   final SocialModelRunner _runner;
-  final SampleWindow _window = SampleWindow(100, 25);
+  final SampleWindow _window =
+      SampleWindow(socialWindowSamples, socialStepSamples);
   bool _disposed = false;
 
   List<String> get classes => socialLabels;
@@ -87,12 +95,12 @@ class SocialClassifier {
     _validateMetadata(jsonDecode(text));
     final runner = await (createRunner ?? _TfliteSocialRunner.load)();
     try {
-      if (!listEquals(runner.inputShape, [1, 100, 3]) ||
+      if (!listEquals(runner.inputShape, [1, socialWindowSamples, 3]) ||
           runner.inputType != TensorType.float32 ||
           !listEquals(runner.outputShape, [1, 4]) ||
           runner.outputType != TensorType.float32) {
         throw const FormatException('Social model tensors must be '
-            '[1, 100, 3] float32 -> [1, 4] float32');
+            '[1, $socialWindowSamples, 3] float32 -> [1, 4] float32');
       }
       return SocialClassifier._(runner);
     } catch (_) {
@@ -117,14 +125,19 @@ class SocialClassifier {
     if (input is! Map<String, dynamic> || output is! Map<String, dynamic>) {
       throw const FormatException('Social metadata must describe input/output');
     }
-    require(value['model_file'] == 'harry_social.tflite', 'model_file');
+    require(value['model_file'] == 'harry_social_rnn.tflite', 'model_file');
     require(value['task'] == 'social_signal', 'task');
     require(value['sampling_frequency_hz'] == 12.5, 'sampling_frequency_hz');
-    require(value['window_samples'] is int && value['window_samples'] == 100,
+    require(
+        value['window_samples'] is int &&
+            value['window_samples'] == socialWindowSamples,
         'window_samples');
-    require(value['step_samples'] is int && value['step_samples'] == 25,
+    require(
+        value['step_samples'] is int &&
+            value['step_samples'] == socialStepSamples,
         'step_samples');
-    require(matches(input['shape'], [1, 100, 3]), 'input.shape');
+    require(
+        matches(input['shape'], [1, socialWindowSamples, 3]), 'input.shape');
     require(input['dtype'] == 'float32', 'input.dtype');
     require(matches(input['channels'], ['accelX', 'accelY', 'accelZ']),
         'input.channels');

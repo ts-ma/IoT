@@ -21,19 +21,18 @@ void main() {
 
   setUpAll(() {
     meta = jsonDecode(
-            File('assets/models/harry_social_meta.json').readAsStringSync())
+            File('assets/models/harry_social_rnn_meta.json').readAsStringSync())
         as Map<String, dynamic>;
-    example = jsonDecode(
-            File('assets/models/harry_social_example.json').readAsStringSync())
-        as Map<String, dynamic>;
+    example = jsonDecode(File('assets/models/harry_social_rnn_example.json')
+        .readAsStringSync()) as Map<String, dynamic>;
     model = _FlatBuffer(
-        File('assets/models/harry_social.tflite').readAsBytesSync());
+        File('assets/models/harry_social_rnn.tflite').readAsBytesSync());
     graph = model.tables(model.root, 2).single;
     tensors = model.tables(graph, 0);
   });
 
   test('metadata fixes the Social sampling, window and channel contract', () {
-    expect(meta['model_file'], 'harry_social.tflite');
+    expect(meta['model_file'], 'harry_social_rnn.tflite');
     expect(meta['task'], 'social_signal');
     expect(meta['sampling_frequency_hz'], 12.5);
     expect(meta['window_samples'], 100);
@@ -82,9 +81,9 @@ void main() {
 
   test('HAR binary tensors agree with its deployed metadata', () {
     final meta = jsonDecode(
-        File('assets/models/harry_har_meta.json').readAsStringSync());
-    final model =
-        _FlatBuffer(File('assets/models/harry_har.tflite').readAsBytesSync());
+        File('assets/models/harry_har_cnn_meta.json').readAsStringSync());
+    final model = _FlatBuffer(
+        File('assets/models/harry_har_cnn.tflite').readAsBytesSync());
     expect(ascii.decode(model.bytes.sublist(4, 8)), 'TFL3');
     final graph = model.tables(model.root, 2).single;
     final tensors = model.tables(graph, 0);

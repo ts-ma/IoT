@@ -326,13 +326,13 @@ void main() {
       await tester.runAsync(
           () => Future<void>.delayed(const Duration(milliseconds: 100)));
       await tester.pumpAndSettle();
-      expect(find.text('normalWalking'), findsOneWidget);
+      expect(find.text('Walking'), findsOneWidget);
       await tester.tap(find.text('Social Signals'));
       await tester.runAsync(
           () => Future<void>.delayed(const Duration(milliseconds: 100)));
       await tester.pumpAndSettle();
-      expect(find.text('hyperventilation'), findsOneWidget);
-      expect(find.text('normalWalking'), findsNothing);
+      expect(find.text('Hyperventilating'), findsOneWidget);
+      expect(find.text('Walking'), findsNothing);
       feed(25);
       await tester.runAsync(() async {
         diskWriter.captureSocial(events.last);
@@ -342,7 +342,7 @@ void main() {
       await tester.runAsync(
           () => Future<void>.delayed(const Duration(milliseconds: 100)));
       await tester.pumpAndSettle();
-      expect(find.text('hyperventilation'), findsNWidgets(2));
+      expect(find.text('Hyperventilating'), findsNWidgets(2));
       expect(tester.takeException(), isNull);
     } finally {
       await tester.pumpWidget(const SizedBox.shrink());

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'activity_catalog.dart';
 import 'models/prediction_record.dart';
 import 'services/prediction_repository.dart';
 
@@ -236,7 +237,8 @@ class _HistoryPageState extends State<HistoryPage> {
         final record = _records[index];
         final local = record.timestamp.toLocal();
         return ListTile(
-          title: Text(record.label),
+          leading: LabelAvatar(record.label),
+          title: Text(displayName(record.label)),
           subtitle: Text(
             '${DateFormat('yyyy-MM-dd HH:mm:ss').format(local)} '
             '${local.timeZoneName}\n'

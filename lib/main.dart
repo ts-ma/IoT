@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'activity_catalog.dart';
 import 'globals.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'home.dart';
@@ -10,6 +11,8 @@ import 'social.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'services/app_metrics.dart';
+import 'services/live_feed.dart';
 import 'services/prediction_history_writer.dart';
 import 'services/social_sample_processor.dart';
 
@@ -36,6 +39,12 @@ void main() async {
 
   subjectID = await asyncPrefs.getString('sid');
   print("subjectID:${subjectID}");
+
+  try {
+    smoothHarPredictions = await asyncPrefs.getBool('smooth_har') ?? true;
+  } catch (e) {
+    print("Could not read display preferences: $e");
+  }
 
   // get storage folder - must be accessible to the user for PDIoT
   try {
@@ -67,39 +76,42 @@ void main() async {
   // home page shows "Classifier not available", and recording still works.
   try {
     harClassifier = await HarClassifier.load();
+    // Durations in the summaries follow the loaded model's step (12.5 Hz).
+    harPredictionSeconds = harClassifier!.window.step / 12.5;
   } catch (e) {
     print("Could not load HAR model: $e");
   }
 
-  // TEMPORARY: Lab 4 - Step 5.1
-  // Compare the Android prediction with Lab 3.
-
-  if (harClassifier != null) {
-    final example = jsonDecode(
-        await rootBundle.loadString('assets/models/harry_har_example.json'));
-
-    HarPrediction? p;
-
-    // Feed samples one by one into the classifier.
-    for (final s in example['input_window']) {
-      p = harClassifier!.addSample(
-        s[0].toDouble(),
-        s[1].toDouble(),
-        s[2].toDouble(),
-      );
+  // Model parity check (Lab 4, Step 5.1), debug builds only: feed the
+  // example window saved by the training notebook through the app's own
+  // classifier and print both answers. Matching class and probability prove
+  // the app passes data to the model exactly as Python did.
+  if (kDebugMode && harClassifier != null) {
+    try {
+      // <name>.tflite -> <name>_example.json, as written by the notebook.
+      final example = jsonDecode(await rootBundle.loadString(
+          harModelAsset.replaceFirst(RegExp(r'\.tflite$'), '_example.json')));
+      HarPrediction? p;
+      for (final s in example['input_window']) {
+        p = harClassifier!.addSample(
+          (s[0] as num).toDouble(),
+          (s[1] as num).toDouble(),
+          (s[2] as num).toDouble(),
+        );
+      }
+      final expected = (example['expected_probabilities'] as List)
+          .reduce((a, b) => a > b ? a : b);
+      print("EXAMPLE app: ${p?.label} ${p?.confidence.toStringAsFixed(4)} | "
+          "Lab 3: ${example['expected_class']} "
+          "${(expected as num).toStringAsFixed(4)}");
+    } catch (e) {
+      print("HAR example check skipped: $e");
+    } finally {
+      // Clear the test window before receiving live data, and do not count
+      // the check in the performance figures.
+      harClassifier!.reset();
+      appMetrics.reset();
     }
-
-    // Find the largest probability saved by Lab 3.
-    final expected = (example['expected_probabilities'] as List)
-        .reduce((a, b) => a > b ? a : b);
-
-    print("EXAMPLE app: ${p?.label} "
-        "${p?.confidence.toStringAsFixed(4)} | "
-        "Lab 3: ${example['expected_class']} "
-        "${expected.toStringAsFixed(4)}");
-
-    // Clear the test window before receiving live data.
-    harClassifier!.reset();
   }
 
   // Independent of HAR and its example check. The app owns one Social session
@@ -161,6 +173,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         // Single Social persistence owner: the raw new-inference callback,
         // never Home notifications, cached predictions, or startup examples.
         _historyWriter.captureSocial(event);
+        appMetrics.recordSocialInference(
+            event.processingDuration, event.completedAt);
+        liveFeed.addSocial(event);
         widget.onSocialPrediction?.call(event);
       },
     );
@@ -193,15 +208,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  static const Color _seed = Color(0xFF00796B);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'pdiot',
+      title: 'PDIoT',
+      debugShowCheckedModeBanner: false,
+      // One seed colour for the whole app; Material 3 derives a consistent
+      // light and dark palette from it, and the phone setting picks one.
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        colorScheme: ColorScheme.fromSeed(seedColor: _seed),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: _seed, brightness: Brightness.dark),
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system,
       home: MyHomePage(
         title: "PDIoT",
         historyWriter: _historyWriter,

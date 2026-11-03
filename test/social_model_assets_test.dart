@@ -10,14 +10,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   for (final model in [
     (
-      name: 'harry_har',
+      name: 'harry_har_cnn',
       asset: harModelAsset,
       meta: harMetaAsset,
       window: 50,
       classes: 11
     ),
     (
-      name: 'harry_social',
+      name: 'harry_social_rnn',
       asset: socialModelAsset,
       meta: socialMetaAsset,
       window: 100,
@@ -48,7 +48,7 @@ void main() {
       expect(example['input_window'], hasLength(model.window));
       final labels = List<String>.from(meta['output']['classes']);
       expect(labels, hasLength(model.classes));
-      if (model.name == 'harry_social') expect(labels, socialLabels);
+      if (model.name == 'harry_social_rnn') expect(labels, socialLabels);
       final probabilities =
           (example['expected_probabilities'] as List).cast<num>();
       expect(probabilities, hasLength(model.classes));
