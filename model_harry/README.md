@@ -40,3 +40,93 @@ Copy `models/harry_<task>.tflite`, `_meta.json` and `_example.json` into `assets
 `Lab4_Guide` Part 4 describes. Input is `[1, W, 3]` raw g (float32) and the output is softmax. Normalisation
 and features are inside the model. `window_samples` is read from the meta file, so an 8 s social window needs
 no code change.
+
+---
+
+## One-click pipeline (`run_pipeline.py`): her vs my models, every scenario
+
+Trains, tests and cross-validates **her architectures and mine under identical data, windows and metrics**,
+group by group (MLP → CNN → RNN → FEATURE).
+
+| scenario | train on → test on | folds? |
+|---|---|---|
+| A | real (`IoT/data`) → real | **yes**, same dataset. 1 subject: behaviour/time-block (HAR), leave-one-posture-out (social); ≥2 subjects: leave-one-subject-out |
+| B | **all** real → **all** Jan2026 | no, different datasets. Spread comes from 3 seeds |
+| C | **all** Jan2026 → **all** real | no. 3 seeds. This model is also E's pre-trained model |
+| D | Jan2026 → Jan2026 | **yes**, Lab3-B9 10-fold (or the official Learn folds, see below) |
+| E | C's model fine-tuned on each real training fold → real | yes, A's folds, so A vs E shows what pre-training adds |
+| DEPLOY | – | TFLite size, builtin-op check, ms/window |
+
+**Why folds only in A and D:**
+- Cross-validation is a testing method for when train and test must come from the *same* dataset. Every
+  recording gets tested once, by a model that never saw it (or its subject).
+- When train and test are different datasets (B, C), folds add nothing. Splitting the test set only
+  re-cuts the same predictions, and splitting the training set only throws data away.
+- After CV has told you how good a recipe is, the model you actually deploy is trained on all the data.
+
+| group | hers (replicas of `Lab3_trained.ipynb`) | mine |
+|---|---|---|
+| MLP | `her_mlp` | `harry_mlp` |
+| CNN | `her_cnn` (shipped), `her_cnn_bn`, `her_cnn_k3`, `her_cnn_3conv` | `harry_cnn` |
+| RNN | `her_lstm` (shipped as `har_rnn`) | `harry_rnn` |
+| FEATURE | `her_logreg` (her B2 best, sklearn) | `harry_feat` |
+
+### Run it on Windows (CPU)
+1. Install **Python 3.12** from python.org (tick "Add python.exe to PATH"). TensorFlow does not support
+   3.14 yet.
+2. `datasetJan2026` is found automatically at `IoT/data/datasetJan2026` or `IoT/datasetJan2026`;
+   otherwise you are asked for its path.
+3. **Double-click `run_pipeline.bat`.**
+   - The first run creates `.venv-win` and installs the requirements (a few minutes).
+   - All 32 threads are used (8 parallel workers × 4 threads).
+   - The report opens in your browser at the end.
+   - Double-clicking always runs the **full** profile. For an optional smoke test (≈ 5–15 min), run
+     `run_pipeline.bat --profile quick` from a terminal.
+4. Closing the window stops the run; double-clicking again **resumes**, because finished jobs are skipped.
+
+Full profile: about 650 jobs, **roughly 2–4 h on the i9**. The terminal prints one line per finished job,
+and every 5 min a leaderboard of the numbers so far.
+
+### Where the results are (`runs/<profile>/`)
+| what | file |
+|---|---|
+| **Interactive viewer** | `results_viewer.ipynb` (in `model_harry/`; set `RUN = "full"`, then Run All): progress, leaderboard heatmap, best per circumstance, CW3 targets, group-by-group bars + learning curves, per-epoch tables, per-class recall, fold spread, confusion matrices, rotation robustness, accuracy vs phone cost, training time, previous (2 Nov) experiments |
+| Report | `report.html` (open in a browser, rebuilt every 5 min while running) and `summary.md` |
+| Figures | `figures/<task>/...png` (every chart from the report, browsable in Explorer) |
+| Numbers | `tables/runs.csv`, `per_class.csv`, `epochs.csv`, `confusion.csv`, `deploy.csv`, `status.csv`, `leaderboard_<task>.csv`, `best_<task>.csv` (open in Excel) |
+| Per-run training log | `jobs/<id>.log`: one line per epoch (train loss/acc, held-out loss/acc/score) |
+
+The `jobs/*.json` files are only the pipeline's raw store for resuming; you never need to open them. To
+open the notebook, double-click nothing: run `.venv-win\Scripts\jupyter lab` in `model_harry/`, or open
+the `.ipynb` in VS Code and pick the `.venv-win` interpreter.
+
+### Official Learn folds (optional; not available to students as of 2026-11-03, organiser to be asked)
+- **What it is:** the CW3 instructions say the marked accuracy uses "subject-wise 10-fold cross-validation
+  … fold assignments provided on Learn". It is a CSV that assigns each `datasetJan2026` recording to fold
+  0–9.
+- **Where to get it:** download it from the PDIoT course page on Learn (Coursework 3 / Lab 3 materials).
+- **How to use it:**
+  1. Save it as, e.g., `IoT/folds/pdiot_folds.csv`.
+  2. Set `paths.fold_csv: ../folds/pdiot_folds.csv` in `pipeline.yaml`.
+  3. Re-run with `--fresh`, or delete `runs/full/jobs/D*`, so D is retrained on the official folds.
+- **Accepted layouts:** `activity, file, fold` as in Lab 3 B9, plus common variants (a file path instead
+  of a name, 1-based folds).
+- **Coverage check:** the pipeline prints how many recordings it matched. If the CSV doesn't cover a task,
+  that task falls back to Lab 3 `make_folds(seed 0)`, the same folds your teammate used.
+
+### Recipes (fixed in advance; Lab 3 rules: fixed epochs in CV, never early-stop on a test fold)
+- **Hers:** Adam 1e-3, 32 epochs, train step 25 (her B9).
+- **Mine:**
+  - AdamW with cosine-decay learning rate, label smoothing 0.1, balanced class weights, and in-graph
+    augmentation (rotation, amplitude, noise);
+  - 60 epochs / step 6 on real data, 32 epochs / step 25 on Jan2026 (same budget as hers).
+- **Fine-tune (E):** hers Adam 1e-4 × 15 epochs; mine AdamW 5e-4 × 30 epochs.
+
+### GPU (optional, not needed)
+- TensorFlow ≥ 2.11 cannot use the GPU on native Windows.
+- To use the RTX 4060, run the same command inside WSL2 Ubuntu and set `compute.device: auto` in
+  `pipeline.yaml`. The bootstrap installs `tensorflow[and-cuda]` there.
+
+### Hyperparameter tuning
+See `TUNING_EVALUATION.md`. The verdict is that it isn't needed yet; it includes a design for doing it
+without biasing the reported numbers.

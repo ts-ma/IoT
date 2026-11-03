@@ -1,0 +1,51 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# model_harry pipeline config — edit this, then double-click run_pipeline.py
+# (or: python run_pipeline.py [--profile quick] [--fresh])
+# ─────────────────────────────────────────────────────────────────────────────
+
+# quick = smoke test (2 folds, Jan subsampled 1/10, 3 epochs, 1 seed): ~10-20 min, checks everything works
+# full  = the real experiment (all folds, all seeds, full epochs): several hours
+profile: full
+
+paths:
+  real_dir: ../data                  # IoT/data/<uun>/*.csv (relative to this file)
+  jan_dir:                           # first existing folder wins; if none exists you are asked at start-up
+    - ../data/datasetJan2026
+    - ../datasetJan2026
+    - ../../datasetJan2026
+    - ../../IoT-RESpeck/datasetJan2026
+    - "/Volumes/Macintosh HD2/Uni Course/Year 4/Semester_1/IoT/Coursework_2_3/IoT-RESpeck/datasetJan2026"
+  out_dir: runs                      # results go to runs/<profile>/ (report.html, tables/*.csv, figures/*.png)
+  fold_csv: null                     # official Learn fold assignment CSV, e.g. ../folds/pdiot_folds.csv
+                                     # (null = Lab3 make_folds(seed 0), the same folds the teammate used)
+
+tasks: [har, social]
+
+# A real->real (CV) · B all real->all Jan · C all Jan->all real · D Jan CV (Lab3 B9) ·
+# E Jan pre-train (=C's model) + real fine-tune · DEPLOY TFLite check
+scenarios: [A, B, C, D, E, DEPLOY]
+
+# groups are trained in this order; inside each group her and my models share identical splits/metrics
+groups: [MLP, CNN, RNN, FEATURE]
+models: all                          # or a list, e.g. [her_cnn, harry_cnn]
+
+seeds:
+  real: [0, 1, 2]                    # A, B (train on real data, cheap)
+  jan_cv: [0]                        # D: 10 folds x this (B9 used 1 seed)
+  jan_full: [0, 1, 2]                # C (and E, which fine-tunes C's models): whole-Jan training, spread from seeds
+
+compute:
+  device: cpu                        # cpu | auto | gpu   (gpu needs Linux/WSL2 — see README "Windows")
+  cpu_workers: auto                  # parallel training processes on CPU (auto = logical cores / 4)
+  threads_per_worker: auto           # TF threads per CPU worker (auto = 4)
+  gpu_workers: 3                     # processes sharing the GPU (small models -> several fit at once)
+  big_jobs_on: auto                  # auto (gpu if present) | cpu | gpu  — Jan-sized jobs
+  allow_steal: true                  # an idle pool may take the other pool's jobs
+  max_tasks_per_child: 20            # recycle worker processes to keep memory flat
+
+report_every_minutes: 5              # report.html is rebuilt this often while running (and at the end)
+retry_failed: true                   # on re-run, failed jobs are retried; finished jobs are always skipped
+
+profiles:
+  quick: {max_real_folds: 2, max_jan_folds: 2, jan_subsample: 10, max_epochs: 3, seeds: {real: [0], jan_cv: [0], jan_full: [0]}}
+  full:  {max_real_folds: 99, max_jan_folds: 10, jan_subsample: 1, max_epochs: null}

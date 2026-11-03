@@ -186,6 +186,30 @@ Legend: `[x]` done · `[ ]` open · `[~]` partially / deferred (reason given)
       0.667 accuracy, then score her models and mine on it.
 - [x] G7.4 Write `RESULTS.md` with tables, conclusions and limitations.
 
+### G8 — One-click comparison pipeline (requested 2026-11-03)
+- [x] G8.1 Model zoo with comparison groups: her 6 architectures + B2 logistic regression (replicas), and my
+      MLP / CNN / RNN / feature models (`harry/zoo.py`).
+- [x] G8.2 Scenarios A (real CV), B (real→Jan), C (Jan→real), D (Jan B9 CV), E (Jan pretrain + real fine-tune),
+      DEPLOY (`harry/jobs.py`). Identical splits, windows and metrics for her and my models.
+- [x] G8.3 Per-epoch logging with held-out monitor curves (monitor only, fixed epochs), learning curves,
+      per-epoch tables, confusion matrices, leaderboard, best-per-circumstance table (`harry/report.py`).
+- [x] G8.4 Parallel execution: CPU process pool plus optional GPU pool (WSL2), resumable jobs, cached
+      signals, in-graph augmentation (one `fit` per job), click-to-run bootstrap (`run_pipeline.py`, `.bat`).
+- [x] G8.5 Hyperparameter-tuning need evaluated (`TUNING_EVALUATION.md`): not now.
+- [x] G8.6 Quick-profile smoke test on the Mac: 198/198 jobs OK in 3m19s.
+- [ ] G8.7 Full run on Harry's Windows laptop, then read `runs/full/report.html` and pick the deployment
+      models.
+
+### G9 — Readable results + scenario redesign (requested 2026-11-03)
+- [x] G9.1 Folds only where train and test share a dataset (A, D). B and C now train on the whole training
+      dataset and test once on the whole test dataset (spread from seeds). C's model doubles as E's
+      pre-training.
+- [x] G9.2 Official Learn fold CSV support (`paths.fold_csv`, tolerant column matching, coverage check, fallback).
+- [x] G9.3 Tidy tables (`tables/*.csv`), saved figures (`figures/**.png`), report rebuilt from them, console
+      leaderboard, `results_viewer.ipynb` (14 sections, verified: 168 figures / 51 tables / 0 errors on the
+      quick run).
+- [x] G9.4 CPU-only default (`compute.device: cpu`).
+
 ---
 
 ## 3. Progress log
@@ -213,3 +237,7 @@ Legend: `[x]` done · `[ ]` open · `[~]` partially / deferred (reason given)
 - 2026-11-02 — G7 comparison written to `RESULTS.md`. Mine are better on Harry's real data. On other people
   (the datasetJan2026 check) mine are worse, especially dynamic (57.8 vs 86.4), because training data = 1 subject.
   The next step needs a decision (more subjects, or pre-training on datasetJan2026).
+- 2026-11-03 — G8 pipeline built: `run_pipeline.py` + `pipeline.yaml` + `harry/{zoo,augment,datasets,jobs,runner,report,worker_init}.py`.
+  New models `harry_mlp` and `harry_rnn`; augmentation moved into the graph. Quick profile passes (198 jobs, 0 failures).
+- 2026-11-03 — G9: scenario redesign (B, C whole-dataset), fold CSV support, tables/figures/notebook; quick run 194/194 OK.
+- 2026-11-03 — Learn fold CSV is not distributed to students (it only describes how marking is done); Harry will ask the organiser. D keeps Lab3 make_folds(seed 0) until then. `run_pipeline.bat` explicitly defaults to the full profile.

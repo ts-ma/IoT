@@ -5,6 +5,7 @@ Check data : IoT-RESpeck/datasetJan2026                                        (
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -14,7 +15,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]                     # .../IoT
 REAL_DIR = ROOT / "data"
-JAN_DIR = Path("/Volumes/Macintosh HD2/Uni Course/Year 4/Semester_1/IoT/Coursework_2_3/IoT-RESpeck/datasetJan2026")
+JAN_DIR = Path(os.environ.get("HARRY_JAN_DIR", "") or "/Volumes/Macintosh HD2/Uni Course/Year 4/Semester_1/IoT/Coursework_2_3/IoT-RESpeck/datasetJan2026")
 
 FS = 12.5
 AXES = ["accelX", "accelY", "accelZ"]
@@ -163,10 +164,11 @@ def all_pieces(recs: pd.DataFrame, task: str):
 
 
 # ---------------------------------------------------------------- datasetJan2026 (casual check only)
-def list_jan(task: str, classes) -> pd.DataFrame:
+def list_jan(task: str, classes, root: Path | None = None) -> pd.DataFrame:
     """Exactly the teammate's list_recordings(): class order, then sorted glob."""
+    root = Path(root) if root is not None else JAN_DIR
     rows = [{"path": p, "label": c, "y": i}
-            for i, c in enumerate(classes) for p in sorted((JAN_DIR / task / c).glob("*.csv"))]
+            for i, c in enumerate(classes) for p in sorted((root / task / c).glob("*.csv"))]
     return pd.DataFrame(rows)
 
 

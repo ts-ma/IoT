@@ -4,3 +4,7 @@ pandas
 numpy
 scipy
 matplotlib
+pyyaml
+jupyterlab
+ipykernel
+nbformat
