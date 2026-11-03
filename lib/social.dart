@@ -10,8 +10,9 @@ const socialModelAsset = 'assets/models/harry_social_rnn.tflite';
 const socialMetaAsset = 'assets/models/harry_social_rnn_meta.json';
 
 /// Contract of the bundled Social model (must match its _meta.json): 100
-/// samples = 8 s at 12.5 Hz, long enough to contain whole breaths; a new
-/// result every 25 samples = 2 s.
+/// samples = 8 s at 12.5 Hz, long enough to contain whole breaths. The model
+/// was trained with a 25-sample (2 s) step; the app applies the update
+/// interval chosen in Settings at run time (see [SocialClassifier.step]).
 const int socialWindowSamples = 100;
 const int socialStepSamples = 25;
 const double socialWindowSeconds = socialWindowSamples / 12.5;
@@ -84,6 +85,10 @@ class SocialClassifier {
 
   List<String> get classes => socialLabels;
 
+  /// Samples between results (see SampleWindow.step); the window stays 100.
+  int get step => _window.step;
+  set step(int value) => _window.step = value;
+
   /// Validates metadata before allocating an interpreter, then validates the
   /// actual tensors. Any runner allocated during a failed load is closed.
   static Future<SocialClassifier> load({
@@ -154,7 +159,8 @@ class SocialClassifier {
         'normalization');
   }
 
-  /// Returns null until sample 100, then until each further 25 samples arrive.
+  /// Returns null until sample 100, then until each further [step] samples
+  /// arrive (25 by default).
   /// The model sees the latest complete window, oldest sample first.
   SocialPrediction? addSample(double x, double y, double z) {
     _checkOpen();

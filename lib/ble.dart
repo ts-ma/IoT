@@ -3,21 +3,20 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'utils.dart';
-import 'home.dart';
 import 'globals.dart';
 import 'har.dart';
 import 'services/app_metrics.dart';
-import 'services/live_feed.dart';
+import 'services/sensor_controller.dart';
 import 'services/social_sample_processor.dart';
 
 // This file contains the BLE code to scan for and connect to a respeck sensor.
 // Once connected, we notify the acceleration characteristic and decode the
 // stream of packets to obtain x,y,z acceleration in g and battery level.
-// Each sample is written to a CSV file, fed to the live activity classifier,
-// and the UI is updated with the latest values.
+// Each sample is fed to both classifiers, written to the raw CSV while a
+// recording runs, and the SensorController is updated with the latest values.
 
 BluetoothDevice? respeck;
-late MyHomePageState ui;
+late SensorController ui;
 StreamSubscription<BluetoothConnectionState>? subscription2;
 StreamSubscription<List<int>>? _packetSubscription;
 DateTime? _lastPacketAt;
@@ -62,7 +61,7 @@ const int sampleBytes = 6;
 // the review, it needs checking against a v5 sensor.
 const int sampleDataOffset = 8;
 
-Future<void> scanForRespeck(MyHomePageState _ui) async {
+Future<void> scanForRespeck(SensorController _ui) async {
   ui = _ui;
   // listen to scan results
   // Note: `onScanResults` clears the results between scans. You should use
@@ -231,7 +230,7 @@ Future<void> notify({
       }
 
       _lastPacketAt = packet_received_ts;
-      ui.received_packet = true;
+      ui.receivedPacket = true;
       if (!firstPacket.isCompleted) firstPacket.complete();
 
       int ts = bd.getUint32(0);
@@ -269,7 +268,8 @@ Future<void> notify({
       // Take a single snapshot of the recording flag, so that a recording
       // started or stopped part way through this packet cannot leave the
       // sample count and the file contents disagreeing
-      final bool isRecording = ui.recording;
+      final recorder = ui.recorder;
+      final bool isRecording = recorder.active;
 
       // The loop condition tests `i + sampleBytes <= length`: the old
       // `i < length` entered the body whenever a single byte was left and
@@ -309,20 +309,13 @@ Future<void> notify({
         seqNumInPacket++;
       }
 
-      ui.recorded_samples += samplesWritten;
       appMetrics.recordPacket(
           packetSeqNumber, seqNumInPacket, packet_received_ts);
 
-      // write to the CSV file. All appends go through one open sink, so they
+      // Write to the raw CSV. All appends go through one open sink, so they
       // stay in order - reopening the file per packet let concurrent writes
       // interleave
-      if (csv.isNotEmpty) {
-        try {
-          csvSink?.write(csv.toString());
-        } catch (e) {
-          print("Error writing to CSV file: $e");
-        }
-      }
+      if (csv.isNotEmpty) recorder.write(csv.toString(), samplesWritten);
 
       // Update the UI to show the latest data. This is done once per packet:
       // calling setState for every sample rebuilt the whole page ~25 times
@@ -333,20 +326,11 @@ Future<void> notify({
             "x=${x.toStringAsFixed(3)}, y=${y.toStringAsFixed(3)}, z=${z.toStringAsFixed(3)}";
       }
 
-      String battText = "";
-      if (respeckVersion == 6) {
-        if (charging) {
-          battText = "Battery: $battLevel% (charging)";
-        } else {
-          battText = "Battery: $battLevel%";
-        }
-      }
-
       ui.updateFromPacket(
-        accelText: accelText,
-        battText: battText,
-        isRecording: isRecording,
-        packetReceivedTs: packet_received_ts,
+        accel: accelText,
+        battery: battLevel,
+        charging: charging,
+        receivedAt: packet_received_ts,
         // Only non-null when this packet produced a new prediction, so the
         // display only changes when there is something new to show
         prediction: prediction,
@@ -408,9 +392,8 @@ Future<void> connectToRespeck({
       harClassifier?.reset();
       socialProcessor?.endSession();
       appMetrics.endStream();
-      liveFeed.session.breakRun();
       // Require a fresh packet before a new recording can be started
-      ui.received_packet = false;
+      ui.receivedPacket = false;
       ui.connectionChanged();
 
       // A disconnect in the middle of a recording used to leave `recording`
@@ -418,7 +401,7 @@ Future<void> connectToRespeck({
       // counter stays frozen at the value from the last packet and the file
       // is never closed, so the recording truncated without saying so. Close
       // it properly and tell the user instead.
-      final bool wasRecording = ui.recording;
+      final bool wasRecording = ui.recorder.active;
       if (wasRecording) {
         await ui.stopRecording(
             message: "Respeck disconnected - recording stopped");
@@ -469,27 +452,17 @@ Future<void> connectToRespeck({
 Future<void> disconnect() async {
   respeckConnected = false;
   _lastPacketAt = null;
-  ui.received_packet = false;
+  ui.receivedPacket = false;
   harClassifier?.reset();
   _activeSocialProcessor?.endSession();
   _activeSocialProcessor = null;
   appMetrics.endStream();
-  liveFeed.session.breakRun();
-  if (ui.recording) {
+  // Close the recording cleanly first, so that buffered samples reach the file
+  if (ui.recorder.active) {
     await ui.stopRecording(message: "Respeck disconnected - recording stopped");
   }
   await _packetSubscription?.cancel();
   _packetSubscription = null;
-  // Close the recording cleanly first, so that buffered samples reach the file
-  final IOSink? sink = csvSink;
-  csvSink = null;
-  try {
-    await sink?.flush();
-    await sink?.close();
-  } catch (e) {
-    print("Error closing CSV file: $e");
-  }
-  csvFile = null;
 
   // cancel to prevent duplicate listeners
   await subscription2?.cancel();

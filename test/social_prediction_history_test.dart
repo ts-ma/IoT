@@ -7,7 +7,8 @@ import 'package:path/path.dart' as path;
 import 'package:pdiot/ble.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/history.dart';
-import 'package:pdiot/home.dart';
+import 'package:pdiot/app_shell.dart';
+import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/main.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/prediction_history_writer.dart';
@@ -33,6 +34,7 @@ void main() {
   final writerTime = DateTime.utc(2026, 11, 3); // Deliberately different.
 
   setUp(() async {
+    appSettings.stepSamples.value = 25; // trained step; Settings default is 12
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
     repository = _Repository();
@@ -255,7 +257,7 @@ void main() {
   });
 
   testWidgets(
-      'app captures once before observers; rebuilds/dropdowns do not save',
+      'app captures once before observers; rebuilds and tab switches do not save',
       (tester) async {
     writerOwnedByApp = true;
     processor.dispose(); // The app below owns its own live processor.
@@ -265,14 +267,15 @@ void main() {
     Widget app() => MyApp(
           socialSession: session,
           createHistoryWriter: () => writer,
+          startPerfSampler: false,
           onSocialPrediction: (event) {
             observed.add(event);
             throw StateError('diagnostic observer failed');
           },
         );
     await tester.pumpWidget(app());
-    final home = tester.widget<MyHomePage>(find.byType(MyHomePage));
-    final source = home.socialProcessor!..startSession();
+    final shell = tester.widget<AppShell>(find.byType(AppShell));
+    final source = shell.socialProcessor!..startSession();
     expect(writer.pendingCount, 0);
     // Only decoded samples emit new inference events. Same app owner as BLE.
     for (var i = 0; i < 125; i++) {
@@ -285,12 +288,10 @@ void main() {
     expect(source.deliveryErrorCount, 2);
     expect(find.text('Hyperventilating'), findsWidgets);
     await tester.pumpWidget(app());
-    final dropdown = find.byType(DropdownButton<String>).last;
-    await tester.ensureVisible(dropdown);
-    await tester.tap(dropdown);
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Coughing').last);
-    await tester.pumpAndSettle();
+    for (final t in ['tools', 'history', 'chart', 'home']) {
+      await tester.tap(find.byKey(ValueKey('tab-$t')));
+      await tester.pump();
+    }
     source.resetStream();
     source.endSession();
     await tester.pump();
@@ -303,7 +304,7 @@ void main() {
     expect(repository.closes, 1);
   });
 
-  testWidgets('History Social filter reads and refreshes real saved records',
+  testWidgets('History joins real saved activity and social records',
       (tester) async {
     sqfliteFfiInit();
     final directory = (await tester
@@ -313,11 +314,16 @@ void main() {
           databasePath: databasePath,
           factory: databaseFactoryFfi,
         );
-    final diskWriter = PredictionHistoryWriter(openRepository: open);
+    final now = DateTime.now().toUtc();
+    final diskWriter =
+        PredictionHistoryWriter(openRepository: open, clock: () => now);
     try {
       feed(100);
       await tester.runAsync(() async {
-        diskWriter.captureSocial(events.single);
+        diskWriter.captureSocial(SocialPredictionEvent(
+            prediction: events.single.prediction,
+            completedAt: now,
+            processingDuration: Duration.zero));
         diskWriter.capture(const HarPrediction('normalWalking', 0.9));
         await diskWriter.flush();
       });
@@ -326,23 +332,15 @@ void main() {
       await tester.runAsync(
           () => Future<void>.delayed(const Duration(milliseconds: 100)));
       await tester.pumpAndSettle();
+      // One row: the activity and the social signal of the same moment.
       expect(find.text('Walking'), findsOneWidget);
-      await tester.tap(find.text('Social Signals'));
-      await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 100)));
-      await tester.pumpAndSettle();
       expect(find.text('Hyperventilating'), findsOneWidget);
-      expect(find.text('Walking'), findsNothing);
-      feed(25);
-      await tester.runAsync(() async {
-        diskWriter.captureSocial(events.last);
-        await diskWriter.flush();
-      });
-      await tester.tap(find.byTooltip('Refresh history'));
+      await tester.tap(find.text('Every result'));
       await tester.runAsync(
           () => Future<void>.delayed(const Duration(milliseconds: 100)));
       await tester.pumpAndSettle();
-      expect(find.text('Hyperventilating'), findsNWidgets(2));
+      expect(find.text('Walking'), findsOneWidget);
+      expect(find.text('Hyperventilating'), findsOneWidget);
       expect(tester.takeException(), isNull);
     } finally {
       await tester.pumpWidget(const SizedBox.shrink());

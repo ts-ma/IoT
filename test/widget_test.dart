@@ -1,26 +1,57 @@
-// Basic tests for the PDIoT recording app.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package.
-
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pdiot/main.dart';
+import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/utils.dart';
 import 'package:pdiot/har.dart';
 
 void main() {
-  testWidgets('Home page shows the recording controls',
-      (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets(
+      'shell: five tabs, Home in the middle, user and settings at top '
+      'left', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp(startPerfSampler: false));
+    await tester.pump();
 
+    // Home is the large round button between the four labelled tabs.
+    final home = tester.getCenter(find.byKey(const ValueKey('tab-home')));
+    final x = {
+      for (final t in ['tools', 'performance', 'history', 'chart'])
+        t: tester.getCenter(find.byKey(ValueKey('tab-$t'))).dx,
+    };
+    expect(x['tools']!, lessThan(x['performance']!));
+    expect(x['performance']!, lessThan(home.dx));
+    expect(home.dx, lessThan(x['history']!));
+    expect(x['history']!, lessThan(x['chart']!));
     expect(find.text('PDIoT'), findsOneWidget);
-    expect(find.text('Connect'), findsOneWidget);
-    expect(find.text('Start recording'), findsOneWidget);
-    expect(find.text('Stop recording'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
-    expect(find.text('Not recording'), findsOneWidget);
+    expect(find.text('Welcome'), findsOneWidget); // nobody logged in
+
+    // The user button and the gear sit at the top left.
+    final user = tester.getCenter(find.byKey(const ValueKey('user-button')));
+    final gear =
+        tester.getCenter(find.byKey(const ValueKey('settings-button')));
+    final width = tester.view.physicalSize.width / tester.view.devicePixelRatio;
+    expect(user.dx, lessThan(width / 4));
+    expect(gear.dx, greaterThan(user.dx));
+
+    for (final t in ['tools', 'performance', 'history', 'chart']) {
+      await tester.tap(find.byKey(ValueKey('tab-$t')));
+      await tester.pump();
+    }
+    expect(find.text('Chart'), findsWidgets);
+    await tester.tap(find.byKey(const ValueKey('tab-home')));
+    await tester.pump();
+
+    await tester.tap(find.byKey(const ValueKey('settings-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Update interval'), findsOneWidget);
+    expect(find.text('Pairing'), findsNothing); // moved to the Home sensor card
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('user-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Not logged in'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 
   group('sentenceToCamelCase', () {
@@ -58,9 +89,6 @@ void main() {
   group('SampleWindow', () {
     test('is ready once full, then every step samples', () {
       final w = SampleWindow(4, 2);
-      // Add samples 0..8 (only x is set, so each sample is easy to identify).
-      // The window is first full after sample 3, then ready again after every
-      // 2 further samples: after samples 5 and 7.
       final ready = [for (int i = 0; i < 9; i++) w.add(i.toDouble(), 0, 0)];
       expect(
           ready, [false, false, false, true, false, true, false, true, false]);
@@ -78,5 +106,30 @@ void main() {
       expect(w.add(0, 0, 0), false);
       expect(w.add(0, 0, 0), true);
     });
+
+    test('the step can change while streaming (update interval setting)', () {
+      final w = SampleWindow(4, 2);
+      for (var i = 0; i < 4; i++) {
+        w.add(0, 0, 0);
+      }
+      w.step = 1; // faster: every new sample completes a result
+      expect([w.add(0, 0, 0), w.add(0, 0, 0)], [true, true]);
+      w.step = 3;
+      expect([w.add(0, 0, 0), w.add(0, 0, 0), w.add(0, 0, 0)],
+          [false, false, true]);
+      expect(() => w.step = 0, throwsArgumentError);
+      expect(() => SampleWindow(4, 0), throwsArgumentError);
+    });
+  });
+
+  test('update interval choices and labels', () {
+    expect(stepChoices, [25, 12, 6]);
+    expect(stepChoices.map(stepLabel), ['2 s', '1 s', '0.5 s']);
+    final s = AppSettings();
+    expect(s.stepSamples.value, defaultStepSamples);
+    expect(s.resultIntervalMs, 960);
+    s.stepSamples.value = 25;
+    expect(s.resultIntervalMs, 2000);
+    expect(() => s.setStepSamples(7), throwsArgumentError);
   });
 }

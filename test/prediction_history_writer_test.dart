@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:pdiot/har.dart';
-import 'package:pdiot/home.dart';
+import 'package:pdiot/app_shell.dart';
 import 'package:pdiot/main.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/prediction_history_writer.dart';
@@ -304,16 +304,16 @@ void main() {
     }
   });
 
-  testWidgets('app owns writer across History navigation and disposes it',
+  testWidgets('app owns writer across tab navigation and disposes it',
       (tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const MyApp(startPerfSampler: false));
     final appWriter =
-        tester.widget<MyHomePage>(find.byType(MyHomePage)).historyWriter!;
-    await tester.tap(find.text('History'));
-    await tester.pumpAndSettle();
-    await tester.pageBack();
-    await tester.pumpAndSettle();
-    expect(tester.widget<MyHomePage>(find.byType(MyHomePage)).historyWriter,
+        tester.widget<AppShell>(find.byType(AppShell)).historyWriter!;
+    await tester.tap(find.byKey(const ValueKey('tab-history')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('tab-home')));
+    await tester.pump();
+    expect(tester.widget<AppShell>(find.byType(AppShell)).historyWriter,
         same(appWriter));
     await tester.pumpWidget(const SizedBox());
     await appWriter.shutdown();
@@ -321,4 +321,44 @@ void main() {
     expect(appWriter.droppedRecordCount, 1);
     expect(tester.takeException(), isNull);
   });
+
+  test('reopen closes the connection and the next record opens it again',
+      () async {
+    final repositories = <_ReopenRepository>[];
+    final writer = PredictionHistoryWriter(
+      openRepository: () async {
+        final r = _ReopenRepository();
+        repositories.add(r);
+        return r;
+      },
+      intervalMs: () => 960,
+    );
+    writer.capture(prediction);
+    await writer.flush();
+    await writer.reopen();
+    expect(repositories.single.closed, isTrue);
+    writer.capture(prediction);
+    await writer.flush();
+    expect(repositories, hasLength(2));
+    expect(repositories.last.saved.single.intervalMs, 960);
+    await writer.shutdown();
+    writer.dispose();
+  });
+}
+
+class _ReopenRepository implements PredictionRepository {
+  final List<PredictionRecord> saved = [];
+  bool closed = false;
+
+  @override
+  Future<int> insert(PredictionRecord record) async {
+    saved.add(record);
+    return saved.length;
+  }
+
+  @override
+  Future<void> close() async => closed = true;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

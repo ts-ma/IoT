@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
-
 import '../activity_catalog.dart';
+import 'user_session.dart';
 
 // Real-time accuracy testing (Coursework 3, "Real-time classification
 // accuracy"). A trial is one person performing one known activity (and,
@@ -40,6 +38,7 @@ class EvaluationTrial {
     required this.socialPredictions,
     this.harLatency,
     this.socialLatency,
+    this.rawFile,
   })  : startedAt = startedAt.toUtc(),
         socialSettleSeconds = socialSettleSeconds ?? settleSeconds;
 
@@ -67,6 +66,9 @@ class EvaluationTrial {
   /// observed end-to-end latency, including the model's window length.
   final Duration? harLatency;
   final Duration? socialLatency;
+
+  /// Raw sensor CSV saved for this trial in the user's raw/ folder, if any.
+  final String? rawFile;
 
   int get harCorrect => harPredictions.where((p) => p == trueActivity).length;
 
@@ -96,6 +98,7 @@ class EvaluationTrial {
         'socialPredictions': socialPredictions,
         'harLatencyMs': harLatency?.inMilliseconds,
         'socialLatencyMs': socialLatency?.inMilliseconds,
+        'rawFile': rawFile,
       };
 
   factory EvaluationTrial.fromJson(Map<String, dynamic> json) {
@@ -113,6 +116,7 @@ class EvaluationTrial {
       socialPredictions: List<String>.from(json['socialPredictions'] as List),
       harLatency: ms(json['harLatencyMs']),
       socialLatency: ms(json['socialLatencyMs']),
+      rawFile: json['rawFile'] as String?,
     );
   }
 }
@@ -215,7 +219,8 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       'participant,started_utc,duration_s,settle_s,true_activity,har_windows,'
       'har_correct,har_accuracy_pct,har_majority,har_latency_s,true_social,'
       'social_windows,social_correct,social_accuracy_pct,social_majority,'
-      'social_latency_s,har_predictions,social_predictions,social_settle_s\n');
+      'social_latency_s,har_predictions,social_predictions,social_settle_s,'
+      'raw_file\n');
   for (final t in trials) {
     b.writeln([
       t.participant,
@@ -237,6 +242,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       t.harPredictions.join(' '),
       t.socialPredictions.join(' '),
       t.socialSettleSeconds,
+      t.rawFile ?? '',
     ].map(_csv).join(','));
   }
   return b.toString();
@@ -268,8 +274,8 @@ String summaryToCsv(EvaluationSummary summary) {
   return b.toString();
 }
 
-/// Persists trials as JSON in the app's documents folder, so a test session
-/// can span several app launches and group members.
+/// Persists trials as JSON in the logged-in user's folder
+/// (realtime_trials.json), so a test session can span several app launches.
 class EvaluationStore {
   EvaluationStore({Future<File> Function()? file})
       : _file = file ?? _defaultFile;
@@ -277,8 +283,9 @@ class EvaluationStore {
   final Future<File> Function() _file;
 
   static Future<File> _defaultFile() async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File(path.join(dir.path, 'realtime_evaluation.json'));
+    final file = userSession.trialsFile;
+    if (file == null) throw StateError('Log in to keep real-time trials');
+    return file;
   }
 
   Future<List<EvaluationTrial>> load() async {

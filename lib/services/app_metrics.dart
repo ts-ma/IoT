@@ -1,11 +1,11 @@
 // In-app performance counters.
 //
 // The coursework report must state the app's communication latency, model
-// cost and data rate. Android Studio's profiler covers CPU, memory and power;
-// these counters cover what only the app can see: how fast samples arrive,
-// whether BLE packets are lost, how long each model call takes and how often
-// predictions are actually shown. They are plain counters updated from the
-// BLE callback (no I/O, no notifications), and the Performance page polls them.
+// cost and data rate. These counters cover what only the app can see: how
+// fast samples arrive, whether BLE packets are lost, how long each model call
+// takes and how often predictions are actually shown. They are plain counters
+// updated from the BLE callback (no I/O, no notifications); PerfSampler reads
+// them once a second together with CPU, memory, battery and storage.
 
 /// Count, last, mean and maximum of a series of durations.
 class DurationStat {
@@ -20,6 +20,8 @@ class DurationStat {
     if (d > max) max = d;
     _totalMicros += d.inMicroseconds;
   }
+
+  int get totalMicros => _totalMicros;
 
   Duration get mean =>
       count == 0 ? Duration.zero : Duration(microseconds: _totalMicros ~/ count);

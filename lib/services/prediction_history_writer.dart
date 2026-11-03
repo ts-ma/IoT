@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 
 import '../har.dart';
 import '../models/prediction_record.dart';
+import 'app_settings.dart';
 import 'prediction_repository.dart';
 import 'social_sample_processor.dart';
 
@@ -16,14 +17,17 @@ class PredictionHistoryWriter extends ChangeNotifier {
   PredictionHistoryWriter({
     Future<PredictionRepository> Function()? openRepository,
     DateTime Function()? clock,
+    int Function()? intervalMs,
     this.capacity = 256,
   })  : _openRepository = openRepository ?? PredictionRepository.open,
-        _clock = clock ?? DateTime.now {
+        _clock = clock ?? DateTime.now,
+        _intervalMs = intervalMs ?? (() => appSettings.resultIntervalMs) {
     if (capacity <= 0) throw ArgumentError.value(capacity, 'capacity');
   }
 
   final Future<PredictionRepository> Function() _openRepository;
   final DateTime Function() _clock;
+  final int Function() _intervalMs;
   final int capacity;
   final Queue<PredictionRecord> _queue = Queue();
   PredictionRepository? _repository;
@@ -32,10 +36,6 @@ class PredictionHistoryWriter extends ChangeNotifier {
   bool _inFlight = false;
   bool _accepting = true;
   bool _disposed = false;
-
-  /// Source stamped on new records: [PredictionSource.replay] while a recorded
-  /// file is being replayed through the models, otherwise live.
-  PredictionSource source = PredictionSource.live;
 
   int errorCount = 0;
   int droppedRecordCount = 0;
@@ -53,7 +53,8 @@ class PredictionHistoryWriter extends ChangeNotifier {
         label: prediction.label,
         timestamp: timestamp,
         confidence: prediction.confidence,
-        source: source,
+        source: PredictionSource.live,
+        intervalMs: _intervalMs(),
       ));
     } catch (error) {
       _failure(error, dropped: true);
@@ -70,7 +71,8 @@ class PredictionHistoryWriter extends ChangeNotifier {
         label: event.prediction.label,
         timestamp: event.completedAt,
         confidence: event.prediction.confidence,
-        source: source,
+        source: PredictionSource.live,
+        intervalMs: _intervalMs(),
       ));
     } catch (error) {
       _failure(error, dropped: true);
@@ -127,6 +129,21 @@ class PredictionHistoryWriter extends ChangeNotifier {
   Future<void> flush() async {
     while (_draining != null) {
       await _draining;
+    }
+  }
+
+  /// Finishes the queued writes and closes the connection, but keeps
+  /// accepting records: the next one opens the database again through
+  /// `openRepository`. Used when another user logs in, so their results go
+  /// to their own database.
+  Future<void> reopen() async {
+    await flush();
+    final repository = _repository;
+    _repository = null;
+    try {
+      await repository?.close();
+    } catch (error) {
+      _failure(error, dropped: false);
     }
   }
 

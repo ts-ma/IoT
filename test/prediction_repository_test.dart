@@ -21,15 +21,19 @@ void main() {
     double? confidence,
     DateTime? windowStart,
     DateTime? windowEnd,
+    int? intervalMs,
+    String? label,
   }) =>
       PredictionRecord(
         taskType: taskType,
-        label: taskType == PredictionTaskType.har ? 'normalWalking' : 'talking',
+        label: label ??
+            (taskType == PredictionTaskType.har ? 'normalWalking' : 'talking'),
         timestamp: timestamp ?? start,
         confidence: confidence,
         source: source,
         windowStart: windowStart,
         windowEnd: windowEnd,
+        intervalMs: intervalMs,
       );
 
   Future<PredictionRepository> open() => PredictionRepository.open(
@@ -53,8 +57,9 @@ void main() {
     final input = record(
       timestamp: timestamp,
       taskType: PredictionTaskType.social,
-      source: PredictionSource.replay,
+      source: PredictionSource.live,
       confidence: 0.875,
+      intervalMs: 960,
       windowStart: timestamp.subtract(const Duration(seconds: 4)),
       windowEnd: timestamp,
     );
@@ -199,5 +204,96 @@ void main() {
     final saved = (await repository.query(start: start, end: end)).single;
     expect(saved.id, id);
     expect(() => repository.insert(saved), throwsArgumentError);
+  });
+
+  test('durations sum each result interval; old rows count as 2 s', () async {
+    await repository.insert(record(intervalMs: 1000));
+    await repository.insert(record(intervalMs: 1000));
+    await repository.insert(record()); // no interval: legacy 2 s
+    await repository.insert(record(label: 'running', intervalMs: 480));
+    expect(
+        await repository.durationByLabel(
+            start: start, end: end, taskType: PredictionTaskType.har),
+        {
+          'normalWalking': const Duration(seconds: 4),
+          'running': const Duration(milliseconds: 480),
+        });
+    expect(() => record(intervalMs: 0), throwsArgumentError);
+    expect(await repository.count(), 4);
+  });
+
+  test('timeline bins group results per time bin, task and label', () async {
+    await repository.insert(record(intervalMs: 1000));
+    await repository.insert(record(
+        timestamp: start.add(const Duration(seconds: 30)), intervalMs: 1000));
+    await repository.insert(record(
+        timestamp: start.add(const Duration(minutes: 1, seconds: 5)),
+        label: 'running',
+        intervalMs: 1000));
+    await repository.insert(record(
+        timestamp: start.add(const Duration(seconds: 10)),
+        taskType: PredictionTaskType.social,
+        label: 'coughing'));
+    final cells = await repository.timelineBins(
+        start: start,
+        end: start.add(const Duration(minutes: 2)),
+        bin: const Duration(minutes: 1));
+    expect(
+        cells.map((c) => '${c.bin}:${c.taskType.name}:${c.label}:${c.count}:'
+            '${c.duration.inMilliseconds}'),
+        unorderedEquals([
+          '0:har:normalWalking:2:2000',
+          '0:social:coughing:1:2000',
+          '1:har:running:1:1000',
+        ]));
+    final span = await repository.timeRange(start: start, end: end);
+    expect(span!.first, start);
+    expect(span.last, start.add(const Duration(minutes: 1, seconds: 5)));
+    expect(await repository.timeRange(start: end, end: end), isNull);
+    final ascending =
+        await repository.query(start: start, end: end, newestFirst: false);
+    expect(ascending.first.timestamp, start);
+  });
+
+  test('upgrades a version 1 database without losing rows', () async {
+    await repository.close();
+    await File(databasePath).delete();
+    final v1 = await databaseFactoryFfi.openDatabase(databasePath,
+        options: OpenDatabaseOptions(
+          version: 1,
+          onCreate: (db, _) async {
+            await db.execute('''
+              CREATE TABLE prediction_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                task_type TEXT NOT NULL CHECK(task_type IN ('har', 'social')),
+                label TEXT NOT NULL CHECK(length(trim(label)) > 0),
+                timestamp INTEGER NOT NULL,
+                confidence REAL,
+                source TEXT NOT NULL CHECK(source IN ('live', 'replay')),
+                window_start INTEGER,
+                window_end INTEGER
+              )''');
+          },
+        ));
+    await v1.insert('prediction_history', {
+      'task_type': 'har',
+      'label': 'running',
+      'timestamp': start.microsecondsSinceEpoch,
+      'source': 'live',
+    });
+    await v1.close();
+    repository = await open();
+    final rows = await repository.query(start: start, end: end);
+    expect(rows.single.label, 'running');
+    expect(rows.single.intervalMs, isNull);
+    expect(rows.single.effectiveIntervalMs, 2000);
+    await repository.insert(record(intervalMs: 960));
+    expect(
+        (await repository.durationByLabel(
+            start: start, end: end, taskType: PredictionTaskType.har)),
+        {
+          'running': const Duration(seconds: 2),
+          'normalWalking': const Duration(milliseconds: 960),
+        });
   });
 }

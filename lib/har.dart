@@ -13,10 +13,11 @@ import 'services/app_metrics.dart';
 //  2. The samples are collected in a sliding window (SampleWindow). The model
 //     always looks at the most recent `window_samples` samples (50 for
 //     harry_har_cnn, i.e. 4 seconds at 12.5 Hz).
-//  3. Every `step_samples` samples (25, i.e. every 2 seconds) the current
-//     window is handed to the TFLite model. Consecutive windows therefore
-//     overlap by half, which gives a new prediction every 2 seconds while
-//     each prediction still sees 4 seconds of movement.
+//  3. Every `step` samples the current window is handed to the TFLite model.
+//     The step is the update interval chosen in Settings (12 samples, about
+//     1 second, by default; the model was trained with 25 = 2 s). Consecutive
+//     windows overlap, so results arrive often while each still sees 4
+//     seconds of movement.
 //  4. The model outputs one probability per activity class. The class with
 //     the highest probability is returned as a HarPrediction, which ble.dart
 //     passes on to the home page to display.
@@ -49,14 +50,23 @@ const String harMetaAsset = 'assets/models/harry_har_cnn_meta.json';
 class SampleWindow {
   // Number of samples the model looks at in one go (50 for harry_har_cnn)
   final int length;
-  // Number of new samples between two classifications (25 for harry_har_cnn)
-  final int step;
+  // Number of new samples between two classifications. The models were
+  // trained with 25 (2 s); Settings can make results more frequent (12 or 6)
+  // without changing the window, so this can change while streaming.
+  int _step;
+  int get step => _step;
+  set step(int value) {
+    if (value < 1) throw ArgumentError.value(value, 'step', 'Must be >= 1');
+    _step = value;
+  }
   // The buffered samples, oldest first. Each entry is [x, y, z] in g.
   final List<List<double>> _samples = [];
   // Samples added since the last time a window was reported ready
   int _sinceLast = 0;
 
-  SampleWindow(this.length, this.step);
+  SampleWindow(this.length, int step) : _step = step {
+    if (step < 1) throw ArgumentError.value(step, 'step', 'Must be >= 1');
+  }
 
   // Add one sample. Returns true when a new window is ready to classify,
   // in which case the caller should read `batch` straight away.
@@ -72,7 +82,7 @@ class SampleWindow {
     // Only classify complete windows, and only every `step` samples. Because
     // `_sinceLast` keeps counting while the window fills up, the first window
     // is reported as soon as it is full, regardless of `step`.
-    if (_samples.length == length && _sinceLast >= step) {
+    if (_samples.length == length && _sinceLast >= _step) {
       _sinceLast = 0;
       return true;
     }

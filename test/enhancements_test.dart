@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 import 'package:pdiot/activity_catalog.dart';
-import 'package:pdiot/evaluation.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/app_metrics.dart';
@@ -12,7 +11,10 @@ import 'package:pdiot/services/evaluation.dart';
 import 'package:pdiot/services/live_feed.dart';
 import 'package:pdiot/services/prediction_repository.dart';
 import 'package:pdiot/services/prediction_smoother.dart';
-import 'package:pdiot/summary.dart';
+import 'package:pdiot/chart_page.dart';
+import 'package:pdiot/tools_page.dart';
+import 'package:pdiot/services/sensor_controller.dart';
+import 'package:pdiot/services/user_session.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
@@ -42,13 +44,12 @@ void main() {
       expect(isKnownLabel('newClass'), isFalse);
     });
 
-    test('formats durations and converts prediction counts', () {
+    test('formats durations', () {
       expect(formatDuration(const Duration(seconds: 8)), '8 s');
       expect(formatDuration(const Duration(minutes: 12, seconds: 5)),
           '12 min 05 s');
       expect(formatDuration(const Duration(hours: 1, minutes: 5)),
           '1 h 05 min');
-      expect(durationForPredictions(30), const Duration(minutes: 1));
     });
   });
 
@@ -76,36 +77,6 @@ void main() {
       s.reset();
       expect(s.length, 0);
       expect(() => PredictionSmoother(size: 0), throwsArgumentError);
-    });
-  });
-
-  group('SessionStats', () {
-    test('accumulates durations and counts cough bouts, not windows', () {
-      final stats = SessionStats();
-      for (var i = 0; i < 30; i++) {
-        stats.addHar('normalWalking');
-      }
-      stats.addHar('running');
-      expect(stats.monitoredTime, const Duration(seconds: 62));
-      expect(stats.durationOf('normalWalking'), const Duration(minutes: 1));
-      expect(stats.topActivities.first.key, 'normalWalking');
-      for (final l in [
-        'coughing',
-        'coughing',
-        'other',
-        'coughing',
-        'breathingNormally'
-      ]) {
-        stats.addSocial(l);
-      }
-      expect(stats.coughEpisodes, 2);
-      stats.addSocial('coughing');
-      stats.breakRun();
-      stats.addSocial('coughing');
-      expect(stats.coughEpisodes, 4);
-      stats.reset();
-      expect(stats.harPredictions, 0);
-      expect(stats.coughEpisodes, 0);
     });
   });
 
@@ -292,18 +263,25 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
       final repo = _SummaryRepository(
-        {'normalWalking': 30, 'sittingStanding': 900},
-        {'coughing': 12, 'breathingNormally': 100},
+        {
+          'normalWalking': const Duration(minutes: 1),
+          'sittingStanding': const Duration(minutes: 30),
+        },
+        {
+          'coughing': const Duration(seconds: 24),
+          'breathingNormally': const Duration(minutes: 3),
+        },
         4,
       );
       await tester.pumpWidget(MaterialApp(
-          home: DailySummaryPage(openRepository: () async => repo)));
+          home: ChartPage(openRepository: () async => repo)));
       await tester.pumpAndSettle();
-      expect(find.text('Daily Summary'), findsOneWidget);
+      expect(find.text('Chart'), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
-      expect(find.text('Walking'), findsOneWidget);
-      expect(find.text('1 min 00 s'), findsWidgets); // 30 x 2 s
-      expect(find.text('30 min 00 s'), findsWidgets); // 900 x 2 s
+      expect(find.text('Day timeline'), findsOneWidget);
+      expect(find.text('Walking'), findsWidgets);
+      expect(find.text('1 min 00 s'), findsWidgets);
+      expect(find.text('30 min 00 s'), findsWidgets);
       expect(find.text('Coughed in 4 separate bouts'), findsOneWidget);
       expect(find.text('Last 7 days'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -313,7 +291,7 @@ void main() {
     testWidgets('daily summary explains an empty day', (tester) async {
       final repo = _SummaryRepository({}, {}, 0);
       await tester.pumpWidget(MaterialApp(
-          home: DailySummaryPage(openRepository: () async => repo)));
+          home: ChartPage(openRepository: () async => repo)));
       await tester.pumpAndSettle();
       expect(find.textContaining('No results saved for Today'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
@@ -326,8 +304,12 @@ void main() {
       addTearDown(tester.view.reset);
       final feed = LivePredictionFeed();
       final store = _MemoryStore();
+      final sensor =
+          SensorController(session: UserSession(rememberLastUser: false));
+      addTearDown(sensor.dispose);
       await tester.pumpWidget(MaterialApp(
-        home: EvaluationPage(store: store, feed: feed, requireSensor: false),
+        home: ToolsPage(
+            sensor: sensor, store: store, feed: feed, requireSensor: false),
       ));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Start trial'));
@@ -362,19 +344,59 @@ void main() {
 class _SummaryRepository implements PredictionRepository {
   _SummaryRepository(this.har, this.social, this.coughs);
 
-  final Map<String, int> har;
-  final Map<String, int> social;
+  final Map<String, Duration> har;
+  final Map<String, Duration> social;
   final int coughs;
   bool closed = false;
 
+  static bool _isToday(DateTime start) {
+    final today = DateTime.now();
+    return start.year == today.year &&
+        start.month == today.month &&
+        start.day == today.day;
+  }
+
+  /// Only today has data, so the 7-day chart has one bar.
   @override
-  Future<Map<String, int>> countByLabel({
+  Future<Map<String, Duration>> durationByLabel({
     required DateTime start,
     required DateTime end,
     required PredictionTaskType taskType,
     PredictionSource? source,
-  }) async =>
-      taskType == PredictionTaskType.har ? har : social;
+  }) async {
+    if (!_isToday(start)) return {};
+    return taskType == PredictionTaskType.har ? har : social;
+  }
+
+  @override
+  Future<({DateTime first, DateTime last})?> timeRange({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    if (har.isEmpty) return null;
+    return (
+      first: start.add(const Duration(hours: 9)),
+      last: start.add(const Duration(hours: 10)),
+    );
+  }
+
+  @override
+  Future<List<TimelineCell>> timelineBins({
+    required DateTime start,
+    required DateTime end,
+    required Duration bin,
+  }) async {
+    return [
+      for (final e in har.entries)
+        TimelineCell(
+          bin: 1,
+          taskType: PredictionTaskType.har,
+          label: e.key,
+          count: 1,
+          duration: e.value,
+        ),
+    ];
+  }
 
   @override
   Future<int> countEpisodes({

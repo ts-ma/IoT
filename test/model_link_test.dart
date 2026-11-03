@@ -43,8 +43,9 @@ void main() {
         jsonDecode(jsonEncode(t.toJson())) as Map<String, dynamic>);
     expect(back.socialSettleSeconds, 8);
     final csv = trialsToCsv([t]).trim().split('\n');
-    expect(csv.first.split(',').last, 'social_settle_s');
-    expect(csv.last.split(',').last, '8');
+    final column = csv.first.split(',').indexOf('social_settle_s');
+    expect(column, greaterThan(0));
+    expect(csv.last.split(',')[column], '8');
   });
 
   test('trials saved before the Social warm-up field still load', () {

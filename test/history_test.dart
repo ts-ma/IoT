@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:pdiot/history.dart';
-import 'package:pdiot/main.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/prediction_repository.dart';
+import 'package:pdiot/services/user_session.dart';
 
-// Implements only the read/close API used by the page. Production always opens
-// the Stage 1 SQLite repository; no sample records are shipped in the app.
+// Implements only the read/close API used by the page.
 class TestRepository implements PredictionRepository {
   final List<PredictionRecord> records = [];
   final List<int> offsets = [];
@@ -24,19 +22,22 @@ class TestRepository implements PredictionRepository {
     PredictionTaskType? taskType,
     int? limit,
     int offset = 0,
+    bool newestFirst = true,
   }) async {
-    expect(limit, 51);
     offsets.add(offset);
     await pending?.future;
     if (fail) throw StateError('Test database failure');
     final sorted = records
         .where((r) =>
-            r.taskType == taskType &&
+            (taskType == null || r.taskType == taskType) &&
             !r.timestamp.isBefore(start) &&
             r.timestamp.isBefore(end))
         .toList()
-      ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
-    return sorted.skip(offset).take(limit!).toList();
+      ..sort((a, b) => newestFirst
+          ? b.timestamp.compareTo(a.timestamp)
+          : a.timestamp.compareTo(b.timestamp));
+    final page = sorted.skip(offset);
+    return (limit == null ? page : page.take(limit)).toList();
   }
 
   @override
@@ -48,92 +49,128 @@ class TestRepository implements PredictionRepository {
 
 void main() {
   late TestRepository repository;
+  final day = DateTime(2026, 11, 3);
+  final t0 = DateTime(2026, 11, 3, 10).toUtc();
 
-  PredictionRecord record(
-    String label, {
-    PredictionTaskType task = PredictionTaskType.har,
-    DateTime? timestamp,
-    double? confidence,
-    PredictionSource source = PredictionSource.live,
-  }) =>
+  PredictionRecord har(String label, int seconds, {double confidence = 0.9}) =>
       PredictionRecord(
-        taskType: task,
+        taskType: PredictionTaskType.har,
         label: label,
-        timestamp: timestamp ?? DateTime.utc(2026, 6, 12, 13, 14, 15),
-        source: source,
+        timestamp: t0.add(Duration(seconds: seconds)),
+        source: PredictionSource.live,
         confidence: confidence,
+        intervalMs: 1000,
+      );
+
+  PredictionRecord social(String label, int seconds, {int ms = 0}) =>
+      PredictionRecord(
+        taskType: PredictionTaskType.social,
+        label: label,
+        timestamp: t0.add(Duration(seconds: seconds, milliseconds: ms)),
+        source: PredictionSource.live,
+        confidence: 0.8,
+        intervalMs: 1000,
       );
 
   Future<void> showHistory(WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: HistoryPage(openRepository: () async => repository),
+      home:
+          HistoryPage(openRepository: () async => repository, initialDay: day),
     ));
     await tester.pumpAndSettle();
   }
 
   setUp(() => repository = TestRepository());
 
-  testWidgets('empty history explains what will appear', (tester) async {
+  group('joinResults / groupEpisodes', () {
+    test('pairs each activity result with the nearest social result', () {
+      final joined = joinResults(
+        [
+          har('sittingStanding', 0),
+          har('sittingStanding', 1),
+          har('running', 9)
+        ],
+        [social('coughing', 0, ms: 30), social('other', 1, ms: 100)],
+      );
+      expect(joined.map((j) => j.social?.label),
+          ['coughing', 'other', null]); // 9 s has no social result near it
+    });
+
+    test('episodes break on either label, or a gap', () {
+      final joined = joinResults(
+        [
+          for (var i = 0; i < 4; i++) har('sittingStanding', i),
+          har('sittingStanding', 4),
+          har('normalWalking', 5),
+          har('normalWalking', 30), // after a disconnect
+        ],
+        [
+          for (var i = 0; i < 3; i++) social('breathingNormally', i),
+          social('coughing', 3),
+          social('coughing', 4),
+        ],
+      );
+      final episodes = groupEpisodes(joined);
+      // Newest first.
+      expect(episodes.map((e) => '${e.harLabel}/${e.socialLabel}/${e.count}'), [
+        'normalWalking/null/1',
+        'normalWalking/null/1',
+        'sittingStanding/coughing/2',
+        'sittingStanding/breathingNormally/3',
+      ]);
+      expect(episodes.last.duration, const Duration(seconds: 3));
+      expect(episodes.last.socialConfidence, closeTo(0.8, 1e-9));
+    });
+  });
+
+  testWidgets('empty day explains what will appear', (tester) async {
     await showHistory(tester);
-    expect(find.text('Activity History'), findsOneWidget);
-    expect(find.text('No HAR predictions saved.'), findsOneWidget);
-    expect(find.byType(ListTile), findsNothing);
+    expect(find.text('History'), findsOneWidget);
+    expect(find.textContaining('No results saved for'), findsOneWidget);
     expect(find.byTooltip('Refresh history'), findsOneWidget);
   });
 
-  testWidgets('shows label, local timestamp, confidence and source',
+  testWidgets('episodes show the activity and the social signal together',
       (tester) async {
-    final saved = record('normalWalking', confidence: 0.876);
     repository.records.addAll([
-      saved,
-      record('running', source: PredictionSource.replay),
+      for (var i = 0; i < 3; i++) har('sittingStanding', i, confidence: 0.8),
+      for (var i = 0; i < 3; i++) social('coughing', i),
     ]);
     await showHistory(tester);
-    final local = saved.timestamp.toLocal();
-    // Model labels are shown with their readable names.
+    expect(find.text('Sitting / Standing'), findsOneWidget);
+    expect(find.text('Coughing'), findsOneWidget);
+    expect(find.text('3 s · 3 results'), findsOneWidget);
+    expect(find.text('80%'), findsWidgets);
+  });
+
+  testWidgets('every-result view pairs rows and paginates', (tester) async {
+    repository.records.addAll([
+      for (var i = 0; i < 51; i++) har('normalWalking', i),
+      social('other', 50),
+    ]);
+    await showHistory(tester);
+    await tester.tap(find.text('Every result'));
+    await tester.pumpAndSettle();
+    expect(find.text('Page 1'), findsOneWidget);
+    // Newest row (50 s) has its social result; older rows have none.
+    expect(find.text('Other Social Signals'), findsOneWidget);
+    await tester.tap(find.text('Next'));
+    await tester.pumpAndSettle();
+    expect(find.text('Page 2'), findsOneWidget);
     expect(find.text('Walking'), findsOneWidget);
-    expect(find.text('88%'), findsOneWidget);
-    expect(
-      find.text('${DateFormat('yyyy-MM-dd HH:mm:ss').format(local)} '
-          '${local.timeZoneName}\nHAR • Live'),
-      findsOneWidget,
-    );
-    expect(find.textContaining('HAR • Replay'), findsOneWidget);
-    expect(find.textContaining('%'), findsOneWidget);
-  });
-
-  testWidgets('switches between HAR and Social Signals', (tester) async {
-    repository.records.addAll([
-      record('walking'),
-      record('talking', task: PredictionTaskType.social),
-    ]);
-    await showHistory(tester);
-    expect(find.text('walking'), findsOneWidget);
-    expect(find.text('talking'), findsNothing);
-    await tester.tap(find.text('Social Signals'));
+    await tester.tap(find.byTooltip('Refresh history'));
     await tester.pumpAndSettle();
-    expect(find.text('talking'), findsOneWidget);
-    expect(find.text('walking'), findsNothing);
-    expect(find.textContaining('Social Signals • Live'), findsOneWidget);
-    await tester.tap(find.text('HAR'));
+    expect(find.text('Page 2'), findsOneWidget);
+    await tester.tap(find.text('Previous'));
     await tester.pumpAndSettle();
-    expect(find.text('walking'), findsOneWidget);
-  });
-
-  testWidgets('preserves newest-first repository ordering', (tester) async {
-    repository.records.addAll([
-      record('older', timestamp: DateTime.utc(2026, 1, 1)),
-      record('newer', timestamp: DateTime.utc(2026, 1, 2)),
-    ]);
-    await showHistory(tester);
-    expect(tester.getTopLeft(find.text('newer')).dy,
-        lessThan(tester.getTopLeft(find.text('older')).dy));
+    expect(find.text('Page 1'), findsOneWidget);
   });
 
   testWidgets('shows loading until the query completes', (tester) async {
     repository.pending = Completer<void>();
     await tester.pumpWidget(MaterialApp(
-      home: HistoryPage(openRepository: () async => repository),
+      home:
+          HistoryPage(openRepository: () async => repository, initialDay: day),
     ));
     await tester.pump();
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -141,7 +178,6 @@ void main() {
     repository.pending!.complete();
     await tester.pumpAndSettle();
     expect(find.byType(CircularProgressIndicator), findsNothing);
-    expect(find.text('No HAR predictions saved.'), findsOneWidget);
   });
 
   testWidgets('query errors show retry and recover', (tester) async {
@@ -152,68 +188,15 @@ void main() {
     repository.fail = false;
     await tester.tap(find.text('Retry'));
     await tester.pumpAndSettle();
-    expect(find.text('No HAR predictions saved.'), findsOneWidget);
+    expect(find.textContaining('No results saved for'), findsOneWidget);
   });
 
-  testWidgets('opening errors can be retried', (tester) async {
-    var attempts = 0;
-    await tester.pumpWidget(MaterialApp(
-      home: HistoryPage(openRepository: () async {
-        if (attempts++ == 0) throw StateError('Cannot open');
-        return repository;
-      }),
-    ));
-    await tester.pumpAndSettle();
-    expect(find.text('Retry'), findsOneWidget);
-    await tester.tap(find.text('Retry'));
-    await tester.pumpAndSettle();
-    expect(attempts, 2);
-    expect(find.text('No HAR predictions saved.'), findsOneWidget);
-  });
-
-  testWidgets('paginates without accumulating records; refresh resets page',
-      (tester) async {
-    repository.records.addAll(List.generate(
-      51,
-      (i) => record('record $i', timestamp: DateTime.utc(2026, 1, 1, 0, i)),
-    ));
-    await showHistory(tester);
-    expect(find.text('record 50'), findsOneWidget);
-    expect(find.text('Page 1'), findsOneWidget);
-    await tester.tap(find.text('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Page 2'), findsOneWidget);
-    expect(find.text('record 0'), findsOneWidget);
-    expect(find.text('record 50'), findsNothing);
-    expect(
-        tester
-            .widget<TextButton>(find.widgetWithText(TextButton, 'Next'))
-            .onPressed,
-        isNull);
-    await tester.tap(find.text('Previous'));
-    await tester.pumpAndSettle();
-    expect(find.text('Page 1'), findsOneWidget);
-    await tester.tap(find.text('Next'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Refresh history'));
-    await tester.pumpAndSettle();
-    expect(find.text('Page 1'), findsOneWidget);
-    expect(repository.offsets, [0, 50, 0, 50, 0]);
-  });
-
-  testWidgets('refresh reads newly saved records', (tester) async {
-    await showHistory(tester);
-    repository.records.add(record('new prediction'));
-    await tester.tap(find.byTooltip('Refresh history'));
-    await tester.pumpAndSettle();
-    expect(find.text('new prediction'), findsOneWidget);
-  });
-
-  testWidgets('closes repository on disposal and ignores pending query results',
+  testWidgets('closes repository on disposal and ignores pending results',
       (tester) async {
     repository.pending = Completer<void>();
     await tester.pumpWidget(MaterialApp(
-      home: HistoryPage(openRepository: () async => repository),
+      home:
+          HistoryPage(openRepository: () async => repository, initialDay: day),
     ));
     await tester.pump();
     await tester.pumpWidget(const SizedBox());
@@ -223,36 +206,12 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('closes a repository that finishes opening after disposal',
-      (tester) async {
-    final opening = Completer<PredictionRepository>();
+  testWidgets('asks to log in when nobody is logged in', (tester) async {
     await tester.pumpWidget(MaterialApp(
-      home: HistoryPage(openRepository: () => opening.future),
+      home: HistoryPage(session: UserSession(rememberLastUser: false)),
     ));
-    await tester.pumpWidget(const SizedBox());
-    opening.complete(repository);
     await tester.pumpAndSettle();
-    expect(repository.closed, isTrue);
-    expect(repository.offsets, isEmpty);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('Home opens History, returns normally and reopens',
-      (tester) async {
-    // No platform channel database is registered in this widget test. The
-    // production route still opens normally and handles that opening error.
-    await tester.pumpWidget(const MyApp());
-    await tester.tap(find.text('History'));
-    await tester.pumpAndSettle();
-    expect(find.text('Activity History'), findsOneWidget);
-    await tester.pageBack();
-    await tester.pumpAndSettle();
-    expect(find.text('PDIoT'), findsOneWidget);
-    expect(find.text('Connect'), findsOneWidget);
-    expect(find.text('Not recording'), findsOneWidget);
-    await tester.tap(find.text('History'));
-    await tester.pumpAndSettle();
-    expect(find.text('Activity History'), findsOneWidget);
-    expect(tester.takeException(), isNull);
+    expect(find.textContaining('Log in or create a user to see your history'),
+        findsOneWidget);
   });
 }

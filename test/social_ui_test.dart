@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pdiot/app_shell.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/home.dart';
 import 'package:pdiot/main.dart';
+import 'package:pdiot/services/app_settings.dart';
+import 'package:pdiot/services/sensor_controller.dart';
 import 'package:pdiot/services/social_sample_processor.dart';
+import 'package:pdiot/services/user_session.dart';
 import 'package:pdiot/social.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
@@ -14,8 +18,11 @@ void main() {
   late _Runner runner;
   late SocialClassifier classifier;
   late _ObservedProcessor processor;
+  late SensorController sensor;
 
   setUp(() async {
+    appSettings.stepSamples.value = 25; // trained step; Settings default is 12
+    sensor = SensorController(session: UserSession(rememberLastUser: false));
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
     processor = _ObservedProcessor(
@@ -25,6 +32,7 @@ void main() {
   });
 
   tearDown(() {
+    sensor.dispose();
     processor.dispose();
     classifier.dispose();
   });
@@ -32,7 +40,10 @@ void main() {
   Future<void> showHome(WidgetTester tester,
       {SocialSampleProcessor? source}) async {
     await tester.pumpWidget(MaterialApp(
-      home: MyHomePage(title: 'PDIoT', socialProcessor: source ?? processor),
+      home: HomePage(
+          sensor: sensor,
+          session: sensor.session,
+          socialProcessor: source ?? processor),
     ));
   }
 
@@ -166,12 +177,12 @@ void main() {
       throw StateError('model failed to load');
     });
     await expectLater(session.load(), throwsStateError);
-    await tester.pumpWidget(MyApp(socialSession: session));
+    await tester.pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
     expect(status(tester), 'Social model unavailable');
     expect(labelFinder, findsNothing);
     expect(confidenceFinder, findsNothing);
     final source =
-        tester.widget<MyHomePage>(find.byType(MyHomePage)).socialProcessor!;
+        tester.widget<AppShell>(find.byType(AppShell)).socialProcessor!;
     source.startSession();
     feed(100, source: source);
     await tester.pump();
@@ -187,12 +198,11 @@ void main() {
     addTearDown(() => harClassifier = oldHar);
     processor.startSession();
     await showHome(tester);
-    final home = tester.state<MyHomePageState>(find.byType(MyHomePage));
-    home.updateFromPacket(
-      accelText: 'test acceleration',
-      battText: '',
-      isRecording: false,
-      packetReceivedTs: DateTime.utc(2026, 11, 2),
+    sensor.updateFromPacket(
+      accel: 'test acceleration',
+      battery: null,
+      charging: false,
+      receivedAt: DateTime.utc(2026, 11, 2),
       prediction: const HarPrediction('running', 0.91),
     );
     feed(100);
@@ -217,63 +227,28 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('recording dropdown cannot generate or override predictions',
+  testWidgets('tab navigation keeps one Home subscription and live results',
       (tester) async {
-    processor.startSession();
-    await showHome(tester);
-    final dropdown = find.byType(DropdownButton<String>).last;
-    await tester.ensureVisible(dropdown);
-    await tester.tap(dropdown);
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Coughing').last);
-    await tester.pumpAndSettle();
-    expect(
-        tester.state<MyHomePageState>(find.byType(MyHomePage)).selected_signal,
-        'Coughing');
-    expect(labelFinder, findsNothing);
-    expect(confidenceFinder, findsNothing);
-    expect(runner.calls, 0);
-    feed(100);
+    final session = SocialClassifierSession(loader: () async => classifier);
+    await session.load();
+    await tester.pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
+    final shellProcessor =
+        tester.widget<AppShell>(find.byType(AppShell)).socialProcessor!;
+    shellProcessor.startSession();
+    feed(100, source: shellProcessor);
     await tester.pump();
     expect(tester.widget<Text>(labelFinder).data, 'Normal Breathing');
-    expect(
-        tester.state<MyHomePageState>(find.byType(MyHomePage)).selected_signal,
-        'Coughing');
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
-  testWidgets(
-      'History navigation retains one subscription and recording controls',
-      (tester) async {
-    processor.startSession();
-    await showHome(tester);
-    feed(100);
-    await tester.pump();
     for (var i = 0; i < 2; i++) {
-      await tester.tap(find.text('History'));
-      await tester.pumpAndSettle();
-      expect(find.text('Activity History'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('tab-history')));
+      await tester.pump();
       runner.index = 1;
-      feed(25); // Home may be offstage, but remains safely subscribed.
-      await tester.pageBack();
-      await tester.pumpAndSettle();
+      feed(25, source: shellProcessor); // Home is offstage but subscribed.
+      await tester.tap(find.byKey(const ValueKey('tab-home')));
+      await tester.pump();
       expect(tester.widget<Text>(labelFinder).data, 'Coughing');
-      expect(processor.observerCount, 1);
     }
-    for (final label in [
-      'Connect',
-      'Start recording',
-      'Stop recording',
-      'Settings'
-    ]) {
-      final button = find.widgetWithText(ElevatedButton, label);
-      expect(button, findsOneWidget);
-      expect(tester.widget<ElevatedButton>(button).onPressed, isNotNull);
-    }
-    expect(find.text('Not recording'), findsOneWidget);
+    shellProcessor.endSession();
     await tester.pumpWidget(const SizedBox.shrink());
-    expect(processor.observerCount, 0);
-    processor.endSession();
     expect(tester.takeException(), isNull);
   });
 

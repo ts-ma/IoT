@@ -46,15 +46,6 @@ class LabelInfo {
   final LabelGroup group;
 }
 
-/// Seconds of real time represented by one prediction. A model classifies a
-/// window every `step_samples` new samples at 12.5 Hz, so consecutive
-/// predictions are that far apart and each stands for that much activity.
-/// Both bundled models use a 25-sample step (2 s). main() updates the HAR
-/// value from the loaded model's metadata, so a retrained model with a
-/// different step still reports correct durations.
-double harPredictionSeconds = 25 / 12.5;
-const double socialPredictionSeconds = 25 / 12.5;
-
 /// HAR classes in model output order (harry_har_cnn_meta.json).
 const List<String> harClassOrder = [
   'sittingStanding',
@@ -141,12 +132,6 @@ String formatDuration(Duration d) {
   }
   return '$seconds s';
 }
-
-/// Duration represented by [count] consecutive predictions; HAR by default.
-Duration durationForPredictions(int count, {double? secondsEach}) =>
-    Duration(
-        milliseconds:
-            (count * (secondsEach ?? harPredictionSeconds) * 1000).round());
 
 /// Small round icon in the label's colour, used in lists and cards.
 class LabelAvatar extends StatelessWidget {

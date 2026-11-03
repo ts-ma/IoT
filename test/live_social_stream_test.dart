@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdiot/ble.dart';
 import 'package:pdiot/har.dart';
-import 'package:pdiot/home.dart';
+import 'package:pdiot/app_shell.dart';
 import 'package:pdiot/main.dart';
+import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/prediction_history_writer.dart';
 import 'package:pdiot/services/prediction_repository.dart';
@@ -28,6 +29,8 @@ void main() {
   late List<HarPrediction> harEvents;
 
   setUp(() async {
+    // These tests pin the trained 25-sample step (Settings default is 12).
+    appSettings.stepSamples.value = 25;
     originalHar = harClassifier;
     har = _HarDouble();
     harClassifier = har;
@@ -287,30 +290,28 @@ void main() {
       onSocialPrediction: events.add,
       createHistoryWriter: () => appWriter,
     ));
-    final home = tester.widget<MyHomePage>(find.byType(MyHomePage));
-    final connectedProcessor = home.socialProcessor!;
+    final shell = tester.widget<AppShell>(find.byType(AppShell));
+    final connectedProcessor = shell.socialProcessor!;
     connectedProcessor.startSession();
-    final state = tester.state<MyHomePageState>(find.byType(MyHomePage));
+    final recorder = shell.sensor.recorder;
     // The extracted decoded-sample path has no dependency on CSV/UI state.
     for (var i = 0; i < 100; i++) {
-      expect(state.recording, isFalse);
+      expect(recorder.active, isFalse);
       processDecodedSample(0, 0, 1, socialProcessor: connectedProcessor);
     }
     expect(events, hasLength(1));
-    state.recording = true;
     await tester.pumpWidget(MyApp(
       socialSession: session,
       onSocialPrediction: events.add,
       createHistoryWriter: () => appWriter,
     ));
-    expect(tester.widget<MyHomePage>(find.byType(MyHomePage)).socialProcessor,
+    expect(tester.widget<AppShell>(find.byType(AppShell)).socialProcessor,
         same(connectedProcessor));
     expect(events, hasLength(1)); // Rebuild emits nothing.
     for (var i = 0; i < 25; i++) {
       processDecodedSample(0, 0, 1, socialProcessor: connectedProcessor);
     }
     expect(events, hasLength(2));
-    state.recording = false; // No real CSV sink was opened in this test.
     await tester.pumpWidget(const SizedBox.shrink());
     await appWriter.shutdown();
     expect(appRepository.saved, hasLength(2));
@@ -374,6 +375,8 @@ class _SocialRunner implements SocialModelRunner {
 
 class _SocialDouble implements SocialClassifier {
   final List<List<double>> samples = [];
+  @override
+  int step = 25;
   @override
   List<String> get classes => socialLabels;
   @override

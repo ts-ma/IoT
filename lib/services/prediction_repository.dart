@@ -7,7 +7,7 @@ import '../models/prediction_record.dart';
 /// needed. Opening is explicit; importing this file never creates a database.
 class PredictionRepository {
   static const databaseName = 'prediction_history.db';
-  static const schemaVersion = 1;
+  static const schemaVersion = 2;
   static const _table = 'prediction_history';
 
   // Append one migration per future schema version. Never edit a migration
@@ -35,6 +35,14 @@ class PredictionRepository {
       await db.execute(
         'CREATE INDEX idx_prediction_task_timestamp '
         'ON $_table(task_type, timestamp)',
+      );
+    },
+    // v2: the activity time each result stands for. The update interval can
+    // be changed in Settings, so durations are summed rather than counted.
+    (db) async {
+      await db.execute(
+        'ALTER TABLE $_table ADD COLUMN interval_ms INTEGER '
+        'CHECK(interval_ms IS NULL OR interval_ms > 0)',
       );
     },
   ];
@@ -93,6 +101,7 @@ class PredictionRepository {
     PredictionTaskType? taskType,
     int? limit,
     int offset = 0,
+    bool newestFirst = true,
   }) async {
     _validateRange(start, end);
     if ((limit != null && limit <= 0) || offset < 0) {
@@ -102,7 +111,7 @@ class PredictionRepository {
       _table,
       where: _rangeWhere(taskType),
       whereArgs: _rangeArgs(start, end, taskType),
-      orderBy: 'timestamp DESC, id DESC',
+      orderBy: newestFirst ? 'timestamp DESC, id DESC' : 'timestamp ASC, id ASC',
       limit: limit ?? (offset > 0 ? -1 : null),
       offset: offset,
     );
@@ -127,6 +136,87 @@ class PredictionRepository {
     return {
       for (final row in rows) row['label'] as String: (row['n'] as num).toInt(),
     };
+  }
+
+  /// Activity time per label in [start, end) for one task: the sum of each
+  /// result's interval (old rows without one count as the original 2 s).
+  Future<Map<String, Duration>> durationByLabel({
+    required DateTime start,
+    required DateTime end,
+    required PredictionTaskType taskType,
+    PredictionSource? source,
+  }) async {
+    _validateRange(start, end);
+    final rows = await _database.rawQuery(
+      'SELECT label, SUM(COALESCE(interval_ms, '
+      '${PredictionRecord.legacyIntervalMs})) AS ms FROM $_table '
+      'WHERE ${_rangeWhere(taskType, source)} GROUP BY label',
+      _rangeArgs(start, end, taskType, source),
+    );
+    return {
+      for (final row in rows)
+        row['label'] as String:
+            Duration(milliseconds: (row['ms'] as num).toInt()),
+    };
+  }
+
+  /// Results grouped into time bins of [bin] starting at [start]: for every
+  /// bin, task and label the number of results and the time they stand for.
+  /// Used by the day timeline; one SQL query, however many results a day has.
+  Future<List<TimelineCell>> timelineBins({
+    required DateTime start,
+    required DateTime end,
+    required Duration bin,
+  }) async {
+    _validateRange(start, end);
+    if (bin.inMicroseconds <= 0) throw ArgumentError.value(bin, 'bin');
+    final rows = await _database.rawQuery(
+      'SELECT (timestamp - ?) / ? AS bin, task_type, label, COUNT(*) AS n, '
+      'SUM(COALESCE(interval_ms, ${PredictionRecord.legacyIntervalMs})) AS ms '
+      'FROM $_table WHERE ${_rangeWhere(null)} '
+      'GROUP BY bin, task_type, label ORDER BY bin',
+      [
+        start.toUtc().microsecondsSinceEpoch,
+        bin.inMicroseconds,
+        ..._rangeArgs(start, end, null),
+      ],
+    );
+    return [
+      for (final row in rows)
+        TimelineCell(
+          bin: (row['bin'] as num).toInt(),
+          taskType:
+              PredictionTaskType.values.byName(row['task_type'] as String),
+          label: row['label'] as String,
+          count: (row['n'] as num).toInt(),
+          duration: Duration(milliseconds: (row['ms'] as num).toInt()),
+        ),
+    ];
+  }
+
+  /// Times of the first and last result in [start, end), or null if none.
+  Future<({DateTime first, DateTime last})?> timeRange({
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    _validateRange(start, end);
+    final rows = await _database.rawQuery(
+      'SELECT MIN(timestamp) AS a, MAX(timestamp) AS b FROM $_table '
+      'WHERE ${_rangeWhere(null)}',
+      _rangeArgs(start, end, null),
+    );
+    final a = rows.single['a'], b = rows.single['b'];
+    if (a == null || b == null) return null;
+    return (
+      first: DateTime.fromMicrosecondsSinceEpoch(a as int, isUtc: true),
+      last: DateTime.fromMicrosecondsSinceEpoch(b as int, isUtc: true),
+    );
+  }
+
+  /// Number of rows in the database (Performance page, storage growth).
+  Future<int> count() async {
+    final rows = await _database.rawQuery('SELECT COUNT(*) AS n FROM $_table');
+    return (rows.single['n'] as num).toInt();
   }
 
   /// Number of separate bouts of [label] in [start, end): consecutive records
@@ -205,6 +295,23 @@ class PredictionRepository {
         if (taskType != null) taskType.name,
         if (source != null) source.name,
       ];
+}
+
+/// One (bin, task, label) group of [PredictionRepository.timelineBins].
+class TimelineCell {
+  const TimelineCell({
+    required this.bin,
+    required this.taskType,
+    required this.label,
+    required this.count,
+    required this.duration,
+  });
+
+  final int bin;
+  final PredictionTaskType taskType;
+  final String label;
+  final int count;
+  final Duration duration;
 }
 
 /// Counts runs of [label] in chronologically ordered [records]. A run ends at
