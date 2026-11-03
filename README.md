@@ -25,6 +25,18 @@ The UI will display on a linux desktop machine, but for the BLE functionality (p
 On android, debug builds can be quite large. You can make a smaller, more efficient release APK by running:
 flutter build apk --release --split-per-abi
 
+## Live recognition models
+
+The app uses the supplied models in `assets/models/`:
+
+- HAR: `harry_har.tflite`, 50 samples (4 seconds), 11 activity classes.
+- Social: `harry_social.tflite`, 100 samples (8 seconds), 4 social signal classes.
+
+Both consume raw X/Y/Z acceleration in g at 12.5 Hz and update every 25 new
+samples (2 seconds). Normalization is embedded in each model. Matching
+`*_meta.json` and `*_example.json` files define the contracts and examples.
+The `.keras` files are training artifacts; Flutter runs the `.tflite` files.
+
 ## Layout
 
 main.dart contains code to start the app.

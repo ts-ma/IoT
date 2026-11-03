@@ -72,13 +72,13 @@ flutter:
   # Files must be listed here to be packaged into the app. To use a different
   # model, replace these files and update the paths here and in har.dart.
   assets:
-    - assets/models/har_cnn.tflite
-    - assets/models/har_cnn_meta.json
-    - assets/models/har_cnn_example.json
-    # Verified Social CNN assets; inference integration is a later stage.
-    - assets/models/social_cnn.tflite
-    - assets/models/social_cnn_meta.json
-    - assets/models/social_cnn_example.json
+    - assets/models/harry_har.tflite
+    - assets/models/harry_har_meta.json
+    - assets/models/harry_har_example.json
+    # Live Social signal recognition model, metadata and parity example.
+    - assets/models/harry_social.tflite
+    - assets/models/harry_social_meta.json
+    - assets/models/harry_social_example.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

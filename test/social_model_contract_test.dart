@@ -20,23 +20,25 @@ void main() {
   late List<int> tensors;
 
   setUpAll(() {
-    meta = jsonDecode(File('model/social_cnn_meta.json').readAsStringSync())
+    meta = jsonDecode(
+            File('assets/models/harry_social_meta.json').readAsStringSync())
         as Map<String, dynamic>;
-    example =
-        jsonDecode(File('model/social_cnn_example.json').readAsStringSync())
-            as Map<String, dynamic>;
-    model = _FlatBuffer(File('model/social_cnn.tflite').readAsBytesSync());
+    example = jsonDecode(
+            File('assets/models/harry_social_example.json').readAsStringSync())
+        as Map<String, dynamic>;
+    model = _FlatBuffer(
+        File('assets/models/harry_social.tflite').readAsBytesSync());
     graph = model.tables(model.root, 2).single;
     tensors = model.tables(graph, 0);
   });
 
   test('metadata fixes the Social sampling, window and channel contract', () {
-    expect(meta['model_file'], 'social_cnn.tflite');
+    expect(meta['model_file'], 'harry_social.tflite');
     expect(meta['task'], 'social_signal');
     expect(meta['sampling_frequency_hz'], 12.5);
-    expect(meta['window_samples'], 50);
+    expect(meta['window_samples'], 100);
     expect(meta['step_samples'], 25);
-    expect(meta['input']['shape'], [1, 50, 3]);
+    expect(meta['input']['shape'], [1, 100, 3]);
     expect(meta['input']['dtype'], 'float32');
     expect(meta['input']['channels'], ['accelX', 'accelY', 'accelZ']);
     expect(meta['input']['units'], 'g (raw accelerometer values)');
@@ -50,7 +52,7 @@ void main() {
 
   test('TFLite binary input and output agree with metadata', () {
     expect(ascii.decode(model.bytes.sublist(4, 8)), 'TFL3');
-    expect(model.bytes.length, 50508);
+    expect(model.bytes.length, greaterThan(0));
     expect(model.uintField(model.root, 0), 3); // TFLite schema version.
     final input = tensors[model.ints(graph, 1).single];
     final output = tensors[model.ints(graph, 2).single];
@@ -59,53 +61,42 @@ void main() {
     // TensorType.FLOAT32 is enum value 0 (also the omitted-field default).
     expect(model.byteField(input, 1), 0);
     expect(model.byteField(output, 1), 0);
-    expect(model.ints(input, 7), [-1, 50, 3]);
+    expect(model.ints(input, 7), [-1, 100, 3]);
     expect(model.ints(output, 7), [-1, 4]);
   });
 
-  test('binary embeds per-axis subtraction and inverse standard deviation', () {
+  test('binary centers raw axes using the mean of the current window', () {
     final operators = model.tables(graph, 3);
     final codes = model.tables(model.root, 1);
-    final buffers = model.tables(model.root, 4);
     int opcode(int operator) =>
         model.uintField(codes[model.uintField(operator, 0)], 3);
-
-    List<double> constant(int tensorIndex) {
-      final tensor = tensors[tensorIndex];
-      expect(model.byteField(tensor, 1), 0);
-      expect(model.ints(tensor, 0), [1, 1, 3]);
-      return model.floats(buffers[model.uintField(tensor, 2)], 0);
-    }
-
-    final subtract = operators[0];
-    final multiply = operators[1];
+    final mean = operators[0];
+    final subtract = operators[1];
+    expect(opcode(mean), 40); // BuiltinOperator.MEAN.
     expect(opcode(subtract), 41); // BuiltinOperator.SUB.
-    expect(opcode(multiply), 18); // BuiltinOperator.MUL.
-    final subtractInputs = model.ints(subtract, 1);
-    final multiplyInputs = model.ints(multiply, 1);
-    expect(subtractInputs, hasLength(2));
-    expect(multiplyInputs, hasLength(2));
-    expect(subtractInputs.first, model.ints(graph, 1).single);
-    expect(multiplyInputs.first, model.ints(subtract, 2).single);
-    expect(
-      constant(subtractInputs[1]),
-      orderedEquals([
-        -0.08247149735689163,
-        -0.3982255458831787,
-        0.061153262853622437,
-      ]),
-    );
-    expect(
-      constant(multiplyInputs[1]),
-      orderedEquals([
-        1.9124904870986938,
-        2.2301547527313232,
-        1.6275293827056885,
-      ]),
-    );
+    final inputIndex = model.ints(graph, 1).single;
+    expect(model.ints(mean, 1).first, inputIndex);
+    expect(model.ints(subtract, 1), [inputIndex, model.ints(mean, 2).single]);
+    expect(model.ints(tensors[model.ints(mean, 2).single], 0), [1, 1, 3]);
   });
 
-  test('saved input has 50 rows of three finite numeric axis values', () {
+  test('HAR binary tensors agree with its deployed metadata', () {
+    final meta = jsonDecode(
+        File('assets/models/harry_har_meta.json').readAsStringSync());
+    final model =
+        _FlatBuffer(File('assets/models/harry_har.tflite').readAsBytesSync());
+    expect(ascii.decode(model.bytes.sublist(4, 8)), 'TFL3');
+    final graph = model.tables(model.root, 2).single;
+    final tensors = model.tables(graph, 0);
+    final input = tensors[model.ints(graph, 1).single];
+    final output = tensors[model.ints(graph, 2).single];
+    expect(model.ints(input, 0), meta['input']['shape']);
+    expect(model.ints(output, 0), meta['output']['shape']);
+    expect(model.byteField(input, 1), 0);
+    expect(model.byteField(output, 1), 0);
+  });
+
+  test('saved input has 100 rows of three finite numeric axis values', () {
     final rows = example['input_window'] as List<dynamic>;
     expect(rows, hasLength(meta['window_samples'] as int));
     for (final row in rows) {
@@ -143,10 +134,10 @@ void main() {
       if (probabilities[i] > probabilities[best]) best = i;
     }
     expect(example['expected_class'], labels[best]);
-    expect(example['expected_class'], 'breathingNormally');
-    expect(example['true_class'], 'other');
+    expect(example['expected_class'], 'coughing');
+    expect(example['true_class'], 'coughing');
     expect(labels, contains(example['true_class']));
-    expect(example['expected_class'], isNot(example['true_class']));
+    // This example is correctly classified; argmax is checked above.
   });
 }
 

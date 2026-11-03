@@ -6,8 +6,8 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 
 import 'har.dart' show SampleWindow;
 
-const socialModelAsset = 'assets/models/social_cnn.tflite';
-const socialMetaAsset = 'assets/models/social_cnn_meta.json';
+const socialModelAsset = 'assets/models/harry_social.tflite';
+const socialMetaAsset = 'assets/models/harry_social_meta.json';
 const socialLabels = [
   'breathingNormally',
   'coughing',
@@ -65,13 +65,13 @@ class _TfliteSocialRunner implements SocialModelRunner {
   void close() => _interpreter.close();
 }
 
-/// Independent four-second window classifier. Feed raw X/Y/Z values in g.
+/// Independent eight-second window classifier. Feed raw X/Y/Z values in g.
 /// Standardization is embedded in the model; no preprocessing is applied here.
 class SocialClassifier {
   SocialClassifier._(this._runner);
 
   final SocialModelRunner _runner;
-  final SampleWindow _window = SampleWindow(50, 25);
+  final SampleWindow _window = SampleWindow(100, 25);
   bool _disposed = false;
 
   List<String> get classes => socialLabels;
@@ -87,12 +87,12 @@ class SocialClassifier {
     _validateMetadata(jsonDecode(text));
     final runner = await (createRunner ?? _TfliteSocialRunner.load)();
     try {
-      if (!listEquals(runner.inputShape, [1, 50, 3]) ||
+      if (!listEquals(runner.inputShape, [1, 100, 3]) ||
           runner.inputType != TensorType.float32 ||
           !listEquals(runner.outputShape, [1, 4]) ||
           runner.outputType != TensorType.float32) {
         throw const FormatException('Social model tensors must be '
-            '[1, 50, 3] float32 -> [1, 4] float32');
+            '[1, 100, 3] float32 -> [1, 4] float32');
       }
       return SocialClassifier._(runner);
     } catch (_) {
@@ -117,14 +117,14 @@ class SocialClassifier {
     if (input is! Map<String, dynamic> || output is! Map<String, dynamic>) {
       throw const FormatException('Social metadata must describe input/output');
     }
-    require(value['model_file'] == 'social_cnn.tflite', 'model_file');
+    require(value['model_file'] == 'harry_social.tflite', 'model_file');
     require(value['task'] == 'social_signal', 'task');
     require(value['sampling_frequency_hz'] == 12.5, 'sampling_frequency_hz');
-    require(value['window_samples'] is int && value['window_samples'] == 50,
+    require(value['window_samples'] is int && value['window_samples'] == 100,
         'window_samples');
     require(value['step_samples'] is int && value['step_samples'] == 25,
         'step_samples');
-    require(matches(input['shape'], [1, 50, 3]), 'input.shape');
+    require(matches(input['shape'], [1, 100, 3]), 'input.shape');
     require(input['dtype'] == 'float32', 'input.dtype');
     require(matches(input['channels'], ['accelX', 'accelY', 'accelZ']),
         'input.channels');
@@ -141,7 +141,7 @@ class SocialClassifier {
         'normalization');
   }
 
-  /// Returns null until sample 50, then until each further 25 samples arrive.
+  /// Returns null until sample 100, then until each further 25 samples arrive.
   /// The model sees the latest complete window, oldest sample first.
   SocialPrediction? addSample(double x, double y, double z) {
     _checkOpen();

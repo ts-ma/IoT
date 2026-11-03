@@ -62,7 +62,7 @@ void main() {
       runner.index = index;
       processor.startSession();
       await showHome(tester);
-      feed(50);
+      feed(100);
       await tester.pump();
       expect(tester.widget<Text>(labelFinder).data, displayLabels[index]);
       expect(tester.widget<Text>(confidenceFinder).data, 'Confidence: 87.7%');
@@ -77,7 +77,7 @@ void main() {
     });
   }
 
-  testWidgets('disconnected then warm-up; no prediction before sample 50',
+  testWidgets('disconnected then warm-up; no prediction before sample 100',
       (tester) async {
     await showHome(tester);
     expect(status(tester), 'Disconnected');
@@ -85,7 +85,7 @@ void main() {
     processor.startSession();
     await tester.pump();
     expect(status(tester), 'Collecting data...');
-    feed(49);
+    feed(99);
     await tester.pump();
     expect(labelFinder, findsNothing);
     expect(confidenceFinder, findsNothing);
@@ -102,7 +102,7 @@ void main() {
       (tester) async {
     processor.startSession();
     await showHome(tester);
-    feed(50);
+    feed(100);
     await tester.pump();
     runner.index = 1;
     feed(24);
@@ -120,7 +120,7 @@ void main() {
     runner.sequence = [0, 1, 2];
     processor.startSession();
     await showHome(tester);
-    feed(100);
+    feed(150);
     await tester.pump();
     expect(runner.calls, 3);
     expect(tester.widget<Text>(labelFinder).data, 'Hyperventilating');
@@ -132,7 +132,7 @@ void main() {
       (tester) async {
     processor.startSession();
     await showHome(tester);
-    feed(50);
+    feed(100);
     await tester.pump();
     expect(labelFinder, findsOneWidget);
     processor.endSession();
@@ -141,7 +141,7 @@ void main() {
     expect(labelFinder, findsNothing);
     expect(confidenceFinder, findsNothing);
     processor.startSession();
-    feed(49);
+    feed(99);
     await tester.pump();
     expect(status(tester), 'Collecting data...');
     expect(labelFinder, findsNothing);
@@ -151,7 +151,7 @@ void main() {
     await tester.pump();
     expect(status(tester), 'Collecting data...');
     expect(labelFinder, findsNothing);
-    feed(50);
+    feed(100);
     await tester.pump();
     processor.startSession(); // Even without a separate end-session event.
     await tester.pump();
@@ -195,7 +195,7 @@ void main() {
       packetReceivedTs: DateTime.utc(2026, 11, 2),
       prediction: const HarPrediction('running', 0.91),
     );
-    feed(50);
+    feed(100);
     await tester.pump();
     expect(find.text('running (91%)'), findsOneWidget);
     expect(labelFinder, findsOneWidget);
@@ -231,7 +231,7 @@ void main() {
     expect(labelFinder, findsNothing);
     expect(confidenceFinder, findsNothing);
     expect(runner.calls, 0);
-    feed(50);
+    feed(100);
     await tester.pump();
     expect(tester.widget<Text>(labelFinder).data, 'Normal Breathing');
     expect(
@@ -245,7 +245,7 @@ void main() {
       (tester) async {
     processor.startSession();
     await showHome(tester);
-    feed(50);
+    feed(100);
     await tester.pump();
     for (var i = 0; i < 2; i++) {
       await tester.tap(find.text('History'));
@@ -279,7 +279,7 @@ void main() {
       (tester) async {
     processor.startSession();
     await showHome(tester);
-    feed(50);
+    feed(100);
     await tester.pump();
     final replacement = _ObservedProcessor(classifier: () => null);
     addTearDown(replacement.dispose);
@@ -302,7 +302,7 @@ void main() {
     expect(processor.status, SocialPredictionStatus.disconnected);
     processor.startSession();
     expect(notifications, 1);
-    feed(49);
+    feed(99);
     expect(notifications, 1);
     feed(1);
     expect(notifications, 2);
@@ -343,7 +343,7 @@ class _Runner implements SocialModelRunner {
   bool fail = false;
   List<int> sequence = [];
   @override
-  List<int> get inputShape => [1, 50, 3];
+  List<int> get inputShape => [1, 100, 3];
   @override
   TensorType get inputType => TensorType.float32;
   @override

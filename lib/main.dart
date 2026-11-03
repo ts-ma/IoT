@@ -71,17 +71,12 @@ void main() async {
     print("Could not load HAR model: $e");
   }
 
-  
   // TEMPORARY: Lab 4 - Step 5.1
   // Compare the Android prediction with Lab 3.
 
   if (harClassifier != null) {
-
     final example = jsonDecode(
-      await rootBundle.loadString(
-        'assets/models/har_cnn_example.json'
-      )
-    );
+        await rootBundle.loadString('assets/models/harry_har_example.json'));
 
     HarPrediction? p;
 
@@ -95,21 +90,17 @@ void main() async {
     }
 
     // Find the largest probability saved by Lab 3.
-    final expected =
-        (example['expected_probabilities'] as List)
-            .reduce((a, b) => a > b ? a : b);
+    final expected = (example['expected_probabilities'] as List)
+        .reduce((a, b) => a > b ? a : b);
 
-    print(
-      "EXAMPLE app: ${p?.label} "
-      "${p?.confidence.toStringAsFixed(4)} | "
-      "Lab 3: ${example['expected_class']} "
-      "${expected.toStringAsFixed(4)}"
-    );
+    print("EXAMPLE app: ${p?.label} "
+        "${p?.confidence.toStringAsFixed(4)} | "
+        "Lab 3: ${example['expected_class']} "
+        "${expected.toStringAsFixed(4)}");
 
     // Clear the test window before receiving live data.
     harClassifier!.reset();
   }
-
 
   // Independent of HAR and its example check. The app owns one Social session
   // and supplies it to the decoded-sample processor for live BLE inference.
@@ -161,8 +152,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
     // Created after main's example comparison. Opens SQLite lazily on the first
     // live result, using a connection independent of the History screen.
-    _historyWriter =
-        (widget.createHistoryWriter?.call() ?? PredictionHistoryWriter())
+    _historyWriter = (widget.createHistoryWriter?.call() ??
+        PredictionHistoryWriter())
       ..addListener(_reportHistoryError);
     _socialProcessor = SocialSampleProcessor(
       classifier: () => widget.socialSession?.classifier,

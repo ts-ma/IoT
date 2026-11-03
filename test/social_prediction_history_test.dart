@@ -73,7 +73,7 @@ void main() {
 
   test('one new Social inference preserves exact model fields and event time',
       () async {
-    feed(50);
+    feed(100);
     await writer.flush();
     final saved = repository.saved.single;
     final event = events.single;
@@ -94,7 +94,7 @@ void main() {
   test('null and warm-up results never open the database or repeat old results',
       () async {
     writer.captureSocial(null);
-    feed(49);
+    feed(99);
     await writer.flush();
     expect(opens, 0);
     expect(repository.saved, isEmpty);
@@ -108,7 +108,7 @@ void main() {
 
   test('all identical-label windows from a single batch stay distinct and FIFO',
       () async {
-    feed(125); // Models complete windows at 50, 75, 100, 125.
+    feed(175); // Social windows complete at 100, 125, 150, 175.
     expect(events, hasLength(4));
     expect(writer.pendingCount, 4);
     await writer.flush();
@@ -121,7 +121,7 @@ void main() {
 
   test('direct startup/example inference is not a live persistence event',
       () async {
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 100; i++) {
       classifier.addSample(0, 0, 1);
     }
     classifier.reset();
@@ -141,7 +141,7 @@ void main() {
       clock: () => writerTime,
     );
     writer.capture(const HarPrediction('normalWalking', 0.9));
-    feed(75); // First Social accepted, second dropped: one shared capacity.
+    feed(125); // First Social accepted, second dropped: one shared capacity.
     expect(writer.pendingCount, 2);
     expect(writer.droppedRecordCount, 1);
     await writer.flush();
@@ -153,7 +153,7 @@ void main() {
       () async {
     final gate = Completer<void>();
     repository.gate = gate;
-    feed(50);
+    feed(100);
     await Future<void>.delayed(Duration.zero); // Insert is now in flight.
     expect(writer.pendingCount, 1);
     feed(75);
@@ -181,7 +181,7 @@ void main() {
     }, returnsNormally);
     await writer.flush();
     expect(har.calls, 125);
-    expect(events, hasLength(4));
+    expect(events, hasLength(2));
     expect(processor.failed, isFalse);
     expect(writer.errorCount, 1);
     expect(writer.droppedRecordCount, 1);
@@ -189,13 +189,13 @@ void main() {
         hasLength(4));
     expect(
         repository.saved.where((r) => r.taskType == PredictionTaskType.social),
-        hasLength(3));
+        hasLength(1));
   });
 
   test('shutdown drains both tasks, closes once and rejects late Social work',
       () async {
     writer.capture(const HarPrediction('normalWalking', 0.9));
-    feed(50);
+    feed(100);
     await writer.shutdown();
     expect(repository.saved, hasLength(2));
     expect(repository.closes, 1);
@@ -217,7 +217,7 @@ void main() {
     final diskWriter = PredictionHistoryWriter(openRepository: open);
     PredictionRepository? reopened;
     try {
-      feed(75);
+      feed(125);
       for (final event in events) {
         diskWriter.captureSocial(event);
       }
@@ -275,7 +275,7 @@ void main() {
     final source = home.socialProcessor!..startSession();
     expect(writer.pendingCount, 0);
     // Only decoded samples emit new inference events. Same app owner as BLE.
-    for (var i = 0; i < 75; i++) {
+    for (var i = 0; i < 125; i++) {
       source.addSample(0.1, -0.2, 0.9);
     }
     await tester.pump();
@@ -315,7 +315,7 @@ void main() {
         );
     final diskWriter = PredictionHistoryWriter(openRepository: open);
     try {
-      feed(50);
+      feed(100);
       await tester.runAsync(() async {
         diskWriter.captureSocial(events.single);
         diskWriter.capture(const HarPrediction('normalWalking', 0.9));
@@ -358,7 +358,7 @@ void main() {
 class _Runner implements SocialModelRunner {
   int calls = 0;
   @override
-  List<int> get inputShape => [1, 50, 3];
+  List<int> get inputShape => [1, 100, 3];
   @override
   TensorType get inputType => TensorType.float32;
   @override
