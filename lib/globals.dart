@@ -22,3 +22,7 @@ IOSink? csvSink;
 // Read later from pubspec.yaml
 String appVersionName = "0.0.0";
 int appVersionCode = 0;
+
+// Display preference (Settings): show the majority of the last 3 activity
+// predictions instead of each raw prediction. Persisted under 'smooth_har'.
+bool smoothHarPredictions = true;

@@ -197,7 +197,8 @@ void main() {
     );
     feed(50);
     await tester.pump();
-    expect(find.text('running (91%)'), findsOneWidget);
+    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Confidence: 91%'), findsOneWidget);
     expect(labelFinder, findsOneWidget);
     // Moving HAR output neither changes nor suppresses Social probabilities.
     expect(tester.widget<Text>(labelFinder).data, 'Normal Breathing');
@@ -207,7 +208,8 @@ void main() {
     await tester.pump();
     expect(status(tester), 'Social inference error — reconnect to retry');
     expect(labelFinder, findsNothing);
-    expect(find.text('running (91%)'), findsOneWidget);
+    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Confidence: 91%'), findsOneWidget);
     runner.fail = false;
     processor.startSession();
     await tester.pump();

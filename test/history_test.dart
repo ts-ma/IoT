@@ -90,7 +90,8 @@ void main() {
     ]);
     await showHistory(tester);
     final local = saved.timestamp.toLocal();
-    expect(find.text('normalWalking'), findsOneWidget);
+    // Model labels are shown with their readable names.
+    expect(find.text('Walking'), findsOneWidget);
     expect(find.text('88%'), findsOneWidget);
     expect(
       find.text('${DateFormat('yyyy-MM-dd HH:mm:ss').format(local)} '

@@ -109,6 +109,56 @@ class PredictionRepository {
     return rows.map(PredictionRecord.fromMap).toList();
   }
 
+  /// Number of records per label in [start, end) for one task. Used for the
+  /// daily summary: each HAR record represents one prediction interval.
+  Future<Map<String, int>> countByLabel({
+    required DateTime start,
+    required DateTime end,
+    required PredictionTaskType taskType,
+  }) async {
+    _validateRange(start, end);
+    final rows = await _database.rawQuery(
+      'SELECT label, COUNT(*) AS n FROM $_table '
+      'WHERE ${_rangeWhere(taskType)} GROUP BY label',
+      _rangeArgs(start, end, taskType),
+    );
+    return {
+      for (final row in rows) row['label'] as String: (row['n'] as num).toInt(),
+    };
+  }
+
+  /// Number of separate bouts of [label] in [start, end): consecutive records
+  /// with that label form one bout, which ends at a different label or a gap
+  /// longer than [maxGap] (e.g. a disconnect). Counts coughing episodes.
+  Future<int> countEpisodes({
+    required DateTime start,
+    required DateTime end,
+    required PredictionTaskType taskType,
+    required String label,
+    Duration maxGap = const Duration(seconds: 6),
+  }) async {
+    _validateRange(start, end);
+    final rows = await _database.query(
+      _table,
+      columns: ['label', 'timestamp'],
+      where: _rangeWhere(taskType),
+      whereArgs: _rangeArgs(start, end, taskType),
+      orderBy: 'timestamp ASC, id ASC',
+    );
+    return countLabelEpisodes(
+      [
+        for (final row in rows)
+          (
+            label: row['label'] as String,
+            at: DateTime.fromMicrosecondsSinceEpoch(row['timestamp'] as int,
+                isUtc: true),
+          ),
+      ],
+      label,
+      maxGap: maxGap,
+    );
+  }
+
   Future<int> delete(int id) =>
       _database.delete(_table, where: 'id = ?', whereArgs: [id]);
 
@@ -148,4 +198,28 @@ class PredictionRepository {
         end.toUtc().microsecondsSinceEpoch,
         if (taskType != null) taskType.name,
       ];
+}
+
+/// Counts runs of [label] in chronologically ordered [records]. A run ends at
+/// any other label or when two records are more than [maxGap] apart.
+int countLabelEpisodes(
+  List<({String label, DateTime at})> records,
+  String label, {
+  Duration maxGap = const Duration(seconds: 6),
+}) {
+  var episodes = 0;
+  var inRun = false;
+  DateTime? previous;
+  for (final record in records) {
+    final gapBroken =
+        previous != null && record.at.difference(previous) > maxGap;
+    if (record.label == label) {
+      if (!inRun || gapBroken) episodes++;
+      inRun = true;
+    } else {
+      inRun = false;
+    }
+    previous = record.at;
+  }
+  return episodes;
 }

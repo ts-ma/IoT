@@ -1,55 +1,109 @@
-# pdiot
+# PDIoT – live activity & social-signal recognition
 
-A flutter app for the 2025/26 PDIoT course.
+Flutter app for PDIoT Coursework 3 (2026/27). It connects to a RESpeck
+accelerometer over Bluetooth LE, classifies the wearer's **physical activity**
+(11 classes) and **social signal** (4 classes) on the phone with TensorFlow
+Lite, saves every result, and shows live, daily and weekly views of them.
 
-## Purpose
+## Features
 
-The app is used to record acceleration data from the Respeck sensor to CSV files. It is required for the data collectrespeck-pdiot-HAR-classifiergition part of the course.
+| Screen | What it does |
+|---|---|
+| **Home (live dashboard)** | Sensor card (connection state, RESpeck battery, live acceleration, Connect / Disconnect). *Detected activity* card with icon, readable name, confidence bar, update time and optional smoothing. *Social signal* card with the predicted class, confidence and the full probability distribution, plus a warning when the wearer is moving. *This session* totals (time monitored, cough bouts, time per activity). The original CSV *Data collection* controls stay at the bottom. |
+| **Daily summary** | For any day: time spent in each activity, static vs. active time, number of separate coughing bouts and time per social signal, a share-of-day bar and a 7-day trend chart (tap a bar to open that day). Export the day as CSV or delete it. |
+| **History** | Every saved result, newest first, filterable by HAR / Social, paginated. |
+| **Real-time test** | Guided real-time accuracy test for the report: choose participant, true activity and true social signal, run a 15/30/60 s trial; every live result is scored (first 4 s optional warm-up skip), latency to the first correct result is measured, and a per-class / per-group accuracy table builds up across trials and group members. Exports `PDIoT_realtime_trials_*.csv` and `PDIoT_realtime_summary_*.csv`. |
+| **Performance** | Live sample rate, lost BLE packets, HAR and Social inference time (last/mean/max), interval between results, history-database health. |
+| **Settings** | Subject / RESpeck pairing (QR scan), smoothing preference, installed model info, storage folder, version. |
 
-You can also use this source code as a starting point for your own app, which will be developed during Coursework 3.
+Light and dark themes follow the phone setting.
 
-## Requirements
-A reasonably up-to-date flutter and android development environment
-https://docs.flutter.dev/get-started/install
+## How it works
 
-For full functionality, an Android phone running at least Android 10.
+```
+RESpeck ──BLE 12.5 Hz──► ble.dart (decode x,y,z in g)
+                            │ every sample
+                            ├──► HarClassifier (har.dart)      50-sample window, step 25 ─► HAR result every 2 s
+                            ├──► SocialSampleProcessor ─► SocialClassifier (social.dart)   ─► Social result every 2 s
+                            └──► CSV recording (only while recording)
+results ─► PredictionHistoryWriter ─► SQLite (prediction_history.db) ─► History / Daily summary
+        ─► LivePredictionFeed (session totals, Real-time test)
+        ─► Home page cards
+```
 
-## Build/run
+* Both models take a `[1, 50, 3]` window of raw acceleration in g (normalisation
+  is inside the model) and output softmax probabilities. Inference runs
+  on-device, so there is no network latency and no data leaves the phone.
+* Each result represents one step (25 samples = 2 s), so time per activity =
+  number of results × 2 s. The step is read from the HAR model's metadata at
+  start-up, so a model with a different step still reports correct durations.
+* A *cough bout* is a run of consecutive `coughing` results (a gap of more than
+  6 s, e.g. a disconnect, also ends a bout).
+* Smoothing (on by default) only changes what the home screen shows: the most
+  common of the last 3 HAR results. History, summaries and the real-time test
+  always use raw results.
 
-Once you have installed the flutter and android SDKs, you should be able to run the app as follows:
+## Code layout
+
+| Path | Role |
+|---|---|
+| `lib/main.dart` | Start-up: preferences, storage folder, model loading, debug-only model parity check, app wiring and theme. |
+| `lib/ble.dart` | RESpeck scanning, connection, packet decoding; feeds samples to both classifiers and the metrics. |
+| `lib/har.dart` / `lib/social.dart` | TFLite classifiers with sliding windows. |
+| `lib/home.dart` | Live dashboard and CSV recording. |
+| `lib/summary.dart`, `lib/history.dart` | Daily summary / 7-day trend, raw history list. |
+| `lib/evaluation.dart`, `lib/services/evaluation.dart` | Real-time test UI; trial scoring, persistence and CSV export. |
+| `lib/performance.dart`, `lib/services/app_metrics.dart` | Performance page and counters. |
+| `lib/activity_catalog.dart` | Readable names, icons, colours and coursework groups for every class. |
+| `lib/services/` | History database (`prediction_repository.dart`), background writer, Social stream processor, live feed, smoother. |
+| `test/` | Unit and widget tests (`flutter test`). |
+
+## Swapping in a new model
+
+1. Export `<name>.tflite`, `<name>_meta.json` and `<name>_example.json` from the
+   training notebook (same `[1, window, 3]` raw-g float32 input, softmax output).
+2. Copy them into `assets/models/` and list them under `assets:` in `pubspec.yaml`.
+3. Point `harModelAsset` / `harMetaAsset` in `lib/har.dart` at them (for the
+   Social model: `socialModelAsset` / `socialMetaAsset` in `lib/social.dart`;
+   its metadata check in `_validateMetadata` expects the current contract).
+4. Do a full rebuild. In a debug build the console prints an `EXAMPLE app:` line
+   comparing the app's prediction for the example window with the notebook's –
+   class and probability should match.
+
+Class names are mapped to readable names in `lib/activity_catalog.dart`; unknown
+names are still shown (raw), so a model with new classes works without changes.
+
+## Measuring performance for the report
+
+* **Real-time accuracy & latency** – use *Real-time test*: every group member
+  performs every activity and social signal; export both CSVs.
+* **Communication latency** – the trial's "latency" column is the time from the
+  start of an activity to the first correct result on screen. The *Performance*
+  page gives its components (inference time, interval between results).
+* **CPU / memory / energy** – Android Studio → *Profiler* (CPU, Memory, Energy)
+  on a `flutter run --profile` build, or Xcode Instruments on iPhone; note the
+  phone model, run time and that inference is on-device.
+
+## Build / run
+
+```
 flutter pub get
-flutter run
+flutter test
+flutter run            # or: flutter run --profile for measurements
+```
 
-The UI will display on a linux desktop machine, but for the BLE functionality (provided by flutter blue plus library), you should connect an Android phone.
+Android 10+ (or iOS 16+) is needed for Bluetooth. A smaller release APK:
+`flutter build apk --release --split-per-abi`.
 
-On android, debug builds can be quite large. You can make a smaller, more efficient release APK by running:
-flutter build apk --release --split-per-abi
+## Using the app
 
-## Layout
+1. *Settings* → scan the QR code on the RESpeck (or type its ID) and enter the
+   subject ID → *Save settings*.
+2. Wake the RESpeck by shaking it, press *Connect*. Acceleration appears, the
+   first activity / social result about 4 s later, then every 2 s.
+3. To record raw data for training, choose the activity and social signal under
+   *Data collection* and press *Start recording*. CSVs (and all exports) go to
+   the storage folder shown in Settings (Downloads on Android).
 
-main.dart contains code to start the app.
-home.dart defines the UI for the home page.
-ble.dart handles BLE connumication with the respeck and decoding of sensor data.
-
-Additional files define the settings page, QR code scanner, global variables and utility functions.
-
-## How to use the app
-
-First, enter your subject ID and Respeck ID on the settings page. You can scan the QR code on the back of the respeck to make this easier.
-
-Wake up your respeck by shaking it (the light should blink green, or orange/red if the battery is low).
-Now press the connect button - the respeck should blink blue and acceleration values will appear on the screen.
-
-You can now make recodrings of the acceleration data by selecting an activity and social signal type, and pressing "start recording".
-You will see the number of samples recorded, the capture time, and the CSV filename.
-Stop recording by pressing "Stop recording".
-
-To diconnect from the respeck, please close the app by swiping it away in the Android task screen. If you wish to pair the app with a different respeck, but you are already connected to a sensor, please restart the app first and then re-pair in the settings screen.
-
-Recorded files can be found in the folder displayed on the settings page. You can copy these to a computer for analysis via USB.
-
-## Uninstalling
-
-***IMPORTANT***
-Uninstalling the app from your phone will delete any recorded data, so please ensure you have copied this elsewhere first!
-
+**Uninstalling the app deletes recorded data and history** – copy CSVs off the
+phone first.

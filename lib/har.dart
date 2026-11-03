@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
+import 'services/app_metrics.dart';
+
 // This file runs live human activity recognition (HAR) on the acceleration
 // stream from the respeck.
 //
@@ -146,7 +148,12 @@ class HarClassifier {
     // isolate, which is fine for a model as small as the dummy one, but a much
     // bigger model may need to run in a background isolate to keep the UI
     // smooth.
+    // The time spent in the model call is recorded for the Performance page
+    // (model cost / latency figures for the report).
+    final timer = Stopwatch()..start();
     _interpreter.run(window.batch, output);
+    timer.stop();
+    appMetrics.recordHarInference(timer.elapsed);
     final probs = output[0];
     // Pick the class with the highest probability (argmax)
     int best = 0;
