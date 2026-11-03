@@ -1,0 +1,49 @@
+{
+  "model_file": "her_mlp.tflite",
+  "task": "daily_activity",
+  "sampling_frequency_hz": 12.5,
+  "window_samples": 50,
+  "step_samples": 25,
+  "input": {
+    "shape": [
+      1,
+      50,
+      3
+    ],
+    "channels": [
+      "accelX",
+      "accelY",
+      "accelZ"
+    ],
+    "units": "g (raw accelerometer values)",
+    "dtype": "float32"
+  },
+  "output": {
+    "shape": [
+      1,
+      11
+    ],
+    "classes": [
+      "sittingStanding",
+      "lyingBack",
+      "lyingLeft",
+      "lyingRight",
+      "lyingStomach",
+      "normalWalking",
+      "shuffleWalking",
+      "ascending",
+      "descending",
+      "running",
+      "miscMovement"
+    ],
+    "dtype": "float32"
+  },
+  "normalization": "inside the model \u2013 feed raw values",
+  "trained_on": "datasetJan2026 (pre-train) + all IoT/data real recordings (fine-tune)",
+  "architecture": "her_mlp",
+  "group": "MLP",
+  "owner": "hers",
+  "notes": "Lab3 A4 build_mlp: Normalization -> Flatten -> Dense64 -> Dense32 (dropout .2)",
+  "recipe": "finetune",
+  "exported": "2026-11-03 04:36"
+}

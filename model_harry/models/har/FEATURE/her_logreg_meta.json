@@ -1,0 +1,28 @@
+{
+  "model_file": "her_logreg.pkl",
+  "task": "daily_activity",
+  "window_samples": 50,
+  "step_samples": 25,
+  "classes": [
+    "sittingStanding",
+    "lyingBack",
+    "lyingLeft",
+    "lyingRight",
+    "lyingStomach",
+    "normalWalking",
+    "shuffleWalking",
+    "ascending",
+    "descending",
+    "running",
+    "miscMovement"
+  ],
+  "tflite": false,
+  "features": "mean,std,min,max,energy,range,mean|diff| of x,y,z,|a| (28) -> StandardScaler -> LogReg",
+  "trained_on": "datasetJan2026 (pre-train) + all IoT/data real recordings (fine-tune)",
+  "architecture": "her_logreg",
+  "group": "FEATURE",
+  "owner": "hers",
+  "notes": "B2 best: 28 stats features (mean/std/min/max/energy/range/diff) + StandardScaler + LogReg",
+  "recipe": "finetune",
+  "exported": "2026-11-03 07:14"
+}
