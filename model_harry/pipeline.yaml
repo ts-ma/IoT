@@ -4,7 +4,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 # quick = smoke test (2 folds, Jan subsampled 1/10, 3 epochs, 1 seed): ~10-20 min, checks everything works
-# full  = the real experiment (all folds, all seeds, full epochs): several hours
+# full  = the real experiment (1,089 jobs: all folds, seeds, epochs + final export): ~3-4 h on the i9
 profile: full
 
 paths:

@@ -84,7 +84,7 @@ group by group (MLP → CNN → RNN → FEATURE).
      `run_pipeline.bat --profile quick` from a terminal.
 4. Closing the window stops the run; double-clicking again **resumes**, because finished jobs are skipped.
 
-Full profile: about 650 jobs, **roughly 2–4 h on the i9**. The terminal prints one line per finished job,
+Full profile: 1,089 jobs, **roughly 3–4 h on the i9**. The slowest are my CNN/RNN on Jan2026 social signals (≈ 7–9 min each per worker). The terminal prints one line per finished job,
 and every 5 min a leaderboard of the numbers so far.
 
 ### Where the results are (`runs/<profile>/`)
