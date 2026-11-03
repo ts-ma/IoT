@@ -12,6 +12,8 @@ once on the whole test dataset, and use seeds for the spread.
   D  Jan -> Jan          Lab3 B9 10-fold CV (official Learn folds if a fold CSV is configured) [folds × seeds]
   E  Jan + real -> real  C's model fine-tuned on each real CV training fold, tested on the matching A fold
   DEPLOY                 TFLite size / builtin ops / latency per architecture (no training)
+  EXPORT                 final deployable model per architecture, trained on ALL available data
+                         (default: C's all-Jan model fine-tuned on ALL real data) -> model_harry/models/<task>/
 """
 import re
 
@@ -39,6 +41,10 @@ def _job(**kw):
 def plan(cfg, have_jan):
     p, S = cfg["profile_settings"], cfg["scenarios"]
     seeds = cfg["seeds"]
+    exp = cfg.get("export", {})
+    export_on = bool(exp.get("enabled", True))
+    train_on = exp.get("train_on", "jan+real") if have_jan else "real"
+    need_pre = export_on and train_on in ("jan+real", "jan")
     order = {g: i for i, g in enumerate(GROUPS)}
     jobs = []
     for task in cfg["tasks"]:
@@ -56,27 +62,27 @@ def plan(cfg, have_jan):
                                          train={"set": rset, "segments": tr},
                                          evals={"real_test": {"set": rset, "segments": te}},
                                          monitors=["real_test"], size="small", **base))
-            if not have_jan:
-                continue
-            if "B" in S:
+            if "B" in S and have_jan:
                 for seed in seeds["real"]:
                     jobs.append(_job(scenario="B", fold="all", seed=seed, seed_int=seed * 100, regime="real",
                                      train={"set": rset}, evals={"jan_all": {"set": jset, **sub},
                                                                  "monitor:jan_sample": {"set": jset, "every_nth": 10}},
                                      monitors=["monitor:jan_sample"], size="small", **base))
-            if "D" in S:
+            if "D" in S and have_jan:
                 for seed in seeds["jan_cv"]:
                     for k in jfolds:
                         jobs.append(_job(scenario="D", fold=f"jan_fold={k}", seed=seed, seed_int=seed * 100 + k,
                                          regime="jan", train={"set": jset, "fold_ne": k, **sub},
                                          evals={"jan_test": {"set": jset, "fold_eq": k, **sub}},
                                          monitors=["jan_test"], size="big", **base))
-            if "C" in S or "E" in S:
+            pre_ids = {}
+            if have_jan and ("C" in S or "E" in S or need_pre):
                 for seed in seeds["jan_full"]:
                     pre = _job(scenario="C", fold="all", seed=seed, seed_int=seed * 100 + 99, regime="jan",
                                train={"set": jset, **sub}, evals={"real_all": {"set": rset}}, monitors=["real_all"],
-                               size="big", save_model="E" in S and spec.kind == "keras", **base)
+                               size="big", save_model=("E" in S or need_pre) and spec.kind == "keras", **base)
                     jobs.append(pre)
+                    pre_ids[seed] = pre["id"]
                     if "E" not in S or spec.kind != "keras":            # sklearn models cannot be fine-tuned
                         continue
                     for fi, (fname, tr, te) in enumerate(rfolds):
@@ -84,6 +90,16 @@ def plan(cfg, have_jan):
                                          regime="finetune", train={"set": rset, "segments": tr},
                                          evals={"real_test": {"set": rset, "segments": te}},
                                          monitors=["real_test"], size="small", depends=pre["id"], **base))
+            if export_on:
+                first = seeds["jan_full"][0]
+                regime = {"jan+real": "finetune", "jan": "none", "real": "real"}[train_on]
+                tr = {"set": rset} if train_on != "jan" else {"set": jset, **sub}
+                if spec.kind == "sklearn" and train_on == "jan+real":
+                    tr = {"set": rset, "also": {"set": jset, **sub}}        # sklearn: one fit on Jan + real
+                jobs.append(_job(scenario="EXPORT", fold="all", seed=first, seed_int=first * 100 + 77, regime=regime,
+                                 train=tr, evals={}, monitors=[], size="small", train_on=train_on,
+                                 depends=pre_ids.get(first) if spec.kind == "keras" and train_on != "real" else None,
+                                 **base))
         if "DEPLOY" in S:
             for m in cfg["model_list"]:
                 spec = ZOO[m]
@@ -91,5 +107,5 @@ def plan(cfg, have_jan):
                                  group_order=order[spec.group], fold="-", seed=0, seed_int=0, regime="deploy",
                                  train={"set": rset}, evals={}, monitors=[], size="small"))
     # group-major order (MLP, CNN, RNN, FEATURE); inside a group big jobs first for load balancing
-    jobs.sort(key=lambda j: (j["group_order"], j["scenario"] == "E", j["size"] != "big", j["task"], j["model"]))
+    jobs.sort(key=lambda j: (j["group_order"], j["scenario"] in ("E", "EXPORT"), j["size"] != "big", j["task"], j["model"]))
     return jobs

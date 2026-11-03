@@ -44,12 +44,17 @@ def _jobs(out_dir):
 
 
 def from_jobs(out_dir):
-    runs, pcls, eps, conf, dep, status = [], [], [], [], [], []
+    runs, pcls, eps, conf, dep, status, exports = [], [], [], [], [], [], []
     for j in _jobs(out_dir):
         key = dict(task=j["task"], scenario=j["scenario"], model=j["model"], group=j["group"], owner=j["owner"],
                    fold=str(j["fold"]), seed=j["seed"])
         status.append(key | {"id": j["id"], "status": j.get("status"), "seconds": j.get("seconds")})
         if j.get("status") != "ok":
+            continue
+        if j["scenario"] == "EXPORT":
+            dep_ex = j.get("export", {})
+            exports.append(key | {"params": j.get("params"), "window": j.get("window"), "train_on": j.get("train_on"),
+                                  "n_train_windows": j.get("n_train_windows"), **dep_ex})
             continue
         if j["scenario"] == "DEPLOY":
             dep.append(key | {"params": j.get("params"), "window": j.get("window"), **j.get("deploy", {})})
@@ -79,7 +84,8 @@ def from_jobs(out_dir):
                                   "heldout_loss": row.get(f"{mon}/loss"), "heldout_acc": row.get(f"{mon}/acc"),
                                   "heldout_score": row.get(f"{mon}/score"), "epoch_seconds": row.get("seconds")})
     T = {"runs": pd.DataFrame(runs), "per_class": pd.DataFrame(pcls), "epochs": pd.DataFrame(eps),
-         "confusion": pd.DataFrame(conf), "deploy": pd.DataFrame(dep), "status": pd.DataFrame(status)}
+         "confusion": pd.DataFrame(conf), "deploy": pd.DataFrame(dep), "status": pd.DataFrame(status),
+         "exports": pd.DataFrame(exports)}
     plan = Path(out_dir) / "plan.json"
     if plan.exists() and not T["status"].empty:
         planned = pd.DataFrame(json.loads(plan.read_text(encoding="utf-8")))

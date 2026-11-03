@@ -43,6 +43,16 @@ compute:
   allow_steal: true                  # an idle pool may take the other pool's jobs
   max_tasks_per_child: 20            # recycle worker processes to keep memory flat
 
+# Final deployable models: after the experiments, every architecture (hers and mine) is trained once more on
+# ALL available data and written to model_harry/models/<task>/ (.tflite + _meta.json + _example.json + .keras),
+# plus models/README.md (model card with all scores), manifest.json and models/recommended/<task>/.
+# Only the FULL profile writes to model_harry/models; quick runs export into runs/quick/exported_models.
+export:
+  enabled: true
+  dir: models
+  train_on: jan+real                 # jan+real (pre-train Jan2026, fine-tune all real) | real | jan
+  recommend_by: [D, E]               # scenarios averaged to pick the recommended model per task
+
 report_every_minutes: 5              # report.html is rebuilt this often while running (and at the end)
 retry_failed: true                   # on re-run, failed jobs are retried; finished jobs are always skipped
 

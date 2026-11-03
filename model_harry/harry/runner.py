@@ -39,6 +39,8 @@ ROT = (15, 30)
 
 
 def recipe_for(spec, regime, settings):
+    if regime == "none":                                   # EXPORT of the Jan-only model: no further training
+        return dict(step=25, epochs=0)
     r = dict(RECIPES[(spec.recipe, regime)])
     if "epochs" in r and settings.get("epoch_scale") not in (None, 1):
         r["epochs"] = max(2, int(round(r["epochs"] * settings["epoch_scale"])))
@@ -108,6 +110,7 @@ def execute(job, settings):
             res = {"status": "failed", "error": traceback.format_exc()}
             print(res["error"])
     res.update({k: job[k] for k in ("id", "scenario", "task", "model", "group", "owner", "fold", "seed", "regime")})
+    res["train_on"] = job.get("train_on")
     res["seconds"] = round(time.time() - t0, 1)
     res_path.write_text(json.dumps(res), encoding="utf-8")
     return {k: res.get(k) for k in ("id", "status", "seconds", "scenario", "task", "model", "fold")} | {
@@ -127,6 +130,9 @@ def _execute(job, settings, log):
     rec = recipe_for(spec, job["regime"], settings)
     keras.utils.set_random_seed(int(job["seed_int"]))
     Xtr, ytr, _ = ds.windows(job["train"], W, rec["step"])
+    if "also" in job["train"]:                             # sklearn EXPORT: one fit on real + Jan
+        Xa, ya, _ = ds.windows(job["train"]["also"], W, rec["step"])
+        Xtr, ytr = np.concatenate([Xtr, Xa]), np.concatenate([ytr, ya])
     sets = {}
     for lab, sel in job["evals"].items():
         step = EVAL_STEP["jan" if sel["set"].startswith("jan") else "real"]
@@ -150,7 +156,7 @@ def _execute(job, settings, log):
         else:
             core = build(job["model"], task, n, Xtr)
         params = int(core.count_params())
-        history = _fit(core, Xtr, ytr, n, rec, sets, job["monitors"], task, settings, log)
+        history = _fit(core, Xtr, ytr, n, rec, sets, job["monitors"], task, settings, log) if rec.get("epochs") else []
         model = core
         if job.get("save_model"):
             mdir = Path(settings["out_dir"]) / "models"; mdir.mkdir(parents=True, exist_ok=True)
@@ -164,10 +170,13 @@ def _execute(job, settings, log):
         evals[lab] = _metrics(task, y, P, rid, n)
         evals[lab]["rotation_score"] = {str(d): _score_only(task, y, model.predict(_rot_y(X, d), batch_size=4096, verbose=0), n)
                                         for d in ROT}
+    out = {"history": history, "evals": evals, "params": params, "window": W, "recipe": rec,
+           "n_train_windows": int(len(ytr))}
+    if job["scenario"] == "EXPORT":
+        out["export"] = _export_final(job, spec, task, classes, n, W, model, Xtr, settings)
     if spec.kind != "sklearn":
         keras.backend.clear_session()
-    return {"history": history, "evals": evals, "params": params, "window": W, "recipe": rec,
-            "n_train_windows": int(len(ytr))}
+    return out
 
 
 def _fit(core, X, y, n, rec, sets, monitors, task, settings, log):
@@ -246,3 +255,35 @@ def _deploy(job, spec, task, n, W, settings):
     return {"evals": {}, "history": [], "params": int(model.count_params()), "window": W,
             "deploy": {"tflite": True, "builtin_ops_only": True, "size_kb": round(len(blob) / 1024, 1),
                        "ms_per_window": round(ms, 4), "max_abs_dprob_vs_keras": float(np.abs(pk - pt).max())}}
+
+
+def _export_final(job, spec, task, classes, n, W, model, Xtr, settings):
+    """Write the final deployable model to <export_dir>/<task>/: .tflite + _meta.json + _example.json (+ .keras)."""
+    from .export import export
+    out = Path(settings["export_dir"]) / task / spec.group              # e.g. models/har/CNN/harry_cnn.tflite
+    out.mkdir(parents=True, exist_ok=True)
+    Xc, yc, _ = ds.windows({"set": f"real_{task}"}, W, 25)           # example/parity windows = real recordings
+    trained_on = {"jan+real": "datasetJan2026 (pre-train) + all IoT/data real recordings (fine-tune)",
+                  "real": "all IoT/data real recordings", "jan": "all datasetJan2026"}[job["train_on"]]
+    meta = {"trained_on": trained_on, "architecture": spec.model_id, "group": spec.group, "owner": spec.owner,
+            "notes": spec.notes, "recipe": job["regime"], "exported": time.strftime("%Y-%m-%d %H:%M")}
+    if spec.kind == "sklearn":
+        (out / f"{spec.model_id}.pkl").write_bytes(pickle.dumps(model.m))
+        P = model.predict(Xc[:1])
+        (out / f"{spec.model_id}_meta.json").write_text(json.dumps(
+            {"model_file": f"{spec.model_id}.pkl", "task": "daily_activity" if task == "har" else "social_signal",
+             "window_samples": W, "step_samples": 25, "classes": list(classes), "tflite": False,
+             "features": "mean,std,min,max,energy,range,mean|diff| of x,y,z,|a| (28) -> StandardScaler -> LogReg",
+             **meta}, indent=2), encoding="utf-8")
+        return {"file": f"{spec.model_id}.pkl", "tflite": False, "size_kb": round((out / f"{spec.model_id}.pkl").stat().st_size / 1024, 1),
+                "example_class": classes[int(P[0].argmax())]}
+    from .zoo import build
+    final = model
+    if spec.group == "RNN":                                          # unrolled copy -> builtin TFLite ops only
+        final = build(spec.model_id, task, n, Xtr[:512], for_export=True)
+        final.set_weights(model.get_weights())
+    model.save(out / f"{spec.model_id}.keras")
+    info = export(final, spec.model_id, out, W, 25, classes, "daily_activity" if task == "har" else "social_signal",
+                  Xc, yc, extra_meta=meta)
+    acc = float((final.predict(Xc, batch_size=4096, verbose=0).argmax(1) == yc).mean())
+    return info | {"tflite": True, "fit_acc_on_real_training_data": acc}

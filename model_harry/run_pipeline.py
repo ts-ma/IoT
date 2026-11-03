@@ -128,7 +128,7 @@ def run(cfg, fresh=False):
     import shutil
     from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 
-    from harry import datasets as ds, report, tables
+    from harry import datasets as ds, report, tables, model_card
     from harry.jobs import plan
     from harry.runner import execute
     from harry.worker_init import init_worker
@@ -169,7 +169,14 @@ def run(cfg, fresh=False):
     (out_dir / "plan.json").write_text(json.dumps([{k: j[k] for k in ("id", "scenario", "task", "model", "group", "size")}
                                                    for j in jobs], indent=0))
 
-    settings = {"out_dir": str(out_dir), "max_epochs": cfg["profile_settings"].get("max_epochs")}
+    exp = cfg.get("export", {})
+    # only the full profile may overwrite model_harry/models; smoke tests export inside their own run folder
+    export_dir = ((HERE / exp.get("dir", "models")).resolve() if cfg["profile"] == "full"
+                  else out_dir / "exported_models")
+    settings = {"out_dir": str(out_dir), "max_epochs": cfg["profile_settings"].get("max_epochs"),
+                "export_dir": str(export_dir)}
+    if exp.get("enabled", True):
+        print(f"export    : final models -> {export_dir}\n")
     ctx = mp.get_context("spawn")
     mtpc = {"max_tasks_per_child": cfg["compute"]["max_tasks_per_child"]} if sys.version_info >= (3, 11) else {}
     pools = {"cpu": ProcessPoolExecutor(hw["cpu_workers"], mp_context=ctx, initializer=init_worker,
@@ -239,6 +246,11 @@ def run(cfg, fresh=False):
             p.shutdown(wait=True, cancel_futures=True)
     path = report.build(out_dir, cfg_text)
     print(tables.console_summary(tables.from_jobs(out_dir)))
+    card = model_card.write(out_dir, export_dir, tuple(exp.get("recommend_by", ["D", "E"])))
+    if card:
+        print(f"\nFinal models written to {export_dir} — see {card}")
+        txt = card.read_text(encoding="utf-8").split("## Using a model")[0]
+        print("\n".join(l for l in txt.splitlines() if l.startswith(("## ", "| ★", "|   |", "| |")) or l.startswith("| ★")))
     print(f"\nDone in {fmt_t(time.time() - t0)}.\n  report   : {path}\n  tables   : {out_dir / 'tables'}"
           f"\n  figures  : {out_dir / 'figures'}\n  notebook : {HERE / 'results_viewer.ipynb'} (set RUN = '{out_dir.name}')")
     return path

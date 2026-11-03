@@ -95,6 +95,32 @@ and every 5 min a leaderboard of the numbers so far.
 | Figures | `figures/<task>/...png` (every chart from the report, browsable in Explorer) |
 | Numbers | `tables/runs.csv`, `per_class.csv`, `epochs.csv`, `confusion.csv`, `deploy.csv`, `status.csv`, `leaderboard_<task>.csv`, `best_<task>.csv` (open in Excel) |
 | Per-run training log | `jobs/<id>.log`: one line per epoch (train loss/acc, held-out loss/acc/score) |
+| **Final models** | **`model_harry/models/`** (full profile only), described below |
+
+### Final models in `model_harry/models/` (updated automatically by every full run)
+After the experiments, every architecture (hers and mine, all groups) is trained once more on **all
+available data**:
+- **Keras models:** pre-train on all of Jan2026, then fine-tune on all of your real recordings.
+- **Sklearn model (`her_logreg`):** one fit on both datasets.
+
+| path | content |
+|---|---|
+| `models/<task>/<GROUP>/<model>.tflite` + `_meta.json` + `_example.json` | Lab 4 format, ready for the app (RNNs exported unrolled, builtin ops only; Keras/TFLite parity is checked) |
+| `models/<task>/<GROUP>/<model>.keras` | the same model in Keras, for further training |
+| `models/README.md` | **model card**: every model's size, params, window and score in scenarios A–E, plus the recommended one ★ |
+| `models/recommended/<task>/` | copy of the best TFLite model per task (by mean of D + E, set in `pipeline.yaml → export`) |
+| `models/manifest.json` | the same as the card, machine-readable |
+| `models/2026-11-02_real-data-only/` | the earlier models (trained on the real data only), kept for reference |
+
+Layout (11 architectures × 2 tasks; GROUP = MLP | CNN | RNN | FEATURE):
+```
+models/
+  har/    MLP/ her_mlp.*  harry_mlp.*      CNN/ her_cnn.*  her_cnn_bn.*  her_cnn_k3.*  her_cnn_3conv.*  harry_cnn.*
+          RNN/ her_lstm.* harry_rnn.*      FEATURE/ her_logreg.pkl  harry_feat.*
+  social/ (same)
+  recommended/har/   recommended/social/   README.md   manifest.json   2026-11-02_real-data-only/
+```
+Quick runs never touch `model_harry/models`; they export to `runs/quick/exported_models/`.
 
 The `jobs/*.json` files are only the pipeline's raw store for resuming; you never need to open them. To
 open the notebook, double-click nothing: run `.venv-win\Scripts\jupyter lab` in `model_harry/`, or open

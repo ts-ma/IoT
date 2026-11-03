@@ -210,6 +210,15 @@ Legend: `[x]` done · `[ ]` open · `[~]` partially / deferred (reason given)
       quick run).
 - [x] G9.4 CPU-only default (`compute.device: cpu`).
 
+### G10 — Final models auto-exported to `model_harry/models` (requested 2026-11-03)
+- [x] G10.1 EXPORT stage: every architecture trained on ALL data (Jan pre-train + real fine-tune) and exported
+      as .tflite/_meta/_example/.keras; RNNs unrolled; parity verified (quick run: 20/20 TFLite at 100 %
+      argmax agreement).
+- [x] G10.2 Model card (`models/README.md`), `manifest.json`, `recommended/<task>/` (best TFLite by mean of
+      D + E).
+- [x] G10.3 Only the full profile writes to `model_harry/models`; the 2 Nov models are archived in
+      `models/2026-11-02_real-data-only/`.
+
 ---
 
 ## 3. Progress log
@@ -241,3 +250,4 @@ Legend: `[x]` done · `[ ]` open · `[~]` partially / deferred (reason given)
   New models `harry_mlp` and `harry_rnn`; augmentation moved into the graph. Quick profile passes (198 jobs, 0 failures).
 - 2026-11-03 — G9: scenario redesign (B, C whole-dataset), fold CSV support, tables/figures/notebook; quick run 194/194 OK.
 - 2026-11-03 — Learn fold CSV is not distributed to students (it only describes how marking is done); Harry will ask the organiser. D keeps Lab3 make_folds(seed 0) until then. `run_pipeline.bat` explicitly defaults to the full profile.
+- 2026-11-03 — G10 export stage added; quick run exports 22 models (20 TFLite + 2 sklearn), all parity checks pass.
