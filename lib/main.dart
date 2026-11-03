@@ -164,8 +164,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
     // Created after main's example comparison. Opens SQLite lazily on the first
     // live result, using a connection independent of the History screen.
-    _historyWriter =
-        (widget.createHistoryWriter?.call() ?? PredictionHistoryWriter())
+    _historyWriter = (widget.createHistoryWriter?.call() ??
+        PredictionHistoryWriter())
       ..addListener(_reportHistoryError);
     _socialProcessor = SocialSampleProcessor(
       classifier: () => widget.socialSession?.classifier,
