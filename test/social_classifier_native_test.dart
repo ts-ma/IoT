@@ -13,7 +13,7 @@ void main() {
     final classifier = await SocialClassifier.load();
     addTearDown(classifier.dispose);
     final example = jsonDecode(await rootBundle.loadString(
-        'assets/models/social_cnn_example.json')) as Map<String, dynamic>;
+        'assets/models/harry_social_rnn_example.json')) as Map<String, dynamic>;
     SocialPrediction? prediction;
     for (final row in example['input_window'] as List<dynamic>) {
       prediction = classifier.addSample((row[0] as num).toDouble(),
@@ -28,8 +28,9 @@ void main() {
       expect(prediction.probabilities[i], closeTo(expected[i] as num, 1e-4));
     }
     expect(prediction.label, example['expected_class']);
-    expect(prediction.confidence, closeTo(expected[0] as num, 1e-4));
-    expect(example['true_class'], 'other'); // Not the expected prediction.
+    expect(prediction.confidence,
+        closeTo(expected[socialLabels.indexOf(prediction.label)] as num, 1e-4));
+    expect(example['true_class'], 'coughing');
   }, skip: _missingNativeLibrary());
 }
 

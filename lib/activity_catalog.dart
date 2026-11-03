@@ -55,7 +55,7 @@ class LabelInfo {
 double harPredictionSeconds = 25 / 12.5;
 const double socialPredictionSeconds = 25 / 12.5;
 
-/// HAR classes in model output order (har_cnn_meta.json).
+/// HAR classes in model output order (harry_har_cnn_meta.json).
 const List<String> harClassOrder = [
   'sittingStanding',
   'lyingBack',
@@ -70,7 +70,7 @@ const List<String> harClassOrder = [
   'miscMovement',
 ];
 
-/// Social classes in model output order (social_cnn_meta.json).
+/// Social classes in model output order (harry_social_rnn_meta.json).
 const List<String> socialClassOrder = [
   'breathingNormally',
   'coughing',

@@ -111,16 +111,18 @@ class PredictionRepository {
 
   /// Number of records per label in [start, end) for one task. Used for the
   /// daily summary: each HAR record represents one prediction interval.
+  /// Pass [source] to count only live (or only replayed) results.
   Future<Map<String, int>> countByLabel({
     required DateTime start,
     required DateTime end,
     required PredictionTaskType taskType,
+    PredictionSource? source,
   }) async {
     _validateRange(start, end);
     final rows = await _database.rawQuery(
       'SELECT label, COUNT(*) AS n FROM $_table '
-      'WHERE ${_rangeWhere(taskType)} GROUP BY label',
-      _rangeArgs(start, end, taskType),
+      'WHERE ${_rangeWhere(taskType, source)} GROUP BY label',
+      _rangeArgs(start, end, taskType, source),
     );
     return {
       for (final row in rows) row['label'] as String: (row['n'] as num).toInt(),
@@ -136,13 +138,14 @@ class PredictionRepository {
     required PredictionTaskType taskType,
     required String label,
     Duration maxGap = const Duration(seconds: 6),
+    PredictionSource? source,
   }) async {
     _validateRange(start, end);
     final rows = await _database.query(
       _table,
       columns: ['label', 'timestamp'],
-      where: _rangeWhere(taskType),
-      whereArgs: _rangeArgs(start, end, taskType),
+      where: _rangeWhere(taskType, source),
+      whereArgs: _rangeArgs(start, end, taskType, source),
       orderBy: 'timestamp ASC, id ASC',
     );
     return countLabelEpisodes(
@@ -184,19 +187,23 @@ class PredictionRepository {
     }
   }
 
-  static String _rangeWhere(PredictionTaskType? taskType) =>
+  static String _rangeWhere(PredictionTaskType? taskType,
+          [PredictionSource? source]) =>
       'timestamp >= ? AND timestamp < ?'
-      '${taskType == null ? '' : ' AND task_type = ?'}';
+      '${taskType == null ? '' : ' AND task_type = ?'}'
+      '${source == null ? '' : ' AND source = ?'}';
 
   static List<Object> _rangeArgs(
     DateTime start,
     DateTime end,
-    PredictionTaskType? taskType,
-  ) =>
+    PredictionTaskType? taskType, [
+    PredictionSource? source,
+  ]) =>
       [
         start.toUtc().microsecondsSinceEpoch,
         end.toUtc().microsecondsSinceEpoch,
         if (taskType != null) taskType.name,
+        if (source != null) source.name,
       ];
 }
 

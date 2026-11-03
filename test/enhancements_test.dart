@@ -372,6 +372,7 @@ class _SummaryRepository implements PredictionRepository {
     required DateTime start,
     required DateTime end,
     required PredictionTaskType taskType,
+    PredictionSource? source,
   }) async =>
       taskType == PredictionTaskType.har ? har : social;
 
@@ -382,6 +383,7 @@ class _SummaryRepository implements PredictionRepository {
     required PredictionTaskType taskType,
     required String label,
     Duration maxGap = const Duration(seconds: 6),
+    PredictionSource? source,
   }) async =>
       coughs;
 

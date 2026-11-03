@@ -122,7 +122,8 @@ class _PerformancePageState extends State<PerformancePage> {
             _section(context, 'How to read these numbers', Icons.info_outline, [
               Text(
                 'End-to-end latency ≈ time for the window to fill with the new '
-                'activity (up to 4 s) + result interval (2 s) + inference time. '
+                'activity (up to 4 s for HAR, 8 s for Social) + result interval '
+                '(2 s) + inference time. '
                 'Inference runs on the phone, so no network delay is added. '
                 'Use the Real-time test page to measure the observed latency, '
                 'and Android Studio Profiler (CPU, Memory, Energy) or Xcode '

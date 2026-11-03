@@ -7,9 +7,11 @@ import 'package:intl/intl.dart';
 import 'activity_catalog.dart';
 import 'ble.dart' show respeckStreaming;
 import 'globals.dart';
+import 'har.dart' show harClassifier;
 import 'services/evaluation.dart';
 import 'services/live_feed.dart';
 import 'services/social_sample_processor.dart';
+import 'social.dart' show socialWindowSeconds;
 import 'utils.dart';
 
 const _notAssessed = '__none__';
@@ -58,7 +60,11 @@ class _EvaluationPageState extends State<EvaluationPage> {
   String? _lastSocial;
   int _elapsed = 0;
 
-  int get _settleSeconds => _skipWarmup ? 4 : 0;
+  // Skip each model's own window length: until then its window still holds
+  // data from before the trial (HAR 4 s, Social 8 s).
+  int get _settleSeconds =>
+      _skipWarmup ? ((harClassifier?.window.length ?? 50) / 12.5).ceil() : 0;
+  int get _socialSettleSeconds => _skipWarmup ? socialWindowSeconds.ceil() : 0;
   bool get _running => _startedAt != null;
 
   @override
@@ -136,7 +142,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
 
   void _onHar(LiveHarEvent e) {
     final start = _startedAt;
-    if (start == null || !mounted) return;
+    // Real-time accuracy is about live data only: ignore replayed recordings.
+    if (start == null || !mounted || replayActive) return;
     final offset = e.at.difference(start);
     if (offset.isNegative) return;
     final label = e.prediction.label;
@@ -149,14 +156,16 @@ class _EvaluationPageState extends State<EvaluationPage> {
 
   void _onSocial(SocialPredictionEvent e) {
     final start = _startedAt;
-    if (start == null || !mounted || _social == _notAssessed) return;
+    if (start == null || !mounted || _social == _notAssessed || replayActive) {
+      return;
+    }
     final offset = e.completedAt.difference(start);
     if (offset.isNegative) return;
     final label = e.prediction.label;
     setState(() {
       _lastSocial = label;
       if (label == _social) _socialLatency ??= offset;
-      if (offset.inMilliseconds >= _settleSeconds * 1000) {
+      if (offset.inMilliseconds >= _socialSettleSeconds * 1000) {
         _socialScored.add(label);
       }
     });
@@ -180,6 +189,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
       startedAt: start,
       durationSeconds: _elapsed,
       settleSeconds: _settleSeconds,
+      socialSettleSeconds: _socialSettleSeconds,
       harPredictions: List.of(_harScored),
       socialPredictions: List.of(_socialScored),
       harLatency: _harLatency,
@@ -373,9 +383,9 @@ class _EvaluationPageState extends State<EvaluationPage> {
             contentPadding: EdgeInsets.zero,
             value: _skipWarmup,
             onChanged: (v) => setState(() => _skipWarmup = v),
-            title: const Text('Ignore the first 4 s'),
+            title: const Text('Ignore warm-up (HAR 4 s, Social 8 s)'),
             subtitle: const Text(
-                'Results whose 4 s window started before the trial are not '
+                'Results whose window started before the trial are not '
                 'scored. Latency is still measured from the start.'),
           ),
           const SizedBox(height: 8),

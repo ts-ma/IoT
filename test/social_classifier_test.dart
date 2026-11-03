@@ -16,7 +16,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Map<String, dynamic> metadata() => jsonDecode(
-        File('assets/models/social_cnn_meta.json').readAsStringSync(),
+        File('assets/models/harry_social_rnn_meta.json').readAsStringSync(),
       ) as Map<String, dynamic>;
 
   Future<SocialClassifier> load(_FakeRunner runner) =>
@@ -40,20 +40,20 @@ void main() {
     expect(runner.calls, 0);
   });
 
-  test('first inference at 50, none at 49 or 74, second at 75', () async {
+  test('first inference at 100, none at 99 or 124, second at 125', () async {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    expect(feed(classifier, 0, 49), isNull);
+    expect(feed(classifier, 0, 99), isNull);
     expect(runner.calls, 0);
-    final first = feed(classifier, 49, 50)!;
+    final first = feed(classifier, 99, 100)!;
     expect(first.label, 'coughing');
     expect(first.confidence, 0.6);
     expect(first.probabilities, [0.1, 0.6, 0.2, 0.1]);
     expect(runner.calls, 1);
-    expect(feed(classifier, 50, 74), isNull);
+    expect(feed(classifier, 100, 124), isNull);
     expect(runner.calls, 1);
-    final second = feed(classifier, 74, 75)!;
+    final second = feed(classifier, 124, 125)!;
     expect(runner.calls, 2);
     expect(identical(first, second), isFalse);
     expect(first.probabilities.every((p) => p.isFinite && p >= 0 && p <= 1),
@@ -61,10 +61,10 @@ void main() {
     expect(() => first.probabilities[0] = 0, throwsUnsupportedError);
     // Exactly raw axes in g: no scaling, normalization or axis permutation.
     expect(runner.windows[0].single, [
-      for (var i = 0; i < 50; i++) [i.toDouble(), -i.toDouble(), 0.5]
+      for (var i = 0; i < 100; i++) [i.toDouble(), -i.toDouble(), 0.5]
     ]);
     expect(runner.windows[1].single, [
-      for (var i = 25; i < 75; i++) [i.toDouble(), -i.toDouble(), 0.5]
+      for (var i = 25; i < 125; i++) [i.toDouble(), -i.toDouble(), 0.5]
     ]);
   });
 
@@ -78,12 +78,12 @@ void main() {
     addTearDown(second.dispose);
     final harWindow = SampleWindow(50, 25);
     harWindow.add(9, 8, 7);
-    feed(first, 0, 50);
-    feed(second, 0, 49);
+    feed(first, 0, 100);
+    feed(second, 0, 99);
     first.reset();
     expect(firstRunner.calls, 1);
     expect(secondRunner.calls, 0);
-    expect(second.addSample(49, -49, 0.5), isNotNull);
+    expect(second.addSample(99, -99, 0.5), isNotNull);
     expect(harWindow.batch.single, [
       [9.0, 8.0, 7.0]
     ]);
@@ -94,20 +94,20 @@ void main() {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 49);
+    feed(classifier, 0, 99);
     classifier.reset();
-    expect(feed(classifier, 100, 149), isNull);
+    expect(feed(classifier, 100, 199), isNull);
     expect(runner.calls, 0);
-    expect(feed(classifier, 149, 150), isNotNull);
+    expect(feed(classifier, 199, 200), isNotNull);
     expect(runner.windows.single.single.first, [100.0, -100.0, 0.5]);
     classifier.reset();
-    expect(feed(classifier, 200, 249), isNull);
+    expect(feed(classifier, 200, 299), isNull);
     expect(runner.calls, 1);
-    expect(feed(classifier, 249, 250), isNotNull);
+    expect(feed(classifier, 299, 300), isNotNull);
   });
 
   final invalidMetadata = <String, void Function(Map<String, dynamic>)>{
-    'model file': (m) => m['model_file'] = 'har_cnn.tflite',
+    'model file': (m) => m['model_file'] = 'harry_har_cnn.tflite',
     'task': (m) => m['task'] = 'daily_activity',
     'rate': (m) => m['sampling_frequency_hz'] = 25,
     'window': (m) => m['window_samples'] = 49,
@@ -185,12 +185,12 @@ void main() {
       final runner = _FakeRunner()..probabilities = probabilities;
       final classifier = await load(runner);
       addTearDown(classifier.dispose);
-      feed(classifier, 0, 49);
-      expect(() => classifier.addSample(49, -49, 0.5), throwsStateError);
+      feed(classifier, 0, 99);
+      expect(() => classifier.addSample(99, -99, 0.5), throwsStateError);
       runner.probabilities = [0.1, 0.6, 0.2, 0.1];
-      expect(feed(classifier, 100, 149), isNull);
+      expect(feed(classifier, 100, 199), isNull);
       expect(runner.calls, 1);
-      expect(feed(classifier, 149, 150), isNotNull);
+      expect(feed(classifier, 199, 200), isNotNull);
     });
   }
 
@@ -199,9 +199,9 @@ void main() {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 49);
+    feed(classifier, 0, 99);
     expect(() => classifier.addSample(0, double.nan, 0), throwsArgumentError);
-    expect(feed(classifier, 100, 149), isNull);
+    expect(feed(classifier, 100, 199), isNull);
     expect(runner.calls, 0);
   });
 
@@ -210,11 +210,11 @@ void main() {
     final runner = _FakeRunner()..error = StateError('inference failed');
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 49);
-    expect(() => classifier.addSample(49, -49, 0.5), throwsStateError);
+    feed(classifier, 0, 99);
+    expect(() => classifier.addSample(99, -99, 0.5), throwsStateError);
     runner.error = null;
-    expect(feed(classifier, 100, 149), isNull);
-    expect(feed(classifier, 149, 150), isNotNull);
+    expect(feed(classifier, 100, 199), isNull);
+    expect(feed(classifier, 199, 200), isNotNull);
   });
 
   test('dispose closes once and rejects further use', () async {
@@ -300,7 +300,7 @@ void main() {
 
 class _FakeRunner implements SocialModelRunner {
   @override
-  List<int> inputShape = [1, 50, 3];
+  List<int> inputShape = [1, 100, 3];
   @override
   TensorType inputType = TensorType.float32;
   @override

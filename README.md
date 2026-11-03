@@ -10,6 +10,7 @@ Lite, saves every result, and shows live, daily and weekly views of them.
 | Screen | What it does |
 |---|---|
 | **Home (live dashboard)** | Sensor card (connection state, RESpeck battery, live acceleration, Connect / Disconnect). *Detected activity* card with icon, readable name, confidence bar, update time and optional smoothing. *Social signal* card with the predicted class, confidence and the full probability distribution, plus a warning when the wearer is moving. *This session* totals (time monitored, cough bouts, time per activity). The original CSV *Data collection* controls stay at the bottom. |
+| **Recorded data (demo)** | Replays a recorded CSV through the same models as live data, at the RESpeck's 12.5 Hz (or 2×/4×), for activities that are hard to show live (stairs, running). Choose the *Demo tour* (10 scenes back to back: standing → walking → stairs up/down → running → shuffle → lying → coughing → hyperventilating → talking), one of the 44 bundled recordings (`assets/demo/`), or any CSV in the storage folder (e.g. new *Data collection* recordings). Shows the true labels with ✓/✗ against the predictions. Replayed results are saved as *Replay* in History and are **not** counted in the daily summary or the real-time test. |
 | **Daily summary** | For any day: time spent in each activity, static vs. active time, number of separate coughing bouts and time per social signal, a share-of-day bar and a 7-day trend chart (tap a bar to open that day). Export the day as CSV or delete it. |
 | **History** | Every saved result, newest first, filterable by HAR / Social, paginated. |
 | **Real-time test** | Guided real-time accuracy test for the report: choose participant, true activity and true social signal, run a 15/30/60 s trial; every live result is scored (first 4 s optional warm-up skip), latency to the first correct result is measured, and a per-class / per-group accuracy table builds up across trials and group members. Exports `PDIoT_realtime_trials_*.csv` and `PDIoT_realtime_summary_*.csv`. |
@@ -24,16 +25,18 @@ Light and dark themes follow the phone setting.
 RESpeck ──BLE 12.5 Hz──► ble.dart (decode x,y,z in g)
                             │ every sample
                             ├──► HarClassifier (har.dart)      50-sample window, step 25 ─► HAR result every 2 s
-                            ├──► SocialSampleProcessor ─► SocialClassifier (social.dart)   ─► Social result every 2 s
+                            ├──► SocialSampleProcessor ─► SocialClassifier (social.dart)  100-sample window, step 25 ─► Social result every 2 s
                             └──► CSV recording (only while recording)
 results ─► PredictionHistoryWriter ─► SQLite (prediction_history.db) ─► History / Daily summary
         ─► LivePredictionFeed (session totals, Real-time test)
         ─► Home page cards
 ```
 
-* Both models take a `[1, 50, 3]` window of raw acceleration in g (normalisation
-  is inside the model) and output softmax probabilities. Inference runs
-  on-device, so there is no network latency and no data leaves the phone.
+* Both models take a `[1, window, 3]` window of raw acceleration in g
+  (normalisation is inside the model) and output softmax probabilities: HAR
+  uses 50 samples (4 s), Social 100 samples (8 s, enough to contain whole
+  breaths); both update every 25 samples (2 s). Inference runs on-device, so
+  there is no network latency and no data leaves the phone.
 * Each result represents one step (25 samples = 2 s), so time per activity =
   number of results × 2 s. The step is read from the HAR model's metadata at
   start-up, so a model with a different step still reports correct durations.
@@ -42,6 +45,38 @@ results ─► PredictionHistoryWriter ─► SQLite (prediction_history.db) ─
 * Smoothing (on by default) only changes what the home screen shows: the most
   common of the last 3 HAR results. History, summaries and the real-time test
   always use raw results.
+
+## Live recognition models
+
+| Task | Bundled asset (`assets/models/`) | Architecture | Window / step | Classes |
+|---|---|---|---|---|
+| HAR | `harry_har_cnn.tflite` | multi-branch CNN (gravity + dilated CNN + spectral) | 50 / 25 samples (4 s / 2 s) | 11 |
+| Social | `harry_social_rnn.tflite` | gravity-split front end + conv stem + GRU + spectral | 100 / 25 samples (8 s / 2 s) | 4 |
+
+Both were pre-trained on datasetJan2026 and fine-tuned on our real RESpeck
+recordings (`model_harry/run_pipeline.py`, scores in `model_harry/models/README.md`).
+The matching `*_meta.json` (window, step, class order) and `*_example.json`
+(parity-check window) sit next to each `.tflite`; the `.keras` training copies
+live in `model/` and are not bundled.
+
+## Demo: live + recorded data (CW3 presentation)
+
+CW3 asks for a demonstration with "a combination of live and recorded data
+(the latter for activities that would be difficult to demonstrate live, such as
+ascending or descending stairs)". A suggested flow:
+
+1. **Live:** connect the RESpeck, then sit, lie down on each side, and walk a few
+   steps. Show the activity card change within about 4 s, then cough and show the
+   Social card (its first result arrives after about 8 s).
+2. **Recorded:** press *Disconnect*. Then in *Recorded data (demo)*, play the *Demo
+   tour* at 2× or 4×, so stairs, running and shuffle walking each take 8–15 s. Point
+   out the ✓/✗ against the true labels.
+3. **History:** open *History* to show the saved Live and Replay results, then the
+   *Daily summary* for the live part.
+
+For an honest test of unseen data, record new files with *Data collection*
+before the demo. The bundled recordings were also used to fine-tune the models.
+Copy any CSV into the storage folder and press the refresh button on the card.
 
 ## Code layout
 
@@ -100,7 +135,8 @@ Android 10+ (or iOS 16+) is needed for Bluetooth. A smaller release APK:
 1. *Settings* → scan the QR code on the RESpeck (or type its ID) and enter the
    subject ID → *Save settings*.
 2. Wake the RESpeck by shaking it, press *Connect*. Acceleration appears, the
-   first activity / social result about 4 s later, then every 2 s.
+   first activity result about 4 s later and the first social result about 8 s
+   later, then both every 2 s.
 3. To record raw data for training, choose the activity and social signal under
    *Data collection* and press *Start recording*. CSVs (and all exports) go to
    the storage folder shown in Settings (Downloads on Android).

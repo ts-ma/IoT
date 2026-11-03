@@ -3,54 +3,61 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pdiot/har.dart';
+import 'package:pdiot/social.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  // Uses Flutter's real test asset bundle, without mocking rootBundle.
-  // These checks load assets only; they do not invoke TFLite inference.
-  test('bundled Social files load and match their verified originals',
-      () async {
-    for (final name in [
-      'social_cnn.tflite',
-      'social_cnn_meta.json',
-      'social_cnn_example.json',
-    ]) {
-      final data = await rootBundle.load('assets/models/$name');
-      final bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      expect(bytes, orderedEquals(File('model/$name').readAsBytesSync()),
-          reason: '$name must remain byte-identical to the verified original');
-    }
-  });
-
-  test('bundled metadata and example decode with the verified class ordering',
-      () async {
-    final meta = jsonDecode(
-      await rootBundle.loadString('assets/models/social_cnn_meta.json'),
-    ) as Map<String, dynamic>;
-    final example = jsonDecode(
-      await rootBundle.loadString('assets/models/social_cnn_example.json'),
-    ) as Map<String, dynamic>;
-
-    expect(meta['model_file'], 'social_cnn.tflite');
-    expect(meta['input']['shape'], [1, 50, 3]);
-    expect(meta['output']['classes'], [
-      'breathingNormally',
-      'coughing',
-      'hyperventilation',
-      'other',
-    ]);
-    expect(example['input_window'], hasLength(50));
-    final probabilities =
-        (example['expected_probabilities'] as List<dynamic>).cast<num>();
-    expect(probabilities, hasLength(4));
-    var best = 0;
-    for (var i = 1; i < probabilities.length; i++) {
-      if (probabilities[i] > probabilities[best]) best = i;
-    }
-    expect(example['expected_class'], meta['output']['classes'][best]);
-    expect(example['expected_class'], 'breathingNormally');
-    expect(example['true_class'], 'other');
-  });
+  for (final model in [
+    (
+      name: 'harry_har_cnn',
+      asset: harModelAsset,
+      meta: harMetaAsset,
+      window: 50,
+      classes: 11
+    ),
+    (
+      name: 'harry_social_rnn',
+      asset: socialModelAsset,
+      meta: socialMetaAsset,
+      window: 100,
+      classes: 4
+    ),
+  ]) {
+    test('bundled ${model.name} files match the supplied assets', () async {
+      for (final path in [
+        model.asset,
+        model.meta,
+        'assets/models/${model.name}_example.json'
+      ]) {
+        final data = await rootBundle.load(path);
+        final bytes =
+            data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+        expect(bytes, orderedEquals(File(path).readAsBytesSync()));
+      }
+    });
+    test('${model.name} metadata and example agree', () async {
+      final meta = jsonDecode(await rootBundle.loadString(model.meta));
+      final example = jsonDecode(await rootBundle
+          .loadString('assets/models/${model.name}_example.json'));
+      expect(meta['model_file'], '${model.name}.tflite');
+      expect(meta['input']['shape'], [1, model.window, 3]);
+      expect(meta['window_samples'], model.window);
+      expect(meta['step_samples'], 25);
+      expect(meta['output']['shape'], [1, model.classes]);
+      expect(example['input_window'], hasLength(model.window));
+      final labels = List<String>.from(meta['output']['classes']);
+      expect(labels, hasLength(model.classes));
+      if (model.name == 'harry_social_rnn') expect(labels, socialLabels);
+      final probabilities =
+          (example['expected_probabilities'] as List).cast<num>();
+      expect(probabilities, hasLength(model.classes));
+      var best = 0;
+      for (var i = 1; i < probabilities.length; i++) {
+        if (probabilities[i] > probabilities[best]) best = i;
+      }
+      expect(example['expected_class'], labels[best]);
+      expect(labels, contains(example['true_class']));
+    });
+  }
 }

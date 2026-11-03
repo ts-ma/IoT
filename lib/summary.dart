@@ -87,17 +87,25 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
 
   Future<DayTotals> _totalsFor(PredictionRepository repo, DateTime day) async {
     final end = _nextDay(day);
+    // Live results only: replayed demo recordings are not the user's day.
     final har = await repo.countByLabel(
-        start: day, end: end, taskType: PredictionTaskType.har);
+        start: day,
+        end: end,
+        taskType: PredictionTaskType.har,
+        source: PredictionSource.live);
     final social = await repo.countByLabel(
-        start: day, end: end, taskType: PredictionTaskType.social);
+        start: day,
+        end: end,
+        taskType: PredictionTaskType.social,
+        source: PredictionSource.live);
     final coughs = (social['coughing'] ?? 0) == 0
         ? 0
         : await repo.countEpisodes(
             start: day,
             end: end,
             taskType: PredictionTaskType.social,
-            label: 'coughing');
+            label: 'coughing',
+            source: PredictionSource.live);
     return DayTotals(day, har, social, coughs);
   }
 
@@ -447,7 +455,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
                 const SizedBox(height: 4),
                 Text(
                   'A bout is a run of consecutive coughing results; each '
-                  'result covers 4 s of data, updated every 2 s.',
+                  'result covers 8 s of data, updated every 2 s.',
                   style: textTheme.bodySmall,
                 ),
               ],

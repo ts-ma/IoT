@@ -10,9 +10,11 @@ import 'ble.dart';
 import 'globals.dart';
 import 'har.dart';
 import 'history.dart';
+import 'models/prediction_record.dart';
 import 'services/live_feed.dart';
 import 'services/prediction_history_writer.dart';
 import 'services/prediction_smoother.dart';
+import 'services/replay.dart';
 import 'services/social_sample_processor.dart';
 import 'dart:io';
 
@@ -53,10 +55,27 @@ class MyHomePageState extends State<MyHomePage> {
   DateTime? _harUpdatedAt;
   final PredictionSmoother _smoother = PredictionSmoother(size: 3);
 
+  // Demo mode: replays a recorded file through the same pipeline as live BLE
+  // data (classifiers, history, live feed, these cards).
+  late final ReplayController _replay;
+  List<ReplaySource> _bundledRecordings = [];
+  List<ReplaySource> _folderRecordings = [];
+  String _replayChoice = 'tour';
+  HarPrediction? _replayPending;
+  int _replayTicks = 0;
+  bool _disposing = false;
+
   @override
   void initState() {
     super.initState();
     widget.socialProcessor?.addListener(_socialChanged);
+    _replay = ReplayController(
+      onStart: _replayStarted,
+      onSample: _replaySample,
+      onTick: _replayTick,
+      onStop: _replayStopped,
+    );
+    _loadRecordings();
   }
 
   @override
@@ -74,6 +93,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
+    _disposing = true;
+    _replay.stop();
+    _replay.dispose();
     widget.socialProcessor?.removeListener(_socialChanged);
     super.dispose();
   }
@@ -146,6 +168,7 @@ class MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             _connectionCard(context),
+            _replayCard(context),
             _harCard(context),
             _socialResult(),
             _sessionCard(context),
@@ -172,7 +195,11 @@ class MyHomePageState extends State<MyHomePage> {
     IconData icon;
     Color color;
     String status;
-    if (connecting) {
+    if (replayActive) {
+      icon = Icons.play_circle_outline;
+      color = Colors.deepPurple;
+      status = 'Replaying recorded data';
+    } else if (connecting) {
       icon = Icons.bluetooth_searching;
       color = Colors.amber.shade700;
       status = 'Connecting…';
@@ -208,9 +235,11 @@ class MyHomePageState extends State<MyHomePage> {
                         style: textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w600)),
                     Text(
-                      paired
-                          ? 'RESpeck $respeckUUID'
-                          : 'Scan the QR code on the sensor in Settings',
+                      replayActive
+                          ? 'Values below come from the recording, not a sensor'
+                          : paired
+                              ? 'RESpeck $respeckUUID'
+                              : 'Scan the QR code on the sensor in Settings',
                       style: textTheme.bodySmall,
                     ),
                   ],
@@ -243,7 +272,7 @@ class MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ],
-          if (!streaming && !connecting) ...[
+          if (!streaming && !connecting && !replayActive) ...[
             const SizedBox(height: 8),
             Text(
               'Wake the RESpeck by shaking it (green light), then press Connect.',
@@ -254,7 +283,7 @@ class MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: connect,
+                onPressed: replayActive ? null : connect,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -283,10 +312,11 @@ class MyHomePageState extends State<MyHomePage> {
       body = const Text('Classifier not available');
     } else if (shown == null) {
       body = Text(
-        respeckStreaming
+        respeckStreaming || replayActive
             ? 'Collecting data… the first result appears about 4 s after '
                 'data starts, then every 2 s.'
-            : 'Connect the RESpeck to start live activity recognition.',
+            : 'Connect the RESpeck (or replay a recording) to start '
+                'activity recognition.',
         style: textTheme.bodyMedium,
       );
     } else {
@@ -334,7 +364,8 @@ class MyHomePageState extends State<MyHomePage> {
     final statusText = switch (status) {
       SocialPredictionStatus.unavailable => 'Social model unavailable',
       SocialPredictionStatus.disconnected => 'Disconnected',
-      SocialPredictionStatus.collecting => 'Collecting data...',
+      SocialPredictionStatus.collecting =>
+        'Collecting data... (first result after about 8 s)',
       SocialPredictionStatus.ready => 'Live prediction',
       SocialPredictionStatus.error =>
         'Social inference error — reconnect to retry',
@@ -469,6 +500,313 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+    );
+  }
+
+  // ------------------------------------------------------------- replay --
+
+  Future<void> _loadRecordings() async {
+    List<ReplaySource> bundled = [];
+    List<ReplaySource> folder = [];
+    try {
+      bundled = await bundledRecordings();
+    } catch (e) {
+      debugPrint('Could not list bundled recordings: $e');
+    }
+    try {
+      folder = await folderRecordings(storageFolder);
+    } catch (e) {
+      debugPrint('Could not list recordings in the storage folder: $e');
+    }
+    if (!mounted) return;
+    setState(() {
+      _bundledRecordings = bundled;
+      _folderRecordings = folder;
+      if (_replayChoice != 'tour' && _sourceFor(_replayChoice) == null) {
+        _replayChoice = 'tour';
+      }
+    });
+  }
+
+  List<ReplaySource>? _sourcesFor(String choice) {
+    if (choice == 'tour') {
+      final tour = demoTour(_bundledRecordings);
+      return tour.isEmpty ? null : tour;
+    }
+    final one = _sourceFor(choice);
+    return one == null ? null : [one];
+  }
+
+  ReplaySource? _sourceFor(String choice) {
+    final pool = choice.startsWith('b:') ? _bundledRecordings : _folderRecordings;
+    final name = choice.substring(2);
+    for (final s in pool) {
+      if (s.fileName == name) return s;
+    }
+    return null;
+  }
+
+  static String _recordingTitle(ReplaySource s) {
+    final har = s.labels.har;
+    if (har == null) return s.fileName;
+    final social = s.labels.social;
+    return social == null
+        ? displayName(har)
+        : '${displayName(har)} · ${displayName(social)}';
+  }
+
+  Future<void> _startReplay() async {
+    if (respeckConnected || respeckStreaming || connecting) {
+      showLongToast('Disconnect the RESpeck first - replay and live data '
+          'share the same models');
+      return;
+    }
+    if (recording) {
+      showToast('Stop the CSV recording first');
+      return;
+    }
+    final sources = _sourcesFor(_replayChoice);
+    if (sources == null) {
+      showToast('Recording not found - press refresh');
+      return;
+    }
+    try {
+      await _replay.play(sources);
+    } catch (e) {
+      showLongToast('Could not replay: $e');
+    }
+  }
+
+  void _replayStarted() {
+    replayActive = true;
+    harClassifier?.reset();
+    _smoother.reset();
+    _harShown = null;
+    _harRaw = null;
+    _harUpdatedAt = null;
+    _replayPending = null;
+    _replayTicks = 0;
+    widget.historyWriter?.source = PredictionSource.replay;
+    widget.socialProcessor?.startSession();
+    liveFeed.session.breakRun();
+  }
+
+  void _replaySample(double x, double y, double z) {
+    final prediction = processDecodedSample(
+      x,
+      y,
+      z,
+      onPrediction: (p) {
+        // Same raw-result path as live data; history marks it as replay.
+        widget.historyWriter?.capture(p);
+        liveFeed.addHar(p);
+      },
+      socialProcessor: widget.socialProcessor,
+    );
+    if (prediction != null) _replayPending = prediction;
+  }
+
+  // Push values to the cards about twice a second, and at once on a new
+  // result, instead of rebuilding the page for every sample.
+  void _replayTick() {
+    _replayTicks++;
+    final sample = _replay.lastSample;
+    if (_replayPending == null && _replayTicks % 6 != 0) return;
+    updateFromPacket(
+      accelText: sample == null
+          ? null
+          : 'x=${sample[0].toStringAsFixed(3)}, '
+              'y=${sample[1].toStringAsFixed(3)}, '
+              'z=${sample[2].toStringAsFixed(3)}',
+      battText: '',
+      isRecording: false,
+      packetReceivedTs: DateTime.now().toUtc(),
+      prediction: _replayPending,
+    );
+    _replayPending = null;
+  }
+
+  void _replayStopped() {
+    replayActive = false;
+    harClassifier?.reset();
+    widget.socialProcessor?.endSession();
+    widget.historyWriter?.source = PredictionSource.live;
+    liveFeed.session.breakRun();
+    if (_disposing) return;
+    accel = '';
+    if (mounted) setState(() {});
+  }
+
+  Widget _replayCard(BuildContext context) {
+    return ListenableBuilder(
+      listenable: _replay,
+      builder: (context, _) {
+        final textTheme = Theme.of(context).textTheme;
+        final r = _replay;
+        final active = r.active;
+        final current = r.current;
+        final tour = demoTour(_bundledRecordings);
+        final items = <DropdownMenuItem<String>>[
+          if (tour.isNotEmpty)
+            DropdownMenuItem(
+                value: 'tour',
+                child: Text('Demo tour (${tour.length} scenes, '
+                    '~${(tour.length * 30 / 60).round()} min at 1×)')),
+          for (final s in _folderRecordings)
+            DropdownMenuItem(
+                value: 'f:${s.fileName}',
+                child: Text('New: ${_recordingTitle(s)}',
+                    overflow: TextOverflow.ellipsis)),
+          for (final s in _bundledRecordings)
+            DropdownMenuItem(
+                value: 'b:${s.fileName}',
+                child:
+                    Text(_recordingTitle(s), overflow: TextOverflow.ellipsis)),
+        ];
+        final value =
+            items.any((i) => i.value == _replayChoice) ? _replayChoice : null;
+        String mmss(Duration d) =>
+            '${d.inMinutes}:${(d.inSeconds % 60).toString().padLeft(2, '0')}';
+
+        Widget truthRow(String what, String? truth, String? predicted) {
+          final ok = truth != null && predicted != null && truth == predicted;
+          return Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              children: [
+                SizedBox(width: 64, child: Text(what, style: textTheme.bodySmall)),
+                Expanded(
+                  child: Text(
+                    truth == null
+                        ? 'not assessed (moving)'
+                        : 'true: ${displayName(truth)} · shown: '
+                            '${predicted == null ? '…' : displayName(predicted)}',
+                    style: textTheme.bodySmall,
+                  ),
+                ),
+                if (truth != null && predicted != null)
+                  Icon(ok ? Icons.check_circle : Icons.cancel,
+                      size: 18,
+                      color: ok ? Colors.green.shade600 : Colors.red.shade400),
+              ],
+            ),
+          );
+        }
+
+        return _Section(
+          key: const ValueKey('replay-card'),
+          icon: Icons.play_circle_outline,
+          title: 'Recorded data (demo)',
+          trailing: active ? const _GroupChip('REPLAY', color: Colors.deepPurple) : null,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<String>(
+                      key: const ValueKey('replay-choice'),
+                      isExpanded: true,
+                      value: value,
+                      hint: const Text('No recordings found'),
+                      items: items,
+                      onChanged: active
+                          ? null
+                          : (v) => setState(() => _replayChoice = v ?? 'tour'),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Find new recordings',
+                    onPressed: active ? null : _loadRecordings,
+                    icon: const Icon(Icons.refresh),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Speed', style: textTheme.bodySmall),
+                  const SizedBox(width: 8),
+                  SegmentedButton<int>(
+                    segments: const [
+                      ButtonSegment(value: 1, label: Text('1×')),
+                      ButtonSegment(value: 2, label: Text('2×')),
+                      ButtonSegment(value: 4, label: Text('4×')),
+                    ],
+                    selected: {r.speed},
+                    showSelectedIcon: false,
+                    onSelectionChanged: (v) => r.speed = v.single,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  if (!active)
+                    FilledButton(
+                      key: const ValueKey('replay-play'),
+                      onPressed:
+                          r.state == ReplayState.loading ? null : _startReplay,
+                      child: const _IconLabel(Icons.play_arrow, 'Play'),
+                    )
+                  else if (r.state == ReplayState.playing)
+                    FilledButton.tonal(
+                      onPressed: r.pause,
+                      child: const _IconLabel(Icons.pause, 'Pause'),
+                    )
+                  else
+                    FilledButton.tonal(
+                      onPressed: r.resume,
+                      child: const _IconLabel(Icons.play_arrow, 'Resume'),
+                    ),
+                  const SizedBox(width: 8),
+                  if (active)
+                    TextButton(
+                      key: const ValueKey('replay-stop'),
+                      onPressed: r.stop,
+                      child: const _IconLabel(Icons.stop, 'Stop'),
+                    ),
+                ],
+              ),
+              if (active && current != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  '${r.itemCount > 1 ? 'Scene ${r.itemIndex + 1}/${r.itemCount}: ' : ''}'
+                  '${_recordingTitle(current)}',
+                  key: const ValueKey('replay-now'),
+                  style: textTheme.titleSmall,
+                ),
+                const SizedBox(height: 4),
+                LinearProgressIndicator(value: r.progress),
+                const SizedBox(height: 2),
+                Text(
+                  '${mmss(r.elapsed)} / ${mmss(r.total)}'
+                  '${r.speed > 1 ? ' · ${r.speed}× speed' : ''}',
+                  style: textTheme.bodySmall,
+                ),
+                truthRow('Activity', current.labels.har, _harShown?.label),
+                truthRow('Social', current.labels.social,
+                    widget.socialProcessor?.latestPrediction?.prediction.label),
+              ],
+              if (r.state == ReplayState.finished)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text('Replay finished.', style: textTheme.bodySmall),
+                ),
+              const SizedBox(height: 8),
+              Text(
+                'Plays a recording through the same models as live data, at '
+                'the RESpeck rate (12.5 Hz) unless sped up. Use it for '
+                'activities that are hard to show live, such as stairs. '
+                'Results are saved as "Replay" in History and are not counted '
+                'in the daily summary. Bundled recordings are our CW2 data '
+                '(also used to fine-tune the models); "New" ones are your own '
+                'CSVs from Data collection in the storage folder.',
+                style: textTheme.bodySmall,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -624,6 +962,10 @@ class MyHomePageState extends State<MyHomePage> {
     }
     if (respeckStreaming) {
       showToast("Already connected");
+      return;
+    }
+    if (_replay.active) {
+      showToast("Stop the replay before connecting the RESpeck");
       return;
     }
 

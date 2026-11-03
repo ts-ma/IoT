@@ -1,5 +1,5 @@
 {
-  "model_file": "harry_rnn.tflite",
+  "model_file": "harry_social_rnn.tflite",
   "task": "social_signal",
   "sampling_frequency_hz": 12.5,
   "window_samples": 100,

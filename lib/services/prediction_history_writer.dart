@@ -33,6 +33,10 @@ class PredictionHistoryWriter extends ChangeNotifier {
   bool _accepting = true;
   bool _disposed = false;
 
+  /// Source stamped on new records: [PredictionSource.replay] while a recorded
+  /// file is being replayed through the models, otherwise live.
+  PredictionSource source = PredictionSource.live;
+
   int errorCount = 0;
   int droppedRecordCount = 0;
   Object? lastError;
@@ -49,7 +53,7 @@ class PredictionHistoryWriter extends ChangeNotifier {
         label: prediction.label,
         timestamp: timestamp,
         confidence: prediction.confidence,
-        source: PredictionSource.live,
+        source: source,
       ));
     } catch (error) {
       _failure(error, dropped: true);
@@ -66,7 +70,7 @@ class PredictionHistoryWriter extends ChangeNotifier {
         label: event.prediction.label,
         timestamp: event.completedAt,
         confidence: event.prediction.confidence,
-        source: PredictionSource.live,
+        source: source,
       ));
     } catch (error) {
       _failure(error, dropped: true);

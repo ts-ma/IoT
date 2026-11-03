@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../social.dart';
 
 /// One NEW inference, never a cached UI result. Completion time is phone UTC,
-/// not the sensor timestamp or the start/end time of the four-second window.
+/// not the sensor timestamp or the start/end time of the eight-second window.
 class SocialPredictionEvent {
   SocialPredictionEvent({
     required this.prediction,

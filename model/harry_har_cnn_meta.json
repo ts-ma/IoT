@@ -1,5 +1,5 @@
 {
-  "model_file": "harry_cnn.tflite",
+  "model_file": "harry_har_cnn.tflite",
   "task": "daily_activity",
   "sampling_frequency_hz": 12.5,
   "window_samples": 50,

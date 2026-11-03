@@ -35,11 +35,13 @@ class EvaluationTrial {
     required DateTime startedAt,
     required this.durationSeconds,
     required this.settleSeconds,
+    int? socialSettleSeconds,
     required this.harPredictions,
     required this.socialPredictions,
     this.harLatency,
     this.socialLatency,
-  }) : startedAt = startedAt.toUtc();
+  })  : startedAt = startedAt.toUtc(),
+        socialSettleSeconds = socialSettleSeconds ?? settleSeconds;
 
   final String participant;
   final String trueActivity;
@@ -49,9 +51,13 @@ class EvaluationTrial {
   final DateTime startedAt;
   final int durationSeconds;
 
-  /// Predictions finishing within this many seconds of the start are not
+  /// HAR predictions finishing within this many seconds of the start are not
   /// scored: their window still contains data from before the trial.
   final int settleSeconds;
+
+  /// The same for Social predictions, whose window is longer (8 s). Trials
+  /// saved before this field existed fall back to [settleSeconds].
+  final int socialSettleSeconds;
 
   /// Scored raw predictions, in order.
   final List<String> harPredictions;
@@ -85,6 +91,7 @@ class EvaluationTrial {
         'startedAt': startedAt.toIso8601String(),
         'durationSeconds': durationSeconds,
         'settleSeconds': settleSeconds,
+        'socialSettleSeconds': socialSettleSeconds,
         'harPredictions': harPredictions,
         'socialPredictions': socialPredictions,
         'harLatencyMs': harLatency?.inMilliseconds,
@@ -101,6 +108,7 @@ class EvaluationTrial {
       startedAt: DateTime.parse(json['startedAt'] as String),
       durationSeconds: (json['durationSeconds'] as num).toInt(),
       settleSeconds: (json['settleSeconds'] as num).toInt(),
+      socialSettleSeconds: (json['socialSettleSeconds'] as num?)?.toInt(),
       harPredictions: List<String>.from(json['harPredictions'] as List),
       socialPredictions: List<String>.from(json['socialPredictions'] as List),
       harLatency: ms(json['harLatencyMs']),
@@ -207,7 +215,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       'participant,started_utc,duration_s,settle_s,true_activity,har_windows,'
       'har_correct,har_accuracy_pct,har_majority,har_latency_s,true_social,'
       'social_windows,social_correct,social_accuracy_pct,social_majority,'
-      'social_latency_s,har_predictions,social_predictions\n');
+      'social_latency_s,har_predictions,social_predictions,social_settle_s\n');
   for (final t in trials) {
     b.writeln([
       t.participant,
@@ -228,6 +236,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       _secs(t.socialLatency),
       t.harPredictions.join(' '),
       t.socialPredictions.join(' '),
+      t.socialSettleSeconds,
     ].map(_csv).join(','));
   }
   return b.toString();
