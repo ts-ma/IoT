@@ -168,7 +168,7 @@ def list_jan(task: str, classes, root: Path | None = None) -> pd.DataFrame:
     """Exactly the teammate's list_recordings(): class order, then sorted glob."""
     root = Path(root) if root is not None else JAN_DIR
     rows = [{"path": p, "label": c, "y": i}
-            for i, c in enumerate(classes) for p in sorted((root / task / c).glob("*.csv"))]
+            for i, c in enumerate(classes) for p in sorted((root / task / c).glob("*.csv"), key=lambda q: q.name)]
     return pd.DataFrame(rows)
 
 

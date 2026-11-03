@@ -252,3 +252,4 @@ Legend: `[x]` done · `[ ]` open · `[~]` partially / deferred (reason given)
 - 2026-11-03 — Learn fold CSV is not distributed to students (it only describes how marking is done); Harry will ask the organiser. D keeps Lab3 make_folds(seed 0) until then. `run_pipeline.bat` explicitly defaults to the full profile.
 - 2026-11-03 — G10 export stage added; quick run exports 22 models (20 TFLite + 2 sklearn), all parity checks pass.
 - 2026-11-03 — Pre-flight: fold-CSV path verified with a synthetic CSV (path column, 1-based folds); full profile = 1,089 jobs, ≈ 19 worker-hours → ≈ 3–4 h on 8 workers (RNN/CNN social Jan jobs 7–9 min each).
+- 2026-11-03 — Windows bug: case-insensitive file listing changed the B9 fold assignment (fold-0 23,989 vs 23,992 train windows). Fixed: make_folds orders each class case-sensitively; folds now identical on all OSes (verified by simulating the Windows order). Only scenario D depends on Jan folds.

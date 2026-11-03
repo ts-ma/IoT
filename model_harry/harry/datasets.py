@@ -40,6 +40,9 @@ def make_folds(labels, names, n_folds=N_JAN_FOLDS, seed=0):
     rng = np.random.default_rng(seed)
     out = pd.Series(-1, index=recs.index)
     for _, idx in recs.groupby("label").groups.items():
+        # case-sensitive name order (as Colab/Linux/macOS list them) so the folds are identical on Windows,
+        # whose file listing is case-insensitive ("N_12.csv" vs "lyingBack (3).csv" swap places)
+        idx = sorted(idx, key=lambda i: recs.at[i, "path"])
         subjects = recs.loc[idx, "path"].map(subject_id)
         unique = rng.permutation(subjects.unique())
         fold_of = {s: k % n_folds for k, s in enumerate(unique)}
