@@ -1,0 +1,57 @@
+Running `(cd /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/; TMPDIR=/var/folders/fq/wnrwyqq169g77_3y2lp_vk0m0000gp/T/ PATH=/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/local/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/usr/bin:/Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/harryyang/miniconda3/bin:/Users/harryyang/miniconda3/condabin:/Users/harryyang/flutter/bin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/harryyang/.local/bin:/Users/harryyang/.cabal/bin:/Users/harryyang/.ghcup/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet HOME=/Users/harryyang /Users/harryyang/flutter/bin/cache/dart-sdk/bin/dart --packages=/Users/harryyang/IoT/.dart_tool/package_config.json /Users/harryyang/IoT/.dart_tool/hooks_runner/objective_c/1877afcd28/hook.dill --config=/Users/harryyang/IoT/.dart_tool/hooks_runner/objective_c/1877afcd28/input.json )`.
+INFO: 2026-11-03 20:42:04.100286: Using compiler /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang from BuildInput.cCompiler.cc.
+
+INFO: 2026-11-03 20:42:04.104567: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/include/dart_api_dl.c -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-11-03 20:42:04.105841: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c.c -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.c.o
+
+INFO: 2026-11-03 20:42:04.106048: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -x objective-c -fobjc-arc -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/input_stream_adapter.m -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-11-03 20:42:04.106158: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -x objective-c -fobjc-arc -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c.m -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.m.o
+INFO: 2026-11-03 20:42:04.106256: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -x objective-c -fobjc-arc -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/observer.m -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/observer.m.o
+
+INFO: 2026-11-03 20:42:04.106445: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -x objective-c -fobjc-arc -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/protocol.m -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/protocol.m.o
+
+
+
+INFO: 2026-11-03 20:42:04.106549: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 -x objective-c -fobjc-arc -c /Users/harryyang/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c_bindings_generated.m -fpic -gline-tables-only -I src -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-11-03 20:42:04.208664: 
+
+NFO: 2026-11-03 20:42:04.207910: 
+INFO: 2026-11-03 20:42:04.207943: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.c.o
+
+INFO: 2026-11-03 20:42:04.208686: 
+INFO: 2026-11-03 20:42:04.208699: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-11-03 20:42:04.235138: 
+INFO: 2026-11-03 20:42:04.235180: 
+INFO: 2026-11-03 20:42:04.235192: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/protocol.m.o
+
+INFO: 2026-11-03 20:42:04.260902: 
+INFO: 2026-11-03 20:42:04.260943: 
+INFO: 2026-11-03 20:42:04.260972: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/observer.m.o
+
+INFO: 2026-11-03 20:42:04.359267: 
+INFO: 2026-11-03 20:42:04.359376: 
+INFO: 2026-11-03 20:42:04.359408: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/ns_number.m.o
+
+INFO: 2026-11-03 20:42:04.366569: 
+INFO: 2026-11-03 20:42:04.366612: 
+INFO: 2026-11-03 20:42:04.366639: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.m.o
+
+INFO: 2026-11-03 20:42:04.373320: 
+INFO: 2026-11-03 20:42:04.373361: 
+INFO: 2026-11-03 20:42:04.373373: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-11-03 20:42:04.431614: 
+INFO: 2026-11-03 20:42:04.431659: 
+INFO: 2026-11-03 20:42:04.431670: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-11-03 20:42:04.432011: Running: /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Volumes/Macintosh HD2/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios -mios-version-min=15 /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/include/dart_api_dl.c.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.c.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/input_stream_adapter.m.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c.m.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/observer.m.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/ns_number.m.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/protocol.m.o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/obj/src/objective_c_bindings_generated.m.o -o /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/objective_c.dylib
+
+INFO: 2026-11-03 20:42:04.475864: 
+INFO: 2026-11-03 20:42:04.475949: ld: warning: -undefined dynamic_lookup is deprecated on iOS
+
+INFO: 2026-11-03 20:42:04.475963: Generated /Users/harryyang/IoT/.dart_tool/hooks_runner/shared/objective_c/build/1877afcd28/objective_c.dylib
+

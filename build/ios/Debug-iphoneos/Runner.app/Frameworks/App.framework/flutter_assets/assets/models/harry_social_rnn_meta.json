@@ -1,0 +1,42 @@
+{
+  "model_file": "harry_social_rnn.tflite",
+  "task": "social_signal",
+  "sampling_frequency_hz": 12.5,
+  "window_samples": 100,
+  "step_samples": 25,
+  "input": {
+    "shape": [
+      1,
+      100,
+      3
+    ],
+    "channels": [
+      "accelX",
+      "accelY",
+      "accelZ"
+    ],
+    "units": "g (raw accelerometer values)",
+    "dtype": "float32"
+  },
+  "output": {
+    "shape": [
+      1,
+      4
+    ],
+    "classes": [
+      "breathingNormally",
+      "coughing",
+      "hyperventilation",
+      "other"
+    ],
+    "dtype": "float32"
+  },
+  "normalization": "inside the model \u2013 feed raw values",
+  "trained_on": "datasetJan2026 (pre-train) + all IoT/data real recordings (fine-tune)",
+  "architecture": "harry_rnn",
+  "group": "RNN",
+  "owner": "mine",
+  "notes": "gravity-split front end -> Conv stem (stride 2) -> GRU48 + gravity + spectral branches",
+  "recipe": "finetune",
+  "exported": "2026-11-03 07:06"
+}

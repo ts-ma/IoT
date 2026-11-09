@@ -1,0 +1,15 @@
+#!/bin/sh
+# This is a generated file; do not edit or check into version control.
+export "FLUTTER_ROOT=/Users/harryyang/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/harryyang/IoT"
+export "FLUTTER_FRAMEWORK_SWIFT_PACKAGE_PATH=/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework"
+export "COCOAPODS_PARALLEL_CODE_SIGN=true"
+export "FLUTTER_TARGET=lib/main.dart"
+export "FLUTTER_BUILD_DIR=build"
+export "FLUTTER_BUILD_NAME=2.1.5"
+export "FLUTTER_BUILD_NUMBER=9"
+export "DART_DEFINES=RkxVVFRFUl9CVUlMRF9OQU1FPTIuMS41,RkxVVFRFUl9CVUlMRF9OVU1CRVI9OQ==,RkxVVFRFUl9WRVJTSU9OPTMuNDcuNQ==,RkxVVFRFUl9DSEFOTkVMPXN0YWJsZQ==,RkxVVFRFUl9HSVRfVVJMPWh0dHBzOi8vZ2l0aHViLmNvbS9mbHV0dGVyL2ZsdXR0ZXIuZ2l0,RkxVVFRFUl9GUkFNRVdPUktfUkVWSVNJT049NmExOWNjYTU2NA==,RkxVVFRFUl9FTkdJTkVfUkVWSVNJT049YWY3ZTc5NmUxNg==,RkxVVFRFUl9EQVJUX1ZFUlNJT049My4xMy40"
+export "DART_OBFUSCATION=false"
+export "TRACK_WIDGET_CREATION=false"
+export "TREE_SHAKE_ICONS=true"
+export "PACKAGE_CONFIG=/Users/harryyang/IoT/.dart_tool/package_config.json"

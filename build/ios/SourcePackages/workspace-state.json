@@ -1,0 +1,111 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "flutter_blue_plus_darwin-9.0.4",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/flutter_blue_plus_darwin-9.0.4",
+          "name" : "flutter_blue_plus_darwin"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/flutter_blue_plus_darwin-9.0.4"
+        },
+        "subpath" : "flutter_blue_plus_darwin-9.0.4"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "flutterframework",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework",
+          "name" : "FlutterFramework"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/FlutterFramework"
+        },
+        "subpath" : "flutterframework"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "fluttertoast-9.1.0",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/fluttertoast-9.1.0",
+          "name" : "fluttertoast"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/fluttertoast-9.1.0"
+        },
+        "subpath" : "fluttertoast-9.1.0"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "mobile_scanner-7.4.1",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.1",
+          "name" : "mobile_scanner"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/mobile_scanner-7.4.1"
+        },
+        "subpath" : "mobile_scanner-7.4.1"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "package_info_plus-9.0.1",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/package_info_plus-9.0.1",
+          "name" : "package_info_plus"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/package_info_plus-9.0.1"
+        },
+        "subpath" : "package_info_plus-9.0.1"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "shared_preferences_foundation-2.5.7",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.7",
+          "name" : "shared_preferences_foundation"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/shared_preferences_foundation-2.5.7"
+        },
+        "subpath" : "shared_preferences_foundation-2.5.7"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "sqflite_darwin-2.4.4+1",
+          "kind" : "fileSystem",
+          "location" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/sqflite_darwin-2.4.4+1",
+          "name" : "sqflite_darwin"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/harryyang/IoT/ios/Flutter/ephemeral/Packages/.packages/sqflite_darwin-2.4.4+1"
+        },
+        "subpath" : "sqflite_darwin-2.4.4+1"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}
