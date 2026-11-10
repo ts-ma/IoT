@@ -105,6 +105,9 @@ class UserSession extends ChangeNotifier {
   Directory? get performanceDir => _sub('performance');
   String? get databasePath =>
       userDir == null ? null : p.join(userDir!.path, 'history.db');
+  File? get latencyFile => userDir == null
+      ? null
+      : File(p.join(userDir!.path, 'latency_tests.json'));
   File? get trialsFile => userDir == null
       ? null
       : File(p.join(userDir!.path, 'realtime_trials.json'));

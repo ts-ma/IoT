@@ -142,6 +142,9 @@ void main() {
     expect(stepChoices.map(stepLabel), ['2 s', '1 s', '0.5 s']);
     final s = AppSettings();
     expect(s.stepSamples.value, defaultStepSamples);
+    expect(defaultStepSamples, 6); // 0.5 s: the freshest result per packet
+    expect(s.resultIntervalMs, 480);
+    s.stepSamples.value = 12;
     expect(s.resultIntervalMs, 960);
     s.stepSamples.value = 25;
     expect(s.resultIntervalMs, 2000);

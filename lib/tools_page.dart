@@ -9,6 +9,7 @@ import 'services/evaluation.dart';
 import 'services/live_feed.dart';
 import 'services/raw_recorder.dart';
 import 'services/sensor_controller.dart';
+import 'latency_page.dart';
 import 'services/social_sample_processor.dart';
 import 'services/user_session.dart';
 import 'social.dart' show socialWindowSeconds;
@@ -72,6 +73,7 @@ class _ToolsPageState extends State<ToolsPage> {
   final List<String> _harScored = [];
   final List<String> _socialScored = [];
   Duration? _harLatency;
+  Duration? _harShownLatency;
   Duration? _socialLatency;
   String? _lastHar;
   String? _lastSocial;
@@ -112,6 +114,12 @@ class _ToolsPageState extends State<ToolsPage> {
       _skipWarmup ? ((harClassifier?.window.length ?? 50) / 12.5).ceil() : 0;
   int get _socialSettleSeconds => _skipWarmup ? socialWindowSeconds.ceil() : 0;
   bool get _running => _startedAt != null;
+  bool get _activityIsDynamic =>
+      labelInfo(_activity).group == LabelGroup.dynamicActivity;
+
+  static String _latencyText(Duration? d) => d == null
+      ? '–'
+      : '${(d.inMilliseconds / 1000).toStringAsFixed(1)} s';
   bool get _freeRecording => _recorder.active && _recorder.purpose == 'free';
 
   @override
@@ -220,6 +228,7 @@ class _ToolsPageState extends State<ToolsPage> {
       _harScored.clear();
       _socialScored.clear();
       _harLatency = null;
+      _harShownLatency = null;
       _socialLatency = null;
       _lastHar = null;
       _lastSocial = null;
@@ -245,6 +254,7 @@ class _ToolsPageState extends State<ToolsPage> {
     setState(() {
       _lastHar = label;
       if (label == _activity) _harLatency ??= offset;
+      if (e.shown.label == _activity) _harShownLatency ??= offset;
       if (offset.inMilliseconds >= _settleSeconds * 1000) _harScored.add(label);
     });
   }
@@ -300,6 +310,7 @@ class _ToolsPageState extends State<ToolsPage> {
       harPredictions: List.of(_harScored),
       socialPredictions: List.of(_socialScored),
       harLatency: _harLatency,
+      harShownLatency: _harShownLatency,
       socialLatency: _socialLatency,
       rawFile: _trialRawFile,
     );
@@ -450,6 +461,7 @@ class _ToolsPageState extends State<ToolsPage> {
                   _resultsCard(context),
                   _trialsCard(context),
                 ],
+                _latencyCard(context),
                 _freeRecordingCard(context),
               ],
             ),
@@ -495,7 +507,11 @@ class _ToolsPageState extends State<ToolsPage> {
             isExpanded: true,
             value: _activity,
             items: [for (final l in harClassOrder) _labelItem(l)],
-            onChanged: (v) => setState(() => _activity = v ?? _activity),
+            onChanged: (v) => setState(() {
+              _activity = v ?? _activity;
+              // Social signals are paused while moving: nothing to score.
+              if (_activityIsDynamic) _social = _notAssessed;
+            }),
           ),
           const SizedBox(height: 8),
           const Text('True social signal',
@@ -511,7 +527,9 @@ class _ToolsPageState extends State<ToolsPage> {
                 child: Text('Not assessed (e.g. while moving)'),
               ),
             ],
-            onChanged: (v) => setState(() => _social = v ?? _social),
+            onChanged: _activityIsDynamic
+                ? null
+                : (v) => setState(() => _social = v ?? _social),
           ),
           const SizedBox(height: 12),
           const Text('Duration', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -610,7 +628,9 @@ class _ToolsPageState extends State<ToolsPage> {
             'Scored so far: $correct / ${_harScored.length} activity results '
             'correct'
             '${_harLatency == null ? '' : ' · first correct after '
-                '${(_harLatency!.inMilliseconds / 1000).toStringAsFixed(1)} s'}',
+                '${(_harLatency!.inMilliseconds / 1000).toStringAsFixed(1)} s'}'
+            '${_harShownLatency == null ? '' : ', shown after '
+                '${(_harShownLatency!.inMilliseconds / 1000).toStringAsFixed(1)} s'}',
             style: textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
@@ -715,7 +735,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 DataColumn(label: Text('Trials'), numeric: true),
                 DataColumn(label: Text('Correct'), numeric: true),
                 DataColumn(label: Text('Accuracy'), numeric: true),
-                DataColumn(label: Text('Latency'), numeric: true),
+                DataColumn(label: Text('First correct'), numeric: true),
+                DataColumn(label: Text('Shown'), numeric: true),
               ],
               rows: [
                 for (final s in summary.scores)
@@ -729,9 +750,12 @@ class _ToolsPageState extends State<ToolsPage> {
                     DataCell(Text('${s.trials}')),
                     DataCell(Text('${s.correct}/${s.windows}')),
                     DataCell(Text(_pct(s.accuracy))),
-                    DataCell(Text(s.meanLatency == null
-                        ? '–'
-                        : '${(s.meanLatency!.inMilliseconds / 1000).toStringAsFixed(1)} s')),
+                    DataCell(Text(_latencyText(s.meanLatency))),
+                    // Social results are shown unsmoothed: shown = first correct.
+                    DataCell(Text(_latencyText(
+                        labelInfo(s.label).group == LabelGroup.social
+                            ? s.meanLatency
+                            : s.meanShownLatency))),
                   ]),
               ],
             ),
@@ -740,8 +764,9 @@ class _ToolsPageState extends State<ToolsPage> {
           Text(
             'Accuracy = correct live results / scored results for that class. '
             'Group values are the mean of the class accuracies, as in the '
-            'coursework marking. Latency = time from trial start to the first '
-            'correct result.',
+            'coursework marking. First correct = time from trial start to the '
+            'first correct model result; Shown = until the Home screen showed '
+            'the right class (after activity smoothing), i.e. what a user sees.',
             style: textTheme.bodySmall,
           ),
         ],
@@ -774,6 +799,43 @@ class _ToolsPageState extends State<ToolsPage> {
                 onPressed: _running ? null : () => _deleteTrial(t),
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _latencyCard(BuildContext context) {
+    return SectionCard(
+      icon: Icons.timer_outlined,
+      title: 'Latency test',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Times how long the app takes to show a change, on this phone: '
+            'the phone cues you to change (vibration + beep) and measures '
+            'until the new activity or social signal is shown. For the '
+            'report\'s communication latency.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            key: const ValueKey('open-latency-test'),
+            onPressed: _running
+                ? null
+                : () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => LatencyTestPage(
+                        sensor: widget.sensor,
+                        session: _session,
+                        feed: _feed,
+                        requireSensor: widget.requireSensor ?? true,
+                      ),
+                    )),
+            icon: const Icon(Icons.timer_outlined),
+            label: const Text('Open latency test'),
+          ),
         ],
       ),
     );

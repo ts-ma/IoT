@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -27,6 +28,9 @@ class PerfSample {
     this.sampleRateHz,
     this.lostPackets,
     this.storageMb,
+    this.streaming,
+    this.activityShown,
+    this.socialStatus,
   });
 
   final DateTime time;
@@ -51,10 +55,19 @@ class PerfSample {
   /// Size of the user's folder (history, raw data, exports, logs).
   final double? storageMb;
 
+  /// Test conditions per second, so a log can be split into "sensor streaming
+  /// / idle" and "moving (social paused) / still" when reporting power & CPU.
+  final bool? streaming;
+  final String? activityShown;
+
+  /// SocialPredictionStatus name, e.g. ready or pausedMoving.
+  final String? socialStatus;
+
   static const csvHeader = 'local_time,cpu_percent_one_core,rss_mb,'
       'phone_battery_pct,phone_charging,phone_current_ma,phone_power_mw,'
       'respeck_battery_pct,har_inference_ms,social_inference_ms,'
-      'sample_rate_hz,lost_packets_total,storage_mb';
+      'sample_rate_hz,lost_packets_total,storage_mb,streaming,'
+      'activity_shown,social_status';
 
   String toCsv() {
     String f(num? v, [int digits = 2]) =>
@@ -73,6 +86,9 @@ class PerfSample {
       f(sampleRateHz, 2),
       lostPackets ?? '',
       f(storageMb, 3),
+      streaming == null ? '' : (streaming! ? 1 : 0),
+      activityShown ?? '',
+      socialStatus ?? '',
     ].join(',');
   }
 }
@@ -180,6 +196,43 @@ class PerfSampler extends ChangeNotifier {
 
   IOSink? _log;
   File? _logFile;
+  DateTime? _logStarted;
+
+  /// Called when a log starts/stops for the settings in force (update
+  /// interval, smoothing, models). Set by the app; tests leave it null.
+  Map<String, Object?> Function()? describeSettings;
+
+  /// `<log>.conditions.json` next to the CSV: what the report has to state
+  /// about how performance was measured (platform, OS, app version, settings,
+  /// start/end and duration). The phone model is not readable without an
+  /// extra plugin - note it by hand.
+  Future<void> _writeConditions({DateTime? ended}) async {
+    final file = _logFile;
+    final started = _logStarted;
+    if (file == null || started == null) return;
+    try {
+      final info = <String, Object?>{
+        'log_file': p.basename(file.path),
+        'platform': Platform.operatingSystem,
+        'os_version': Platform.operatingSystemVersion,
+        'cpu_cores': Platform.numberOfProcessors,
+        'cpu_source': cpuSource,
+        'dart': Platform.version.split(' ').first,
+        'started': started.toIso8601String(),
+        'ended': ended?.toIso8601String(),
+        'duration_s': ended?.difference(started).inSeconds,
+        'sample_interval_s': interval.inMilliseconds / 1000,
+        'classification': 'on the phone (TensorFlow Lite), no server',
+        'phone_model': 'fill in by hand',
+        ...?describeSettings?.call(),
+      };
+      final out = File(file.path.replaceFirst(RegExp(r'\.csv$'), '.conditions.json'));
+      await out.writeAsString(
+          const JsonEncoder.withIndent('  ').convert(info), flush: true);
+    } catch (e) {
+      debugPrint('Could not write the log conditions: $e');
+    }
+  }
   bool get logging => _log != null;
   File? get logFile => _logFile;
 
@@ -267,6 +320,9 @@ class PerfSampler extends ChangeNotifier {
         sampleRateHz: rate,
         lostPackets: streaming ? _metrics.lostPackets : null,
         storageMb: storage.total / (1024 * 1024),
+        streaming: sensor == null ? null : streaming,
+        activityShown: sensor?.harShown?.label,
+        socialStatus: sensor?.socialProcessor?.status.name,
       );
       _samples.addLast(sample);
       while (_samples.length > capacity) {
@@ -310,6 +366,7 @@ class PerfSampler extends ChangeNotifier {
       notifyListeners();
       await sink?.flush();
       await sink?.close();
+      await _writeConditions(ended: DateTime.now());
       return null;
     }
     final dir = _session.performanceDir;
@@ -323,6 +380,8 @@ class PerfSampler extends ChangeNotifier {
       sink.writeln(PerfSample.csvHeader);
       _log = sink;
       _logFile = file;
+      _logStarted = DateTime.now();
+      await _writeConditions();
       notifyListeners();
       return null;
     } catch (e) {

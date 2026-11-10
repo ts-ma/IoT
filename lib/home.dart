@@ -442,18 +442,19 @@ class HomePageState extends State<HomePage> {
       SocialPredictionStatus.ready => 'Live prediction',
       SocialPredictionStatus.error =>
         'Social inference error — reconnect to retry',
+      SocialPredictionStatus.pausedMoving => 'Paused while you are moving',
     };
     final statusColor = switch (status) {
       SocialPredictionStatus.ready => Colors.green.shade600,
       SocialPredictionStatus.collecting => Colors.amber.shade700,
       SocialPredictionStatus.error => Colors.red.shade600,
+      SocialPredictionStatus.pausedMoving => Colors.blueGrey.shade400,
       _ => Colors.grey.shade600,
     };
     final label = event?.prediction.label;
     final probabilities = event?.prediction.probabilities ?? const <double>[];
     final shownHar = _sensor.harShown;
-    final moving = shownHar != null &&
-        labelInfo(shownHar.label).group == LabelGroup.dynamicActivity;
+    final paused = status == SocialPredictionStatus.pausedMoving;
     final textTheme = Theme.of(context).textTheme;
     return SectionCard(
       key: const ValueKey('social-signal-result'),
@@ -490,17 +491,24 @@ class HomePageState extends State<HomePage> {
                 _ProbabilityRow(socialClassOrder[i], probabilities[i]),
             ],
           ],
-          if (moving && event != null) ...[
-            const SizedBox(height: 8),
+          if (paused) ...[
+            const SizedBox(height: 12),
             Row(
+              key: const ValueKey('social-paused'),
               children: [
-                Icon(Icons.warning_amber,
-                    size: 16, color: Colors.amber.shade800),
-                const SizedBox(width: 6),
+                Icon(
+                    shownHar == null
+                        ? Icons.directions_walk
+                        : labelInfo(shownHar.label).icon,
+                    size: 32,
+                    color: Colors.blueGrey.shade400),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'You are moving - this result may be less reliable.',
-                    style: textTheme.bodySmall,
+                    '${shownHar == null ? 'Moving' : displayName(shownHar.label)}'
+                    ' detected. Social signals resume as soon as you sit, '
+                    'stand or lie still.',
+                    style: textTheme.bodyMedium,
                   ),
                 ),
               ],
@@ -508,7 +516,8 @@ class HomePageState extends State<HomePage> {
           ],
           const SizedBox(height: 8),
           Text(
-            'Social predictions are most reliable for stationary activities.',
+            'Social signals are only detected while you are still (sitting, '
+            'standing or lying down).',
             style: textTheme.bodySmall,
           ),
         ],
@@ -541,7 +550,7 @@ class HomePageState extends State<HomePage> {
                         formatDuration(
                             data.groupTime(LabelGroup.dynamicActivity)),
                         'active'),
-                    _StatTile('${data.coughBouts}', 'cough bouts'),
+                    _StatTile('${data.coughBouts}', 'times coughed'),
                   ],
                 ),
                 const SizedBox(height: 12),

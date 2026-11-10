@@ -71,14 +71,7 @@ class SampleWindow {
   // Add one sample. Returns true when a new window is ready to classify,
   // in which case the caller should read `batch` straight away.
   bool add(double x, double y, double z) {
-    _samples.add([x, y, z]);
-    // Drop the oldest sample once the window is over length. Only one sample
-    // is added at a time, so removing one is enough to keep it at `length`.
-    // (removeAt(0) shifts the list, but at 50 entries that cost is trivial.)
-    if (_samples.length > length) {
-      _samples.removeAt(0);
-    }
-    _sinceLast++;
+    push(x, y, z);
     // Only classify complete windows, and only every `step` samples. Because
     // `_sinceLast` keeps counting while the window fills up, the first window
     // is reported as soon as it is full, regardless of `step`.
@@ -87,6 +80,20 @@ class SampleWindow {
       return true;
     }
     return false;
+  }
+
+  // Add one sample without ever reporting a window as ready. The step count
+  // keeps running, so after a pause (social signals while moving) the next
+  // add() classifies at once instead of waiting another `step` samples.
+  void push(double x, double y, double z) {
+    _samples.add([x, y, z]);
+    // Drop the oldest sample once the window is over length. Only one sample
+    // is added at a time, so removing one is enough to keep it at `length`.
+    // (removeAt(0) shifts the list, but at 100 entries that cost is trivial.)
+    if (_samples.length > length) {
+      _samples.removeAt(0);
+    }
+    _sinceLast++;
   }
 
   // The current window in the shape the model expects: [1, length, 3], i.e. a

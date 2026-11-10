@@ -380,7 +380,8 @@ class _SocialDouble implements SocialClassifier {
   @override
   List<String> get classes => socialLabels;
   @override
-  SocialPrediction? addSample(double x, double y, double z) {
+  SocialPrediction? addSample(double x, double y, double z,
+      {bool infer = true}) {
     samples.add([x, y, z]);
     return null;
   }

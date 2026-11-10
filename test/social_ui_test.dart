@@ -21,7 +21,7 @@ void main() {
   late SensorController sensor;
 
   setUp(() async {
-    appSettings.stepSamples.value = 25; // trained step; Settings default is 12
+    appSettings.stepSamples.value = 25; // trained step; Settings default is 6
     sensor = SensorController(session: UserSession(rememberLastUser: false));
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
@@ -81,8 +81,8 @@ void main() {
       expect(processor.latestPrediction!.prediction.label, socialLabels[index]);
       expect(processor.latestPrediction!.prediction.confidence, 0.87655);
       expect(
-          find.text(
-              'Social predictions are most reliable for stationary activities.'),
+          find.text('Social signals are only detected while you are still '
+              '(sitting, standing or lying down).'),
           findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
     });
@@ -203,14 +203,13 @@ void main() {
       battery: null,
       charging: false,
       receivedAt: DateTime.utc(2026, 11, 2),
-      prediction: const HarPrediction('running', 0.91),
+      prediction: const HarPrediction('lyingBack', 0.91),
     );
     feed(100);
     await tester.pump();
-    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Lying on Back'), findsOneWidget);
     expect(find.text('Confidence: 91%'), findsOneWidget);
     expect(labelFinder, findsOneWidget);
-    // Moving HAR output neither changes nor suppresses Social probabilities.
     expect(tester.widget<Text>(labelFinder).data, 'Normal Breathing');
     expect(tester.widget<Text>(confidenceFinder).data, 'Confidence: 87.7%');
     runner.fail = true;
@@ -218,12 +217,66 @@ void main() {
     await tester.pump();
     expect(status(tester), 'Social inference error — reconnect to retry');
     expect(labelFinder, findsNothing);
-    expect(find.text('Running'), findsOneWidget);
+    expect(find.text('Lying on Back'), findsOneWidget);
     expect(find.text('Confidence: 91%'), findsOneWidget);
     runner.fail = false;
     processor.startSession();
     await tester.pump();
     expect(status(tester), 'Collecting data... (first result after about 8 s)');
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Social pauses while moving and resumes at once when still',
+      (tester) async {
+    final gated = SensorController(
+        session: UserSession(rememberLastUser: false),
+        socialProcessor: processor);
+    addTearDown(gated.dispose);
+    final oldHar = harClassifier;
+    harClassifier = _Har();
+    addTearDown(() => harClassifier = oldHar);
+    void har(String label) => gated.updateFromPacket(
+          accel: null,
+          battery: null,
+          charging: false,
+          receivedAt: DateTime.utc(2026, 11, 9),
+          prediction: HarPrediction(label, 0.9),
+        );
+    processor.startSession();
+    await tester.pumpWidget(MaterialApp(
+      home: HomePage(
+          sensor: gated, session: gated.session, socialProcessor: processor),
+    ));
+    har('sittingStanding');
+    feed(100);
+    await tester.pump();
+    expect(status(tester), 'Live prediction');
+    expect(labelFinder, findsOneWidget);
+
+    // Walking: the last result disappears and nothing is classified.
+    har('normalWalking');
+    har('normalWalking');
+    await tester.pump();
+    expect(processor.status, SocialPredictionStatus.pausedMoving);
+    expect(status(tester), 'Paused while you are moving');
+    expect(labelFinder, findsNothing);
+    expect(find.byKey(const ValueKey('social-paused')), findsOneWidget);
+    final before = processor.inferenceCount;
+    feed(60);
+    expect(processor.inferenceCount, before);
+    expect(processor.latestPrediction, isNull);
+
+    // Still again (majority of the last 3 is static): the buffered window is
+    // classified on the very next sample, not a full step later.
+    har('sittingStanding');
+    har('sittingStanding');
+    await tester.pump();
+    expect(processor.paused, isFalse);
+    feed(1);
+    await tester.pump();
+    expect(processor.inferenceCount, before + 1);
+    expect(status(tester), 'Live prediction');
+    expect(labelFinder, findsOneWidget);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 

@@ -22,12 +22,12 @@ Flutter app for PDIoT Coursework 3 (2026/27).
 
 | Tab | What it does |
 |---|---|
-| **Home** | **Sensor card.** If no sensor is paired: *Scan QR code* or *Enter ID*. Once paired: *Connect* / *Disconnect*, the RESpeck battery, live acceleration, and *Change* / *Forget sensor*.<br>**Detected activity:** icon, name, confidence and smoothing note.<br>**Social signal:** class, confidence, all four probabilities, and a warning while moving.<br>**Today:** monitored time, active time, cough bouts and the day timeline. |
-| **Tools** | **Real-time test:** timed, scored trials per participant, activity and social signal, with a warm-up skip and the latency to the first correct result; a per-class / per-group accuracy table; CSV export. Each trial also saves its **raw sensor CSV** to `<user>/raw/`.<br>**Free recording:** raw data with labels and no time limit, also to `raw/`. |
-| **Performance** | **Live moving graphs (last 5 min):** CPU, memory, phone battery, phone power (Android), RESpeck battery, HAR / Social inference time, sensor sample rate, storage.<br>**Figures:** response time, sensor stream, power and storage breakdown.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/`. |
+| **Home** | **Sensor card.** If no sensor is paired: *Scan QR code* or *Enter ID*. Once paired: *Connect* / *Disconnect*, the RESpeck battery, live acceleration, and *Change* / *Forget sensor*.<br>**Detected activity:** icon, name, confidence and smoothing note.<br>**Social signal:** class, confidence and all four probabilities while you are still; *Paused while you are moving* (with the detected activity) while walking, on stairs, running, shuffling or moving about.<br>**Today:** monitored time, active time, times coughed and the day timeline. |
+| **Tools** | **Real-time test:** timed, scored trials per participant, activity and social signal, with a warm-up skip, the latency to the first correct result and to the right class being *shown* (after smoothing); social is fixed to *not assessed* for moving activities; **Latency test:** the phone cues a change (vibration + beep) and times until the new class is first correct, shown and steady, with CSV export; a per-class / per-group accuracy table; CSV export. Each trial also saves its **raw sensor CSV** to `<user>/raw/`.<br>**Free recording:** raw data with labels and no time limit, also to `raw/`. |
+| **Performance** | **Live moving graphs (last 5 min):** CPU, memory, phone battery, phone power (Android), RESpeck battery, HAR / Social inference time, sensor sample rate, storage.<br>**Figures:** response time, sensor stream, power and storage breakdown.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/` (with streaming state, shown activity and social status per second) plus a `.conditions.json` with platform, OS, app version, settings, models and duration. |
 | **History** | The activity **and** the social signal of the same moment side by side, for any day.<br>**Episodes:** runs where neither label changed, with start–end, duration and mean confidence.<br>**Every result:** each activity result with its paired social result (±¾ of the update interval), paginated. |
-| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, cough bouts, time per social signal, the share of the day, and a **7-day trend**. Export the day as CSV, or delete it. |
-| **Settings** (gear) | **Update interval** (2 s / 1 s / 0.5 s), activity smoothing, installed models, the user's folder, version. |
+| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, times coughed, time per social signal, the share of the day, and a **7-day trend**. Export the day as CSV, or delete it. |
+| **Settings** (gear) | **Update interval** (2 s / 1 s / 0.5 s), activity smoothing, **reminders** (move after 30–90 min of sitting/standing; wake-up alarm while still lying after a set time), installed models, the user's folder, version. |
 
 Light and dark themes follow the phone setting.
 
@@ -81,8 +81,8 @@ The update interval is the step between windows. It is set in Settings:
 | Setting | Step | Note |
 |---|---|---|
 | 2 s | 25 samples | the step used in training |
-| 1 s | 12 samples | default |
-| 0.5 s | 6 samples | |
+| 1 s | 12 samples | |
+| 0.5 s | 6 samples | default |
 
 The windows and models stay the same, so per-window accuracy does not change.
 
@@ -92,18 +92,27 @@ The windows and models stay the same, so per-window accuracy does not change.
 - Durations are sums of those intervals, so they stay correct when the setting changes.
 - Rows from before v2 count as 2 s.
 
-### Cough bouts and smoothing
+### Times coughed and smoothing
 
-- A **cough bout** is a run of consecutive `coughing` results. A gap of more than 6 s (e.g. a disconnect) also ends a bout.
-- **Smoothing** (on by default) only changes what Home shows: the most common of the last 3 HAR results. History, charts and the real-time test always use raw results.
+- **Times coughed** counts each time coughing is detected: `coughing` results less than 5 s apart are one time (so one misread window in between does not split it), a lone result is ignored, and a longer gap (or a disconnect) starts a new time.
+- **Smoothing** (on by default) only changes what Home shows: the most common of the last 3 HAR results (every result counts, so it spans 3 update intervals). History, charts and the real-time test always use raw results.
+
+### Reminders
+
+- **Move reminder:** sitting/standing for N minutes (default 60) within the last N + 10 minutes → "walk for 5 minutes". Repeats every 30 min; 5 min of movement restarts the count; lying down is not counted.
+- **Wake-up alarm:** after the set time, while you are still lying down, a reminder every 5 min until you get up.
+- Reminders only work while the app is open with the RESpeck connected: the app does not run in the background (no data, history or reminders with the screen off). Notification permission is asked on the first connect.
+
+### Social signals only while still
+
+Social signals are defined for stationary activities only (CW3 task 2, course feedback). When the shown activity is dynamic (walking, shuffle walking, stairs, running, miscellaneous movement), the social model is paused: nothing is classified, shown, saved to history or sent to the real-time test. Samples keep filling its window, so the first result after you stop arrives straight away. The shown (smoothed) activity drives the pause, so one misread window during a cough does not hide the cough.
 
 ### Update speed vs. accuracy
 
-The 44 recorded sessions were streamed through the real models (`progress.md`, *Model update-speed evaluation*):
-
-- Results update every 2 s, 1 s or 0.5 s.
-- A new activity is shown about 4 s after it starts (median, all steps), because HAR needs most of its 4 s window filled with the new activity.
-- Detection in about 2 s would need a 2 s window. That means retraining, with lower accuracy: in our CV, the Social 4 s window lost 4.5 points balanced accuracy, and coughing dropped from 82.4 % to 75.2 %.
+See `progress.md`, *Task 7*. In short:
+- **The RESpeck sends 32 samples (2.56 s) per BLE packet**, so the app can only change the screen once per packet, on average 1.3 s after something happens (up to 2.56 s).
+- **Activity:** shown about 4 s after a change (simulated mean 3.8–4.3 s on both members' recordings, at 0.5 s with smoothing). Before the 2026-11-09 fix the smoother only saw one result per packet, which added about 2 s.
+- **Social:** about 6–6.5 s on average (p90 ~9–10 s), because the 8 s window must be about half full of the new signal. Faster social needs a shorter or recency-trained social model; `model_harry/social_window_study.py` measures what that costs in CV accuracy.
 
 ## Live recognition models
 
@@ -126,7 +135,7 @@ The 44 recorded sessions were streamed through the real models (`progress.md`, *
 | Phone battery / power | `BatteryManager` via the `pdiot/power` channel (`MainActivity.kt`): level, charging, current (µA), voltage (mV). Power = current × voltage for the whole phone, screen included | `UIDevice` via `pdiot/power` (`AppDelegate.swift`): level and charging only. iOS has no public current API, so use Xcode Instruments → Energy Log |
 | RESpeck battery | sent in every packet (v6 firmware) | same |
 | Model response | time inside each TFLite call; interval between results | same |
-| Latency to show an activity | *Tools → Real-time test*: time from trial start to the first correct result | same |
+| Latency to show an activity | *Tools → Real-time test*: time from trial start to the first correct result and until the class is shown (CSV: `har_latency_s`, `har_shown_latency_s`, `social_latency_s`) | same |
 | Storage | file sizes in the user's folder (DB, `raw/`, `exports/`, logs) | same |
 
 ### For the report

@@ -37,8 +37,9 @@ class DayTotals {
 }
 
 /// Chart tab, the coursework's "history of activities and social signals
-/// performed each day": the day timeline, time per activity, coughing bouts
-/// and time per social signal for any chosen day, plus a 7-day trend.
+/// performed each day": the day timeline, time per activity, how many times
+/// the wearer coughed and time per social signal for any chosen day, plus a
+/// 7-day trend.
 class ChartPage extends StatefulWidget {
   const ChartPage(
       {super.key, this.openRepository, this.initialDay, this.session});
@@ -414,7 +415,7 @@ class _ChartPageState extends State<ChartPage> {
               _Stat(formatDuration(t.harTime), 'monitored'),
               _Stat(formatDuration(t.staticTime), 'static'),
               _Stat(formatDuration(t.dynamicTime), 'active'),
-              _Stat('${t.coughEpisodes}', 'cough bouts'),
+              _Stat('${t.coughEpisodes}', 'times coughed'),
             ],
           ),
           if (t.harTime > Duration.zero) ...[
@@ -496,8 +497,8 @@ class _ChartPageState extends State<ChartPage> {
                     Expanded(
                       child: Text(
                         t.coughEpisodes == 1
-                            ? 'Coughed in 1 separate bout'
-                            : 'Coughed in ${t.coughEpisodes} separate bouts',
+                            ? 'Coughed once'
+                            : 'Coughed ${t.coughEpisodes} times',
                         style: textTheme.titleMedium,
                       ),
                     ),
@@ -513,8 +514,10 @@ class _ChartPageState extends State<ChartPage> {
                   ),
                 const SizedBox(height: 4),
                 Text(
-                  'A bout is a run of consecutive coughing results; each '
-                  'result looks at the last 8 s of data.',
+                  'Each time coughing is detected counts once: coughing '
+                  'results less than 5 s apart are the same time, and a '
+                  'single stray result is not counted. Social signals are '
+                  'only detected while you are still.',
                   style: textTheme.bodySmall,
                 ),
               ],
@@ -607,7 +610,7 @@ class _ChartPageState extends State<ChartPage> {
             children: [
               _legend(staticColor, 'Static'),
               _legend(dynamicColor, 'Dynamic'),
-              _legend(labelInfo('coughing').color, 'c = cough bouts'),
+              _legend(labelInfo('coughing').color, 'c = times coughed'),
             ],
           ),
           const SizedBox(height: 4),

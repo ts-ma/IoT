@@ -13,8 +13,10 @@ import 'dart:async';
 import 'services/app_metrics.dart';
 import 'services/app_settings.dart';
 import 'services/live_feed.dart';
+import 'services/notifications.dart';
 import 'services/perf_sampler.dart';
 import 'services/prediction_history_writer.dart';
+import 'services/reminders.dart';
 import 'services/sensor_controller.dart';
 import 'services/social_sample_processor.dart';
 import 'services/user_session.dart';
@@ -120,8 +122,14 @@ void main() async {
     debugPrint('Could not load Social model: $e');
   }
 
+  // Move reminder / wake-up alarm notifications. Permission is asked when the
+  // RESpeck is first connected.
+  final notifications = AppNotifications();
+  await notifications.init();
+
   runApp(MyApp(
     socialSession: socialSession,
+    notifications: notifications,
     onSocialPrediction: (event) {
       // Debug-only, once per completed inference, never per acceleration sample.
       if (kDebugMode) {
@@ -142,7 +150,11 @@ class MyApp extends StatefulWidget {
     this.createHistoryWriter,
     this.session,
     this.startPerfSampler = true,
+    this.notifications,
   });
+
+  /// Reminder notifications; null in tests (no notifications).
+  final AppNotifications? notifications;
 
   final SocialClassifierSession? socialSession;
   final void Function(SocialPredictionEvent)? onSocialPrediction;
@@ -165,6 +177,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final SocialSampleProcessor _socialProcessor;
   late final SensorController _sensor;
   late final PerfSampler _sampler;
+  ActivityReminders? _reminders;
 
   UserSession get _session => widget.session ?? userSession;
 
@@ -189,12 +202,40 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         widget.onSocialPrediction?.call(event);
       },
     );
+    final notifications = widget.notifications;
+    if (notifications != null) {
+      _reminders = ActivityReminders(
+        notifier: notifications,
+        config: () => ReminderConfig(
+          moveEnabled: appSettings.moveReminder.value,
+          sitMinutes: appSettings.sitMinutes.value,
+          wakeEnabled: appSettings.wakeAlarm.value,
+          wakeMinuteOfDay: appSettings.wakeMinuteOfDay.value,
+        ),
+      );
+      appSettings.reminders.addListener(_resetReminders);
+    }
     _sensor = SensorController(
       historyWriter: _historyWriter,
       socialProcessor: _socialProcessor,
+      reminders: _reminders,
+      notifications: notifications,
       session: _session,
     );
-    _sampler = PerfSampler(sensor: _sensor, session: _session);
+    _sampler = PerfSampler(sensor: _sensor, session: _session)
+      ..describeSettings = () => {
+            'app_version': '$appVersionName+$appVersionCode',
+            'update_interval_samples': appSettings.stepSamples.value,
+            'update_interval_s': appSettings.resultIntervalSeconds,
+            'activity_smoothing': appSettings.smoothHar.value,
+            'har_model': harModelAsset.split('/').last,
+            'har_window_samples': harClassifier?.window.length,
+            'social_model': socialModelAsset.split('/').last,
+            'social_window_samples': socialWindowSamples,
+            'social_paused_while_moving': true,
+            'respeck': respeckUUID,
+            'user': _session.username,
+          };
     if (widget.startPerfSampler) _sampler.start();
     // Before another user logs in (or this one logs out): close the raw file,
     // drop the sensor link and the database, so nothing reaches the wrong
@@ -204,12 +245,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       if (_sensor.connected || _sensor.streaming) await _sensor.disconnect();
       await _sampler.setLogging(false);
       await _historyWriter.reopen();
+      _reminders?.reset();
     };
     // Update interval from Settings, applied to both models now and on change.
     appSettings.stepSamples.addListener(_applyStep);
     _applyStep();
     WidgetsBinding.instance.addObserver(this);
   }
+
+  // A changed reminder setting starts the counts afresh.
+  void _resetReminders() => _reminders?.reset();
 
   void _applyStep() {
     final step = appSettings.stepSamples.value;
@@ -238,6 +283,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     appSettings.stepSamples.removeListener(_applyStep);
+    if (_reminders != null) {
+      appSettings.reminders.removeListener(_resetReminders);
+    }
     if (_session.onBeforeSwitch != null) _session.onBeforeSwitch = null;
     _sampler.dispose();
     _sensor.dispose();

@@ -331,9 +331,10 @@ Future<void> notify({
         battery: battLevel,
         charging: charging,
         receivedAt: packet_received_ts,
-        // Only non-null when this packet produced a new prediction, so the
-        // display only changes when there is something new to show
-        prediction: prediction,
+        // SensorController.connect's onPrediction already passed every result
+        // of this packet to the display (and its smoother) the moment it was
+        // made; only a caller without that callback relies on this one.
+        prediction: onPrediction == null ? prediction : null,
       );
     }, onError: (Object error, StackTrace stack) {
       // A notification error confirms an interruption, but says nothing about

@@ -25,7 +25,10 @@ enum SocialPredictionStatus {
   disconnected,
   collecting,
   ready,
-  error
+  error,
+
+  /// Connected, but the wearer is moving: social signals are not classified.
+  pausedMoving
 }
 
 /// Social-only adapter for decoded BLE samples. Owns no interpreter or BLE
@@ -49,6 +52,7 @@ class SocialSampleProcessor extends ChangeNotifier {
   bool _active = false;
   bool _failed = false;
   bool _disposed = false;
+  bool _paused = false;
   SocialPredictionEvent? _latestPrediction;
 
   SocialPredictionStatus get status {
@@ -60,6 +64,7 @@ class SocialSampleProcessor extends ChangeNotifier {
     }
     if (!_active) return SocialPredictionStatus.disconnected;
     if (_failed) return SocialPredictionStatus.error;
+    if (_paused) return SocialPredictionStatus.pausedMoving;
     return _latestPrediction == null
         ? SocialPredictionStatus.collecting
         : SocialPredictionStatus.ready;
@@ -71,6 +76,22 @@ class SocialSampleProcessor extends ChangeNotifier {
 
   bool get isActive => _active;
   bool get failed => _failed;
+
+  /// True while the activity model says the wearer is moving.
+  bool get paused => _paused;
+
+  /// Social signals are only defined while stationary (sitting, standing or
+  /// lying; CW3 and the course feedback), so while the wearer moves nothing is
+  /// classified, shown, stored or sent to the real-time test. Samples are
+  /// still buffered, so the first result after stopping comes at once rather
+  /// than a full step later. The last result is dropped: it described the
+  /// time before the movement.
+  void setPaused(bool value) {
+    if (_disposed || value == _paused) return;
+    _paused = value;
+    if (value) _latestPrediction = null;
+    _publish();
+  }
   int inferenceCount = 0;
   int errorCount = 0;
   int deliveryErrorCount = 0;
@@ -84,6 +105,7 @@ class SocialSampleProcessor extends ChangeNotifier {
     if (_disposed) return;
     _active = true;
     _failed = false;
+    _paused = false;
     _latestPrediction = null;
     _reset();
     _publish();
@@ -91,6 +113,7 @@ class SocialSampleProcessor extends ChangeNotifier {
 
   void endSession() {
     _active = false;
+    _paused = false;
     _latestPrediction = null;
     _reset();
     _publish();
@@ -123,6 +146,10 @@ class SocialSampleProcessor extends ChangeNotifier {
       final classifier = _classifier();
       if (classifier == null) {
         return; // Startup failure/unavailable: HAR proceeds.
+      }
+      if (_paused) {
+        classifier.addSample(x, y, z, infer: false);
+        return;
       }
       final timer = Stopwatch()..start();
       final prediction = classifier.addSample(x, y, z);

@@ -3,11 +3,15 @@ import 'dart:async';
 import '../har.dart';
 import 'social_sample_processor.dart';
 
-/// One new raw HAR result with the phone time it was produced.
+/// One new raw HAR result with the phone time it was produced, and the result
+/// the Home screen shows after it (smoothed when smoothing is on).
 class LiveHarEvent {
-  LiveHarEvent(this.prediction, DateTime at) : at = at.toUtc();
+  LiveHarEvent(this.prediction, DateTime at, {HarPrediction? shown})
+      : at = at.toUtc(),
+        shown = shown ?? prediction;
 
   final HarPrediction prediction;
+  final HarPrediction shown;
   final DateTime at;
 }
 
@@ -23,8 +27,8 @@ class LivePredictionFeed {
   Stream<LiveHarEvent> get harEvents => _har.stream;
   Stream<SocialPredictionEvent> get socialEvents => _social.stream;
 
-  void addHar(HarPrediction prediction, {DateTime? at}) {
-    _har.add(LiveHarEvent(prediction, at ?? DateTime.now()));
+  void addHar(HarPrediction prediction, {DateTime? at, HarPrediction? shown}) {
+    _har.add(LiveHarEvent(prediction, at ?? DateTime.now(), shown: shown));
   }
 
   void addSocial(SocialPredictionEvent event) {

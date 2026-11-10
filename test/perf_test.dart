@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -104,6 +105,15 @@ void main() {
     expect(lines.first, PerfSample.csvHeader);
     expect(lines, hasLength(5)); // header + 4 samples while logging
     expect(p.dirname(log.path), session.performanceDir!.path);
+    // Every row has the header's columns; the conditions file sits next to it.
+    for (final l in lines) {
+      expect(l.split(',').length, PerfSample.csvHeader.split(',').length);
+    }
+    final cond = File(log.path.replaceFirst('.csv', '.conditions.json'));
+    final info = jsonDecode(await cond.readAsString()) as Map<String, dynamic>;
+    expect(info['platform'], Platform.operatingSystem);
+    expect(info['duration_s'], isA<int>());
+    expect(info['log_file'], p.basename(log.path));
     sampler.dispose();
   });
 

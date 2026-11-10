@@ -87,7 +87,8 @@ class TimelineData {
   final Duration binSize;
   final List<TimelineBin> bins;
 
-  /// Separate coughing bouts in the shown range.
+  /// How many times coughing was detected in the shown range
+  /// ([countLabelEpisodes]).
   final int coughBouts;
 
   bool get isEmpty => bins.every((b) => b.isEmpty);

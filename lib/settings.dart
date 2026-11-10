@@ -27,8 +27,12 @@ class SettingsPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListenableBuilder(
-          listenable: Listenable.merge(
-              [appSettings.stepSamples, appSettings.smoothHar, s]),
+          listenable: Listenable.merge([
+            appSettings.stepSamples,
+            appSettings.smoothHar,
+            appSettings.reminders,
+            s
+          ]),
           builder: (context, _) {
             final step = appSettings.stepSamples.value;
             return ListView(
@@ -58,7 +62,9 @@ class SettingsPage extends StatelessWidget {
                         '(social signal), so accuracy is the same; shorter '
                         'intervals show changes up to one interval sooner and '
                         'run the models more often (a few ms each). The models '
-                        'were trained with 2 s.',
+                        'were trained with 2 s. The RESpeck sends its data in '
+                        'packets of 2.56 s, so the screen changes at most once '
+                        'per packet whatever the interval.',
                         style: textTheme.bodySmall,
                       ),
                     ],
@@ -74,11 +80,12 @@ class SettingsPage extends StatelessWidget {
                     onChanged: appSettings.setSmoothHar,
                     title: const Text('Smooth activity results'),
                     subtitle: Text('Show the most common of the last 3 results '
-                        '(${(3 * step / sensorHz).toStringAsFixed(0)} s) to stop '
+                        '(${(3 * step / sensorHz).toStringAsFixed(1)} s) to stop '
                         'the display flickering. History and tests always use '
                         'the raw results.'),
                   ),
                 ),
+                _remindersCard(context),
                 SectionCard(
                   icon: Icons.memory,
                   title: 'Models',
@@ -105,7 +112,9 @@ class SettingsPage extends StatelessWidget {
                         subtitle: Text('${socialLabels.length} classes · '
                             '$socialWindowSamples-sample window '
                             '(${socialWindowSeconds.toStringAsFixed(0)} s), new '
-                            'result every $step samples'),
+                            'result every $step samples while you are still; '
+                            'paused while the activity is walking, stairs, '
+                            'running, shuffling or other movement'),
                       ),
                       Text(
                         'Both models run on the phone with TensorFlow Lite; '
@@ -143,6 +152,79 @@ class SettingsPage extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _remindersCard(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final wake = appSettings.wakeMinuteOfDay.value;
+    final wakeText = MaterialLocalizations.of(context).formatTimeOfDay(
+        TimeOfDay(hour: wake ~/ 60, minute: wake % 60),
+        alwaysUse24HourFormat: MediaQuery.of(context).alwaysUse24HourFormat);
+    return SectionCard(
+      icon: Icons.notifications_active_outlined,
+      title: 'Reminders',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SwitchListTile(
+            key: const ValueKey('move-reminder-setting'),
+            contentPadding: EdgeInsets.zero,
+            value: appSettings.moveReminder.value,
+            onChanged: appSettings.setMoveReminder,
+            title: const Text('Move reminder'),
+            subtitle: Text('Notify me to walk for 5 minutes after sitting or '
+                'standing for ${appSettings.sitMinutes.value} minutes (counted '
+                'over the last ${appSettings.sitMinutes.value + 10} minutes, '
+                'so short breaks or misreads do not restart it). Lying down '
+                'does not count.'),
+          ),
+          if (appSettings.moveReminder.value)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: SegmentedButton<int>(
+                key: const ValueKey('sit-minutes-setting'),
+                segments: [
+                  for (final m in sitMinuteChoices)
+                    ButtonSegment(value: m, label: Text('$m min')),
+                ],
+                selected: {appSettings.sitMinutes.value},
+                showSelectedIcon: false,
+                onSelectionChanged: (v) => appSettings.setSitMinutes(v.single),
+              ),
+            ),
+          SwitchListTile(
+            key: const ValueKey('wake-alarm-setting'),
+            contentPadding: EdgeInsets.zero,
+            value: appSettings.wakeAlarm.value,
+            onChanged: appSettings.setWakeAlarm,
+            title: const Text('Wake-up alarm'),
+            subtitle: Text('After $wakeText, notify me every 5 minutes while '
+                'I am still lying down, until I get up.'),
+          ),
+          if (appSettings.wakeAlarm.value)
+            OutlinedButton.icon(
+              key: const ValueKey('wake-time-setting'),
+              icon: const Icon(Icons.alarm),
+              label: Text('Alarm time: $wakeText'),
+              onPressed: () async {
+                final t = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay(hour: wake ~/ 60, minute: wake % 60),
+                );
+                if (t != null) {
+                  await appSettings.setWakeMinuteOfDay(t.hour * 60 + t.minute);
+                }
+              },
+            ),
+          const SizedBox(height: 4),
+          Text(
+            'Reminders need the RESpeck connected and the app open on the '
+            'screen: the app does not run in the background.',
+            style: textTheme.bodySmall,
+          ),
+        ],
       ),
     );
   }

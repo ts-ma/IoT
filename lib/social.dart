@@ -162,11 +162,20 @@ class SocialClassifier {
   /// Returns null until sample 100, then until each further [step] samples
   /// arrive (25 by default).
   /// The model sees the latest complete window, oldest sample first.
-  SocialPrediction? addSample(double x, double y, double z) {
+  /// With [infer] false the sample is only buffered (social signals are paused
+  /// while the wearer moves); the first sample after the pause that has a full
+  /// window behind it is classified at once.
+  SocialPrediction? addSample(double x, double y, double z,
+      {bool infer = true}) {
     _checkOpen();
     if (!x.isFinite || !y.isFinite || !z.isFinite) {
       _window.clear();
       throw ArgumentError('Social acceleration samples must be finite');
+    }
+    if (!infer) {
+      // Paused (the wearer is moving): keep the window current, no inference.
+      _window.push(x, y, z);
+      return null;
     }
     if (!_window.add(x, y, z)) return null;
     try {

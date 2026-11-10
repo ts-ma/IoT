@@ -85,18 +85,33 @@ void main() {
     ({String label, DateTime at}) r(String label, int seconds) =>
         (label: label, at: t0.add(Duration(seconds: seconds)));
 
-    test('runs, interruptions and gaps', () {
+    test('times coughed: misreads merge, lone results and gaps', () {
       final records = [
         r('coughing', 0),
         r('coughing', 2),
-        r('other', 4),
+        r('other', 4), // one misread window does not split the time
         r('coughing', 6),
-        r('coughing', 30), // gap after a disconnect starts a new bout
-        r('breathingNormally', 32),
+        r('breathingNormally', 8),
+        r('coughing', 30), // lone stray result: not counted
+        r('other', 32),
+        r('coughing', 60), // a new time after a long gap
+        r('coughing', 61),
+        r('coughing', 64), // 3 s later: still the same time
       ];
-      expect(countLabelEpisodes(records, 'coughing'), 3);
-      expect(countLabelEpisodes(records, 'other'), 1);
+      expect(countLabelEpisodes(records, 'coughing'), 2);
+      expect(countLabelEpisodes(records, 'coughing', minResults: 1), 3);
+      expect(countLabelEpisodes(records, 'other'), 0);
+      expect(countLabelEpisodes(records, 'other', minResults: 1), 2);
       expect(countLabelEpisodes([], 'coughing'), 0);
+      // Exactly 5 s apart is a new time (the merge gap is "less than 5 s").
+      expect(
+          countLabelEpisodes([
+            r('coughing', 0),
+            r('coughing', 1),
+            r('coughing', 6),
+            r('coughing', 7),
+          ], 'coughing'),
+          2);
     });
   });
 
@@ -228,7 +243,7 @@ void main() {
           confidence: 0.9,
         ));
 
-    test('counts per label and cough bouts within one day only', () async {
+    test('counts per label and times coughed within one day only', () async {
       await add(PredictionTaskType.har, 'normalWalking', 0);
       await add(PredictionTaskType.har, 'normalWalking', 2);
       await add(PredictionTaskType.har, 'running', 4);
@@ -252,12 +267,12 @@ void main() {
               end: end,
               taskType: PredictionTaskType.social,
               label: 'coughing'),
-          2);
+          1); // 0, 2, (other), 6: one time
     });
   });
 
   group('pages', () {
-    testWidgets('daily summary shows time per activity and cough bouts',
+    testWidgets('daily summary shows time per activity and times coughed',
         (tester) async {
       tester.view.physicalSize = const Size(1080, 4000);
       tester.view.devicePixelRatio = 1;
@@ -282,7 +297,7 @@ void main() {
       expect(find.text('Walking'), findsWidgets);
       expect(find.text('1 min 00 s'), findsWidgets);
       expect(find.text('30 min 00 s'), findsWidgets);
-      expect(find.text('Coughed in 4 separate bouts'), findsOneWidget);
+      expect(find.text('Coughed 4 times'), findsOneWidget);
       expect(find.text('Last 7 days'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       expect(repo.closed, isTrue);
@@ -404,7 +419,8 @@ class _SummaryRepository implements PredictionRepository {
     required DateTime end,
     required PredictionTaskType taskType,
     required String label,
-    Duration maxGap = const Duration(seconds: 6),
+    Duration maxGap = const Duration(seconds: 5),
+    int minResults = 2,
     PredictionSource? source,
   }) async =>
       coughs;

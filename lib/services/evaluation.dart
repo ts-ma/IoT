@@ -37,6 +37,7 @@ class EvaluationTrial {
     required this.harPredictions,
     required this.socialPredictions,
     this.harLatency,
+    this.harShownLatency,
     this.socialLatency,
     this.rawFile,
   })  : startedAt = startedAt.toUtc(),
@@ -66,6 +67,11 @@ class EvaluationTrial {
   /// observed end-to-end latency, including the model's window length.
   final Duration? harLatency;
   final Duration? socialLatency;
+
+  /// Start of trial until the Home screen first SHOWED the true activity
+  /// (after smoothing, if on): what a user sees. Null for older trials.
+  /// Social results are shown unsmoothed, so [socialLatency] is already that.
+  final Duration? harShownLatency;
 
   /// Raw sensor CSV saved for this trial in the user's raw/ folder, if any.
   final String? rawFile;
@@ -97,6 +103,7 @@ class EvaluationTrial {
         'harPredictions': harPredictions,
         'socialPredictions': socialPredictions,
         'harLatencyMs': harLatency?.inMilliseconds,
+        'harShownLatencyMs': harShownLatency?.inMilliseconds,
         'socialLatencyMs': socialLatency?.inMilliseconds,
         'rawFile': rawFile,
       };
@@ -115,6 +122,7 @@ class EvaluationTrial {
       harPredictions: List<String>.from(json['harPredictions'] as List),
       socialPredictions: List<String>.from(json['socialPredictions'] as List),
       harLatency: ms(json['harLatencyMs']),
+      harShownLatency: ms(json['harShownLatencyMs']),
       socialLatency: ms(json['socialLatencyMs']),
       rawFile: json['rawFile'] as String?,
     );
@@ -134,16 +142,21 @@ class ClassScore {
   int majorityCorrect = 0;
   final List<Duration> latencies = [];
 
+  /// Activity classes only: latency until the true class was shown.
+  final List<Duration> shownLatencies = [];
+
   double? get accuracy => windows == 0 ? null : correct / windows;
 
   double? get majorityAccuracy => trials == 0 ? null : majorityCorrect / trials;
 
-  Duration? get meanLatency => latencies.isEmpty
+  Duration? get meanLatency => _meanOf(latencies);
+  Duration? get meanShownLatency => _meanOf(shownLatencies);
+
+  static Duration? _meanOf(List<Duration> values) => values.isEmpty
       ? null
       : Duration(
-          microseconds:
-              latencies.fold<int>(0, (a, d) => a + d.inMicroseconds) ~/
-                  latencies.length);
+          microseconds: values.fold<int>(0, (a, d) => a + d.inMicroseconds) ~/
+              values.length);
 }
 
 class EvaluationSummary {
@@ -154,17 +167,19 @@ class EvaluationSummary {
 
   factory EvaluationSummary.from(List<EvaluationTrial> trials) {
     final byLabel = <String, ClassScore>{};
-    void add(String label, List<String> predictions, Duration? latency) {
+    void add(String label, List<String> predictions, Duration? latency,
+        [Duration? shownLatency]) {
       final score = byLabel.putIfAbsent(label, () => ClassScore(label));
       score.trials++;
       score.windows += predictions.length;
       score.correct += predictions.where((p) => p == label).length;
       if (majorityLabel(predictions) == label) score.majorityCorrect++;
       if (latency != null) score.latencies.add(latency);
+      if (shownLatency != null) score.shownLatencies.add(shownLatency);
     }
 
     for (final t in trials) {
-      add(t.trueActivity, t.harPredictions, t.harLatency);
+      add(t.trueActivity, t.harPredictions, t.harLatency, t.harShownLatency);
       final social = t.trueSocial;
       if (social != null) add(social, t.socialPredictions, t.socialLatency);
     }
@@ -220,7 +235,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       'har_correct,har_accuracy_pct,har_majority,har_latency_s,true_social,'
       'social_windows,social_correct,social_accuracy_pct,social_majority,'
       'social_latency_s,har_predictions,social_predictions,social_settle_s,'
-      'raw_file\n');
+      'raw_file,har_shown_latency_s\n');
   for (final t in trials) {
     b.writeln([
       t.participant,
@@ -243,6 +258,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       t.socialPredictions.join(' '),
       t.socialSettleSeconds,
       t.rawFile ?? '',
+      _secs(t.harShownLatency),
     ].map(_csv).join(','));
   }
   return b.toString();
@@ -251,7 +267,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
 /// Per-class and per-group accuracy, ready for the report's results table.
 String summaryToCsv(EvaluationSummary summary) {
   final b = StringBuffer('group,class,trials,windows,correct,accuracy_pct,'
-      'majority_correct_trials,mean_latency_s\n');
+      'majority_correct_trials,mean_latency_s,mean_shown_latency_s\n');
   for (final s in summary.scores) {
     b.writeln([
       labelInfo(s.label).group.title,
@@ -262,15 +278,16 @@ String summaryToCsv(EvaluationSummary summary) {
       _pct(s.accuracy),
       s.majorityCorrect,
       _secs(s.meanLatency),
+      _secs(s.meanShownLatency),
     ].map(_csv).join(','));
   }
   for (final g in LabelGroup.values) {
-    b.writeln([g.title, 'MEAN', '', '', '', _pct(summary.groupMean(g)), '', '']
+    b.writeln([g.title, 'MEAN', '', '', '', _pct(summary.groupMean(g)), '', '', '']
         .map(_csv)
         .join(','));
   }
   b.writeln(['All', 'MEAN', '', summary.totalWindows, summary.totalCorrect,
-      _pct(summary.overallMean), '', ''].map(_csv).join(','));
+      _pct(summary.overallMean), '', '', ''].map(_csv).join(','));
   return b.toString();
 }
 

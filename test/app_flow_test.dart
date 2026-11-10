@@ -58,7 +58,7 @@ void main() {
           binSizeFor(const Duration(minutes: 10)), const Duration(seconds: 10));
     });
 
-    test('monitored range, dominant activity per bin, cough bouts', () async {
+    test('monitored range, dominant activity per bin, times coughed', () async {
       final repo = await openDb();
       final day = DateTime(2026, 11, 3);
       final t = DateTime(2026, 11, 3, 10, 0, 5).toUtc();
@@ -85,7 +85,7 @@ void main() {
       expect(data.bins.first.harLabel, 'sittingStanding'); // 10:00:00-10:00:30
       expect(data.bins.first.har['normalWalking'], const Duration(seconds: 5));
       expect(data.monitored, const Duration(seconds: 25));
-      expect(data.coughBouts, 2);
+      expect(data.coughBouts, 1); // 3 s + 4 s = one time; 12 s alone is ignored
       expect(data.activities, ['sittingStanding', 'normalWalking']);
       final full = await loadTimeline(repo, day, range: TimelineRange.fullDay);
       expect(full.bins, hasLength(144));

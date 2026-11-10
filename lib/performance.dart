@@ -269,12 +269,15 @@ class _PerformancePageState extends State<PerformancePage> {
                   '${_s(m.socialUpdateInterval.mean)} / ${_s(m.socialUpdateInterval.max)}'),
               const SizedBox(height: 6),
               Text(
-                'Time until a new activity is shown ≈ time for most of the '
-                'window to hold the new activity (about 4 s for HAR, 6-8 s '
-                'for Social) + up to one update interval '
-                '(${interval.toStringAsFixed(1)} s) + inference (a few ms). '
+                'Time until a change is shown ≈ wait for the RESpeck packet '
+                'holding it (32 samples = 2.56 s, so 1.3 s on average) + time '
+                'for enough of the window to hold the new activity (about 2 s '
+                'of the 4 s HAR window, 4 s of the 8 s Social window) + up to '
+                'one update interval (${interval.toStringAsFixed(1)} s) + '
+                'smoothing (about one interval) + inference (a few ms). '
                 'Inference runs on the phone, so there is no network delay. '
-                'The real-time test in Tools measures the observed latency.',
+                'Social signals are paused while you move. The real-time test '
+                'in Tools measures the observed latency.',
                 style: textTheme.bodySmall,
               ),
             ],

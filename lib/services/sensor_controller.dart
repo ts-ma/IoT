@@ -1,14 +1,17 @@
 import 'package:flutter/foundation.dart';
 
+import '../activity_catalog.dart';
 import '../ble.dart' as ble;
 import '../globals.dart';
 import '../har.dart';
 import '../utils.dart';
 import 'app_settings.dart';
 import 'live_feed.dart';
+import 'notifications.dart';
 import 'prediction_history_writer.dart';
 import 'prediction_smoother.dart';
 import 'raw_recorder.dart';
+import 'reminders.dart';
 import 'social_sample_processor.dart';
 import 'user_session.dart';
 
@@ -21,6 +24,8 @@ class SensorController extends ChangeNotifier {
   SensorController({
     this.historyWriter,
     this.socialProcessor,
+    this.reminders,
+    this.notifications,
     UserSession? session,
     RawRecorder? recorder,
   })  : session = session ?? userSession,
@@ -31,6 +36,12 @@ class SensorController extends ChangeNotifier {
 
   final PredictionHistoryWriter? historyWriter;
   final SocialSampleProcessor? socialProcessor;
+
+  /// Move reminder and wake-up alarm, fed with every shown activity result.
+  final ActivityReminders? reminders;
+
+  /// Asks for notification permission (reminders) on the first connect.
+  final AppNotifications? notifications;
   final UserSession session;
   final RawRecorder recorder;
 
@@ -61,8 +72,9 @@ class SensorController extends ChangeNotifier {
   bool get paired => respeckUUID != null && respeckUUID!.isNotEmpty;
 
   /// Values decoded from one packet. [accel] is null for a packet without
-  /// samples (the last reading stays), [prediction] null unless the packet
-  /// completed a new classification window.
+  /// samples (the last reading stays). [prediction] is for callers that did
+  /// not already report the packet's results through [addHarResult]; the live
+  /// BLE path reports every result there and passes null here.
   void updateFromPacket({
     required String? accel,
     required int? battery,
@@ -73,14 +85,34 @@ class SensorController extends ChangeNotifier {
     if (accel != null) accelText = accel;
     respeckBattery = battery;
     respeckCharging = charging;
-    if (prediction != null) {
-      harRaw = prediction;
-      harShown =
-          appSettings.smoothHar.value ? _smoother.add(prediction) : prediction;
-      harUpdatedAt = receivedAt;
-    }
+    if (prediction != null) addHarResult(prediction, at: receivedAt);
     _notify();
   }
+
+  /// One raw activity result, as soon as the model produced it (several per
+  /// RESpeck packet: a packet carries 32 samples = 2.56 s, the step is 0.5-2
+  /// s). Every result goes into the smoother, so "majority of the last 3"
+  /// spans 3 update intervals. (Feeding only the last result of each packet
+  /// made it span 3 packets = 7.7 s and delayed every change by ~2 s.)
+  ///
+  /// The shown activity also switches social signals on and off: they are
+  /// only classified while the wearer is still. The smoothed result is used,
+  /// so a single misread window during a cough does not hide the cough.
+  /// Does not notify: the packet's [updateFromPacket] does, once.
+  HarPrediction addHarResult(HarPrediction prediction, {DateTime? at}) {
+    harRaw = prediction;
+    final shown =
+        appSettings.smoothHar.value ? _smoother.add(prediction) : prediction;
+    harShown = shown;
+    harUpdatedAt = at ?? DateTime.now();
+    socialProcessor?.setPaused(isMoving(shown.label));
+    reminders?.onActivity(shown.label, harUpdatedAt!, appSettings.resultInterval);
+    return shown;
+  }
+
+  /// Dynamic activities (walking, stairs, running, shuffling, misc.).
+  static bool isMoving(String harLabel) =>
+      labelInfo(harLabel).group == LabelGroup.dynamicActivity;
 
   /// Called by ble.dart whenever the connection state changes, so no screen
   /// shows a stale state.
@@ -97,6 +129,7 @@ class SensorController extends ChangeNotifier {
     harShown = null;
     harRaw = null;
     harUpdatedAt = null;
+    socialProcessor?.setPaused(false);
     _notify();
   }
 
@@ -124,12 +157,15 @@ class SensorController extends ChangeNotifier {
       }
       await ble.connectToRespeck(
         onPrediction: (prediction) {
-          // Raw result: persisted to history and published to live screens.
+          // Raw result: persisted to history and published to live screens
+          // together with what the screen now shows (for the shown latency).
+          final shown = addHarResult(prediction);
           historyWriter?.capture(prediction);
-          liveFeed.addHar(prediction);
+          liveFeed.addHar(prediction, shown: shown);
         },
         socialProcessor: socialProcessor,
       );
+      await notifications?.requestPermission();
       return null;
     } catch (e) {
       debugPrint('Connect failed: $e');

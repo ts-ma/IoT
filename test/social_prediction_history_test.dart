@@ -34,7 +34,7 @@ void main() {
   final writerTime = DateTime.utc(2026, 11, 3); // Deliberately different.
 
   setUp(() async {
-    appSettings.stepSamples.value = 25; // trained step; Settings default is 12
+    appSettings.stepSamples.value = 25; // trained step; Settings default is 6
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
     repository = _Repository();

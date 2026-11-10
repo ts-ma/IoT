@@ -219,15 +219,15 @@ class PredictionRepository {
     return (rows.single['n'] as num).toInt();
   }
 
-  /// Number of separate bouts of [label] in [start, end): consecutive records
-  /// with that label form one bout, which ends at a different label or a gap
-  /// longer than [maxGap] (e.g. a disconnect). Counts coughing episodes.
+  /// How many times [label] was detected in [start, end) (e.g. "coughed N
+  /// times"); see [countLabelEpisodes] for the merging rule.
   Future<int> countEpisodes({
     required DateTime start,
     required DateTime end,
     required PredictionTaskType taskType,
     required String label,
-    Duration maxGap = const Duration(seconds: 6),
+    Duration maxGap = const Duration(seconds: 5),
+    int minResults = 2,
     PredictionSource? source,
   }) async {
     _validateRange(start, end);
@@ -249,6 +249,7 @@ class PredictionRepository {
       ],
       label,
       maxGap: maxGap,
+      minResults: minResults,
     );
   }
 
@@ -314,26 +315,32 @@ class TimelineCell {
   final Duration duration;
 }
 
-/// Counts runs of [label] in chronologically ordered [records]. A run ends at
-/// any other label or when two records are more than [maxGap] apart.
+/// Counts how many times [label] was detected ("coughed N times") in
+/// chronologically ordered [records]. Results of [label] less than [maxGap]
+/// apart are one episode, even with other results in between: at one result
+/// every 0.5 s a single misread window (coughing, other, coughing) must not
+/// count as two. An episode needs at least [minResults] results, so one stray
+/// result is not counted. A longer gap (no coughing, or a disconnect) starts
+/// a new episode.
 int countLabelEpisodes(
   List<({String label, DateTime at})> records,
   String label, {
-  Duration maxGap = const Duration(seconds: 6),
+  Duration maxGap = const Duration(seconds: 5),
+  int minResults = 2,
 }) {
   var episodes = 0;
-  var inRun = false;
-  DateTime? previous;
+  var inEpisode = 0; // results of [label] in the current episode
+  DateTime? lastHit;
   for (final record in records) {
-    final gapBroken =
-        previous != null && record.at.difference(previous) > maxGap;
-    if (record.label == label) {
-      if (!inRun || gapBroken) episodes++;
-      inRun = true;
+    if (record.label != label) continue;
+    if (lastHit != null && record.at.difference(lastHit) < maxGap) {
+      inEpisode++;
     } else {
-      inRun = false;
+      if (inEpisode >= minResults) episodes++;
+      inEpisode = 1;
     }
-    previous = record.at;
+    lastHit = record.at;
   }
+  if (inEpisode >= minResults) episodes++;
   return episodes;
 }
