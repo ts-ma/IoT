@@ -1,0 +1,9186 @@
+[
+ {
+  "id": "deploy_har_harry_cnn_w50",
+  "group": "deploy",
+  "task": "har",
+  "model": "harry_cnn",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_har_harry_rnn_w50",
+  "group": "deploy",
+  "task": "har",
+  "model": "harry_rnn",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_har_harry_mlp_w50",
+  "group": "deploy",
+  "task": "har",
+  "model": "harry_mlp",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_har_harry_feat_w50",
+  "group": "deploy",
+  "task": "har",
+  "model": "harry_feat",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_social_harry_rnn_w75",
+  "group": "deploy",
+  "task": "social",
+  "model": "harry_rnn",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_social_harry_cnn_w75",
+  "group": "deploy",
+  "task": "social",
+  "model": "harry_cnn",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_social_harry_mlp_w75",
+  "group": "deploy",
+  "task": "social",
+  "model": "harry_mlp",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "deploy_social_harry_feat_w75",
+  "group": "deploy",
+  "task": "social",
+  "model": "harry_feat",
+  "prio": 0,
+  "seed": 0,
+  "fold": null,
+  "power": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all",
+  "train": null
+ },
+ {
+  "id": "main_har_mixed_s0_f0",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f0",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f1",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f1",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f2",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f2",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f3",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f3",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f4",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f4",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f5",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f5",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f6",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f6",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f7",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f7",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f8",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f8",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s0_f9",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 0,
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s0_f9",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 0,
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": true,
+  "prio": 1,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "final_har_mixed",
+  "group": "final",
+  "task": "har",
+  "model": "harry_cnn",
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {},
+    null
+   ],
+   [
+    "janx_har",
+    {},
+    null
+   ],
+   [
+    "real",
+    {},
+    6
+   ]
+  ],
+  "tests": {},
+  "save_model": true,
+  "export": true,
+  "prio": 3,
+  "seed": 0,
+  "fold": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "depends": [],
+  "person": null,
+  "variant": "all"
+ },
+ {
+  "id": "final_social_w75",
+  "group": "final",
+  "task": "social",
+  "model": "harry_rnn",
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {},
+    null
+   ],
+   [
+    "janx_social",
+    {},
+    null
+   ],
+   [
+    "real",
+    {},
+    6
+   ]
+  ],
+  "tests": {},
+  "save_model": true,
+  "export": true,
+  "prio": 3,
+  "seed": 0,
+  "fold": null,
+  "finetune": null,
+  "init_from": null,
+  "monitor": null,
+  "depends": [],
+  "person": null,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f0",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f0",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f1",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f1",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f2",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f2",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f3",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f3",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f4",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f4",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f5",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f5",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f6",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f6",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f7",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f7",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f8",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f8",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s1_f9",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 1,
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s1_f9",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 1,
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f0",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f0",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f1",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f1",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f2",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f2",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f3",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f3",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f4",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f4",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f5",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f5",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f6",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f6",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f7",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f7",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f8",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f8",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_har_mixed_s2_f9",
+  "group": "main",
+  "task": "har",
+  "model": "harry_cnn",
+  "seed": 2,
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "main_social_w75_s2_f9",
+  "group": "main",
+  "task": "social",
+  "model": "harry_rnn",
+  "seed": 2,
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "save_model": false,
+  "prio": 5,
+  "finetune": null,
+  "init_from": null,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f0",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f1",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f2",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f3",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f4",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f5",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f6",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f7",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f8",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_rnn_mixed_f9",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_rnn",
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f0",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f1",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f2",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f3",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f4",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f5",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f6",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f7",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f8",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_mlp_mixed_f9",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_mlp",
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f0",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 0,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f1",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 1,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f2",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 2,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f3",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 3,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f4",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 4,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f5",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 5,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f6",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 6,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f7",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 7,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f8",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 8,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_har_harry_feat_mixed_f9",
+  "group": "baseline",
+  "task": "har",
+  "model": "harry_feat",
+  "fold": 9,
+  "power": null,
+  "train": [
+   [
+    "jan_har",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "har",
+    "window": 50,
+    "parts": [
+     [
+      "jan_har",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f0",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f1",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f2",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f3",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f4",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f5",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f6",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f7",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f8",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_cnn_w75_f9",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_cnn",
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f0",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f1",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f2",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f3",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f4",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f5",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f6",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f7",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f8",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_mlp_w75_f9",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_mlp",
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f0",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 0,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f1",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 1,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f2",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 2,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f3",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 3,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f4",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 4,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f5",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 5,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f6",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 6,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f7",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 7,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f8",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 8,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "base_social_harry_feat_w75_f9",
+  "group": "baseline",
+  "task": "social",
+  "model": "harry_feat",
+  "fold": 9,
+  "power": 0.6,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 6,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f0",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 0,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f1",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 1,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f2",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 2,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f3",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 3,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f4",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 4,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f5",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 5,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f6",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 6,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f7",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 7,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f8",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 8,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0_w75_f9",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 9,
+  "power": 0.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f0",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 0,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f1",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 1,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f2",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 2,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f3",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 3,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f4",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 4,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f5",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 5,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f6",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 6,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f7",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 7,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f8",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 8,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.3_w75_f9",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 9,
+  "power": 0.3,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f0",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 0,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f1",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 1,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f2",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 2,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f3",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 3,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f4",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 4,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f5",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 5,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f6",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 6,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f7",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 7,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f8",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 8,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p0.8_w75_f9",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 9,
+  "power": 0.8,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f0",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 0,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 0
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 0
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 0
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 0
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f1",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 1,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 1
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 1
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 1
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 1
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f2",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 2,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 2
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 2
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 2
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 2
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f3",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 3,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 3
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 3
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 3
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 3
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f4",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 4,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 4
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 4
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 4
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 4
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f5",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 5,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 5
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 5
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 5
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 5
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f6",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 6,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 6
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 6
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 6
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 6
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f7",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 7,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 7
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 7
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 7
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 7
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f8",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 8,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 8
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 8
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 8
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 8
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ },
+ {
+  "id": "sweep_p1_w75_f9",
+  "group": "sweep",
+  "task": "social",
+  "model": "harry_rnn",
+  "fold": 9,
+  "power": 1.0,
+  "train": [
+   [
+    "jan_social",
+    {
+     "fold_ne": 9
+    },
+    null
+   ],
+   [
+    "real",
+    {
+     "fold_ne": 9
+    },
+    6
+   ]
+  ],
+  "tests": {
+   "cv": {
+    "task": "social",
+    "window": 75,
+    "parts": [
+     [
+      "jan_social",
+      {
+       "fold_eq": 9
+      },
+      25
+     ],
+     [
+      "real",
+      {
+       "fold_eq": 9
+      },
+      25
+     ]
+    ]
+   }
+  },
+  "monitor": "cv",
+  "prio": 7,
+  "seed": 0,
+  "finetune": null,
+  "init_from": null,
+  "save_model": false,
+  "depends": [],
+  "person": null,
+  "export": false,
+  "variant": "all"
+ }
+]

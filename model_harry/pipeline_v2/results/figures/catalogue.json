@@ -1,0 +1,538 @@
+[
+ {
+  "section": "data",
+  "name": "recordings_per_class_har",
+  "title": "datasetJan2026 daily activity recordings per class",
+  "caption": "Number of recordings per class. Grey: files present on disk but not listed in the official fold CSV (unknown subjects; excluded from CV, used only to train the final models).",
+  "png": "figures/data/recordings_per_class_har.png",
+  "pdf": "figures/data/recordings_per_class_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "minutes_per_class_har",
+  "title": "Total recorded time per class (har)",
+  "caption": "Total duration of accelerometer data per class (all Jan2026 files).",
+  "png": "figures/data/minutes_per_class_har.png",
+  "pdf": "figures/data/minutes_per_class_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "recordings_per_class_social",
+  "title": "datasetJan2026 social signal recordings per class",
+  "caption": "Number of recordings per class. Grey: files present on disk but not listed in the official fold CSV (unknown subjects; excluded from CV, used only to train the final models).",
+  "png": "figures/data/recordings_per_class_social.png",
+  "pdf": "figures/data/recordings_per_class_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "minutes_per_class_social",
+  "title": "Total recorded time per class (social)",
+  "caption": "Total duration of accelerometer data per class (all Jan2026 files).",
+  "png": "figures/data/minutes_per_class_social.png",
+  "pdf": "figures/data/minutes_per_class_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "recording_lengths",
+  "title": "Recording lengths",
+  "caption": "Distribution of recording length; the dashed line is the model input window (4 s HAR, 8 s social). Every recording is longer than the window, so none is dropped.",
+  "png": "figures/data/recording_lengths.png",
+  "pdf": "figures/data/recording_lengths.pdf"
+ },
+ {
+  "section": "data",
+  "name": "fold_composition_har",
+  "title": "Official fold composition (har)",
+  "caption": "Recordings per class in each official fold: the folds are balanced per class, as the marking scheme describes.",
+  "png": "figures/data/fold_composition_har.png",
+  "pdf": "figures/data/fold_composition_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "fold_composition_social",
+  "title": "Official fold composition (social)",
+  "caption": "Recordings per class in each official fold: the folds are balanced per class, as the marking scheme describes.",
+  "png": "figures/data/fold_composition_social.png",
+  "pdf": "figures/data/fold_composition_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "example_signals_har",
+  "title": "Example raw signals (har)",
+  "caption": "First 20 s of one recording per class (x, y, z in g). Posture shows up as the constant offset (gravity), activity as the oscillation around it.",
+  "png": "figures/data/example_signals_har.png",
+  "pdf": "figures/data/example_signals_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "example_signals_social",
+  "title": "Example raw signals (social)",
+  "caption": "First 20 s of one recording per class (x, y, z in g). Posture shows up as the constant offset (gravity), activity as the oscillation around it.",
+  "png": "figures/data/example_signals_social.png",
+  "pdf": "figures/data/example_signals_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "gravity_orientation",
+  "title": "Gravity orientation per posture",
+  "caption": "Mean acceleration of each static recording (= gravity direction = posture). Group members' recordings (large markers) fall inside the Jan2026 clusters, so sensor placement matches the dataset.",
+  "png": "figures/data/gravity_orientation.png",
+  "pdf": "figures/data/gravity_orientation.pdf"
+ },
+ {
+  "section": "data",
+  "name": "real_data_quality",
+  "title": "Group recordings: quality checks",
+  "caption": "Per recording of each group member: angle between its gravity vector and the Jan2026 mean for the same class (placement check) and the sampling rate estimated from timestamps (nominal 12.5 Hz).",
+  "png": "figures/data/real_data_quality.png",
+  "pdf": "figures/data/real_data_quality.pdf"
+ },
+ {
+  "section": "data",
+  "name": "spectra_har",
+  "title": "Mean spectrum of the acceleration magnitude (har)",
+  "caption": "Welch power spectrum of the gravity-free acceleration magnitude, averaged over up to 200 recordings per class. These frequency bands motivate the in-model band-power features.",
+  "png": "figures/data/spectra_har.png",
+  "pdf": "figures/data/spectra_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "intensity_har",
+  "title": "Movement intensity per class (har)",
+  "caption": "How much the signal varies around gravity in each class (log scale). Static and social classes differ by orders of magnitude from dynamic ones.",
+  "png": "figures/data/intensity_har.png",
+  "pdf": "figures/data/intensity_har.pdf"
+ },
+ {
+  "section": "data",
+  "name": "spectra_social",
+  "title": "Mean spectrum of the acceleration magnitude (social)",
+  "caption": "Welch power spectrum of the gravity-free acceleration magnitude, averaged over up to 200 recordings per class. These frequency bands motivate the in-model band-power features.",
+  "png": "figures/data/spectra_social.png",
+  "pdf": "figures/data/spectra_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "intensity_social",
+  "title": "Movement intensity per class (social)",
+  "caption": "How much the signal varies around gravity in each class (log scale). Static and social classes differ by orders of magnitude from dynamic ones.",
+  "png": "figures/data/intensity_social.png",
+  "pdf": "figures/data/intensity_social.pdf"
+ },
+ {
+  "section": "data",
+  "name": "duplicates",
+  "title": "Static HAR recordings that are byte-copies of social recordings",
+  "caption": "Every static daily-activity file is a copy of a social-signal recording (breathing). The two official fold CSVs mostly place the copies in different folds.",
+  "png": "figures/data/duplicates.png",
+  "pdf": "figures/data/duplicates.pdf"
+ },
+ {
+  "section": "training",
+  "name": "learning_curves_har_all",
+  "title": "Learning curves (har, all test windows (Jan2026 + group))",
+  "caption": "Training and held-out-fold loss/accuracy per epoch, mean \u00b1 sd over the 10 official folds. The test fold was only monitored, never used to stop or tune training (fixed epochs, as in Lab 3).",
+  "png": "figures/training/learning_curves_har_all.png",
+  "pdf": "figures/training/learning_curves_har_all.pdf"
+ },
+ {
+  "section": "training",
+  "name": "learning_curves_all_models_har",
+  "title": "Held-out score per epoch, every architecture (har)",
+  "caption": "Mean held-out score (static/dynamic mean for HAR, balanced accuracy for social) over the 10 folds after each epoch.",
+  "png": "figures/training/learning_curves_all_models_har.png",
+  "pdf": "figures/training/learning_curves_all_models_har.pdf"
+ },
+ {
+  "section": "training",
+  "name": "learning_curves_social_all",
+  "title": "Learning curves (social, all test windows (Jan2026 + group))",
+  "caption": "Training and held-out-fold loss/accuracy per epoch, mean \u00b1 sd over the 10 official folds. The test fold was only monitored, never used to stop or tune training (fixed epochs, as in Lab 3).",
+  "png": "figures/training/learning_curves_social_all.png",
+  "pdf": "figures/training/learning_curves_social_all.pdf"
+ },
+ {
+  "section": "training",
+  "name": "learning_curves_all_models_social",
+  "title": "Held-out score per epoch, every architecture (social)",
+  "caption": "Mean held-out score (static/dynamic mean for HAR, balanced accuracy for social) over the 10 folds after each epoch.",
+  "png": "figures/training/learning_curves_all_models_social.png",
+  "pdf": "figures/training/learning_curves_all_models_social.pdf"
+ },
+ {
+  "section": "training",
+  "name": "training_time",
+  "title": "Training cost per fold",
+  "caption": "Wall-clock time per fold job on an Apple M1 Pro (2 threads per job, 4 jobs in parallel).",
+  "png": "figures/training/training_time.png",
+  "pdf": "figures/training/training_time.pdf"
+ },
+ {
+  "section": "results",
+  "name": "per_class_har",
+  "title": "Per-class accuracy, official 10-fold CV (har)",
+  "caption": "Mean over the 10 official folds of each class's recall (the marked number), error bars = sd over folds. Blue: every test window of each fold (datasetJan2026 + the group member in that fold); grey: the datasetJan2026 windows only, i.e. what the CW3 marking computes.",
+  "png": "figures/results/per_class_har.png",
+  "pdf": "figures/results/per_class_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "group_scores_har",
+  "title": "Group scores (har)",
+  "caption": "Marked group scores (mean over folds and seeds); error bars = sd over folds.",
+  "png": "figures/results/group_scores_har.png",
+  "pdf": "figures/results/group_scores_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_heatmap_har_all",
+  "title": "Recall per class and fold (har, all test windows (Jan2026 + group), seed 0)",
+  "caption": "Every fold's recall per class: shows which folds (groups of subjects) are hard.",
+  "png": "figures/results/fold_heatmap_har_all.png",
+  "pdf": "figures/results/fold_heatmap_har_all.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_heatmap_har_jan",
+  "title": "Recall per class and fold (har, Jan2026 test windows (as marked), seed 0)",
+  "caption": "Every fold's recall per class: shows which folds (groups of subjects) are hard.",
+  "png": "figures/results/fold_heatmap_har_jan.png",
+  "pdf": "figures/results/fold_heatmap_har_jan.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_spread_har",
+  "title": "Spread over folds and seeds (har, all test windows (Jan2026 + group))",
+  "caption": "Each dot is one fold of one seed; boxes show the median and quartiles.",
+  "png": "figures/results/fold_spread_har.png",
+  "pdf": "figures/results/fold_spread_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "seed_variation_har",
+  "title": "Run-to-run variation across training seeds (har)",
+  "caption": "The marked number for each of the 3 training seeds: the spread shows how much of a difference between models could be chance.",
+  "png": "figures/results/seed_variation_har.png",
+  "pdf": "figures/results/seed_variation_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "precision_recall_f1_har",
+  "title": "Recall, precision and F1 per class (har)",
+  "caption": "Recall is what the marking uses; precision shows how often a predicted class is right, which matters to an app user.",
+  "png": "figures/results/precision_recall_f1_har.png",
+  "pdf": "figures/results/precision_recall_f1_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "per_class_social",
+  "title": "Per-class accuracy, official 10-fold CV (social)",
+  "caption": "Mean over the 10 official folds of each class's recall (the marked number), error bars = sd over folds. Blue: every test window of each fold (datasetJan2026 + the group member in that fold); grey: the datasetJan2026 windows only, i.e. what the CW3 marking computes.",
+  "png": "figures/results/per_class_social.png",
+  "pdf": "figures/results/per_class_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "group_scores_social",
+  "title": "Group scores (social)",
+  "caption": "Marked group scores (mean over folds and seeds); error bars = sd over folds.",
+  "png": "figures/results/group_scores_social.png",
+  "pdf": "figures/results/group_scores_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_heatmap_social_all",
+  "title": "Recall per class and fold (social, all test windows (Jan2026 + group), seed 0)",
+  "caption": "Every fold's recall per class: shows which folds (groups of subjects) are hard.",
+  "png": "figures/results/fold_heatmap_social_all.png",
+  "pdf": "figures/results/fold_heatmap_social_all.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_heatmap_social_jan",
+  "title": "Recall per class and fold (social, Jan2026 test windows (as marked), seed 0)",
+  "caption": "Every fold's recall per class: shows which folds (groups of subjects) are hard.",
+  "png": "figures/results/fold_heatmap_social_jan.png",
+  "pdf": "figures/results/fold_heatmap_social_jan.pdf"
+ },
+ {
+  "section": "results",
+  "name": "fold_spread_social",
+  "title": "Spread over folds and seeds (social, all test windows (Jan2026 + group))",
+  "caption": "Each dot is one fold of one seed; boxes show the median and quartiles.",
+  "png": "figures/results/fold_spread_social.png",
+  "pdf": "figures/results/fold_spread_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "seed_variation_social",
+  "title": "Run-to-run variation across training seeds (social)",
+  "caption": "The marked number for each of the 3 training seeds: the spread shows how much of a difference between models could be chance.",
+  "png": "figures/results/seed_variation_social.png",
+  "pdf": "figures/results/seed_variation_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "precision_recall_f1_social",
+  "title": "Recall, precision and F1 per class (social)",
+  "caption": "Recall is what the marking uses; precision shows how often a predicted class is right, which matters to an app user.",
+  "png": "figures/results/precision_recall_f1_social.png",
+  "pdf": "figures/results/precision_recall_f1_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_har_all_pct",
+  "title": "Confusion matrix, har, all test windows (Jan2026 + group) (row %)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_har_all_pct.png",
+  "pdf": "figures/results/confusion_har_all_pct.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_har_all_counts",
+  "title": "Confusion matrix, har, all test windows (Jan2026 + group) (counts)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_har_all_counts.png",
+  "pdf": "figures/results/confusion_har_all_counts.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_har_jan_pct",
+  "title": "Confusion matrix, har, Jan2026 test windows (as marked) (row %)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_har_jan_pct.png",
+  "pdf": "figures/results/confusion_har_jan_pct.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_har_jan_counts",
+  "title": "Confusion matrix, har, Jan2026 test windows (as marked) (counts)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_har_jan_counts.png",
+  "pdf": "figures/results/confusion_har_jan_counts.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_social_all_pct",
+  "title": "Confusion matrix, social, all test windows (Jan2026 + group) (row %)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_social_all_pct.png",
+  "pdf": "figures/results/confusion_social_all_pct.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_social_all_counts",
+  "title": "Confusion matrix, social, all test windows (Jan2026 + group) (counts)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_social_all_counts.png",
+  "pdf": "figures/results/confusion_social_all_counts.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_social_jan_pct",
+  "title": "Confusion matrix, social, Jan2026 test windows (as marked) (row %)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_social_jan_pct.png",
+  "pdf": "figures/results/confusion_social_jan_pct.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_social_jan_counts",
+  "title": "Confusion matrix, social, Jan2026 test windows (as marked) (counts)",
+  "caption": "All test windows of the 10 folds pooled (seed 0). Rows = true class; the diagonal is the recall.",
+  "png": "figures/results/confusion_social_jan_counts.png",
+  "pdf": "figures/results/confusion_social_jan_counts.pdf"
+ },
+ {
+  "section": "results",
+  "name": "confusion_social_per_fold",
+  "title": "Social confusion per fold",
+  "caption": "Row-normalised confusion matrix of every fold.",
+  "png": "figures/results/confusion_social_per_fold.png",
+  "pdf": "figures/results/confusion_social_per_fold.pdf"
+ },
+ {
+  "section": "results",
+  "name": "recording_accuracy_har",
+  "title": "Per-recording accuracy (har)",
+  "caption": "Share of correctly classified windows within each test recording. Mass near 0 means whole recordings (people) are misread, not single windows.",
+  "png": "figures/results/recording_accuracy_har.png",
+  "pdf": "figures/results/recording_accuracy_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "recording_accuracy_social",
+  "title": "Per-recording accuracy (social)",
+  "caption": "Share of correctly classified windows within each test recording. Mass near 0 means whole recordings (people) are misread, not single windows.",
+  "png": "figures/results/recording_accuracy_social.png",
+  "pdf": "figures/results/recording_accuracy_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "calibration",
+  "title": "Reliability diagram",
+  "caption": "Accuracy of test windows grouped by the model's confidence. On the diagonal = confidence can be trusted (e.g. for showing a confidence value in the app).",
+  "png": "figures/results/calibration.png",
+  "pdf": "figures/results/calibration.pdf"
+ },
+ {
+  "section": "results",
+  "name": "roc_pr_har",
+  "title": "ROC and PR curves (har)",
+  "caption": "Per-class ROC (with AUC) and precision\u2013recall curves of the headline models, all test windows pooled.",
+  "png": "figures/results/roc_pr_har.png",
+  "pdf": "figures/results/roc_pr_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "roc_pr_social",
+  "title": "ROC and PR curves (social)",
+  "caption": "Per-class ROC (with AUC) and precision\u2013recall curves of the headline models, all test windows pooled.",
+  "png": "figures/results/roc_pr_social.png",
+  "pdf": "figures/results/roc_pr_social.pdf"
+ },
+ {
+  "section": "results",
+  "name": "tsne_har",
+  "title": "t-SNE embedding (har)",
+  "caption": "Penultimate-layer activations of held-out windows, projected to 2-D. Overlapping clusters are the classes the model confuses.",
+  "png": "figures/results/tsne_har.png",
+  "pdf": "figures/results/tsne_har.pdf"
+ },
+ {
+  "section": "results",
+  "name": "tsne_social",
+  "title": "t-SNE embedding (social)",
+  "caption": "Penultimate-layer activations of held-out windows, projected to 2-D. Overlapping clusters are the classes the model confuses.",
+  "png": "figures/results/tsne_social.png",
+  "pdf": "figures/results/tsne_social.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "architectures_har",
+  "title": "Architecture comparison (har)",
+  "caption": "Each of our four architectures trained and tested on the same folds with the same data. \u2605 = deployed model. Error bars = sd over folds.",
+  "png": "figures/comparison/architectures_har.png",
+  "pdf": "figures/comparison/architectures_har.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "architectures_per_class_har",
+  "title": "Per-class recall of every architecture (har)",
+  "caption": "Which classes each architecture gets right; the weak classes are shared by all models, i.e. they are hard in the data, not only for one model.",
+  "png": "figures/comparison/architectures_per_class_har.png",
+  "pdf": "figures/comparison/architectures_per_class_har.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "accuracy_vs_cost_har",
+  "title": "Accuracy vs model cost (har)",
+  "caption": "Trade-off between accuracy and TFLite size / single-window latency on this Mac (a phone is slower, but the ranking holds).",
+  "png": "figures/comparison/accuracy_vs_cost_har.png",
+  "pdf": "figures/comparison/accuracy_vs_cost_har.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "architectures_social",
+  "title": "Architecture comparison (social)",
+  "caption": "Each of our four architectures trained and tested on the same folds with the same data. \u2605 = deployed model. Error bars = sd over folds.",
+  "png": "figures/comparison/architectures_social.png",
+  "pdf": "figures/comparison/architectures_social.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "architectures_per_class_social",
+  "title": "Per-class recall of every architecture (social)",
+  "caption": "Which classes each architecture gets right; the weak classes are shared by all models, i.e. they are hard in the data, not only for one model.",
+  "png": "figures/comparison/architectures_per_class_social.png",
+  "pdf": "figures/comparison/architectures_per_class_social.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "accuracy_vs_cost_social",
+  "title": "Accuracy vs model cost (social)",
+  "caption": "Trade-off between accuracy and TFLite size / single-window latency on this Mac (a phone is slower, but the ranking holds).",
+  "png": "figures/comparison/accuracy_vs_cost_social.png",
+  "pdf": "figures/comparison/accuracy_vs_cost_social.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "class_weight_sweep",
+  "title": "Class-weight sweep (social)",
+  "caption": "Each class's marked recall as the class weights move from none (0) to fully balanced (1). The grey band is the chosen setting.",
+  "png": "figures/comparison/class_weight_sweep.png",
+  "pdf": "figures/comparison/class_weight_sweep.pdf"
+ },
+ {
+  "section": "comparison",
+  "name": "paired_tests",
+  "title": "Paired statistical comparisons",
+  "caption": "Differences between models / settings on the same folds with Wilcoxon signed-rank p-values (10 folds = small sample, so p \u2265 0.002 is the smallest possible).",
+  "png": "figures/comparison/paired_tests.png",
+  "pdf": "figures/comparison/paired_tests.pdf"
+ },
+ {
+  "section": "deploy",
+  "name": "model_size",
+  "title": "TFLite size (KB)",
+  "caption": "Deployment cost of each of our architectures (blue = HAR, orange = social).",
+  "png": "figures/deploy/model_size.png",
+  "pdf": "figures/deploy/model_size.pdf"
+ },
+ {
+  "section": "deploy",
+  "name": "inference_time",
+  "title": "ms per window (1 thread, Mac)",
+  "caption": "Deployment cost of each of our architectures (blue = HAR, orange = social).",
+  "png": "figures/deploy/inference_time.png",
+  "pdf": "figures/deploy/inference_time.pdf"
+ },
+ {
+  "section": "deploy",
+  "name": "parameters",
+  "title": "parameters",
+  "caption": "Deployment cost of each of our architectures (blue = HAR, orange = social).",
+  "png": "figures/deploy/parameters.png",
+  "pdf": "figures/deploy/parameters.pdf"
+ },
+ {
+  "section": "real",
+  "name": "person_har",
+  "title": "Group members as unseen subjects (har)",
+  "caption": "Each member's recordings are the test set of one fold, so these models never saw that person (the other member and the other 9 Jan2026 folds were in training). Mean over the 3 seeds.",
+  "png": "figures/real/person_har.png",
+  "pdf": "figures/real/person_har.pdf"
+ },
+ {
+  "section": "real",
+  "name": "person_social",
+  "title": "Group members as unseen subjects (social)",
+  "caption": "Each member's recordings are the test set of one fold, so these models never saw that person (the other member and the other 9 Jan2026 folds were in training). Mean over the 3 seeds.",
+  "png": "figures/real/person_social.png",
+  "pdf": "figures/real/person_social.pdf"
+ },
+ {
+  "section": "real",
+  "name": "person_social_postures",
+  "title": "Social accuracy by posture (group members)",
+  "caption": "Sitting/standing vs lying, on the fold where each member is the unseen test subject (seed 0).",
+  "png": "figures/real/person_social_postures.png",
+  "pdf": "figures/real/person_social_postures.pdf"
+ },
+ {
+  "section": "real",
+  "name": "social_window_choice",
+  "title": "Choosing the social window",
+  "caption": "Candidates: 4/5/6/8 s windows and an 8 s model trained to answer from the most recent seconds (rec). Left: marked per-class recall; right: replayed app latency (32-sample packets, 0.5 s updates) against the weakest class. The fastest candidate keeping every class \u2265 77 % is used.",
+  "png": "figures/real/social_window_choice.png",
+  "pdf": "figures/real/social_window_choice.pdf"
+ },
+ {
+  "section": "real",
+  "name": "social_latency",
+  "title": "Social latency per window candidate",
+  "caption": "App replay on same-posture changes in both members' recordings (models never trained on them): RESpeck packets of 32 samples (2.56 s), a result every 0.5 s.",
+  "png": "figures/real/social_latency.png",
+  "pdf": "figures/real/social_latency.pdf"
+ }
+]

@@ -1,0 +1,35 @@
+08:23:10 cached har: 1869 recordings from the fold CSV (50 on disk not listed -> unused)
+08:23:17 cached social: 6440 recordings from the fold CSV (52 on disk not listed -> unused)
+08:23:17 30 training jobs to run (0 already done), 3 workers x 2 threads. Logs: /Users/harryyang/IoT/model_harry/results/official_folds/folds/<job>.log
+08:25:01 [1/30] gate fold 0 done in 1.7 min · elapsed 2 min · est. left 50 min
+08:25:06 [2/30] har fold 0 done in 1.8 min · elapsed 2 min · est. left 26 min
+08:26:48 [3/30] gate fold 1 done in 1.7 min · elapsed 4 min · est. left 32 min
+08:28:44 [4/30] har fold 1 done in 1.9 min · elapsed 5 min · est. left 35 min
+08:32:56 [5/30] social fold 0 done in 9.6 min · elapsed 10 min · est. left 48 min
+08:34:39 [6/30] gate fold 2 done in 1.7 min · elapsed 11 min · est. left 45 min
+08:34:59 [7/30] social fold 1 done in 10.0 min · elapsed 12 min · est. left 38 min
+08:36:24 [8/30] har fold 2 done in 1.8 min · elapsed 13 min · est. left 36 min
+08:38:01 [9/30] gate fold 3 done in 1.6 min · elapsed 15 min · est. left 34 min
+08:38:21 [10/30] social fold 2 done in 9.6 min · elapsed 15 min · est. left 30 min
+08:39:49 [11/30] har fold 3 done in 1.8 min · elapsed 17 min · est. left 29 min
+08:41:28 [12/30] gate fold 4 done in 1.7 min · elapsed 18 min · est. left 27 min
+08:43:07 [13/30] har fold 4 done in 1.6 min · elapsed 20 min · est. left 26 min
+08:44:54 [14/30] social fold 3 done in 9.9 min · elapsed 22 min · est. left 25 min
+08:46:46 [15/30] gate fold 5 done in 1.9 min · elapsed 23 min · est. left 23 min
+08:47:58 [16/30] social fold 4 done in 9.6 min · elapsed 25 min · est. left 22 min
+08:48:39 [17/30] har fold 5 done in 1.9 min · elapsed 25 min · est. left 19 min
+08:50:30 [18/30] gate fold 6 done in 1.8 min · elapsed 27 min · est. left 18 min
+08:52:13 [19/30] har fold 6 done in 1.7 min · elapsed 29 min · est. left 17 min
+08:52:57 [20/30] social fold 5 done in 9.8 min · elapsed 30 min · est. left 15 min
+08:54:34 [21/30] gate fold 7 done in 1.6 min · elapsed 31 min · est. left 13 min
+08:56:11 [22/30] har fold 7 done in 1.6 min · elapsed 33 min · est. left 12 min
+08:57:53 [23/30] social fold 6 done in 9.9 min · elapsed 35 min · est. left 11 min
+08:59:32 [24/30] gate fold 8 done in 1.6 min · elapsed 36 min · est. left 9 min
+09:01:23 [25/30] har fold 8 done in 1.8 min · elapsed 38 min · est. left 8 min
+09:02:01 [26/30] social fold 7 done in 9.8 min · elapsed 39 min · est. left 6 min
+09:03:53 [27/30] gate fold 9 done in 1.9 min · elapsed 41 min · est. left 5 min
+09:05:27 [28/30] har fold 9 done in 1.6 min · elapsed 42 min · est. left 3 min
+09:05:57 [29/30] social fold 8 done in 9.8 min · elapsed 43 min · est. left 1 min
+09:10:37 [30/30] social fold 9 done in 9.2 min · elapsed 47 min · est. left 0 min
+09:10:42 part 2 on s2952925: 44 recordings, 1204 HAR and 886 social results
+09:10:42 report: /Users/harryyang/IoT/model_harry/results/official_folds/report.md

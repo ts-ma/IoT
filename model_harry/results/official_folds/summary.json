@@ -1,0 +1,613 @@
+{
+ "part1": {
+  "folds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ],
+  "har": {
+   "fold_mean": {
+    "sittingStanding": 0.9737308448474599,
+    "lyingBack": 0.9942028985507246,
+    "lyingLeft": 1.0,
+    "lyingRight": 1.0,
+    "lyingStomach": 0.9959600102537811,
+    "normalWalking": 0.8945164365650774,
+    "shuffleWalking": 0.8817895156401188,
+    "ascending": 0.9402707056804813,
+    "descending": 0.927955139096057,
+    "running": 0.9671740678942298,
+    "miscMovement": 0.8163273379394074,
+    "STATIC": 0.9927787507303931,
+    "DYNAMIC": 0.9046722004692286
+   },
+   "pooled": {
+    "sittingStanding": 0.9726934215970211,
+    "lyingBack": 0.9944160074453234,
+    "lyingLeft": 1.0,
+    "lyingRight": 1.0,
+    "lyingStomach": 0.9958123953098827,
+    "normalWalking": 0.8936631944444444,
+    "shuffleWalking": 0.8820941487021557,
+    "ascending": 0.9400352733686067,
+    "descending": 0.9283242708848245,
+    "running": 0.9668674698795181,
+    "miscMovement": 0.8166593212869105,
+    "STATIC": 0.9925843648704454,
+    "DYNAMIC": 0.9046072797610766
+   },
+   "per_fold": [
+    {
+     "sittingStanding": 0.99375,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9273504273504274,
+     "shuffleWalking": 0.8987341772151899,
+     "ascending": 0.8860759493670886,
+     "descending": 0.8823529411764706,
+     "running": 0.9411764705882353,
+     "miscMovement": 0.7711864406779662,
+     "STATIC": 0.99875,
+     "DYNAMIC": 0.884479401062563
+    },
+    {
+     "sittingStanding": 1.0,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 0.963855421686747,
+     "normalWalking": 0.7679324894514767,
+     "shuffleWalking": 0.9613733905579399,
+     "ascending": 0.9487179487179487,
+     "descending": 0.9807692307692307,
+     "running": 0.9529914529914529,
+     "miscMovement": 0.8445378151260504,
+     "STATIC": 0.9927710843373493,
+     "DYNAMIC": 0.9093870546023499
+    },
+    {
+     "sittingStanding": 1.0,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9148936170212766,
+     "shuffleWalking": 0.865546218487395,
+     "ascending": 0.9364406779661016,
+     "descending": 0.9,
+     "running": 0.9786324786324786,
+     "miscMovement": 0.7873303167420814,
+     "STATIC": 1.0,
+     "DYNAMIC": 0.8971405514748888
+    },
+    {
+     "sittingStanding": 1.0,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.8227848101265823,
+     "shuffleWalking": 0.8354430379746836,
+     "ascending": 0.8738738738738738,
+     "descending": 0.9138755980861244,
+     "running": 0.9786324786324786,
+     "miscMovement": 0.7946428571428571,
+     "STATIC": 1.0,
+     "DYNAMIC": 0.8698754426394332
+    },
+    {
+     "sittingStanding": 1.0,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9106382978723404,
+     "shuffleWalking": 0.96875,
+     "ascending": 0.9151785714285714,
+     "descending": 0.9617224880382775,
+     "running": 0.9194915254237288,
+     "miscMovement": 0.8423423423423423,
+     "STATIC": 1.0,
+     "DYNAMIC": 0.9196872041842101
+    },
+    {
+     "sittingStanding": 0.9274509803921569,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9098712446351931,
+     "shuffleWalking": 0.7601809954751131,
+     "ascending": 0.9372197309417041,
+     "descending": 0.9806763285024155,
+     "running": 0.9957627118644068,
+     "miscMovement": 0.8063063063063063,
+     "STATIC": 0.9854901960784315,
+     "DYNAMIC": 0.8983362196208565
+    },
+    {
+     "sittingStanding": 0.9288617886178862,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.8444444444444444,
+     "shuffleWalking": 0.9090909090909091,
+     "ascending": 0.9820627802690582,
+     "descending": 0.9020618556701031,
+     "running": 0.9661016949152542,
+     "miscMovement": 0.7937219730941704,
+     "STATIC": 0.9857723577235772,
+     "DYNAMIC": 0.8995806095806564
+    },
+    {
+     "sittingStanding": 0.989406779661017,
+     "lyingBack": 0.9420289855072463,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9459459459459459,
+     "shuffleWalking": 0.7045454545454546,
+     "ascending": 0.9955357142857143,
+     "descending": 0.9427083333333334,
+     "running": 0.9613733905579399,
+     "miscMovement": 0.885593220338983,
+     "STATIC": 0.9862871530336527,
+     "DYNAMIC": 0.9059503431678952
+    },
+    {
+     "sittingStanding": 1.0,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 1.0,
+     "normalWalking": 0.9459459459459459,
+     "shuffleWalking": 0.954954954954955,
+     "ascending": 1.0,
+     "descending": 0.882051282051282,
+     "running": 1.0,
+     "miscMovement": 0.8251121076233184,
+     "STATIC": 1.0,
+     "DYNAMIC": 0.9346773817625835
+    },
+    {
+     "sittingStanding": 0.8978388998035364,
+     "lyingBack": 1.0,
+     "lyingLeft": 1.0,
+     "lyingRight": 1.0,
+     "lyingStomach": 0.9957446808510638,
+     "normalWalking": 0.9553571428571429,
+     "shuffleWalking": 0.9592760180995475,
+     "ascending": 0.9276018099547512,
+     "descending": 0.9333333333333333,
+     "running": 0.9775784753363229,
+     "miscMovement": 0.8125,
+     "STATIC": 0.97871671613092,
+     "DYNAMIC": 0.9276077965968496
+    }
+   ],
+   "false_enable": {
+    "normalWalking": 0.000425531914893617,
+    "shuffleWalking": 0.0,
+    "ascending": 0.0,
+    "descending": 0.0005128205128205128,
+    "running": 0.0,
+    "miscMovement": 0.018910291673141018
+   },
+   "false_enable_all": 0.0033460207034301847
+  },
+  "social": {
+   "fold_mean": {
+    "ungated": {
+     "breathingNormally": 0.9034189897667237,
+     "coughing": 0.8552457882159707,
+     "hyperventilation": 0.8268678523368671,
+     "other": 0.7295834501667683,
+     "BALANCED": 0.8287790201215824,
+     "MIN": 0.7295834501667683
+    },
+    "static_e2e": {
+     "breathingNormally": 0.8933064479180223,
+     "coughing": 0.5687383289907266,
+     "hyperventilation": 0.7590343660958739,
+     "other": 0.6830885094331949,
+     "BALANCED": 0.7260419131094544,
+     "MIN": 0.5687383289907266
+    },
+    "static_pass": {
+     "breathingNormally": 0.9853052676358386,
+     "coughing": 0.67418629859298,
+     "hyperventilation": 0.9117531672797898,
+     "other": 0.9233559045777499,
+     "BALANCED": 0.8736501595215896,
+     "MIN": 0.67418629859298
+    },
+    "static_shown": {
+     "breathingNormally": 0.9066125659232996,
+     "coughing": 0.843226591846116,
+     "hyperventilation": 0.8323177134243845,
+     "other": 0.7399074914291115,
+     "BALANCED": 0.8305160906557278,
+     "MIN": 0.7399074914291115
+    },
+    "sit_e2e": {
+     "breathingNormally": 0.28770289604555604,
+     "coughing": 0.0717713280973161,
+     "hyperventilation": 0.21802036718394505,
+     "other": 0.25228266037005986,
+     "BALANCED": 0.20744431292421925,
+     "MIN": 0.0717713280973161
+    },
+    "sit_pass": {
+     "breathingNormally": 0.32769705128312154,
+     "coughing": 0.09077641190789677,
+     "hyperventilation": 0.24917332895537184,
+     "other": 0.331835188200173,
+     "BALANCED": 0.24987049508664078,
+     "MIN": 0.09077641190789677
+    },
+    "sit_shown": {
+     "breathingNormally": 0.8780511002813525,
+     "coughing": 0.7915122985821996,
+     "hyperventilation": 0.8748349894687012,
+     "other": 0.7597872444410647,
+     "BALANCED": 0.8260464081933294,
+     "MIN": 0.7597872444410647
+    }
+   },
+   "pooled": {
+    "ungated": {
+     "breathingNormally": 0.9034438876958562,
+     "coughing": 0.8553426549283618,
+     "hyperventilation": 0.8267917386653502,
+     "other": 0.7295868998883513,
+     "BALANCED": 0.8287912952944798,
+     "MIN": 0.7295868998883513
+    },
+    "static_e2e": {
+     "breathingNormally": 0.8932633420822397,
+     "coughing": 0.5687899188675988,
+     "hyperventilation": 0.758907265695713,
+     "other": 0.6830914278625481,
+     "BALANCED": 0.7260129886270249,
+     "MIN": 0.5687899188675988
+    },
+    "static_pass": {
+     "breathingNormally": 0.9852063946552135,
+     "coughing": 0.6741757293284999,
+     "hyperventilation": 0.9117090430346416,
+     "other": 0.9233593846917256,
+     "BALANCED": 0.8736126379275202,
+     "MIN": 0.6741757293284999
+    },
+    "static_shown": {
+     "breathingNormally": 0.9066763542423508,
+     "coughing": 0.8436819869414928,
+     "hyperventilation": 0.8324007220216606,
+     "other": 0.7397893379191746,
+     "BALANCED": 0.8306371002811697,
+     "MIN": 0.7397893379191746
+    },
+    "sit_e2e": {
+     "breathingNormally": 0.2878390201224847,
+     "coughing": 0.07181080614534784,
+     "hyperventilation": 0.21805315559944047,
+     "other": 0.25230120332464956,
+     "BALANCED": 0.20750104629798063,
+     "MIN": 0.07181080614534784
+    },
+    "sit_pass": {
+     "breathingNormally": 0.3277658474508868,
+     "coughing": 0.09079924046262731,
+     "hyperventilation": 0.24923887106064346,
+     "other": 0.3318446842823471,
+     "BALANCED": 0.24991216081412615,
+     "MIN": 0.09079924046262731
+    },
+    "sit_shown": {
+     "breathingNormally": 0.8781849065760737,
+     "coughing": 0.7908745247148289,
+     "hyperventilation": 0.8748761967646088,
+     "other": 0.7602990654205607,
+     "BALANCED": 0.8260586733690181,
+     "MIN": 0.7602990654205607
+    }
+   },
+   "per_fold": [
+    {
+     "breathingNormally": 0.8237639553429027,
+     "coughing": 0.8538263112639725,
+     "hyperventilation": 0.7819365337672904,
+     "other": 0.7531504818383988,
+     "BALANCED": 0.803169320553141,
+     "MIN": 0.7531504818383988
+    },
+    {
+     "breathingNormally": 0.9262229350441058,
+     "coughing": 0.8823529411764706,
+     "hyperventilation": 0.8151191454396056,
+     "other": 0.7116290602529135,
+     "BALANCED": 0.8338310204782738,
+     "MIN": 0.7116290602529135
+    },
+    {
+     "breathingNormally": 0.9403453689167975,
+     "coughing": 0.8384615384615385,
+     "hyperventilation": 0.7908496732026143,
+     "other": 0.7116244411326379,
+     "BALANCED": 0.820320255428397,
+     "MIN": 0.7116244411326379
+    },
+    {
+     "breathingNormally": 0.9078014184397163,
+     "coughing": 0.8766177739430544,
+     "hyperventilation": 0.8651315789473685,
+     "other": 0.7160922390280189,
+     "BALANCED": 0.8414107525895396,
+     "MIN": 0.7160922390280189
+    },
+    {
+     "breathingNormally": 0.8788121990369181,
+     "coughing": 0.8812392426850258,
+     "hyperventilation": 0.8043117744610282,
+     "other": 0.7474546809038987,
+     "BALANCED": 0.8279544742717178,
+     "MIN": 0.7474546809038987
+    },
+    {
+     "breathingNormally": 0.9139020537124802,
+     "coughing": 0.8682170542635659,
+     "hyperventilation": 0.844059405940594,
+     "other": 0.7225534028812718,
+     "BALANCED": 0.837182979199478,
+     "MIN": 0.7225534028812718
+    },
+    {
+     "breathingNormally": 0.9147909967845659,
+     "coughing": 0.8927038626609443,
+     "hyperventilation": 0.8632619439868204,
+     "other": 0.744849838669645,
+     "BALANCED": 0.8539016605254939,
+     "MIN": 0.744849838669645
+    },
+    {
+     "breathingNormally": 0.9064465408805031,
+     "coughing": 0.8339100346020761,
+     "hyperventilation": 0.832646331409728,
+     "other": 0.7452830188679245,
+     "BALANCED": 0.8295714814400579,
+     "MIN": 0.7452830188679245
+    },
+    {
+     "breathingNormally": 0.8995290423861853,
+     "coughing": 0.8067885117493473,
+     "hyperventilation": 0.8454545454545455,
+     "other": 0.7414864528958489,
+     "BALANCED": 0.8233146381214818,
+     "MIN": 0.7414864528958489
+    },
+    {
+     "breathingNormally": 0.9225753871230644,
+     "coughing": 0.8183406113537118,
+     "hyperventilation": 0.8259075907590759,
+     "other": 0.7017108851971238,
+     "BALANCED": 0.817133618608244,
+     "MIN": 0.7017108851971238
+    }
+   ]
+  },
+  "hours": 2.1996759665674634
+ },
+ "part2": {
+  "person": "s2952925",
+  "har": {
+   "sittingStanding": 0.9974358974358974,
+   "lyingBack": 1.0,
+   "lyingLeft": 1.0,
+   "lyingRight": 1.0,
+   "lyingStomach": 1.0,
+   "normalWalking": 1.0,
+   "shuffleWalking": 0.9642857142857143,
+   "ascending": 1.0,
+   "descending": 1.0,
+   "running": 1.0,
+   "miscMovement": 0.9259259259259259,
+   "STATIC": 0.9994871794871795,
+   "DYNAMIC": 0.9817019400352733
+  },
+  "false_enable": {
+   "normalWalking": 0.0,
+   "shuffleWalking": 0.0,
+   "ascending": 0.0,
+   "descending": 0.0,
+   "running": 0.0,
+   "miscMovement": 0.0
+  },
+  "false_enable_all": 0.0,
+  "social": {
+   "all stationary": {
+    "ungated": {
+     "breathingNormally": 0.8428571428571429,
+     "coughing": 0.6690647482014388,
+     "hyperventilation": 0.7857142857142857,
+     "other": 0.7687366167023555,
+     "BALANCED": 0.7665931983688057,
+     "MIN": 0.6690647482014388
+    },
+    "static_e2e": {
+     "breathingNormally": 0.8428571428571429,
+     "coughing": 0.6690647482014388,
+     "hyperventilation": 0.7785714285714286,
+     "other": 0.7687366167023555,
+     "BALANCED": 0.7648074840830914,
+     "MIN": 0.6690647482014388
+    },
+    "static_pass": {
+     "breathingNormally": 1.0,
+     "coughing": 1.0,
+     "hyperventilation": 0.9928571428571429,
+     "other": 1.0,
+     "BALANCED": 0.9982142857142857,
+     "MIN": 0.9928571428571429
+    },
+    "static_shown": {
+     "breathingNormally": 0.8428571428571429,
+     "coughing": 0.6690647482014388,
+     "hyperventilation": 0.7841726618705036,
+     "other": 0.7687366167023555,
+     "BALANCED": 0.7662077924078602,
+     "MIN": 0.6690647482014388
+    },
+    "sit_e2e": {
+     "breathingNormally": 0.34285714285714286,
+     "coughing": 0.17985611510791366,
+     "hyperventilation": 0.2642857142857143,
+     "other": 0.284796573875803,
+     "BALANCED": 0.26794888653164345,
+     "MIN": 0.17985611510791366
+    },
+    "sit_pass": {
+     "breathingNormally": 0.34285714285714286,
+     "coughing": 0.3381294964028777,
+     "hyperventilation": 0.3357142857142857,
+     "other": 0.4089935760171306,
+     "BALANCED": 0.3564236252478592,
+     "MIN": 0.3357142857142857
+    },
+    "sit_shown": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7872340425531915,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.753871003676061,
+     "MIN": 0.5319148936170213
+    }
+   },
+   "sitting/standing": {
+    "ungated": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7916666666666666,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.7549791597044297,
+     "MIN": 0.5319148936170213
+    },
+    "static_e2e": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7708333333333334,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.7497708263710965,
+     "MIN": 0.5319148936170213
+    },
+    "static_pass": {
+     "breathingNormally": 1.0,
+     "coughing": 1.0,
+     "hyperventilation": 0.9791666666666666,
+     "other": 1.0,
+     "BALANCED": 0.9947916666666666,
+     "MIN": 0.9791666666666666
+    },
+    "static_shown": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7872340425531915,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.753871003676061,
+     "MIN": 0.5319148936170213
+    },
+    "sit_e2e": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7708333333333334,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.7497708263710965,
+     "MIN": 0.5319148936170213
+    },
+    "sit_pass": {
+     "breathingNormally": 1.0,
+     "coughing": 1.0,
+     "hyperventilation": 0.9791666666666666,
+     "other": 1.0,
+     "BALANCED": 0.9947916666666666,
+     "MIN": 0.9791666666666666
+    },
+    "sit_shown": {
+     "breathingNormally": 1.0,
+     "coughing": 0.5319148936170213,
+     "hyperventilation": 0.7872340425531915,
+     "other": 0.6963350785340314,
+     "BALANCED": 0.753871003676061,
+     "MIN": 0.5319148936170213
+    }
+   },
+   "lying": {
+    "ungated": {
+     "breathingNormally": 0.7608695652173914,
+     "coughing": 0.7391304347826086,
+     "hyperventilation": 0.782608695652174,
+     "other": 0.8188405797101449,
+     "BALANCED": 0.7753623188405797,
+     "MIN": 0.7391304347826086
+    },
+    "static_e2e": {
+     "breathingNormally": 0.7608695652173914,
+     "coughing": 0.7391304347826086,
+     "hyperventilation": 0.782608695652174,
+     "other": 0.8188405797101449,
+     "BALANCED": 0.7753623188405797,
+     "MIN": 0.7391304347826086
+    },
+    "static_pass": {
+     "breathingNormally": 1.0,
+     "coughing": 1.0,
+     "hyperventilation": 1.0,
+     "other": 1.0,
+     "BALANCED": 1.0,
+     "MIN": 1.0
+    },
+    "static_shown": {
+     "breathingNormally": 0.7608695652173914,
+     "coughing": 0.7391304347826086,
+     "hyperventilation": 0.782608695652174,
+     "other": 0.8188405797101449,
+     "BALANCED": 0.7753623188405797,
+     "MIN": 0.7391304347826086
+    },
+    "sit_e2e": {
+     "breathingNormally": 0.0,
+     "coughing": 0.0,
+     "hyperventilation": 0.0,
+     "other": 0.0,
+     "BALANCED": 0.0,
+     "MIN": 0.0
+    },
+    "sit_pass": {
+     "breathingNormally": 0.0,
+     "coughing": 0.0,
+     "hyperventilation": 0.0,
+     "other": 0.0,
+     "BALANCED": 0.0,
+     "MIN": 0.0
+    },
+    "sit_shown": {
+     "breathingNormally": NaN,
+     "coughing": NaN,
+     "hyperventilation": NaN,
+     "other": NaN,
+     "BALANCED": NaN,
+     "MIN": NaN
+    }
+   }
+  }
+ }
+}

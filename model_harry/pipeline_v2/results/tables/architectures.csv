@@ -1,0 +1,9 @@
+task,model,name,window_samples,window_s,params,tflite_kb,ms_per_window_mac_1thread,deployed,summary_file,layers_file
+har,harry_cnn,Multi-branch CNN,50,4.0,26112,130.8,0.025250003091059625,True,architectures/har_harry_cnn_w50.txt,architectures/har_harry_cnn_w50.json
+har,harry_feat,Spectral-feature net,50,4.0,5009,44.1,0.0069590023485943675,False,architectures/har_harry_feat_w50.txt,architectures/har_harry_feat_w50.json
+har,harry_mlp,Gravity-split MLP,50,4.0,35744,165.5,0.009875002433545887,False,architectures/har_harry_mlp_w50.txt,architectures/har_harry_mlp_w50.json
+har,harry_rnn,Conv-GRU,50,4.0,21152,186.3,0.05045899888500571,False,architectures/har_harry_rnn_w50.txt,architectures/har_harry_rnn_w50.json
+social,harry_cnn,Multi-branch CNN,75,6.0,42065,205.9,0.07402050687232986,False,architectures/social_harry_cnn_w75.txt,architectures/social_harry_cnn_w75.json
+social,harry_feat,Spectral-feature net,75,6.0,3874,52.0,0.00837500556372106,False,architectures/social_harry_feat_w75.txt,architectures/social_harry_feat_w75.json
+social,harry_mlp,Gravity-split MLP,75,6.0,45809,217.1,0.011707990779541433,False,architectures/social_harry_mlp_w75.txt,architectures/social_harry_mlp_w75.json
+social,harry_rnn,Conv-GRU,75,6.0,20017,230.8,0.07541700324509293,True,architectures/social_harry_rnn_w75.txt,architectures/social_harry_rnn_w75.json

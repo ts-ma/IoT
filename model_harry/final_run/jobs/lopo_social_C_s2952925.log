@@ -1,0 +1,32 @@
+[lopo_social_C_s2952925] tests: person_s2952925: (429, 100, 3)
+stage finetune: finetune (1748, 100, 3) recipe {'opt': 'adamw', 'lr': 0.0005, 'epochs': 30, 'step': 6, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True, 'balance_power': 0.6}
+epoch   1 | train_loss 0.4661 | train_acc 0.9491 | 2.04s
+epoch   2 | train_loss 0.4293 | train_acc 0.9731 | 0.43s
+epoch   3 | train_loss 0.4210 | train_acc 0.9800 | 0.43s
+epoch   4 | train_loss 0.4128 | train_acc 0.9828 | 0.45s
+epoch   5 | train_loss 0.4001 | train_acc 0.9874 | 0.46s
+epoch   6 | train_loss 0.3990 | train_acc 0.9891 | 0.46s
+epoch   7 | train_loss 0.3983 | train_acc 0.9908 | 0.46s
+epoch   8 | train_loss 0.3961 | train_acc 0.9937 | 0.46s
+epoch   9 | train_loss 0.3930 | train_acc 0.9926 | 0.46s
+epoch  10 | train_loss 0.3894 | train_acc 0.9943 | 0.46s
+epoch  11 | train_loss 0.3935 | train_acc 0.9914 | 0.46s
+epoch  12 | train_loss 0.3895 | train_acc 0.9926 | 0.46s
+epoch  13 | train_loss 0.3870 | train_acc 0.9960 | 0.47s
+epoch  14 | train_loss 0.3850 | train_acc 0.9966 | 0.47s
+epoch  15 | train_loss 0.3882 | train_acc 0.9943 | 0.46s
+epoch  16 | train_loss 0.3861 | train_acc 0.9977 | 0.46s
+epoch  17 | train_loss 0.3816 | train_acc 0.9977 | 0.46s
+epoch  18 | train_loss 0.3879 | train_acc 0.9943 | 0.46s
+epoch  19 | train_loss 0.3809 | train_acc 0.9977 | 0.46s
+epoch  20 | train_loss 0.3809 | train_acc 0.9994 | 0.46s
+epoch  21 | train_loss 0.3831 | train_acc 0.9971 | 0.46s
+epoch  22 | train_loss 0.3841 | train_acc 0.9966 | 0.46s
+epoch  23 | train_loss 0.3845 | train_acc 0.9960 | 0.46s
+epoch  24 | train_loss 0.3870 | train_acc 0.9954 | 0.46s
+epoch  25 | train_loss 0.3809 | train_acc 0.9994 | 0.45s
+epoch  26 | train_loss 0.3827 | train_acc 0.9977 | 0.46s
+epoch  27 | train_loss 0.3865 | train_acc 0.9971 | 0.46s
+epoch  28 | train_loss 0.3810 | train_acc 0.9989 | 0.46s
+epoch  29 | train_loss 0.3832 | train_acc 0.9966 | 0.46s
+epoch  30 | train_loss 0.3806 | train_acc 0.9994 | 0.46s

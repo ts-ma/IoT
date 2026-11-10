@@ -1,0 +1,34 @@
+[lopo_social_B_s2503795] tests: person_s2503795: (456, 100, 3)
+stage train: jan (78969, 100, 3) recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True, 'balance_power': 0.6}
+epoch   1 | train_loss 0.9648 | train_acc 0.6282 | 27.29s
+epoch   2 | train_loss 0.8289 | train_acc 0.7326 | 25.72s
+epoch   3 | train_loss 0.7788 | train_acc 0.7670 | 25.66s
+epoch   4 | train_loss 0.7575 | train_acc 0.7816 | 24.97s
+epoch   5 | train_loss 0.7434 | train_acc 0.7875 | 24.37s
+epoch   6 | train_loss 0.7300 | train_acc 0.7965 | 22.1s
+epoch   7 | train_loss 0.7211 | train_acc 0.8007 | 21.86s
+epoch   8 | train_loss 0.7116 | train_acc 0.8069 | 21.43s
+epoch   9 | train_loss 0.7030 | train_acc 0.8133 | 21.79s
+epoch  10 | train_loss 0.6958 | train_acc 0.8177 | 22.46s
+epoch  11 | train_loss 0.6924 | train_acc 0.8185 | 23.04s
+epoch  12 | train_loss 0.6836 | train_acc 0.8242 | 24.0s
+epoch  13 | train_loss 0.6755 | train_acc 0.8295 | 23.78s
+epoch  14 | train_loss 0.6717 | train_acc 0.8299 | 24.31s
+epoch  15 | train_loss 0.6668 | train_acc 0.8326 | 23.24s
+epoch  16 | train_loss 0.6612 | train_acc 0.8344 | 24.24s
+epoch  17 | train_loss 0.6567 | train_acc 0.8380 | 23.91s
+epoch  18 | train_loss 0.6524 | train_acc 0.8415 | 23.79s
+epoch  19 | train_loss 0.6500 | train_acc 0.8425 | 23.14s
+epoch  20 | train_loss 0.6450 | train_acc 0.8454 | 22.95s
+epoch  21 | train_loss 0.6440 | train_acc 0.8448 | 22.52s
+epoch  22 | train_loss 0.6381 | train_acc 0.8484 | 22.55s
+epoch  23 | train_loss 0.6363 | train_acc 0.8491 | 24.06s
+epoch  24 | train_loss 0.6340 | train_acc 0.8501 | 23.27s
+epoch  25 | train_loss 0.6305 | train_acc 0.8529 | 23.1s
+epoch  26 | train_loss 0.6292 | train_acc 0.8534 | 22.66s
+epoch  27 | train_loss 0.6252 | train_acc 0.8562 | 24.07s
+epoch  28 | train_loss 0.6251 | train_acc 0.8560 | 22.96s
+epoch  29 | train_loss 0.6238 | train_acc 0.8557 | 23.47s
+epoch  30 | train_loss 0.6206 | train_acc 0.8586 | 23.34s
+epoch  31 | train_loss 0.6214 | train_acc 0.8581 | 23.37s
+epoch  32 | train_loss 0.6210 | train_acc 0.8568 | 23.59s

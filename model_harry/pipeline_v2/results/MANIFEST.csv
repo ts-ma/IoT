@@ -1,0 +1,430 @@
+file,bytes,what
+KNOWLEDGE.md,22106,"start here: the whole project explained, decisions, history, question → file map"
+WRITEUP.md,64916,long-form report text with every number and figure
+architectures/har_harry_cnn_w50.json,12102,layer-by-layer model summaries
+architectures/har_harry_cnn_w50.txt,16495,layer-by-layer model summaries
+architectures/har_harry_feat_w50.json,4898,layer-by-layer model summaries
+architectures/har_harry_feat_w50.txt,8981,layer-by-layer model summaries
+architectures/har_harry_mlp_w50.json,6816,layer-by-layer model summaries
+architectures/har_harry_mlp_w50.txt,11706,layer-by-layer model summaries
+architectures/har_harry_rnn_w50.json,8785,layer-by-layer model summaries
+architectures/har_harry_rnn_w50.txt,12558,layer-by-layer model summaries
+architectures/social_harry_cnn_w75.json,14097,layer-by-layer model summaries
+architectures/social_harry_cnn_w75.txt,17971,layer-by-layer model summaries
+architectures/social_harry_feat_w75.json,4861,layer-by-layer model summaries
+architectures/social_harry_feat_w75.txt,8981,layer-by-layer model summaries
+architectures/social_harry_mlp_w75.json,6779,layer-by-layer model summaries
+architectures/social_harry_mlp_w75.txt,11706,layer-by-layer model summaries
+architectures/social_harry_rnn_w75.json,8748,layer-by-layer model summaries
+architectures/social_harry_rnn_w75.txt,12558,layer-by-layer model summaries
+code/README.md,1583,the code that produced this folder
+code/RUN_PIPELINE_V2.command,320,the code that produced this folder
+code/app_latency_sim.py,8772,the code that produced this folder
+code/fullrun2/__init__.py,224,the code that produced this folder
+code/fullrun2/analyze.py,16611,the code that produced this folder
+code/fullrun2/config.py,4600,the code that produced this folder
+code/fullrun2/data.py,12103,the code that produced this folder
+code/fullrun2/jobs.py,19115,the code that produced this folder
+code/fullrun2/knowledge.py,46260,the code that produced this folder
+code/fullrun2/plots.py,42415,the code that produced this folder
+code/fullrun2/writeup.py,44717,the code that produced this folder
+code/harry/augment.py,2416,the code that produced this folder
+code/harry/data.py,8443,the code that produced this folder
+code/harry/datasets.py,9832,the code that produced this folder
+code/harry/export.py,3641,the code that produced this folder
+code/harry/layers.py,3325,the code that produced this folder
+code/harry/metrics.py,1221,the code that produced this folder
+code/harry/runner.py,15562,the code that produced this folder
+code/harry/zoo.py,8376,the code that produced this folder
+code/requirements.txt,99,the code that produced this folder
+code/run.sh,1898,the code that produced this folder
+code/run_pipeline_v2.py,10012,the code that produced this folder
+code/run_social_window_study.sh,629,the code that produced this folder
+code/social_window_study.py,13642,the code that produced this folder
+context/cw3_instructions.txt,16512,"CW3 brief text, window study, decisions"
+context/decisions.json,2898,"CW3 brief text, window study, decisions"
+context/social_window_study_report.md,1639,"CW3 brief text, window study, decisions"
+context/social_window_study_summary.csv,710,"CW3 brief text, window study, decisions"
+decisions.json,2898,frozen decisions
+figures/catalogue.json,24688,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/accuracy_vs_cost_har.pdf,19950,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/accuracy_vs_cost_har.png,47041,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/accuracy_vs_cost_social.pdf,19235,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/accuracy_vs_cost_social.png,44990,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_har.pdf,18299,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_har.png,34839,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_per_class_har.pdf,22898,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_per_class_har.png,64845,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_per_class_social.pdf,19094,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_per_class_social.png,48073,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_social.pdf,18489,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/architectures_social.png,34446,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/class_weight_sweep.pdf,19790,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/class_weight_sweep.png,75582,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/paired_tests.pdf,26075,figures (PNG + PDF); captions in figures/catalogue.json
+figures/comparison/paired_tests.png,209444,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/duplicates.pdf,15265,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/duplicates.png,29501,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/example_signals_har.pdf,77560,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/example_signals_har.png,211775,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/example_signals_social.pdf,33858,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/example_signals_social.png,93186,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/fold_composition_har.pdf,20013,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/fold_composition_har.png,73072,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/fold_composition_social.pdf,18368,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/fold_composition_social.png,48138,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/gravity_orientation.pdf,58786,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/gravity_orientation.png,141008,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/intensity_har.pdf,15691,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/intensity_har.png,38788,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/intensity_social.pdf,13981,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/intensity_social.png,33853,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/minutes_per_class_har.pdf,14229,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/minutes_per_class_har.png,35446,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/minutes_per_class_social.pdf,12443,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/minutes_per_class_social.png,30155,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/real_data_quality.pdf,21357,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/real_data_quality.png,44189,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recording_lengths.pdf,13932,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recording_lengths.png,35058,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recordings_per_class_har.pdf,18029,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recordings_per_class_har.png,48408,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recordings_per_class_social.pdf,15417,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/recordings_per_class_social.png,39635,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/spectra_har.pdf,23359,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/spectra_har.png,95724,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/spectra_social.pdf,19129,figures (PNG + PDF); captions in figures/catalogue.json
+figures/data/spectra_social.png,63033,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/inference_time.pdf,18314,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/inference_time.png,52991,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/model_size.pdf,16726,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/model_size.png,47116,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/parameters.pdf,15647,figures (PNG + PDF); captions in figures/catalogue.json
+figures/deploy/parameters.png,46182,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_har.pdf,19171,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_har.png,51214,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_social.pdf,16949,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_social.png,39039,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_social_postures.pdf,13692,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/person_social_postures.png,26920,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/social_latency.pdf,15663,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/social_latency.png,32113,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/social_window_choice.pdf,20597,figures (PNG + PDF); captions in figures/catalogue.json
+figures/real/social_window_choice.png,63615,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/calibration.pdf,16505,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/calibration.png,62411,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_all_counts.pdf,21093,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_all_counts.png,79586,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_all_pct.pdf,21424,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_all_pct.png,67160,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_jan_counts.pdf,20520,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_jan_counts.png,78471,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_jan_pct.pdf,21224,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_har_jan_pct.png,67001,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_all_counts.pdf,18320,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_all_counts.png,55658,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_all_pct.pdf,17909,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_all_pct.png,44501,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_jan_counts.pdf,18302,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_jan_counts.png,54498,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_jan_pct.pdf,17904,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_jan_pct.png,44446,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_per_fold.pdf,22448,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/confusion_social_per_fold.png,63564,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_har_all.pdf,21837,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_har_all.png,91941,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_har_jan.pdf,21606,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_har_jan.png,91076,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_social_all.pdf,18453,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_social_all.png,53943,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_social_jan.pdf,18805,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_heatmap_social_jan.png,54042,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_spread_har.pdf,26255,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_spread_har.png,65091,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_spread_social.pdf,18812,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/fold_spread_social.png,48641,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/group_scores_har.pdf,14886,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/group_scores_har.png,32562,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/group_scores_social.pdf,14374,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/group_scores_social.png,28238,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/per_class_har.pdf,21600,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/per_class_har.png,67500,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/per_class_social.pdf,18318,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/per_class_social.png,46293,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/precision_recall_f1_har.pdf,16104,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/precision_recall_f1_har.png,35775,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/precision_recall_f1_social.pdf,13913,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/precision_recall_f1_social.png,28693,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/recording_accuracy_har.pdf,27366,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/recording_accuracy_har.png,43125,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/recording_accuracy_social.pdf,19949,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/recording_accuracy_social.png,40162,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/roc_pr_har.pdf,55906,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/roc_pr_har.png,83131,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/roc_pr_social.pdf,88346,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/roc_pr_social.png,82315,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/seed_variation_har.pdf,17531,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/seed_variation_har.png,44399,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/seed_variation_social.pdf,15645,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/seed_variation_social.png,35542,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/tsne_har.pdf,99020,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/tsne_har.png,73557,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/tsne_social.pdf,95847,figures (PNG + PDF); captions in figures/catalogue.json
+figures/results/tsne_social.png,140054,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_all_models_har.pdf,17710,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_all_models_har.png,56636,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_all_models_social.pdf,17956,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_all_models_social.png,57412,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_har_all.pdf,22452,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_har_all.png,83300,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_social_all.pdf,22659,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/learning_curves_social_all.png,90262,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/training_time.pdf,16501,figures (PNG + PDF); captions in figures/catalogue.json
+figures/training/training_time.png,46739,figures (PNG + PDF); captions in figures/catalogue.json
+history/app_latency_replay.csv,3713701,earlier experiments (Harry's models only)
+history/lab3_b9_folds_mine.md,1423,earlier experiments (Harry's models only)
+history/official_folds_balanced_weights_report.md,8269,earlier experiments (Harry's models only)
+history/official_folds_social_w0.6_report.md,5615,earlier experiments (Harry's models only)
+history/real_people_har_report.md,2630,earlier experiments (Harry's models only)
+history/real_people_social_report.md,1834,earlier experiments (Harry's models only)
+history/social_window_study_report.md,1639,earlier experiments (Harry's models only)
+history/v1_deploy.csv,1019,earlier experiments (Harry's models only)
+history/v1_gate_folds.csv,26947,earlier experiments (Harry's models only)
+history/v1_gate_leaks.csv,3477,earlier experiments (Harry's models only)
+history/v1_lopo_gate.csv,467,earlier experiments (Harry's models only)
+history/v1_lopo_per_class.csv,10269,earlier experiments (Harry's models only)
+history/v1_lopo_scores.csv,1061,earlier experiments (Harry's models only)
+history/v1_stat_tests.csv,3039,earlier experiments (Harry's models only)
+history/v1_stream_accuracy.csv,52028,earlier experiments (Harry's models only)
+history/v1_stream_latency.csv,204737,earlier experiments (Harry's models only)
+history/v1_summary_per_class.csv,15746,earlier experiments (Harry's models only)
+history/v1_summary_scores.csv,4340,earlier experiments (Harry's models only)
+history/v1_trial_simulation.csv,17371,earlier experiments (Harry's models only)
+index.html,33919,figure gallery with captions
+jobs/base_har_harry_feat_mixed_f0.json,8287,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f1.json,8300,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f2.json,8296,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f3.json,8299,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f4.json,8307,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f5.json,8303,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f6.json,8310,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f7.json,8306,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f8.json,8356,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_feat_mixed_f9.json,8356,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f0.json,8301,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f1.json,8301,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f2.json,8289,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f3.json,8308,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f4.json,8308,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f5.json,8292,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f6.json,8297,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f7.json,8296,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f8.json,8339,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_mlp_mixed_f9.json,8346,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f0.json,8294,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f1.json,8290,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f2.json,8298,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f3.json,8299,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f4.json,8300,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f5.json,8296,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f6.json,8291,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f7.json,8307,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f8.json,8360,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_har_harry_rnn_mixed_f9.json,8356,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f0.json,8141,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f1.json,8140,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f2.json,8144,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f3.json,8149,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f4.json,8139,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f5.json,8145,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f6.json,8139,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f7.json,8146,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f8.json,8172,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_cnn_w75_f9.json,8175,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f0.json,8117,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f1.json,8112,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f2.json,8117,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f3.json,8116,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f4.json,8122,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f5.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f6.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f7.json,8107,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f8.json,8149,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_feat_w75_f9.json,8148,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f0.json,8114,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f1.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f2.json,8110,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f3.json,8117,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f4.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f5.json,8121,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f6.json,8111,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f7.json,8114,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f8.json,8142,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/base_social_harry_mlp_w75_f9.json,8139,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_har_harry_cnn_w50.json,578,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_har_harry_feat_w50.json,582,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_har_harry_mlp_w50.json,580,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_har_harry_rnn_w50.json,578,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_social_harry_cnn_w75.json,586,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_social_harry_feat_w75.json,588,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_social_harry_mlp_w75.json,588,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/deploy_social_harry_rnn_w75.json,587,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/final_har_mixed.json,5219,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/final_social_w75.json,5095,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f0.json,8276,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f1.json,8269,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f2.json,8285,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f3.json,8283,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f4.json,8277,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f5.json,8280,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f6.json,8273,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f7.json,8289,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f8.json,8342,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s0_f9.json,8342,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f0.json,8271,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f1.json,8286,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f2.json,8277,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f3.json,8284,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f4.json,8290,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f5.json,8268,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f6.json,8278,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f7.json,8284,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f8.json,8340,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s1_f9.json,8343,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f0.json,8282,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f1.json,8281,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f2.json,8291,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f3.json,8282,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f4.json,8293,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f5.json,8275,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f6.json,8283,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f7.json,8286,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f8.json,8338,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_har_mixed_s2_f9.json,8339,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f0.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f1.json,8127,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f2.json,8126,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f3.json,8131,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f4.json,8131,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f5.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f6.json,8129,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f7.json,8123,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f8.json,8156,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s0_f9.json,8162,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f0.json,8134,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f1.json,8121,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f2.json,8125,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f3.json,8138,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f4.json,8125,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f5.json,8128,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f6.json,8125,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f7.json,8125,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f8.json,8163,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s1_f9.json,8155,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f0.json,8131,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f1.json,8121,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f2.json,8126,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f3.json,8136,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f4.json,8131,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f5.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f6.json,8127,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f7.json,8138,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f8.json,8167,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/main_social_w75_s2_f9.json,8160,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/models/final_har_mixed.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/final_social_w75.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f0.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f1.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f2.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f3.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f4.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f5.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f6.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f7.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f8.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_har_mixed_s0_f9.keras,205128,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f0.keras,158388,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f1.keras,158388,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f2.keras,158388,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f3.keras,158388,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f4.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f5.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f6.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f7.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f8.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/models/main_social_w75_s0_f9.keras,158382,"trained Keras models (seed 0 of the deployed architectures, final models)"
+jobs/sweep_p0.3_w75_f0.json,8123,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f1.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f2.json,8111,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f3.json,8128,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f4.json,8117,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f5.json,8119,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f6.json,8134,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f7.json,8121,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f8.json,8153,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.3_w75_f9.json,8145,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f0.json,8122,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f1.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f2.json,8119,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f3.json,8116,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f4.json,8123,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f5.json,8110,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f6.json,8123,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f7.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f8.json,8158,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0.8_w75_f9.json,8142,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f0.json,8098,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f1.json,8102,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f2.json,8097,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f3.json,8111,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f4.json,8110,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f5.json,8102,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f6.json,8104,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f7.json,8084,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f8.json,8140,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p0_w75_f9.json,8122,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f0.json,8115,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f1.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f2.json,8117,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f3.json,8112,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f4.json,8114,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f5.json,8120,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f6.json,8118,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f7.json,8124,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f8.json,8156,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+jobs/sweep_p1_w75_f9.json,8151,"per job: <id>.json settings + history + info, <id>.npz test predictions, <id>.log training log"
+plan.json,117063,every job and its data / tests
+run.log,20208,pipeline log
+tables/README.md,30719,data dictionary
+tables/architectures.csv,1344,results and data tables (see tables/README.md)
+tables/calibration_bins.csv,21119,results and data tables (see tables/README.md)
+tables/class_weights.csv,78191,results and data tables (see tables/README.md)
+tables/confusion_long.csv,1487266,results and data tables (see tables/README.md)
+tables/data_composition.csv,2494,results and data tables (see tables/README.md)
+tables/data_facts.json,355,results and data tables (see tables/README.md)
+tables/deploy.csv,1048,results and data tables (see tables/README.md)
+tables/duplicates_har_social.csv,43470,results and data tables (see tables/README.md)
+tables/epochs.csv,864123,results and data tables (see tables/README.md)
+tables/fold_composition.csv,3340,results and data tables (see tables/README.md)
+tables/fold_scores.csv,99083,results and data tables (see tables/README.md)
+tables/fold_test_data.csv,108563,results and data tables (see tables/README.md)
+tables/fold_training_data.csv,180329,results and data tables (see tables/README.md)
+tables/group_folds.csv,1046,results and data tables (see tables/README.md)
+tables/jan_gravity.csv,125131,results and data tables (see tables/README.md)
+tables/jobs_index.csv,20179,results and data tables (see tables/README.md)
+tables/per_fold_class.csv,315974,results and data tables (see tables/README.md)
+tables/person_per_class.csv,1720,results and data tables (see tables/README.md)
+tables/person_postures.csv,494,results and data tables (see tables/README.md)
+tables/real_data_quality.csv,26110,results and data tables (see tables/README.md)
+tables/recipes.csv,1504,results and data tables (see tables/README.md)
+tables/recording_level.csv,3458148,results and data tables (see tables/README.md)
+tables/social_window_study_per_fold_recall.csv,4185,results and data tables (see tables/README.md)
+tables/social_window_study_streams.csv,520919,results and data tables (see tables/README.md)
+tables/social_window_study_summary.csv,710,results and data tables (see tables/README.md)
+tables/stat_tests.csv,5120,results and data tables (see tables/README.md)
+tables/summary_per_class.csv,55246,results and data tables (see tables/README.md)
+tables/summary_scores.csv,16441,results and data tables (see tables/README.md)
+tables/system.json,217,results and data tables (see tables/README.md)
+tables/timing.csv,159,results and data tables (see tables/README.md)
+tables/tsne.csv,291254,results and data tables (see tables/README.md)
+"jobs/<id>.npz, jobs/<id>.log",,"per-job test predictions (cv__P probabilities, cv__y labels, cv__rid recording index, cv__src source set, cv__person 'jan' or member id) and training logs"

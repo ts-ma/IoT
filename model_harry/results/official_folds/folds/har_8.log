@@ -1,0 +1,34 @@
+[har fold 8] harry_cnn: train (23484, 50, 3), recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True}
+epoch   1 | train_loss 1.2774 | train_acc 0.6934 | 5.11s
+epoch   2 | train_loss 0.9373 | train_acc 0.8619 | 3.37s
+epoch   3 | train_loss 0.8784 | train_acc 0.8871 | 3.35s
+epoch   4 | train_loss 0.8346 | train_acc 0.9037 | 3.54s
+epoch   5 | train_loss 0.8112 | train_acc 0.9128 | 3.39s
+epoch   6 | train_loss 0.7904 | train_acc 0.9187 | 3.48s
+epoch   7 | train_loss 0.7781 | train_acc 0.9229 | 3.46s
+epoch   8 | train_loss 0.7660 | train_acc 0.9257 | 3.27s
+epoch   9 | train_loss 0.7596 | train_acc 0.9307 | 3.23s
+epoch  10 | train_loss 0.7513 | train_acc 0.9325 | 3.39s
+epoch  11 | train_loss 0.7400 | train_acc 0.9357 | 3.4s
+epoch  12 | train_loss 0.7314 | train_acc 0.9389 | 3.21s
+epoch  13 | train_loss 0.7246 | train_acc 0.9415 | 3.35s
+epoch  14 | train_loss 0.7203 | train_acc 0.9420 | 3.4s
+epoch  15 | train_loss 0.7130 | train_acc 0.9434 | 3.42s
+epoch  16 | train_loss 0.7021 | train_acc 0.9491 | 3.48s
+epoch  17 | train_loss 0.7025 | train_acc 0.9488 | 3.35s
+epoch  18 | train_loss 0.6975 | train_acc 0.9497 | 3.4s
+epoch  19 | train_loss 0.6927 | train_acc 0.9529 | 3.29s
+epoch  20 | train_loss 0.6910 | train_acc 0.9514 | 3.29s
+epoch  21 | train_loss 0.6893 | train_acc 0.9517 | 3.41s
+epoch  22 | train_loss 0.6844 | train_acc 0.9539 | 3.39s
+epoch  23 | train_loss 0.6770 | train_acc 0.9564 | 3.41s
+epoch  24 | train_loss 0.6824 | train_acc 0.9559 | 3.61s
+epoch  25 | train_loss 0.6765 | train_acc 0.9575 | 3.39s
+epoch  26 | train_loss 0.6749 | train_acc 0.9578 | 3.36s
+epoch  27 | train_loss 0.6738 | train_acc 0.9581 | 3.46s
+epoch  28 | train_loss 0.6707 | train_acc 0.9595 | 3.4s
+epoch  29 | train_loss 0.6670 | train_acc 0.9615 | 3.31s
+epoch  30 | train_loss 0.6678 | train_acc 0.9618 | 3.41s
+epoch  31 | train_loss 0.6703 | train_acc 0.9582 | 3.4s
+epoch  32 | train_loss 0.6662 | train_acc 0.9615 | 3.41s
+done in 111s

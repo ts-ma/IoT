@@ -1,0 +1,34 @@
+[gate_jan_f6] tests: gate: (7652, 50, 3)
+stage train: jan (22317, 50, 3) recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True}
+epoch   1 | train_loss 1.3013 | train_acc 0.6773 | 5.68s
+epoch   2 | train_loss 0.9285 | train_acc 0.8650 | 3.58s
+epoch   3 | train_loss 0.8582 | train_acc 0.8938 | 3.59s
+epoch   4 | train_loss 0.8220 | train_acc 0.9063 | 3.38s
+epoch   5 | train_loss 0.8010 | train_acc 0.9145 | 3.61s
+epoch   6 | train_loss 0.7853 | train_acc 0.9209 | 3.66s
+epoch   7 | train_loss 0.7749 | train_acc 0.9237 | 3.54s
+epoch   8 | train_loss 0.7542 | train_acc 0.9311 | 3.54s
+epoch   9 | train_loss 0.7432 | train_acc 0.9355 | 3.52s
+epoch  10 | train_loss 0.7359 | train_acc 0.9396 | 3.66s
+epoch  11 | train_loss 0.7284 | train_acc 0.9426 | 3.68s
+epoch  12 | train_loss 0.7167 | train_acc 0.9447 | 3.71s
+epoch  13 | train_loss 0.7145 | train_acc 0.9458 | 3.62s
+epoch  14 | train_loss 0.7062 | train_acc 0.9484 | 3.54s
+epoch  15 | train_loss 0.7029 | train_acc 0.9483 | 3.63s
+epoch  16 | train_loss 0.6954 | train_acc 0.9509 | 3.8s
+epoch  17 | train_loss 0.6891 | train_acc 0.9536 | 3.88s
+epoch  18 | train_loss 0.6832 | train_acc 0.9555 | 3.71s
+epoch  19 | train_loss 0.6809 | train_acc 0.9560 | 3.8s
+epoch  20 | train_loss 0.6808 | train_acc 0.9562 | 3.67s
+epoch  21 | train_loss 0.6762 | train_acc 0.9581 | 3.69s
+epoch  22 | train_loss 0.6710 | train_acc 0.9606 | 3.89s
+epoch  23 | train_loss 0.6678 | train_acc 0.9617 | 3.84s
+epoch  24 | train_loss 0.6679 | train_acc 0.9616 | 3.77s
+epoch  25 | train_loss 0.6619 | train_acc 0.9629 | 3.92s
+epoch  26 | train_loss 0.6654 | train_acc 0.9617 | 3.83s
+epoch  27 | train_loss 0.6587 | train_acc 0.9659 | 3.61s
+epoch  28 | train_loss 0.6584 | train_acc 0.9649 | 3.53s
+epoch  29 | train_loss 0.6593 | train_acc 0.9649 | 3.95s
+epoch  30 | train_loss 0.6572 | train_acc 0.9663 | 3.8s
+epoch  31 | train_loss 0.6562 | train_acc 0.9660 | 3.75s
+epoch  32 | train_loss 0.6573 | train_acc 0.9652 | 3.78s

@@ -1,0 +1,20 @@
+setting,value,notes
+optimiser,AdamW,keras.optimizers.AdamW
+learning_rate,0.002,initial; CosineDecay to 5 % (alpha 0.05) over all steps
+weight_decay,0.0001,AdamW decoupled weight decay
+epochs,32,"fixed; no early stopping, test fold only monitored"
+batch_size,64,
+loss,categorical cross-entropy,label smoothing 0.1
+train_step_jan_samples,25,window step on datasetJan2026 training recordings (2 s)
+train_step_group_samples,6,window step on the group members' training recordings (0.48 s; they are few)
+test_step_samples,25,window step of every test set (2 s)
+class_weights_har,balanced,"w_c = N / (K n_c), normalised to mean 1 over training windows"
+class_weights_social,balanced^0.6,"w_c = (N / (K n_c))^0.6, normalised to mean 1 over training windows"
+augmentation,"RandomAugment (in-graph, training only)","amplitude ×U(0.8,1.25) of the gravity-free part; roll about sensor Y ±30°; tilt about a random axis ±10° (Rodrigues); Gaussian noise σ = 0.002 g"
+window_har_samples,50,4 s
+window_social_samples,75,6 s
+social_recency_training,False,"if True: 50 % of training windows get their first W−k samples (k ∈ [38, 75]) replaced by another training window, gravity-aligned; label of the last k samples"
+seeds_deployed,"0,1,2",deployed architectures; seed = 1000*seed + fold
+seeds_other,0,other architectures and the class-weight sweep
+har_recipe,mixed,'mixed' = group members' training-fold recordings added; 'jan' = datasetJan2026 only
+framework,"TensorFlow / Keras 3, CPU",see tables/system.json

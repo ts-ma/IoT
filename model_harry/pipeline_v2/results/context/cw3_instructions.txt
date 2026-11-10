@@ -1,0 +1,309 @@
+Principles and Design of IoT Systems
+
+
+
+Coursework 3 Instructions
+Machine Learning Model Implementation Project
+Release Date: 23 September 2026
+Final demonstration: 18 November 2026 (10:00-13.00)
+Final Report Submission: 15 January 2027
+
+
+Task Description
+This coursework involves the development, demonstration, and final written report (max. 4,000
+words) for the activity recognition system.
+
+Implementation
+Your task will be to implement an activity recognition system for a set of activities listed below,
+by applying machine learning techniques on RESpeck accelerometer data and displaying
+real-time results in a mobile application.
+
+You will experience the different stages in the design and implementation of a complex system,
+from its specification to the demonstration of a working prototype and evaluation of its
+performance. You will be exposed to aspects of sensor data analytics using machine learning
+techniques, mobile application development, user interface design, and system integration and
+testing.
+
+There will be an opportunity to demonstrate progress and receive written formative feedback in
+Week 6. The final presentation to showcase your prototype with a live demonstration is
+scheduled on 18 November 2026 (10:00-13:00). Your final written report will be due on 15
+January 2027.
+
+Tasks
+There are three main tasks to be completed for Coursework 3. They are outlined as follows.
+
+1. Daily Physical Activity Classification
+
+You should implement a model or set of models using the RESpeck device that is able to
+classify the following classes:
+
+    1.​ Sitting or Standing (Here you should combine sitting and standing data files into one
+        class)
+    2.​ Lying down on your left side
+    3.​ Lying down on your right side
+    4.​ Lying down on your back
+Principles and Design of IoT Systems
+
+
+    5.​ Lying down on your stomach
+    6.​ Walking normally
+    7.​ Running/jogging
+    8.​ Ascending stairs
+    9.​ Descending stairs
+    10.​Shuffle-walking
+    11.​Miscellaneous movements
+
+
+2. Social Signals Classification
+
+You should implement a model or set of models that is able to classify the following classes:
+
+    1.​ Breathing normally (all stationary activities performed while breathing normally should
+        be combined into one class)
+    2.​ Coughing (all stationary activities performed while coughing should be combined into
+        one class)
+    3.​ Hyperventilating (all stationary activities while hyperventilating should be combined into
+        one class)
+    4.​ Other social signals (talking, eating, singing, and laughing activities performed while
+        stationary should be combined into one class)
+
+
+3. Mobile App Implementation
+
+You should integrate the methods developed in Tasks 1-2 into your mobile application. Your app
+should be able to classify physical activities and social signals in real-time. Your app should also
+be able to keep a history of the different activities and social signals performed each day. For
+example, users should be able to see that on October 17, they spent 1 hour walking, 10 hours
+sitting/standing, coughed 30 times, etc.
+
+
+
+Coursework Deliverables
+1. Demonstration
+On the day of the demonstration, each group's slot should include a presentation, a
+demonstration, and a brief Q&A.
+
+You will be presenting to the entire PDIoT class and the course instructors. Your presentation
+should cover the following points, although you are welcome to include additional material:
+   ●​ An annotated block diagram
+   ●​ The algorithms/models used for activity classification
+   ●​ App Design and Features
+   ●​ The performance of the implementation:
+Principles and Design of IoT Systems
+
+
+             o​ Accuracy: What is the real-time accuracy of your models? To demonstrate this,
+                each of your group members can perform each activity a number of times and
+                report how many times the correct classification result is shown on your app in
+                terms of percentage (%).
+             o​ Communication latency: How long (in seconds) does it take for the classification
+                output to be shown on your mobile app after performing the activity?
+             o​ Power consumption: How much battery does your mobile app consume while
+                collecting data?
+             o​ CPU cycles: You can monitor CPU usage through tools like Android Studio’s
+                Profiler, which reports CPU time and utilization to ensure the app does not
+                consume excessive CPU resources.
+             o​ Memory usage: How much RAM does your app use?
+
+You should next demonstrate the implementation of your app using a combination of live and
+recorded data (the latter for activities that would be difficult to demonstrate live, such as
+ascending or descending stairs). You should share your mobile phone screen, so that it works
+seamlessly on the day.
+
+Please submit your presentation to Learn before your demonstration (Monday, 16
+November). All presentations will be run from a single laptop, so make sure your
+submission includes everything you need for your demonstration.
+
+
+
+2. Final Group Report
+A single group report describing the activity recognition system will be due by 15 January 2027.
+The final report should not exceed 4,000 words (excluding Bibliography and Appendices) and
+should be organised into the following chapters:
+
+Title Page
+
+    ●​   PDIoT Coursework 3 (2026-27)
+    ●​   Project Title
+    ●​   Names
+    ●​   Matriculation Numbers
+    ●​   Abstract
+
+Introduction
+
+    ●​ Project aims and objectives
+    ●​ Brief description of the method adopted and summary of results
+
+Methodology
+
+    ●​ System overview: A description of the overall system and how its components (device,
+       models, app, and any server) fit together. A system diagram is recommended.
+Principles and Design of IoT Systems
+
+
+    ●​ Physical activity recognition: The algorithms and methods used, including data
+       preprocessing, feature extraction, and model choice, with references.
+    ●​ Social signal classification: As above, for social signals, with references.
+    ●​ Mobile application implementation: The tools and frameworks used (e.g. Flutter), the
+       app's functions and features, and the design of its user interface.
+    ●​ Software organisation: How your code is structured, e.g. overall architecture and key
+       modules.
+    ●​ Testing: How you verified that your models and app work correctly, e.g. unit tests or
+       user testing.
+
+Results and Discussion
+
+    ●​ Model accuracy: Report the accuracy of your machine learning models using the
+       subject-wise 10-fold cross-validation scheme and fold assignments provided on Learn,
+       as described in the marking criteria. For each physical activity and social signal class,
+       report the accuracy averaged across all 10 folds, along with the mean accuracy for each
+       group of classes (static activities, dynamic activities, and social signals). Even though
+       the RESpeck devices must be returned after your final presentation, you are
+       welcome to continue improving your models offline using the provided dataset,
+       and to report these improved results here.
+    ●​ Real-time classification accuracy: Design and carry out your own test to evaluate how
+       accurately your app classifies activities and social signals in real time. Your test should
+       cover all physical activities and social signals, and should involve every group member.
+       In your report, describe your testing procedure and justify your choices, for example how
+       many times each activity was performed, how long each trial lasted, and how you
+       decided whether a classification was correct. Include a table of the activities performed
+       and the classification results, and calculate the final accuracy as a percentage. Please
+       note: All borrowed devices must be returned after your final presentation. Make
+       sure you complete all real-time testing and app performance measurements
+       before then, as you will not be able to collect further data once the devices have
+       been returned.
+    ●​ Critical analysis: Discuss and interpret your results rather than simply restating them.
+       Why do you think certain methods performed better than others? Which classes were
+       most often confused, and why might that be? How did your real-time accuracy compare
+       with your cross-validation results, and what might explain any difference? Finally, what
+       are the main limitations of your current implementation, and how could it be improved?
+    ●​ Mobile app performance: Measure and report your app's communication latency,
+       power consumption, CPU usage, and memory usage. Describe how you took each
+       measurement (for example, using Flutter DevTools, the Android Studio Profiler, or Xcode
+       Instruments) and the conditions under which you tested, such as the device and platform
+       used (Android or iOS), how long the app was running, and whether classification was
+       running on the device or a server. If you tested on both platforms, report the results for
+       each. Discuss what your results show, for example any trade-offs your design choices
+       introduced between speed, accuracy, and resource use, and how performance could be
+       improved.
+Principles and Design of IoT Systems
+
+
+Conclusions
+
+    ●​ Summary and reflections: A brief summary of what your project achieved, and
+       reflections on what went well, what was challenging, and what you learned.
+    ●​ Future work: Areas where the system could be extended or improved, ideally building
+       on the limitations identified in your critical analysis.
+
+Please note that this is only a rough outline of the sections and topics that we normally expect to
+see in your report. You are free to add more information as necessary.
+
+
+
+Assessment Criteria [100 marks, 70% of grade]
+Students will be awarded marks out of 100, based on the demonstration presentation and final
+written report. The criteria for assessment are as follows:
+
+Demonstration [5/100 marks]
+The demonstration will be marked based on the quality of the oral presentation, slides and
+demonstration.
+
+Project Report [95/100 marks]
+Analysis [40/95 marks]
+
+    ●​ Detailed and clear description of the system including hardware and software
+       components. Thorough explanation of the algorithms and methods used for the tasks.
+    ●​ Clear description of app features and functionality with appropriate and well-justified
+       tools.
+    ●​ Clear methodology for testing and evaluation of the system.
+    ●​ Clear presentation of model performance results using cross-validation and
+       interpretation
+    ●​ Detailed results including a table of activities and real-time classification outcomes, with
+       final accuracy percentage calculation
+    ●​ Analysis of why certain methods performed better or worse, identification of flaws, and
+       suggestions for improvement
+    ●​ Detailed assessment of app performance in terms of communication latency, power
+       consumption, and memory usage
+    ●​ Critical analysis using quantitative methods and performance analysis is presented as
+       graphs, with a balanced interpretation of the results.
+Principles and Design of IoT Systems
+
+
+Project Technical Evaluation [55/95 marks]
+
+In terms of the technical evaluation of your project, you will be marked based on three
+categories of the project: (1) Physical Activity Classification, (2) Social Signals Classification,
+and (3) Mobile App Implementation.
+
+
+1. Daily Physical Activity Classification [15/55 marks]
+
+Accuracy will be evaluated using subject-wise 10-fold cross-validation, using the fold
+assignments provided on Learn. Because not every subject recorded every activity, and subject
+IDs are not shared across activities, folds are defined separately for each activity: each activity's
+subjects are divided into 10 roughly equal groups, and in each fold, one group from every
+activity is held out for testing while the model is trained on the rest. Within each activity, a
+subject's data must never appear in both the training and test sets of the same fold.
+
+Accuracy is calculated for each class separately and then averaged across the classes in each
+group, so that activities with more subjects do not carry more weight. The reported figure is the
+mean of this value across all 10 folds.
+   ●​ Static activities (6 marks): Achieve a mean classification accuracy of at least 90%
+       across the following five classes: sitting or standing (treated as a single class), lying on
+       your left side, lying on your right side, lying on your back, and lying on your stomach.
+   ●​ Dynamic activities (9 marks): Achieve a mean classification accuracy of at least 85%
+       across the following six classes: walking, ascending stairs, descending stairs, running or
+       jogging, shuffle walking, and miscellaneous movements.
+
+2. Social Signals Classification [20/55 marks]
+
+Accuracy will be evaluated using the same subject-wise 10-fold cross-validation and fold
+assignments described in Section 1. For each class below, accuracy is the proportion of that
+class's test samples correctly classified, and the reported figure is the mean of this value across
+all 10 folds.
+
+    ●​   Normal breathing (5 marks): Achieve a mean classification accuracy of at least 75%.
+    ●​   Coughing (5 marks): Achieve a mean classification accuracy of at least 75%.
+    ●​   Hyperventilation (5 marks): Achieve a mean classification accuracy of at least 75%.
+    ●​   Other (5 marks): Achieve a mean classification accuracy of at least 75% for the "other"
+         class, which includes (e.g. talking, eating, singing, laughing), treated as a single class.
+
+* Note - Not achieving the specified accuracy threshold does not imply that you get zero marks.
+You will still get rewarded marks should your accuracy be lower than the threshold.
+Principles and Design of IoT Systems
+
+
+3. App Implementation [20/55 marks]
+
+    ●​ Real-time classification of Task 1 (HAR) on the mobile app (5 marks)
+          o​ The app should classify the user's current activity from live sensor data and
+              display the result, updating at least every 10 seconds. Classification may run
+              either on the device or on a server of your choice. Meeting this requirement does
+              not automatically earn full marks: the 5 marks will be awarded based on the
+              quality of your implementation, including how responsive and reliable it is. For
+              example, an app that updates within 2 seconds will score more highly than one
+              that takes the full 10 seconds.
+    ●​ Real-time classification of Task 2 (social signals) on the mobile app (5 marks)
+          o​ The app should classify the user's current social signal from live sensor data and
+              display the result, updating at least every 10 seconds. As with Task 1,
+              classification may run on the device or on a server, and marks will reflect the
+              quality of your implementation rather than simply whether it works.
+    ●​ App features and functionality (enabling users to view historic data etc) (5 marks)
+          o​ Beyond live classification, the app should provide useful features for the user. At
+              a minimum, it should store past classification results and allow users to view their
+              historic data, for example a summary of their activity over the past day or week.
+              Additional features might include charts or trends over time, user accounts,
+              notifications, or data export.
+    ●​ App user interface (5 marks)
+          o​ The app should be clear, intuitive, and visually consistent. Marks will be awarded
+              based on how easily a user can understand and navigate the app, how clearly
+              information such as classification results and historic data is presented, and the
+              overall polish of the design.
+
+
+
+Submission Instructions: Submit your report to Learn as a single PDF by noon on 15 January
+2027, named [Assigned Group Name]_FinalReport.pdf, for example A1_FinalReport. Only one
+member per group needs to submit.
+

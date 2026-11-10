@@ -1,0 +1,98 @@
+{
+ "s2503795|Jan2026 only (new)": {
+  "har": {
+   "sittingStanding": 0.9260204081632653,
+   "lyingBack": 1.0,
+   "lyingLeft": 1.0,
+   "lyingRight": 1.0,
+   "lyingStomach": 1.0,
+   "normalWalking": 1.0,
+   "shuffleWalking": 1.0,
+   "ascending": 1.0,
+   "descending": 1.0,
+   "running": 1.0,
+   "miscMovement": 0.8928571428571429,
+   "STATIC": 0.985204081632653,
+   "DYNAMIC": 0.9821428571428572
+  },
+  "social_hidden": {
+   "breathingNormally": 0.0,
+   "coughing": 0.10119047619047619,
+   "hyperventilation": 0.05357142857142857,
+   "other": 0.005357142857142857
+  },
+  "social_leaks": 0.005952380952380952
+ },
+ "s2503795|shipped (Jan + s2503795 fine-tune)": {
+  "har": {
+   "sittingStanding": 1.0,
+   "lyingBack": 1.0,
+   "lyingLeft": 1.0,
+   "lyingRight": 1.0,
+   "lyingStomach": 1.0,
+   "normalWalking": 1.0,
+   "shuffleWalking": 1.0,
+   "ascending": 1.0,
+   "descending": 1.0,
+   "running": 1.0,
+   "miscMovement": 1.0,
+   "STATIC": 1.0,
+   "DYNAMIC": 1.0
+  },
+  "social_hidden": {
+   "breathingNormally": 0.0,
+   "coughing": 0.0,
+   "hyperventilation": 0.0,
+   "other": 0.0
+  },
+  "social_leaks": 0.0
+ },
+ "s2952925|Jan2026 only (new)": {
+  "har": {
+   "sittingStanding": 0.8871794871794871,
+   "lyingBack": 1.0,
+   "lyingLeft": 0.9629629629629629,
+   "lyingRight": 1.0,
+   "lyingStomach": 1.0,
+   "normalWalking": 1.0,
+   "shuffleWalking": 0.8571428571428571,
+   "ascending": 1.0,
+   "descending": 1.0,
+   "running": 1.0,
+   "miscMovement": 0.9629629629629629,
+   "STATIC": 0.9700284900284899,
+   "DYNAMIC": 0.9700176366843034
+  },
+  "social_hidden": {
+   "breathingNormally": 0.0,
+   "coughing": 0.05521472392638037,
+   "hyperventilation": 0.17682926829268292,
+   "other": 0.021937842778793418
+  },
+  "social_leaks": 0.0
+ },
+ "s2952925|shipped (Jan + s2503795 fine-tune)": {
+  "har": {
+   "sittingStanding": 0.9974358974358974,
+   "lyingBack": 1.0,
+   "lyingLeft": 1.0,
+   "lyingRight": 1.0,
+   "lyingStomach": 1.0,
+   "normalWalking": 1.0,
+   "shuffleWalking": 0.9642857142857143,
+   "ascending": 1.0,
+   "descending": 1.0,
+   "running": 1.0,
+   "miscMovement": 0.9259259259259259,
+   "STATIC": 0.9994871794871795,
+   "DYNAMIC": 0.9817019400352733
+  },
+  "social_hidden": {
+   "breathingNormally": 0.0,
+   "coughing": 0.0,
+   "hyperventilation": 0.006097560975609756,
+   "other": 0.0
+  },
+  "social_leaks": 0.0
+ }
+}

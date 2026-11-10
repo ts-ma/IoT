@@ -1,0 +1,2 @@
+[base_har_her_logreg_f8] tests: cv: (2530, 50, 3)
+stage train: jan (23484, 50, 3) recipe {'step': 25}

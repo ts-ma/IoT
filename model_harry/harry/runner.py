@@ -215,7 +215,10 @@ def _fit(core, X, y, n, rec, sets, monitors, task, settings, log):
     train_model.compile(optimizer=keras.optimizers.AdamW(sched, weight_decay=rec["wd"]),
                         loss=keras.losses.CategoricalCrossentropy(label_smoothing=rec["smooth"]), metrics=["accuracy"])
     cnt = np.bincount(y, minlength=n).astype(float)
-    sw = (len(y) / (n * np.maximum(cnt, 1)))[y].astype(np.float32) if rec.get("balance") else None
+    sw = None
+    if rec.get("balance"):              # balance_power 1 = fully balanced (default), 0 = no weighting
+        w = (len(y) / (n * np.maximum(cnt, 1))) ** rec.get("balance_power", 1.0)
+        sw = (w / w[y].mean())[y].astype(np.float32)
     train_model.fit(X, keras.utils.to_categorical(y, n), sample_weight=sw, epochs=rec["epochs"],
                     batch_size=rec["batch"], shuffle=True, verbose=0, callbacks=[cb])
     return cb.rows

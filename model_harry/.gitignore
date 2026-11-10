@@ -4,3 +4,10 @@ __pycache__/
 *.pyc
 results/cache/
 runs/
+final_run_smoke/
+final_run/cache/
+results/official_folds*/cache/
+pipeline_v2/results/jobs/
+pipeline_v2/results_smoke/
+pipeline_v2/models_smoke/
+pipeline_v2/cache/

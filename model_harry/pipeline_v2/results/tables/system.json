@@ -1,0 +1,11 @@
+{
+ "machine": "Apple M1 Pro",
+ "cpus": 8,
+ "os": "macOS-26.5.2-arm64-arm-64bit",
+ "python": "3.12.14",
+ "tensorflow": "2.21.0",
+ "keras": "3.15.1",
+ "sklearn": "1.9.1",
+ "numpy": "2.2.6",
+ "date": "2026-11-10 03:20"
+}

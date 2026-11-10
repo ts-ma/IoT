@@ -1,0 +1,2166 @@
+job,group,task,model,seed,fold,power,source,class,windows
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,sittingStanding,4354
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,lyingBack,1929
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,lyingLeft,1457
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,lyingRight,1394
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,lyingStomach,2137
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,normalWalking,2070
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,shuffleWalking,2036
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,ascending,2031
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,descending,1819
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,running,2086
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,datasetJan2026,miscMovement,2033
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,lyingBack,654
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,lyingRight,654
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,normalWalking,110
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,ascending,110
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,descending,108
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,running,110
+base_har_harry_feat_mixed_f0,baseline,har,harry_feat,0,0,,group members,miscMovement,109
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,sittingStanding,4349
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,lyingBack,1927
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,lyingLeft,1455
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,lyingRight,1395
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,lyingStomach,2139
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,normalWalking,2067
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,shuffleWalking,2040
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,ascending,2034
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,descending,1815
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,running,2090
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,datasetJan2026,miscMovement,2031
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,lyingBack,654
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,lyingRight,654
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,normalWalking,110
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,ascending,110
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,descending,108
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,running,110
+base_har_harry_feat_mixed_f1,baseline,har,harry_feat,0,1,,group members,miscMovement,109
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,sittingStanding,4362
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,lyingBack,1929
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,lyingLeft,1458
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,lyingRight,1393
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,lyingStomach,2151
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,normalWalking,2069
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,shuffleWalking,2035
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,ascending,2032
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,descending,1813
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,running,2090
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,datasetJan2026,miscMovement,2048
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,lyingBack,654
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,lyingRight,654
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,normalWalking,110
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,ascending,110
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,descending,108
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,running,110
+base_har_harry_feat_mixed_f2,baseline,har,harry_feat,0,2,,group members,miscMovement,109
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,sittingStanding,4364
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,lyingBack,1926
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,lyingLeft,1453
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,lyingRight,1411
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,lyingStomach,2153
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,normalWalking,2067
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,shuffleWalking,2036
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,ascending,2046
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,descending,1814
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,running,2090
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,datasetJan2026,miscMovement,2045
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,lyingBack,654
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,lyingRight,654
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,normalWalking,110
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,ascending,110
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,descending,108
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,running,110
+base_har_harry_feat_mixed_f3,baseline,har,harry_feat,0,3,,group members,miscMovement,109
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,sittingStanding,4362
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,lyingBack,1927
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,lyingLeft,1454
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,lyingRight,1412
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,lyingStomach,2152
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,normalWalking,2069
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,shuffleWalking,2049
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,ascending,2044
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,descending,1814
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,running,2088
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,datasetJan2026,miscMovement,2047
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,lyingBack,654
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,lyingRight,654
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,normalWalking,110
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,ascending,110
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,descending,108
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,running,110
+base_har_harry_feat_mixed_f4,baseline,har,harry_feat,0,4,,group members,miscMovement,109
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,sittingStanding,4324
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,lyingBack,1938
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,lyingLeft,1456
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,lyingRight,1410
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,lyingStomach,2153
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,normalWalking,2071
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,shuffleWalking,2052
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,ascending,2045
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,descending,1816
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,running,2088
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,datasetJan2026,miscMovement,2047
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,lyingBack,654
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,lyingRight,654
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,normalWalking,110
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,ascending,110
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,descending,108
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,running,110
+base_har_harry_feat_mixed_f5,baseline,har,harry_feat,0,5,,group members,miscMovement,109
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,sittingStanding,4342
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,lyingBack,1942
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,lyingLeft,1453
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,lyingRight,1409
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,lyingStomach,2150
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,normalWalking,2079
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,shuffleWalking,2053
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,ascending,2045
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,descending,1829
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,running,2088
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,datasetJan2026,miscMovement,2046
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,lyingBack,654
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,lyingRight,654
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,normalWalking,110
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,ascending,110
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,descending,108
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,running,110
+base_har_harry_feat_mixed_f6,baseline,har,harry_feat,0,6,,group members,miscMovement,109
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,sittingStanding,4362
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,lyingBack,1942
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,lyingLeft,1469
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,lyingRight,1410
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,lyingStomach,2152
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,normalWalking,2082
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,shuffleWalking,2053
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,ascending,2044
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,descending,1831
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,running,2091
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,datasetJan2026,miscMovement,2033
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,sittingStanding,1539
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,lyingBack,654
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,lyingLeft,654
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,lyingRight,654
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,lyingStomach,654
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,normalWalking,110
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,shuffleWalking,110
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,ascending,110
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,descending,108
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,running,110
+base_har_harry_feat_mixed_f7,baseline,har,harry_feat,0,7,,group members,miscMovement,109
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,sittingStanding,4362
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,lyingBack,1940
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,lyingLeft,1467
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,lyingRight,1408
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,lyingStomach,2152
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,normalWalking,2082
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,shuffleWalking,2051
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,ascending,2044
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,descending,1828
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,running,2104
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,datasetJan2026,miscMovement,2046
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,sittingStanding,769
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,lyingBack,324
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,lyingLeft,324
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,lyingRight,324
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,lyingStomach,324
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,normalWalking,55
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,shuffleWalking,55
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,ascending,55
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,descending,53
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,running,55
+base_har_harry_feat_mixed_f8,baseline,har,harry_feat,0,8,,group members,miscMovement,54
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,sittingStanding,4325
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,lyingBack,1941
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,lyingLeft,1467
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,lyingRight,1407
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,lyingStomach,2153
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,normalWalking,2080
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,shuffleWalking,2052
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,ascending,2047
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,descending,1828
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,running,2101
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,datasetJan2026,miscMovement,2045
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,sittingStanding,770
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,lyingBack,330
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,lyingLeft,330
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,lyingRight,330
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,lyingStomach,330
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,normalWalking,55
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,shuffleWalking,55
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,ascending,55
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,descending,55
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,running,55
+base_har_harry_feat_mixed_f9,baseline,har,harry_feat,0,9,,group members,miscMovement,55
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,sittingStanding,4354
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,lyingBack,1929
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,lyingLeft,1457
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,lyingRight,1394
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,lyingStomach,2137
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,normalWalking,2070
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,shuffleWalking,2036
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,ascending,2031
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,descending,1819
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,running,2086
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,datasetJan2026,miscMovement,2033
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,ascending,110
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,descending,108
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,running,110
+base_har_harry_mlp_mixed_f0,baseline,har,harry_mlp,0,0,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,sittingStanding,4349
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,lyingBack,1927
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,lyingLeft,1455
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,lyingRight,1395
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,lyingStomach,2139
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,normalWalking,2067
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,shuffleWalking,2040
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,ascending,2034
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,descending,1815
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,running,2090
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,datasetJan2026,miscMovement,2031
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,ascending,110
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,descending,108
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,running,110
+base_har_harry_mlp_mixed_f1,baseline,har,harry_mlp,0,1,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,sittingStanding,4362
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,lyingBack,1929
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,lyingLeft,1458
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,lyingRight,1393
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,lyingStomach,2151
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,normalWalking,2069
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,shuffleWalking,2035
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,ascending,2032
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,descending,1813
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,running,2090
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,datasetJan2026,miscMovement,2048
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,ascending,110
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,descending,108
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,running,110
+base_har_harry_mlp_mixed_f2,baseline,har,harry_mlp,0,2,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,sittingStanding,4364
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,lyingBack,1926
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,lyingLeft,1453
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,lyingRight,1411
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,lyingStomach,2153
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,normalWalking,2067
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,shuffleWalking,2036
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,ascending,2046
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,descending,1814
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,running,2090
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,datasetJan2026,miscMovement,2045
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,ascending,110
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,descending,108
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,running,110
+base_har_harry_mlp_mixed_f3,baseline,har,harry_mlp,0,3,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,sittingStanding,4362
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,lyingBack,1927
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,lyingLeft,1454
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,lyingRight,1412
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,lyingStomach,2152
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,normalWalking,2069
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,shuffleWalking,2049
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,ascending,2044
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,descending,1814
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,running,2088
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,datasetJan2026,miscMovement,2047
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,ascending,110
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,descending,108
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,running,110
+base_har_harry_mlp_mixed_f4,baseline,har,harry_mlp,0,4,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,sittingStanding,4324
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,lyingBack,1938
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,lyingLeft,1456
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,lyingRight,1410
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,lyingStomach,2153
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,normalWalking,2071
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,shuffleWalking,2052
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,ascending,2045
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,descending,1816
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,running,2088
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,datasetJan2026,miscMovement,2047
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,ascending,110
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,descending,108
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,running,110
+base_har_harry_mlp_mixed_f5,baseline,har,harry_mlp,0,5,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,sittingStanding,4342
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,lyingBack,1942
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,lyingLeft,1453
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,lyingRight,1409
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,lyingStomach,2150
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,normalWalking,2079
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,shuffleWalking,2053
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,ascending,2045
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,descending,1829
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,running,2088
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,datasetJan2026,miscMovement,2046
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,ascending,110
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,descending,108
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,running,110
+base_har_harry_mlp_mixed_f6,baseline,har,harry_mlp,0,6,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,sittingStanding,4362
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,lyingBack,1942
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,lyingLeft,1469
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,lyingRight,1410
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,lyingStomach,2152
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,normalWalking,2082
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,shuffleWalking,2053
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,ascending,2044
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,descending,1831
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,running,2091
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,datasetJan2026,miscMovement,2033
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,sittingStanding,1539
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,lyingBack,654
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,lyingLeft,654
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,lyingRight,654
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,lyingStomach,654
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,normalWalking,110
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,shuffleWalking,110
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,ascending,110
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,descending,108
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,running,110
+base_har_harry_mlp_mixed_f7,baseline,har,harry_mlp,0,7,,group members,miscMovement,109
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,sittingStanding,4362
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,lyingBack,1940
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,lyingLeft,1467
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,lyingRight,1408
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,lyingStomach,2152
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,normalWalking,2082
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,shuffleWalking,2051
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,ascending,2044
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,descending,1828
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,running,2104
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,datasetJan2026,miscMovement,2046
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,sittingStanding,769
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,lyingBack,324
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,lyingLeft,324
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,lyingRight,324
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,lyingStomach,324
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,normalWalking,55
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,shuffleWalking,55
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,ascending,55
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,descending,53
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,running,55
+base_har_harry_mlp_mixed_f8,baseline,har,harry_mlp,0,8,,group members,miscMovement,54
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,sittingStanding,4325
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,lyingBack,1941
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,lyingLeft,1467
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,lyingRight,1407
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,lyingStomach,2153
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,normalWalking,2080
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,shuffleWalking,2052
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,ascending,2047
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,descending,1828
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,running,2101
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,datasetJan2026,miscMovement,2045
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,sittingStanding,770
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,lyingBack,330
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,lyingLeft,330
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,lyingRight,330
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,lyingStomach,330
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,normalWalking,55
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,shuffleWalking,55
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,ascending,55
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,descending,55
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,running,55
+base_har_harry_mlp_mixed_f9,baseline,har,harry_mlp,0,9,,group members,miscMovement,55
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,sittingStanding,4354
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,lyingBack,1929
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,lyingLeft,1457
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,lyingRight,1394
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,lyingStomach,2137
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,normalWalking,2070
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,shuffleWalking,2036
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,ascending,2031
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,descending,1819
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,running,2086
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,datasetJan2026,miscMovement,2033
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,ascending,110
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,descending,108
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,running,110
+base_har_harry_rnn_mixed_f0,baseline,har,harry_rnn,0,0,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,sittingStanding,4349
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,lyingBack,1927
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,lyingLeft,1455
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,lyingRight,1395
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,lyingStomach,2139
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,normalWalking,2067
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,shuffleWalking,2040
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,ascending,2034
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,descending,1815
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,running,2090
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,datasetJan2026,miscMovement,2031
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,ascending,110
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,descending,108
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,running,110
+base_har_harry_rnn_mixed_f1,baseline,har,harry_rnn,0,1,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,sittingStanding,4362
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,lyingBack,1929
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,lyingLeft,1458
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,lyingRight,1393
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,lyingStomach,2151
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,normalWalking,2069
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,shuffleWalking,2035
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,ascending,2032
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,descending,1813
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,running,2090
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,datasetJan2026,miscMovement,2048
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,ascending,110
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,descending,108
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,running,110
+base_har_harry_rnn_mixed_f2,baseline,har,harry_rnn,0,2,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,sittingStanding,4364
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,lyingBack,1926
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,lyingLeft,1453
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,lyingRight,1411
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,lyingStomach,2153
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,normalWalking,2067
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,shuffleWalking,2036
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,ascending,2046
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,descending,1814
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,running,2090
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,datasetJan2026,miscMovement,2045
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,ascending,110
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,descending,108
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,running,110
+base_har_harry_rnn_mixed_f3,baseline,har,harry_rnn,0,3,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,sittingStanding,4362
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,lyingBack,1927
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,lyingLeft,1454
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,lyingRight,1412
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,lyingStomach,2152
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,normalWalking,2069
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,shuffleWalking,2049
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,ascending,2044
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,descending,1814
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,running,2088
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,datasetJan2026,miscMovement,2047
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,ascending,110
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,descending,108
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,running,110
+base_har_harry_rnn_mixed_f4,baseline,har,harry_rnn,0,4,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,sittingStanding,4324
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,lyingBack,1938
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,lyingLeft,1456
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,lyingRight,1410
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,lyingStomach,2153
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,normalWalking,2071
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,shuffleWalking,2052
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,ascending,2045
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,descending,1816
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,running,2088
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,datasetJan2026,miscMovement,2047
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,ascending,110
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,descending,108
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,running,110
+base_har_harry_rnn_mixed_f5,baseline,har,harry_rnn,0,5,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,sittingStanding,4342
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,lyingBack,1942
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,lyingLeft,1453
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,lyingRight,1409
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,lyingStomach,2150
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,normalWalking,2079
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,shuffleWalking,2053
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,ascending,2045
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,descending,1829
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,running,2088
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,datasetJan2026,miscMovement,2046
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,ascending,110
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,descending,108
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,running,110
+base_har_harry_rnn_mixed_f6,baseline,har,harry_rnn,0,6,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,sittingStanding,4362
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,lyingBack,1942
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,lyingLeft,1469
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,lyingRight,1410
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,lyingStomach,2152
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,normalWalking,2082
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,shuffleWalking,2053
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,ascending,2044
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,descending,1831
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,running,2091
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,datasetJan2026,miscMovement,2033
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,sittingStanding,1539
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,lyingBack,654
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,lyingLeft,654
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,lyingRight,654
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,lyingStomach,654
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,normalWalking,110
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,shuffleWalking,110
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,ascending,110
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,descending,108
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,running,110
+base_har_harry_rnn_mixed_f7,baseline,har,harry_rnn,0,7,,group members,miscMovement,109
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,sittingStanding,4362
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,lyingBack,1940
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,lyingLeft,1467
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,lyingRight,1408
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,lyingStomach,2152
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,normalWalking,2082
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,shuffleWalking,2051
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,ascending,2044
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,descending,1828
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,running,2104
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,datasetJan2026,miscMovement,2046
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,sittingStanding,769
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,lyingBack,324
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,lyingLeft,324
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,lyingRight,324
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,lyingStomach,324
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,normalWalking,55
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,shuffleWalking,55
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,ascending,55
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,descending,53
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,running,55
+base_har_harry_rnn_mixed_f8,baseline,har,harry_rnn,0,8,,group members,miscMovement,54
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,sittingStanding,4325
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,lyingBack,1941
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,lyingLeft,1467
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,lyingRight,1407
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,lyingStomach,2153
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,normalWalking,2080
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,shuffleWalking,2052
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,ascending,2047
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,descending,1828
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,running,2101
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,datasetJan2026,miscMovement,2045
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,sittingStanding,770
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,lyingBack,330
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,lyingLeft,330
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,lyingRight,330
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,lyingStomach,330
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,normalWalking,55
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,shuffleWalking,55
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,ascending,55
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,descending,55
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,running,55
+base_har_harry_rnn_mixed_f9,baseline,har,harry_rnn,0,9,,group members,miscMovement,55
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,datasetJan2026,breathingNormally,12261
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,datasetJan2026,coughing,11302
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,datasetJan2026,hyperventilation,11845
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,datasetJan2026,other,39310
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f0,baseline,social,harry_cnn,0,0,0.6,group members,other,2028
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,datasetJan2026,breathingNormally,12268
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,datasetJan2026,coughing,11309
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,datasetJan2026,hyperventilation,11857
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,datasetJan2026,other,39324
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f1,baseline,social,harry_cnn,0,1,0.6,group members,other,2028
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,datasetJan2026,breathingNormally,12241
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,datasetJan2026,coughing,11295
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,datasetJan2026,hyperventilation,11850
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,datasetJan2026,other,39332
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f2,baseline,social,harry_cnn,0,2,0.6,group members,other,2028
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,datasetJan2026,breathingNormally,12246
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,datasetJan2026,coughing,11306
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,datasetJan2026,hyperventilation,11858
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,datasetJan2026,other,39325
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f3,baseline,social,harry_cnn,0,3,0.6,group members,other,2028
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,datasetJan2026,breathingNormally,12269
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,datasetJan2026,coughing,11303
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,datasetJan2026,hyperventilation,11869
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,datasetJan2026,other,39331
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f4,baseline,social,harry_cnn,0,4,0.6,group members,other,2028
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,datasetJan2026,breathingNormally,12249
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,datasetJan2026,coughing,11304
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,datasetJan2026,other,39332
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f5,baseline,social,harry_cnn,0,5,0.6,group members,other,2028
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,datasetJan2026,breathingNormally,12271
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,datasetJan2026,coughing,11300
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,datasetJan2026,hyperventilation,11861
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,datasetJan2026,other,39329
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f6,baseline,social,harry_cnn,0,6,0.6,group members,other,2028
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,datasetJan2026,breathingNormally,12244
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,datasetJan2026,coughing,11310
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,datasetJan2026,hyperventilation,11862
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,datasetJan2026,other,39330
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,group members,breathingNormally,608
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,group members,coughing,607
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,group members,hyperventilation,608
+base_social_harry_cnn_w75_f7,baseline,social,harry_cnn,0,7,0.6,group members,other,2028
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,datasetJan2026,breathingNormally,12242
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,datasetJan2026,coughing,11317
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,datasetJan2026,hyperventilation,11865
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,datasetJan2026,other,39335
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,group members,breathingNormally,302
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,group members,coughing,301
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,group members,hyperventilation,302
+base_social_harry_cnn_w75_f8,baseline,social,harry_cnn,0,8,0.6,group members,other,1008
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,datasetJan2026,breathingNormally,12289
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,datasetJan2026,coughing,11321
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,datasetJan2026,other,39325
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,group members,breathingNormally,306
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,group members,coughing,306
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,group members,hyperventilation,306
+base_social_harry_cnn_w75_f9,baseline,social,harry_cnn,0,9,0.6,group members,other,1020
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,datasetJan2026,breathingNormally,12261
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,datasetJan2026,coughing,11302
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,datasetJan2026,hyperventilation,11845
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,datasetJan2026,other,39310
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,group members,coughing,607
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f0,baseline,social,harry_feat,0,0,0.6,group members,other,2028
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,datasetJan2026,breathingNormally,12268
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,datasetJan2026,coughing,11309
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,datasetJan2026,hyperventilation,11857
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,datasetJan2026,other,39324
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,group members,coughing,607
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f1,baseline,social,harry_feat,0,1,0.6,group members,other,2028
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,datasetJan2026,breathingNormally,12241
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,datasetJan2026,coughing,11295
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,datasetJan2026,hyperventilation,11850
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,datasetJan2026,other,39332
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,group members,coughing,607
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f2,baseline,social,harry_feat,0,2,0.6,group members,other,2028
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,datasetJan2026,breathingNormally,12246
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,datasetJan2026,coughing,11306
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,datasetJan2026,hyperventilation,11858
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,datasetJan2026,other,39325
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,group members,coughing,607
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f3,baseline,social,harry_feat,0,3,0.6,group members,other,2028
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,datasetJan2026,breathingNormally,12269
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,datasetJan2026,coughing,11303
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,datasetJan2026,hyperventilation,11869
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,datasetJan2026,other,39331
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,group members,coughing,607
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f4,baseline,social,harry_feat,0,4,0.6,group members,other,2028
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,datasetJan2026,breathingNormally,12249
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,datasetJan2026,coughing,11304
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,datasetJan2026,other,39332
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,group members,coughing,607
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f5,baseline,social,harry_feat,0,5,0.6,group members,other,2028
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,datasetJan2026,breathingNormally,12271
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,datasetJan2026,coughing,11300
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,datasetJan2026,hyperventilation,11861
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,datasetJan2026,other,39329
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,group members,coughing,607
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f6,baseline,social,harry_feat,0,6,0.6,group members,other,2028
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,datasetJan2026,breathingNormally,12244
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,datasetJan2026,coughing,11310
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,datasetJan2026,hyperventilation,11862
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,datasetJan2026,other,39330
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,group members,breathingNormally,608
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,group members,coughing,607
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,group members,hyperventilation,608
+base_social_harry_feat_w75_f7,baseline,social,harry_feat,0,7,0.6,group members,other,2028
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,datasetJan2026,breathingNormally,12242
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,datasetJan2026,coughing,11317
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,datasetJan2026,hyperventilation,11865
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,datasetJan2026,other,39335
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,group members,breathingNormally,302
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,group members,coughing,301
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,group members,hyperventilation,302
+base_social_harry_feat_w75_f8,baseline,social,harry_feat,0,8,0.6,group members,other,1008
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,datasetJan2026,breathingNormally,12289
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,datasetJan2026,coughing,11321
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,datasetJan2026,other,39325
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,group members,breathingNormally,306
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,group members,coughing,306
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,group members,hyperventilation,306
+base_social_harry_feat_w75_f9,baseline,social,harry_feat,0,9,0.6,group members,other,1020
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,datasetJan2026,breathingNormally,12261
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,datasetJan2026,coughing,11302
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,datasetJan2026,hyperventilation,11845
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,datasetJan2026,other,39310
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f0,baseline,social,harry_mlp,0,0,0.6,group members,other,2028
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,datasetJan2026,breathingNormally,12268
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,datasetJan2026,coughing,11309
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,datasetJan2026,hyperventilation,11857
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,datasetJan2026,other,39324
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f1,baseline,social,harry_mlp,0,1,0.6,group members,other,2028
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,datasetJan2026,breathingNormally,12241
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,datasetJan2026,coughing,11295
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,datasetJan2026,hyperventilation,11850
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,datasetJan2026,other,39332
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f2,baseline,social,harry_mlp,0,2,0.6,group members,other,2028
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,datasetJan2026,breathingNormally,12246
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,datasetJan2026,coughing,11306
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,datasetJan2026,hyperventilation,11858
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,datasetJan2026,other,39325
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f3,baseline,social,harry_mlp,0,3,0.6,group members,other,2028
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,datasetJan2026,breathingNormally,12269
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,datasetJan2026,coughing,11303
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,datasetJan2026,hyperventilation,11869
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,datasetJan2026,other,39331
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f4,baseline,social,harry_mlp,0,4,0.6,group members,other,2028
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,datasetJan2026,breathingNormally,12249
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,datasetJan2026,coughing,11304
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,datasetJan2026,other,39332
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f5,baseline,social,harry_mlp,0,5,0.6,group members,other,2028
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,datasetJan2026,breathingNormally,12271
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,datasetJan2026,coughing,11300
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,datasetJan2026,hyperventilation,11861
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,datasetJan2026,other,39329
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f6,baseline,social,harry_mlp,0,6,0.6,group members,other,2028
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,datasetJan2026,breathingNormally,12244
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,datasetJan2026,coughing,11310
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,datasetJan2026,hyperventilation,11862
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,datasetJan2026,other,39330
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,group members,breathingNormally,608
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,group members,coughing,607
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,group members,hyperventilation,608
+base_social_harry_mlp_w75_f7,baseline,social,harry_mlp,0,7,0.6,group members,other,2028
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,datasetJan2026,breathingNormally,12242
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,datasetJan2026,coughing,11317
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,datasetJan2026,hyperventilation,11865
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,datasetJan2026,other,39335
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,group members,breathingNormally,302
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,group members,coughing,301
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,group members,hyperventilation,302
+base_social_harry_mlp_w75_f8,baseline,social,harry_mlp,0,8,0.6,group members,other,1008
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,datasetJan2026,breathingNormally,12289
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,datasetJan2026,coughing,11321
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,datasetJan2026,hyperventilation,11863
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,datasetJan2026,other,39325
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,group members,breathingNormally,306
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,group members,coughing,306
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,group members,hyperventilation,306
+base_social_harry_mlp_w75_f9,baseline,social,harry_mlp,0,9,0.6,group members,other,1020
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,sittingStanding,4834
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,lyingBack,2149
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,lyingLeft,1621
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,lyingRight,1561
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,lyingStomach,2388
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,normalWalking,2304
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,shuffleWalking,2273
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,ascending,2268
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,descending,2023
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,running,2324
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026,miscMovement,2269
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),sittingStanding,174
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),lyingBack,84
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),lyingLeft,98
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),lyingRight,96
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),lyingStomach,15
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),normalWalking,0
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),shuffleWalking,56
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),ascending,14
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),descending,28
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),running,84
+final_har_mixed,final,har,harry_cnn,0,all,,datasetJan2026 (unlisted),miscMovement,97
+final_har_mixed,final,har,harry_cnn,0,all,,group members,sittingStanding,1539
+final_har_mixed,final,har,harry_cnn,0,all,,group members,lyingBack,654
+final_har_mixed,final,har,harry_cnn,0,all,,group members,lyingLeft,654
+final_har_mixed,final,har,harry_cnn,0,all,,group members,lyingRight,654
+final_har_mixed,final,har,harry_cnn,0,all,,group members,lyingStomach,654
+final_har_mixed,final,har,harry_cnn,0,all,,group members,normalWalking,110
+final_har_mixed,final,har,harry_cnn,0,all,,group members,shuffleWalking,110
+final_har_mixed,final,har,harry_cnn,0,all,,group members,ascending,110
+final_har_mixed,final,har,harry_cnn,0,all,,group members,descending,108
+final_har_mixed,final,har,harry_cnn,0,all,,group members,running,110
+final_har_mixed,final,har,harry_cnn,0,all,,group members,miscMovement,109
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026,breathingNormally,13620
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026,coughing,12563
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026,hyperventilation,13177
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026,other,43697
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026 (unlisted),breathingNormally,89
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026 (unlisted),coughing,77
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026 (unlisted),hyperventilation,118
+final_social_w75,final,social,harry_rnn,0,all,0.6,datasetJan2026 (unlisted),other,386
+final_social_w75,final,social,harry_rnn,0,all,0.6,group members,breathingNormally,608
+final_social_w75,final,social,harry_rnn,0,all,0.6,group members,coughing,607
+final_social_w75,final,social,harry_rnn,0,all,0.6,group members,hyperventilation,608
+final_social_w75,final,social,harry_rnn,0,all,0.6,group members,other,2028
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,sittingStanding,4354
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,lyingBack,1929
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,lyingLeft,1457
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,lyingRight,1394
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,lyingStomach,2137
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,normalWalking,2070
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,ascending,2031
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,descending,1819
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,running,2086
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,datasetJan2026,miscMovement,2033
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,sittingStanding,1539
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,lyingBack,654
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,lyingLeft,654
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,lyingRight,654
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,lyingStomach,654
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,normalWalking,110
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,shuffleWalking,110
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,ascending,110
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,descending,108
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,running,110
+main_har_mixed_s0_f0,main,har,harry_cnn,0,0,,group members,miscMovement,109
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,sittingStanding,4349
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,lyingBack,1927
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,lyingLeft,1455
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,lyingRight,1395
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,lyingStomach,2139
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,normalWalking,2067
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,shuffleWalking,2040
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,ascending,2034
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,descending,1815
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,running,2090
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,datasetJan2026,miscMovement,2031
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,sittingStanding,1539
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,lyingBack,654
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,lyingLeft,654
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,lyingRight,654
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,lyingStomach,654
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,normalWalking,110
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,shuffleWalking,110
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,ascending,110
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,descending,108
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,running,110
+main_har_mixed_s0_f1,main,har,harry_cnn,0,1,,group members,miscMovement,109
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,lyingBack,1929
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,lyingLeft,1458
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,lyingRight,1393
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,lyingStomach,2151
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,normalWalking,2069
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,shuffleWalking,2035
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,ascending,2032
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,descending,1813
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,running,2090
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,datasetJan2026,miscMovement,2048
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,sittingStanding,1539
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,lyingBack,654
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,lyingLeft,654
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,lyingRight,654
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,lyingStomach,654
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,normalWalking,110
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,shuffleWalking,110
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,ascending,110
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,descending,108
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,running,110
+main_har_mixed_s0_f2,main,har,harry_cnn,0,2,,group members,miscMovement,109
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,sittingStanding,4364
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,lyingBack,1926
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,lyingRight,1411
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,normalWalking,2067
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,ascending,2046
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,descending,1814
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,running,2090
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,datasetJan2026,miscMovement,2045
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,sittingStanding,1539
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,lyingBack,654
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,lyingLeft,654
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,lyingRight,654
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,lyingStomach,654
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,normalWalking,110
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,shuffleWalking,110
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,ascending,110
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,descending,108
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,running,110
+main_har_mixed_s0_f3,main,har,harry_cnn,0,3,,group members,miscMovement,109
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,lyingBack,1927
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,lyingLeft,1454
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,lyingRight,1412
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,normalWalking,2069
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,shuffleWalking,2049
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,ascending,2044
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,descending,1814
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,running,2088
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,datasetJan2026,miscMovement,2047
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,sittingStanding,1539
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,lyingBack,654
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,lyingLeft,654
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,lyingRight,654
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,lyingStomach,654
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,normalWalking,110
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,shuffleWalking,110
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,ascending,110
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,descending,108
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,running,110
+main_har_mixed_s0_f4,main,har,harry_cnn,0,4,,group members,miscMovement,109
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,sittingStanding,4324
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,lyingBack,1938
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,lyingLeft,1456
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,lyingRight,1410
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,normalWalking,2071
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,ascending,2045
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,descending,1816
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,running,2088
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,datasetJan2026,miscMovement,2047
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,sittingStanding,1539
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,lyingBack,654
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,lyingLeft,654
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,lyingRight,654
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,lyingStomach,654
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,normalWalking,110
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,shuffleWalking,110
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,ascending,110
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,descending,108
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,running,110
+main_har_mixed_s0_f5,main,har,harry_cnn,0,5,,group members,miscMovement,109
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,sittingStanding,4342
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,lyingBack,1942
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,lyingRight,1409
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,lyingStomach,2150
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,normalWalking,2079
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,ascending,2045
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,descending,1829
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,running,2088
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,datasetJan2026,miscMovement,2046
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,sittingStanding,1539
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,lyingBack,654
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,lyingLeft,654
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,lyingRight,654
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,lyingStomach,654
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,normalWalking,110
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,shuffleWalking,110
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,ascending,110
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,descending,108
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,running,110
+main_har_mixed_s0_f6,main,har,harry_cnn,0,6,,group members,miscMovement,109
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,lyingBack,1942
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,lyingLeft,1469
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,lyingRight,1410
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,normalWalking,2082
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,ascending,2044
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,descending,1831
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,running,2091
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,datasetJan2026,miscMovement,2033
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,sittingStanding,1539
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,lyingBack,654
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,lyingLeft,654
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,lyingRight,654
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,lyingStomach,654
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,normalWalking,110
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,shuffleWalking,110
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,ascending,110
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,descending,108
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,running,110
+main_har_mixed_s0_f7,main,har,harry_cnn,0,7,,group members,miscMovement,109
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,lyingBack,1940
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,lyingRight,1408
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,normalWalking,2082
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,shuffleWalking,2051
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,ascending,2044
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,descending,1828
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,running,2104
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,datasetJan2026,miscMovement,2046
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,sittingStanding,769
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,lyingBack,324
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,lyingLeft,324
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,lyingRight,324
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,lyingStomach,324
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,normalWalking,55
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,shuffleWalking,55
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,ascending,55
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,descending,53
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,running,55
+main_har_mixed_s0_f8,main,har,harry_cnn,0,8,,group members,miscMovement,54
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,sittingStanding,4325
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,lyingBack,1941
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,lyingRight,1407
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,normalWalking,2080
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,ascending,2047
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,descending,1828
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,running,2101
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,datasetJan2026,miscMovement,2045
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,sittingStanding,770
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,lyingBack,330
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,lyingLeft,330
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,lyingRight,330
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,lyingStomach,330
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,normalWalking,55
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,shuffleWalking,55
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,ascending,55
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,descending,55
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,running,55
+main_har_mixed_s0_f9,main,har,harry_cnn,0,9,,group members,miscMovement,55
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,sittingStanding,4354
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,lyingBack,1929
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,lyingLeft,1457
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,lyingRight,1394
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,lyingStomach,2137
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,normalWalking,2070
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,ascending,2031
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,descending,1819
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,running,2086
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,datasetJan2026,miscMovement,2033
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,sittingStanding,1539
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,lyingBack,654
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,lyingLeft,654
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,lyingRight,654
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,lyingStomach,654
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,normalWalking,110
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,shuffleWalking,110
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,ascending,110
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,descending,108
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,running,110
+main_har_mixed_s1_f0,main,har,harry_cnn,1,0,,group members,miscMovement,109
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,sittingStanding,4349
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,lyingBack,1927
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,lyingLeft,1455
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,lyingRight,1395
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,lyingStomach,2139
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,normalWalking,2067
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,shuffleWalking,2040
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,ascending,2034
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,descending,1815
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,running,2090
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,datasetJan2026,miscMovement,2031
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,sittingStanding,1539
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,lyingBack,654
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,lyingLeft,654
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,lyingRight,654
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,lyingStomach,654
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,normalWalking,110
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,shuffleWalking,110
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,ascending,110
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,descending,108
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,running,110
+main_har_mixed_s1_f1,main,har,harry_cnn,1,1,,group members,miscMovement,109
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,lyingBack,1929
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,lyingLeft,1458
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,lyingRight,1393
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,lyingStomach,2151
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,normalWalking,2069
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,shuffleWalking,2035
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,ascending,2032
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,descending,1813
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,running,2090
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,datasetJan2026,miscMovement,2048
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,sittingStanding,1539
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,lyingBack,654
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,lyingLeft,654
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,lyingRight,654
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,lyingStomach,654
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,normalWalking,110
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,shuffleWalking,110
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,ascending,110
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,descending,108
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,running,110
+main_har_mixed_s1_f2,main,har,harry_cnn,1,2,,group members,miscMovement,109
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,sittingStanding,4364
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,lyingBack,1926
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,lyingRight,1411
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,normalWalking,2067
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,ascending,2046
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,descending,1814
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,running,2090
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,datasetJan2026,miscMovement,2045
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,sittingStanding,1539
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,lyingBack,654
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,lyingLeft,654
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,lyingRight,654
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,lyingStomach,654
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,normalWalking,110
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,shuffleWalking,110
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,ascending,110
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,descending,108
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,running,110
+main_har_mixed_s1_f3,main,har,harry_cnn,1,3,,group members,miscMovement,109
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,lyingBack,1927
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,lyingLeft,1454
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,lyingRight,1412
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,normalWalking,2069
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,shuffleWalking,2049
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,ascending,2044
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,descending,1814
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,running,2088
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,datasetJan2026,miscMovement,2047
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,sittingStanding,1539
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,lyingBack,654
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,lyingLeft,654
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,lyingRight,654
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,lyingStomach,654
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,normalWalking,110
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,shuffleWalking,110
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,ascending,110
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,descending,108
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,running,110
+main_har_mixed_s1_f4,main,har,harry_cnn,1,4,,group members,miscMovement,109
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,sittingStanding,4324
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,lyingBack,1938
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,lyingLeft,1456
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,lyingRight,1410
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,normalWalking,2071
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,ascending,2045
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,descending,1816
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,running,2088
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,datasetJan2026,miscMovement,2047
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,sittingStanding,1539
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,lyingBack,654
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,lyingLeft,654
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,lyingRight,654
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,lyingStomach,654
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,normalWalking,110
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,shuffleWalking,110
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,ascending,110
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,descending,108
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,running,110
+main_har_mixed_s1_f5,main,har,harry_cnn,1,5,,group members,miscMovement,109
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,sittingStanding,4342
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,lyingBack,1942
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,lyingRight,1409
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,lyingStomach,2150
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,normalWalking,2079
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,ascending,2045
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,descending,1829
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,running,2088
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,datasetJan2026,miscMovement,2046
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,sittingStanding,1539
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,lyingBack,654
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,lyingLeft,654
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,lyingRight,654
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,lyingStomach,654
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,normalWalking,110
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,shuffleWalking,110
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,ascending,110
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,descending,108
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,running,110
+main_har_mixed_s1_f6,main,har,harry_cnn,1,6,,group members,miscMovement,109
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,lyingBack,1942
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,lyingLeft,1469
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,lyingRight,1410
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,normalWalking,2082
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,ascending,2044
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,descending,1831
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,running,2091
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,datasetJan2026,miscMovement,2033
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,sittingStanding,1539
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,lyingBack,654
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,lyingLeft,654
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,lyingRight,654
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,lyingStomach,654
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,normalWalking,110
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,shuffleWalking,110
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,ascending,110
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,descending,108
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,running,110
+main_har_mixed_s1_f7,main,har,harry_cnn,1,7,,group members,miscMovement,109
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,lyingBack,1940
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,lyingRight,1408
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,normalWalking,2082
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,shuffleWalking,2051
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,ascending,2044
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,descending,1828
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,running,2104
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,datasetJan2026,miscMovement,2046
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,sittingStanding,769
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,lyingBack,324
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,lyingLeft,324
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,lyingRight,324
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,lyingStomach,324
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,normalWalking,55
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,shuffleWalking,55
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,ascending,55
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,descending,53
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,running,55
+main_har_mixed_s1_f8,main,har,harry_cnn,1,8,,group members,miscMovement,54
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,sittingStanding,4325
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,lyingBack,1941
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,lyingRight,1407
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,normalWalking,2080
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,ascending,2047
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,descending,1828
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,running,2101
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,datasetJan2026,miscMovement,2045
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,sittingStanding,770
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,lyingBack,330
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,lyingLeft,330
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,lyingRight,330
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,lyingStomach,330
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,normalWalking,55
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,shuffleWalking,55
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,ascending,55
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,descending,55
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,running,55
+main_har_mixed_s1_f9,main,har,harry_cnn,1,9,,group members,miscMovement,55
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,sittingStanding,4354
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,lyingBack,1929
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,lyingLeft,1457
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,lyingRight,1394
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,lyingStomach,2137
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,normalWalking,2070
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,ascending,2031
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,descending,1819
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,running,2086
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,datasetJan2026,miscMovement,2033
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,sittingStanding,1539
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,lyingBack,654
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,lyingLeft,654
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,lyingRight,654
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,lyingStomach,654
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,normalWalking,110
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,shuffleWalking,110
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,ascending,110
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,descending,108
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,running,110
+main_har_mixed_s2_f0,main,har,harry_cnn,2,0,,group members,miscMovement,109
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,sittingStanding,4349
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,lyingBack,1927
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,lyingLeft,1455
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,lyingRight,1395
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,lyingStomach,2139
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,normalWalking,2067
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,shuffleWalking,2040
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,ascending,2034
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,descending,1815
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,running,2090
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,datasetJan2026,miscMovement,2031
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,sittingStanding,1539
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,lyingBack,654
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,lyingLeft,654
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,lyingRight,654
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,lyingStomach,654
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,normalWalking,110
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,shuffleWalking,110
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,ascending,110
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,descending,108
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,running,110
+main_har_mixed_s2_f1,main,har,harry_cnn,2,1,,group members,miscMovement,109
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,lyingBack,1929
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,lyingLeft,1458
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,lyingRight,1393
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,lyingStomach,2151
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,normalWalking,2069
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,shuffleWalking,2035
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,ascending,2032
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,descending,1813
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,running,2090
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,datasetJan2026,miscMovement,2048
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,sittingStanding,1539
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,lyingBack,654
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,lyingLeft,654
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,lyingRight,654
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,lyingStomach,654
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,normalWalking,110
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,shuffleWalking,110
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,ascending,110
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,descending,108
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,running,110
+main_har_mixed_s2_f2,main,har,harry_cnn,2,2,,group members,miscMovement,109
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,sittingStanding,4364
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,lyingBack,1926
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,lyingRight,1411
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,normalWalking,2067
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,shuffleWalking,2036
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,ascending,2046
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,descending,1814
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,running,2090
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,datasetJan2026,miscMovement,2045
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,sittingStanding,1539
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,lyingBack,654
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,lyingLeft,654
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,lyingRight,654
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,lyingStomach,654
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,normalWalking,110
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,shuffleWalking,110
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,ascending,110
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,descending,108
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,running,110
+main_har_mixed_s2_f3,main,har,harry_cnn,2,3,,group members,miscMovement,109
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,lyingBack,1927
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,lyingLeft,1454
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,lyingRight,1412
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,normalWalking,2069
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,shuffleWalking,2049
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,ascending,2044
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,descending,1814
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,running,2088
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,datasetJan2026,miscMovement,2047
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,sittingStanding,1539
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,lyingBack,654
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,lyingLeft,654
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,lyingRight,654
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,lyingStomach,654
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,normalWalking,110
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,shuffleWalking,110
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,ascending,110
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,descending,108
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,running,110
+main_har_mixed_s2_f4,main,har,harry_cnn,2,4,,group members,miscMovement,109
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,sittingStanding,4324
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,lyingBack,1938
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,lyingLeft,1456
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,lyingRight,1410
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,normalWalking,2071
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,ascending,2045
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,descending,1816
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,running,2088
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,datasetJan2026,miscMovement,2047
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,sittingStanding,1539
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,lyingBack,654
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,lyingLeft,654
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,lyingRight,654
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,lyingStomach,654
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,normalWalking,110
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,shuffleWalking,110
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,ascending,110
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,descending,108
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,running,110
+main_har_mixed_s2_f5,main,har,harry_cnn,2,5,,group members,miscMovement,109
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,sittingStanding,4342
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,lyingBack,1942
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,lyingLeft,1453
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,lyingRight,1409
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,lyingStomach,2150
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,normalWalking,2079
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,ascending,2045
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,descending,1829
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,running,2088
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,datasetJan2026,miscMovement,2046
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,sittingStanding,1539
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,lyingBack,654
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,lyingLeft,654
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,lyingRight,654
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,lyingStomach,654
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,normalWalking,110
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,shuffleWalking,110
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,ascending,110
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,descending,108
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,running,110
+main_har_mixed_s2_f6,main,har,harry_cnn,2,6,,group members,miscMovement,109
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,lyingBack,1942
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,lyingLeft,1469
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,lyingRight,1410
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,normalWalking,2082
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,shuffleWalking,2053
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,ascending,2044
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,descending,1831
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,running,2091
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,datasetJan2026,miscMovement,2033
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,sittingStanding,1539
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,lyingBack,654
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,lyingLeft,654
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,lyingRight,654
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,lyingStomach,654
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,normalWalking,110
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,shuffleWalking,110
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,ascending,110
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,descending,108
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,running,110
+main_har_mixed_s2_f7,main,har,harry_cnn,2,7,,group members,miscMovement,109
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,sittingStanding,4362
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,lyingBack,1940
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,lyingRight,1408
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,lyingStomach,2152
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,normalWalking,2082
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,shuffleWalking,2051
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,ascending,2044
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,descending,1828
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,running,2104
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,datasetJan2026,miscMovement,2046
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,sittingStanding,769
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,lyingBack,324
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,lyingLeft,324
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,lyingRight,324
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,lyingStomach,324
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,normalWalking,55
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,shuffleWalking,55
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,ascending,55
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,descending,53
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,running,55
+main_har_mixed_s2_f8,main,har,harry_cnn,2,8,,group members,miscMovement,54
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,sittingStanding,4325
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,lyingBack,1941
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,lyingLeft,1467
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,lyingRight,1407
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,lyingStomach,2153
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,normalWalking,2080
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,shuffleWalking,2052
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,ascending,2047
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,descending,1828
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,running,2101
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,datasetJan2026,miscMovement,2045
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,sittingStanding,770
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,lyingBack,330
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,lyingLeft,330
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,lyingRight,330
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,lyingStomach,330
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,normalWalking,55
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,shuffleWalking,55
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,ascending,55
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,descending,55
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,running,55
+main_har_mixed_s2_f9,main,har,harry_cnn,2,9,,group members,miscMovement,55
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,datasetJan2026,breathingNormally,12261
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,datasetJan2026,coughing,11302
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,datasetJan2026,hyperventilation,11845
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,datasetJan2026,other,39310
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,group members,breathingNormally,608
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,group members,coughing,607
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,group members,hyperventilation,608
+main_social_w75_s0_f0,main,social,harry_rnn,0,0,0.6,group members,other,2028
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,datasetJan2026,breathingNormally,12268
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,datasetJan2026,coughing,11309
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,datasetJan2026,hyperventilation,11857
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,datasetJan2026,other,39324
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,group members,breathingNormally,608
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,group members,coughing,607
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,group members,hyperventilation,608
+main_social_w75_s0_f1,main,social,harry_rnn,0,1,0.6,group members,other,2028
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,datasetJan2026,breathingNormally,12241
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,datasetJan2026,coughing,11295
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,datasetJan2026,hyperventilation,11850
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,datasetJan2026,other,39332
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,group members,breathingNormally,608
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,group members,coughing,607
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,group members,hyperventilation,608
+main_social_w75_s0_f2,main,social,harry_rnn,0,2,0.6,group members,other,2028
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,datasetJan2026,breathingNormally,12246
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,datasetJan2026,coughing,11306
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,datasetJan2026,hyperventilation,11858
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,datasetJan2026,other,39325
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,group members,breathingNormally,608
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,group members,coughing,607
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,group members,hyperventilation,608
+main_social_w75_s0_f3,main,social,harry_rnn,0,3,0.6,group members,other,2028
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,datasetJan2026,breathingNormally,12269
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,datasetJan2026,coughing,11303
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,datasetJan2026,hyperventilation,11869
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,datasetJan2026,other,39331
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,group members,breathingNormally,608
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,group members,coughing,607
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,group members,hyperventilation,608
+main_social_w75_s0_f4,main,social,harry_rnn,0,4,0.6,group members,other,2028
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,datasetJan2026,breathingNormally,12249
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,datasetJan2026,coughing,11304
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,datasetJan2026,other,39332
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,group members,breathingNormally,608
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,group members,coughing,607
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,group members,hyperventilation,608
+main_social_w75_s0_f5,main,social,harry_rnn,0,5,0.6,group members,other,2028
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,datasetJan2026,breathingNormally,12271
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,datasetJan2026,coughing,11300
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,datasetJan2026,hyperventilation,11861
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,datasetJan2026,other,39329
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,group members,breathingNormally,608
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,group members,coughing,607
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,group members,hyperventilation,608
+main_social_w75_s0_f6,main,social,harry_rnn,0,6,0.6,group members,other,2028
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,datasetJan2026,breathingNormally,12244
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,datasetJan2026,coughing,11310
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,datasetJan2026,hyperventilation,11862
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,datasetJan2026,other,39330
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,group members,breathingNormally,608
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,group members,coughing,607
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,group members,hyperventilation,608
+main_social_w75_s0_f7,main,social,harry_rnn,0,7,0.6,group members,other,2028
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,datasetJan2026,breathingNormally,12242
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,datasetJan2026,coughing,11317
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,datasetJan2026,hyperventilation,11865
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,datasetJan2026,other,39335
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,group members,breathingNormally,302
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,group members,coughing,301
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,group members,hyperventilation,302
+main_social_w75_s0_f8,main,social,harry_rnn,0,8,0.6,group members,other,1008
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,datasetJan2026,breathingNormally,12289
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,datasetJan2026,coughing,11321
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,datasetJan2026,other,39325
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,group members,breathingNormally,306
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,group members,coughing,306
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,group members,hyperventilation,306
+main_social_w75_s0_f9,main,social,harry_rnn,0,9,0.6,group members,other,1020
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,datasetJan2026,breathingNormally,12261
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,datasetJan2026,coughing,11302
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,datasetJan2026,hyperventilation,11845
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,datasetJan2026,other,39310
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,group members,breathingNormally,608
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,group members,coughing,607
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,group members,hyperventilation,608
+main_social_w75_s1_f0,main,social,harry_rnn,1,0,0.6,group members,other,2028
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,datasetJan2026,breathingNormally,12268
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,datasetJan2026,coughing,11309
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,datasetJan2026,hyperventilation,11857
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,datasetJan2026,other,39324
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,group members,breathingNormally,608
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,group members,coughing,607
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,group members,hyperventilation,608
+main_social_w75_s1_f1,main,social,harry_rnn,1,1,0.6,group members,other,2028
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,datasetJan2026,breathingNormally,12241
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,datasetJan2026,coughing,11295
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,datasetJan2026,hyperventilation,11850
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,datasetJan2026,other,39332
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,group members,breathingNormally,608
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,group members,coughing,607
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,group members,hyperventilation,608
+main_social_w75_s1_f2,main,social,harry_rnn,1,2,0.6,group members,other,2028
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,datasetJan2026,breathingNormally,12246
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,datasetJan2026,coughing,11306
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,datasetJan2026,hyperventilation,11858
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,datasetJan2026,other,39325
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,group members,breathingNormally,608
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,group members,coughing,607
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,group members,hyperventilation,608
+main_social_w75_s1_f3,main,social,harry_rnn,1,3,0.6,group members,other,2028
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,datasetJan2026,breathingNormally,12269
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,datasetJan2026,coughing,11303
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,datasetJan2026,hyperventilation,11869
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,datasetJan2026,other,39331
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,group members,breathingNormally,608
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,group members,coughing,607
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,group members,hyperventilation,608
+main_social_w75_s1_f4,main,social,harry_rnn,1,4,0.6,group members,other,2028
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,datasetJan2026,breathingNormally,12249
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,datasetJan2026,coughing,11304
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,datasetJan2026,other,39332
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,group members,breathingNormally,608
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,group members,coughing,607
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,group members,hyperventilation,608
+main_social_w75_s1_f5,main,social,harry_rnn,1,5,0.6,group members,other,2028
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,datasetJan2026,breathingNormally,12271
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,datasetJan2026,coughing,11300
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,datasetJan2026,hyperventilation,11861
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,datasetJan2026,other,39329
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,group members,breathingNormally,608
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,group members,coughing,607
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,group members,hyperventilation,608
+main_social_w75_s1_f6,main,social,harry_rnn,1,6,0.6,group members,other,2028
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,datasetJan2026,breathingNormally,12244
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,datasetJan2026,coughing,11310
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,datasetJan2026,hyperventilation,11862
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,datasetJan2026,other,39330
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,group members,breathingNormally,608
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,group members,coughing,607
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,group members,hyperventilation,608
+main_social_w75_s1_f7,main,social,harry_rnn,1,7,0.6,group members,other,2028
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,datasetJan2026,breathingNormally,12242
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,datasetJan2026,coughing,11317
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,datasetJan2026,hyperventilation,11865
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,datasetJan2026,other,39335
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,group members,breathingNormally,302
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,group members,coughing,301
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,group members,hyperventilation,302
+main_social_w75_s1_f8,main,social,harry_rnn,1,8,0.6,group members,other,1008
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,datasetJan2026,breathingNormally,12289
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,datasetJan2026,coughing,11321
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,datasetJan2026,other,39325
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,group members,breathingNormally,306
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,group members,coughing,306
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,group members,hyperventilation,306
+main_social_w75_s1_f9,main,social,harry_rnn,1,9,0.6,group members,other,1020
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,datasetJan2026,breathingNormally,12261
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,datasetJan2026,coughing,11302
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,datasetJan2026,hyperventilation,11845
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,datasetJan2026,other,39310
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,group members,breathingNormally,608
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,group members,coughing,607
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,group members,hyperventilation,608
+main_social_w75_s2_f0,main,social,harry_rnn,2,0,0.6,group members,other,2028
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,datasetJan2026,breathingNormally,12268
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,datasetJan2026,coughing,11309
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,datasetJan2026,hyperventilation,11857
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,datasetJan2026,other,39324
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,group members,breathingNormally,608
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,group members,coughing,607
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,group members,hyperventilation,608
+main_social_w75_s2_f1,main,social,harry_rnn,2,1,0.6,group members,other,2028
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,datasetJan2026,breathingNormally,12241
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,datasetJan2026,coughing,11295
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,datasetJan2026,hyperventilation,11850
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,datasetJan2026,other,39332
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,group members,breathingNormally,608
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,group members,coughing,607
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,group members,hyperventilation,608
+main_social_w75_s2_f2,main,social,harry_rnn,2,2,0.6,group members,other,2028
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,datasetJan2026,breathingNormally,12246
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,datasetJan2026,coughing,11306
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,datasetJan2026,hyperventilation,11858
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,datasetJan2026,other,39325
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,group members,breathingNormally,608
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,group members,coughing,607
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,group members,hyperventilation,608
+main_social_w75_s2_f3,main,social,harry_rnn,2,3,0.6,group members,other,2028
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,datasetJan2026,breathingNormally,12269
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,datasetJan2026,coughing,11303
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,datasetJan2026,hyperventilation,11869
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,datasetJan2026,other,39331
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,group members,breathingNormally,608
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,group members,coughing,607
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,group members,hyperventilation,608
+main_social_w75_s2_f4,main,social,harry_rnn,2,4,0.6,group members,other,2028
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,datasetJan2026,breathingNormally,12249
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,datasetJan2026,coughing,11304
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,datasetJan2026,other,39332
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,group members,breathingNormally,608
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,group members,coughing,607
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,group members,hyperventilation,608
+main_social_w75_s2_f5,main,social,harry_rnn,2,5,0.6,group members,other,2028
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,datasetJan2026,breathingNormally,12271
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,datasetJan2026,coughing,11300
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,datasetJan2026,hyperventilation,11861
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,datasetJan2026,other,39329
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,group members,breathingNormally,608
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,group members,coughing,607
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,group members,hyperventilation,608
+main_social_w75_s2_f6,main,social,harry_rnn,2,6,0.6,group members,other,2028
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,datasetJan2026,breathingNormally,12244
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,datasetJan2026,coughing,11310
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,datasetJan2026,hyperventilation,11862
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,datasetJan2026,other,39330
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,group members,breathingNormally,608
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,group members,coughing,607
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,group members,hyperventilation,608
+main_social_w75_s2_f7,main,social,harry_rnn,2,7,0.6,group members,other,2028
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,datasetJan2026,breathingNormally,12242
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,datasetJan2026,coughing,11317
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,datasetJan2026,hyperventilation,11865
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,datasetJan2026,other,39335
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,group members,breathingNormally,302
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,group members,coughing,301
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,group members,hyperventilation,302
+main_social_w75_s2_f8,main,social,harry_rnn,2,8,0.6,group members,other,1008
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,datasetJan2026,breathingNormally,12289
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,datasetJan2026,coughing,11321
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,datasetJan2026,hyperventilation,11863
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,datasetJan2026,other,39325
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,group members,breathingNormally,306
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,group members,coughing,306
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,group members,hyperventilation,306
+main_social_w75_s2_f9,main,social,harry_rnn,2,9,0.6,group members,other,1020
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,datasetJan2026,breathingNormally,12261
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,datasetJan2026,coughing,11302
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,datasetJan2026,hyperventilation,11845
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,datasetJan2026,other,39310
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,group members,coughing,607
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f0,sweep,social,harry_rnn,0,0,0.3,group members,other,2028
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,datasetJan2026,breathingNormally,12268
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,datasetJan2026,coughing,11309
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,datasetJan2026,hyperventilation,11857
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,datasetJan2026,other,39324
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,group members,coughing,607
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f1,sweep,social,harry_rnn,0,1,0.3,group members,other,2028
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,datasetJan2026,breathingNormally,12241
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,datasetJan2026,coughing,11295
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,datasetJan2026,hyperventilation,11850
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,datasetJan2026,other,39332
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,group members,coughing,607
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f2,sweep,social,harry_rnn,0,2,0.3,group members,other,2028
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,datasetJan2026,breathingNormally,12246
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,datasetJan2026,coughing,11306
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,datasetJan2026,hyperventilation,11858
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,datasetJan2026,other,39325
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,group members,coughing,607
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f3,sweep,social,harry_rnn,0,3,0.3,group members,other,2028
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,datasetJan2026,breathingNormally,12269
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,datasetJan2026,coughing,11303
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,datasetJan2026,hyperventilation,11869
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,datasetJan2026,other,39331
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,group members,coughing,607
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f4,sweep,social,harry_rnn,0,4,0.3,group members,other,2028
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,datasetJan2026,breathingNormally,12249
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,datasetJan2026,coughing,11304
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,datasetJan2026,hyperventilation,11863
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,datasetJan2026,other,39332
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,group members,coughing,607
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f5,sweep,social,harry_rnn,0,5,0.3,group members,other,2028
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,datasetJan2026,breathingNormally,12271
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,datasetJan2026,coughing,11300
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,datasetJan2026,hyperventilation,11861
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,datasetJan2026,other,39329
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,group members,coughing,607
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f6,sweep,social,harry_rnn,0,6,0.3,group members,other,2028
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,datasetJan2026,breathingNormally,12244
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,datasetJan2026,coughing,11310
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,datasetJan2026,hyperventilation,11862
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,datasetJan2026,other,39330
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,group members,breathingNormally,608
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,group members,coughing,607
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,group members,hyperventilation,608
+sweep_p0.3_w75_f7,sweep,social,harry_rnn,0,7,0.3,group members,other,2028
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,datasetJan2026,breathingNormally,12242
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,datasetJan2026,coughing,11317
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,datasetJan2026,hyperventilation,11865
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,datasetJan2026,other,39335
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,group members,breathingNormally,302
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,group members,coughing,301
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,group members,hyperventilation,302
+sweep_p0.3_w75_f8,sweep,social,harry_rnn,0,8,0.3,group members,other,1008
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,datasetJan2026,breathingNormally,12289
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,datasetJan2026,coughing,11321
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,datasetJan2026,hyperventilation,11863
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,datasetJan2026,other,39325
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,group members,breathingNormally,306
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,group members,coughing,306
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,group members,hyperventilation,306
+sweep_p0.3_w75_f9,sweep,social,harry_rnn,0,9,0.3,group members,other,1020
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,datasetJan2026,breathingNormally,12261
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,datasetJan2026,coughing,11302
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,datasetJan2026,hyperventilation,11845
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,datasetJan2026,other,39310
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,group members,coughing,607
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f0,sweep,social,harry_rnn,0,0,0.8,group members,other,2028
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,datasetJan2026,breathingNormally,12268
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,datasetJan2026,coughing,11309
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,datasetJan2026,hyperventilation,11857
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,datasetJan2026,other,39324
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,group members,coughing,607
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f1,sweep,social,harry_rnn,0,1,0.8,group members,other,2028
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,datasetJan2026,breathingNormally,12241
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,datasetJan2026,coughing,11295
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,datasetJan2026,hyperventilation,11850
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,datasetJan2026,other,39332
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,group members,coughing,607
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f2,sweep,social,harry_rnn,0,2,0.8,group members,other,2028
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,datasetJan2026,breathingNormally,12246
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,datasetJan2026,coughing,11306
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,datasetJan2026,hyperventilation,11858
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,datasetJan2026,other,39325
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,group members,coughing,607
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f3,sweep,social,harry_rnn,0,3,0.8,group members,other,2028
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,datasetJan2026,breathingNormally,12269
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,datasetJan2026,coughing,11303
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,datasetJan2026,hyperventilation,11869
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,datasetJan2026,other,39331
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,group members,coughing,607
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f4,sweep,social,harry_rnn,0,4,0.8,group members,other,2028
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,datasetJan2026,breathingNormally,12249
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,datasetJan2026,coughing,11304
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,datasetJan2026,hyperventilation,11863
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,datasetJan2026,other,39332
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,group members,coughing,607
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f5,sweep,social,harry_rnn,0,5,0.8,group members,other,2028
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,datasetJan2026,breathingNormally,12271
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,datasetJan2026,coughing,11300
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,datasetJan2026,hyperventilation,11861
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,datasetJan2026,other,39329
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,group members,coughing,607
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f6,sweep,social,harry_rnn,0,6,0.8,group members,other,2028
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,datasetJan2026,breathingNormally,12244
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,datasetJan2026,coughing,11310
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,datasetJan2026,hyperventilation,11862
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,datasetJan2026,other,39330
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,group members,breathingNormally,608
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,group members,coughing,607
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,group members,hyperventilation,608
+sweep_p0.8_w75_f7,sweep,social,harry_rnn,0,7,0.8,group members,other,2028
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,datasetJan2026,breathingNormally,12242
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,datasetJan2026,coughing,11317
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,datasetJan2026,hyperventilation,11865
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,datasetJan2026,other,39335
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,group members,breathingNormally,302
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,group members,coughing,301
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,group members,hyperventilation,302
+sweep_p0.8_w75_f8,sweep,social,harry_rnn,0,8,0.8,group members,other,1008
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,datasetJan2026,breathingNormally,12289
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,datasetJan2026,coughing,11321
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,datasetJan2026,hyperventilation,11863
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,datasetJan2026,other,39325
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,group members,breathingNormally,306
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,group members,coughing,306
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,group members,hyperventilation,306
+sweep_p0.8_w75_f9,sweep,social,harry_rnn,0,9,0.8,group members,other,1020
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,datasetJan2026,breathingNormally,12261
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,datasetJan2026,coughing,11302
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,datasetJan2026,hyperventilation,11845
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,datasetJan2026,other,39310
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,group members,breathingNormally,608
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,group members,coughing,607
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,group members,hyperventilation,608
+sweep_p0_w75_f0,sweep,social,harry_rnn,0,0,0.0,group members,other,2028
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,datasetJan2026,breathingNormally,12268
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,datasetJan2026,coughing,11309
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,datasetJan2026,hyperventilation,11857
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,datasetJan2026,other,39324
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,group members,breathingNormally,608
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,group members,coughing,607
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,group members,hyperventilation,608
+sweep_p0_w75_f1,sweep,social,harry_rnn,0,1,0.0,group members,other,2028
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,datasetJan2026,breathingNormally,12241
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,datasetJan2026,coughing,11295
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,datasetJan2026,hyperventilation,11850
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,datasetJan2026,other,39332
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,group members,breathingNormally,608
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,group members,coughing,607
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,group members,hyperventilation,608
+sweep_p0_w75_f2,sweep,social,harry_rnn,0,2,0.0,group members,other,2028
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,datasetJan2026,breathingNormally,12246
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,datasetJan2026,coughing,11306
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,datasetJan2026,hyperventilation,11858
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,datasetJan2026,other,39325
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,group members,breathingNormally,608
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,group members,coughing,607
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,group members,hyperventilation,608
+sweep_p0_w75_f3,sweep,social,harry_rnn,0,3,0.0,group members,other,2028
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,datasetJan2026,breathingNormally,12269
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,datasetJan2026,coughing,11303
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,datasetJan2026,hyperventilation,11869
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,datasetJan2026,other,39331
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,group members,breathingNormally,608
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,group members,coughing,607
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,group members,hyperventilation,608
+sweep_p0_w75_f4,sweep,social,harry_rnn,0,4,0.0,group members,other,2028
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,datasetJan2026,breathingNormally,12249
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,datasetJan2026,coughing,11304
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,datasetJan2026,hyperventilation,11863
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,datasetJan2026,other,39332
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,group members,breathingNormally,608
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,group members,coughing,607
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,group members,hyperventilation,608
+sweep_p0_w75_f5,sweep,social,harry_rnn,0,5,0.0,group members,other,2028
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,datasetJan2026,breathingNormally,12271
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,datasetJan2026,coughing,11300
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,datasetJan2026,hyperventilation,11861
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,datasetJan2026,other,39329
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,group members,breathingNormally,608
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,group members,coughing,607
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,group members,hyperventilation,608
+sweep_p0_w75_f6,sweep,social,harry_rnn,0,6,0.0,group members,other,2028
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,datasetJan2026,breathingNormally,12244
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,datasetJan2026,coughing,11310
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,datasetJan2026,hyperventilation,11862
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,datasetJan2026,other,39330
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,group members,breathingNormally,608
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,group members,coughing,607
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,group members,hyperventilation,608
+sweep_p0_w75_f7,sweep,social,harry_rnn,0,7,0.0,group members,other,2028
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,datasetJan2026,breathingNormally,12242
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,datasetJan2026,coughing,11317
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,datasetJan2026,hyperventilation,11865
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,datasetJan2026,other,39335
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,group members,breathingNormally,302
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,group members,coughing,301
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,group members,hyperventilation,302
+sweep_p0_w75_f8,sweep,social,harry_rnn,0,8,0.0,group members,other,1008
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,datasetJan2026,breathingNormally,12289
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,datasetJan2026,coughing,11321
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,datasetJan2026,hyperventilation,11863
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,datasetJan2026,other,39325
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,group members,breathingNormally,306
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,group members,coughing,306
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,group members,hyperventilation,306
+sweep_p0_w75_f9,sweep,social,harry_rnn,0,9,0.0,group members,other,1020
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,datasetJan2026,breathingNormally,12261
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,datasetJan2026,coughing,11302
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,datasetJan2026,hyperventilation,11845
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,datasetJan2026,other,39310
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,group members,breathingNormally,608
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,group members,coughing,607
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,group members,hyperventilation,608
+sweep_p1_w75_f0,sweep,social,harry_rnn,0,0,1.0,group members,other,2028
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,datasetJan2026,breathingNormally,12268
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,datasetJan2026,coughing,11309
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,datasetJan2026,hyperventilation,11857
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,datasetJan2026,other,39324
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,group members,breathingNormally,608
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,group members,coughing,607
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,group members,hyperventilation,608
+sweep_p1_w75_f1,sweep,social,harry_rnn,0,1,1.0,group members,other,2028
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,datasetJan2026,breathingNormally,12241
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,datasetJan2026,coughing,11295
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,datasetJan2026,hyperventilation,11850
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,datasetJan2026,other,39332
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,group members,breathingNormally,608
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,group members,coughing,607
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,group members,hyperventilation,608
+sweep_p1_w75_f2,sweep,social,harry_rnn,0,2,1.0,group members,other,2028
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,datasetJan2026,breathingNormally,12246
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,datasetJan2026,coughing,11306
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,datasetJan2026,hyperventilation,11858
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,datasetJan2026,other,39325
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,group members,breathingNormally,608
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,group members,coughing,607
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,group members,hyperventilation,608
+sweep_p1_w75_f3,sweep,social,harry_rnn,0,3,1.0,group members,other,2028
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,datasetJan2026,breathingNormally,12269
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,datasetJan2026,coughing,11303
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,datasetJan2026,hyperventilation,11869
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,datasetJan2026,other,39331
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,group members,breathingNormally,608
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,group members,coughing,607
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,group members,hyperventilation,608
+sweep_p1_w75_f4,sweep,social,harry_rnn,0,4,1.0,group members,other,2028
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,datasetJan2026,breathingNormally,12249
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,datasetJan2026,coughing,11304
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,datasetJan2026,hyperventilation,11863
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,datasetJan2026,other,39332
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,group members,breathingNormally,608
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,group members,coughing,607
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,group members,hyperventilation,608
+sweep_p1_w75_f5,sweep,social,harry_rnn,0,5,1.0,group members,other,2028
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,datasetJan2026,breathingNormally,12271
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,datasetJan2026,coughing,11300
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,datasetJan2026,hyperventilation,11861
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,datasetJan2026,other,39329
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,group members,breathingNormally,608
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,group members,coughing,607
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,group members,hyperventilation,608
+sweep_p1_w75_f6,sweep,social,harry_rnn,0,6,1.0,group members,other,2028
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,datasetJan2026,breathingNormally,12244
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,datasetJan2026,coughing,11310
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,datasetJan2026,hyperventilation,11862
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,datasetJan2026,other,39330
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,group members,breathingNormally,608
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,group members,coughing,607
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,group members,hyperventilation,608
+sweep_p1_w75_f7,sweep,social,harry_rnn,0,7,1.0,group members,other,2028
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,datasetJan2026,breathingNormally,12242
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,datasetJan2026,coughing,11317
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,datasetJan2026,hyperventilation,11865
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,datasetJan2026,other,39335
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,group members,breathingNormally,302
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,group members,coughing,301
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,group members,hyperventilation,302
+sweep_p1_w75_f8,sweep,social,harry_rnn,0,8,1.0,group members,other,1008
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,datasetJan2026,breathingNormally,12289
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,datasetJan2026,coughing,11321
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,datasetJan2026,hyperventilation,11863
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,datasetJan2026,other,39325
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,group members,breathingNormally,306
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,group members,coughing,306
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,group members,hyperventilation,306
+sweep_p1_w75_f9,sweep,social,harry_rnn,0,9,1.0,group members,other,1020

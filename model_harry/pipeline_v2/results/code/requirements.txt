@@ -1,0 +1,10 @@
+tensorflow==2.20.0
+scikit-learn
+pandas
+numpy
+scipy
+matplotlib
+pyyaml
+jupyterlab
+ipykernel
+nbformat

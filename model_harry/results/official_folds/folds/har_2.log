@@ -1,0 +1,34 @@
+[har fold 2] harry_cnn: train (23380, 50, 3), recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True}
+epoch   1 | train_loss 1.2684 | train_acc 0.7065 | 4.95s
+epoch   2 | train_loss 0.9251 | train_acc 0.8710 | 3.38s
+epoch   3 | train_loss 0.8595 | train_acc 0.8937 | 3.47s
+epoch   4 | train_loss 0.8262 | train_acc 0.9076 | 3.35s
+epoch   5 | train_loss 0.8066 | train_acc 0.9142 | 3.23s
+epoch   6 | train_loss 0.7900 | train_acc 0.9189 | 3.05s
+epoch   7 | train_loss 0.7745 | train_acc 0.9247 | 2.81s
+epoch   8 | train_loss 0.7636 | train_acc 0.9273 | 2.86s
+epoch   9 | train_loss 0.7495 | train_acc 0.9313 | 2.83s
+epoch  10 | train_loss 0.7363 | train_acc 0.9362 | 2.95s
+epoch  11 | train_loss 0.7319 | train_acc 0.9380 | 3.31s
+epoch  12 | train_loss 0.7242 | train_acc 0.9402 | 3.35s
+epoch  13 | train_loss 0.7158 | train_acc 0.9458 | 3.4s
+epoch  14 | train_loss 0.7118 | train_acc 0.9447 | 3.28s
+epoch  15 | train_loss 0.7044 | train_acc 0.9477 | 3.07s
+epoch  16 | train_loss 0.6993 | train_acc 0.9495 | 3.35s
+epoch  17 | train_loss 0.6944 | train_acc 0.9507 | 3.23s
+epoch  18 | train_loss 0.6849 | train_acc 0.9533 | 3.0s
+epoch  19 | train_loss 0.6846 | train_acc 0.9544 | 3.01s
+epoch  20 | train_loss 0.6793 | train_acc 0.9546 | 3.07s
+epoch  21 | train_loss 0.6770 | train_acc 0.9578 | 3.01s
+epoch  22 | train_loss 0.6712 | train_acc 0.9591 | 3.13s
+epoch  23 | train_loss 0.6694 | train_acc 0.9598 | 3.2s
+epoch  24 | train_loss 0.6672 | train_acc 0.9603 | 3.16s
+epoch  25 | train_loss 0.6679 | train_acc 0.9610 | 3.25s
+epoch  26 | train_loss 0.6629 | train_acc 0.9616 | 3.28s
+epoch  27 | train_loss 0.6630 | train_acc 0.9623 | 3.31s
+epoch  28 | train_loss 0.6634 | train_acc 0.9624 | 3.4s
+epoch  29 | train_loss 0.6571 | train_acc 0.9635 | 3.49s
+epoch  30 | train_loss 0.6598 | train_acc 0.9630 | 3.51s
+epoch  31 | train_loss 0.6568 | train_acc 0.9642 | 3.44s
+epoch  32 | train_loss 0.6569 | train_acc 0.9642 | 3.49s
+done in 105s

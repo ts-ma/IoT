@@ -1,5 +1,16 @@
 # model_harry
 
+## Current pipeline: `pipeline_v2/` (double-click `pipeline_v2/RUN_PIPELINE_V2.command`)
+
+Self-contained folder with its own code, cache, social window study, results (`pipeline_v2/results/`, start with
+`KNOWLEDGE.md`) and exported models (`pipeline_v2/models/`). Harry's four architectures only; datasetJan2026 + both group
+members mixed, the members as two extra fold subjects; scored on all test windows and as marked. See `pipeline_v2/README.md`.
+
+## Previous pipeline (v1): `RUN_EVERYTHING.command` → `run_full_pipeline.py` → `final_run/`
+
+Finished 2026-11-09. It compared her models as baselines, two training-data variants, leave-one-person-out, the social
+gate and a real-time replay. Its results stay in `final_run/` (tables, figures, WRITEUP.md, final_models/).
+
 Harry's rework of the HAR and social-signal models. It is trained on the **real** recordings in `IoT/data/`.
 The teammate's `model/` folder and `Lab3_trained.ipynb` are not modified.
 

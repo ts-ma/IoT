@@ -1,0 +1,2 @@
+[base_social_her_logreg_f6] tests: cv: (7652, 50, 3)
+stage train: jan (80557, 50, 3) recipe {'step': 25}

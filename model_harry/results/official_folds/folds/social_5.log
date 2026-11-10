@@ -1,0 +1,34 @@
+[social fold 5] harry_rnn: train (68952, 100, 3), recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True}
+epoch   1 | train_loss 0.9546 | train_acc 0.5618 | 20.38s
+epoch   2 | train_loss 0.8422 | train_acc 0.6571 | 18.41s
+epoch   3 | train_loss 0.7983 | train_acc 0.6947 | 18.56s
+epoch   4 | train_loss 0.7676 | train_acc 0.7252 | 17.96s
+epoch   5 | train_loss 0.7484 | train_acc 0.7422 | 18.31s
+epoch   6 | train_loss 0.7316 | train_acc 0.7543 | 18.16s
+epoch   7 | train_loss 0.7191 | train_acc 0.7640 | 18.33s
+epoch   8 | train_loss 0.7106 | train_acc 0.7674 | 18.25s
+epoch   9 | train_loss 0.7001 | train_acc 0.7777 | 18.32s
+epoch  10 | train_loss 0.6949 | train_acc 0.7797 | 18.01s
+epoch  11 | train_loss 0.6852 | train_acc 0.7866 | 17.5s
+epoch  12 | train_loss 0.6807 | train_acc 0.7894 | 18.19s
+epoch  13 | train_loss 0.6756 | train_acc 0.7946 | 19.23s
+epoch  14 | train_loss 0.6684 | train_acc 0.7982 | 19.02s
+epoch  15 | train_loss 0.6636 | train_acc 0.8017 | 18.09s
+epoch  16 | train_loss 0.6610 | train_acc 0.8022 | 18.76s
+epoch  17 | train_loss 0.6550 | train_acc 0.8053 | 19.03s
+epoch  18 | train_loss 0.6518 | train_acc 0.8099 | 18.31s
+epoch  19 | train_loss 0.6473 | train_acc 0.8135 | 19.42s
+epoch  20 | train_loss 0.6432 | train_acc 0.8155 | 18.35s
+epoch  21 | train_loss 0.6405 | train_acc 0.8152 | 18.17s
+epoch  22 | train_loss 0.6356 | train_acc 0.8170 | 17.96s
+epoch  23 | train_loss 0.6325 | train_acc 0.8209 | 18.45s
+epoch  24 | train_loss 0.6303 | train_acc 0.8208 | 18.11s
+epoch  25 | train_loss 0.6262 | train_acc 0.8248 | 18.32s
+epoch  26 | train_loss 0.6252 | train_acc 0.8241 | 18.34s
+epoch  27 | train_loss 0.6231 | train_acc 0.8257 | 18.47s
+epoch  28 | train_loss 0.6202 | train_acc 0.8268 | 18.43s
+epoch  29 | train_loss 0.6214 | train_acc 0.8265 | 18.52s
+epoch  30 | train_loss 0.6181 | train_acc 0.8284 | 17.97s
+epoch  31 | train_loss 0.6167 | train_acc 0.8299 | 17.8s
+epoch  32 | train_loss 0.6181 | train_acc 0.8298 | 17.67s
+done in 591s

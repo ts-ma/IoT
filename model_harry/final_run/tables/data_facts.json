@@ -1,0 +1,18 @@
+{
+ "har_copies_of_social": 899,
+ "same_fold": 90,
+ "by_har_class": {
+  "sittingStanding": 342,
+  "lyingStomach": 172,
+  "lyingBack": 155,
+  "lyingLeft": 117,
+  "lyingRight": 113
+ },
+ "by_social_class": {
+  "breathingNormally": 899
+ },
+ "within_task_duplicate_groups": {
+  "har": 4,
+  "social": 8
+ }
+}

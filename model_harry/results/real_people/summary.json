@@ -1,0 +1,218 @@
+{
+ "s2503795|all stationary|1": {
+  "ungated": {
+   "breathingNormally": 0.9347826086956522,
+   "coughing": 0.9855072463768116,
+   "hyperventilation": 0.9565217391304348,
+   "other": 0.8326086956521739,
+   "BALANCED": 0.927355072463768,
+   "MIN": 0.8326086956521739
+  },
+  "gated_not_moving": {
+   "breathingNormally": 0.9347826086956522,
+   "coughing": 0.9855072463768116,
+   "hyperventilation": 0.9565217391304348,
+   "other": 0.8326086956521739,
+   "BALANCED": 0.927355072463768,
+   "MIN": 0.8326086956521739
+  }
+ },
+ "s2503795|sitting/standing|1": {
+  "ungated": {
+   "breathingNormally": 0.8695652173913043,
+   "coughing": 0.9565217391304348,
+   "hyperventilation": 0.8695652173913043,
+   "other": 0.8369565217391305,
+   "BALANCED": 0.8831521739130435,
+   "MIN": 0.8369565217391305
+  },
+  "gated_not_moving": {
+   "breathingNormally": 0.8695652173913043,
+   "coughing": 0.9565217391304348,
+   "hyperventilation": 0.8695652173913043,
+   "other": 0.8369565217391305,
+   "BALANCED": 0.8831521739130435,
+   "MIN": 0.8369565217391305
+  }
+ },
+ "s2503795|lying|1": {
+  "ungated": {
+   "breathingNormally": 0.967391304347826,
+   "coughing": 1.0,
+   "hyperventilation": 1.0,
+   "other": 0.8297101449275363,
+   "BALANCED": 0.9492753623188406,
+   "MIN": 0.8297101449275363
+  },
+  "gated_not_moving": {
+   "breathingNormally": 0.967391304347826,
+   "coughing": 1.0,
+   "hyperventilation": 1.0,
+   "other": 0.8297101449275363,
+   "BALANCED": 0.9492753623188406,
+   "MIN": 0.8297101449275363
+  }
+ },
+ "s2503795|all stationary|0.6": {
+  "ungated": {
+   "breathingNormally": 0.9420289855072463,
+   "coughing": 0.9637681159420289,
+   "hyperventilation": 0.9855072463768116,
+   "other": 0.9108695652173913,
+   "BALANCED": 0.9505434782608695,
+   "MIN": 0.9108695652173913
+  },
+  "gated_not_moving": {
+   "breathingNormally": 0.9420289855072463,
+   "coughing": 0.9637681159420289,
+   "hyperventilation": 0.9855072463768116,
+   "other": 0.9108695652173913,
+   "BALANCED": 0.9505434782608695,
+   "MIN": 0.9108695652173913
+  }
+ },
+ "s2503795|sitting/standing|0.6": {
+  "ungated": {
+   "breathingNormally": 0.8260869565217391,
+   "coughing": 0.9565217391304348,
+   "hyperventilation": 0.9565217391304348,
+   "other": 0.8967391304347826,
+   "BALANCED": 0.9089673913043478,
+   "MIN": 0.8260869565217391
+  },
+  "gated_not_moving": {
+   "breathingNormally": 0.8260869565217391,
+   "coughing": 0.9565217391304348,
+   "hyperventilation": 0.9565217391304348,
+   "other": 0.8967391304347826,
+   "BALANCED": 0.9089673913043478,
+   "MIN": 0.8260869565217391
+  }
+ },
+ "s2503795|lying|0.6": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 0.967391304347826,
+   "hyperventilation": 1.0,
+   "other": 0.9202898550724637,
+   "BALANCED": 0.9719202898550725,
+   "MIN": 0.9202898550724637
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 0.967391304347826,
+   "hyperventilation": 1.0,
+   "other": 0.9202898550724637,
+   "BALANCED": 0.9719202898550725,
+   "MIN": 0.9202898550724637
+  }
+ },
+ "s2952925|all stationary|1": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.9785714285714285,
+   "other": 0.7837259100642399,
+   "BALANCED": 0.9405743346589172,
+   "MIN": 0.7837259100642399
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.9714285714285714,
+   "other": 0.7837259100642399,
+   "BALANCED": 0.9387886203732029,
+   "MIN": 0.7837259100642399
+  }
+ },
+ "s2952925|sitting/standing|1": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 1.0,
+   "other": 0.7015706806282722,
+   "BALANCED": 0.925392670157068,
+   "MIN": 0.7015706806282722
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.9791666666666666,
+   "other": 0.7015706806282722,
+   "BALANCED": 0.9201843368237347,
+   "MIN": 0.7015706806282722
+  }
+ },
+ "s2952925|lying|1": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.967391304347826,
+   "other": 0.8405797101449275,
+   "BALANCED": 0.9519927536231885,
+   "MIN": 0.8405797101449275
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.967391304347826,
+   "other": 0.8405797101449275,
+   "BALANCED": 0.9519927536231885,
+   "MIN": 0.8405797101449275
+  }
+ },
+ "s2952925|all stationary|0.6": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 0.9784172661870504,
+   "hyperventilation": 0.7857142857142857,
+   "other": 0.8179871520342612,
+   "BALANCED": 0.8955296759838993,
+   "MIN": 0.7857142857142857
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 0.9784172661870504,
+   "hyperventilation": 0.7785714285714286,
+   "other": 0.8179871520342612,
+   "BALANCED": 0.893743961698185,
+   "MIN": 0.7785714285714286
+  }
+ },
+ "s2952925|sitting/standing|0.6": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 0.9361702127659575,
+   "hyperventilation": 1.0,
+   "other": 0.7172774869109948,
+   "BALANCED": 0.9133619249192381,
+   "MIN": 0.7172774869109948
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 0.9361702127659575,
+   "hyperventilation": 0.9791666666666666,
+   "other": 0.7172774869109948,
+   "BALANCED": 0.9081535915859047,
+   "MIN": 0.7172774869109948
+  }
+ },
+ "s2952925|lying|0.6": {
+  "ungated": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.6739130434782609,
+   "other": 0.8876811594202898,
+   "BALANCED": 0.8903985507246377,
+   "MIN": 0.6739130434782609
+  },
+  "gated_not_moving": {
+   "breathingNormally": 1.0,
+   "coughing": 1.0,
+   "hyperventilation": 0.6739130434782609,
+   "other": 0.8876811594202898,
+   "BALANCED": 0.8903985507246377,
+   "MIN": 0.6739130434782609
+  }
+ }
+}

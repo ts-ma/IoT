@@ -1,0 +1,34 @@
+[main_social_jan_real_s1_f9] tests: cv: (7617, 100, 3)
+stage train: jan (72482, 100, 3) recipe {'opt': 'adamw', 'lr': 0.002, 'epochs': 32, 'step': 25, 'batch': 64, 'wd': 0.0001, 'smooth': 0.1, 'aug': True, 'balance': True, 'balance_power': 0.6}
+epoch   1 | train_loss 0.9660 | train_acc 0.6356 | test/loss 0.7307 | test/acc 0.6990 | test/score 0.7413 | 24.23s
+epoch   2 | train_loss 0.8386 | train_acc 0.7231 | test/loss 0.6942 | test/acc 0.7017 | test/score 0.7635 | 23.28s
+epoch   3 | train_loss 0.7956 | train_acc 0.7501 | test/loss 0.6139 | test/acc 0.7607 | test/score 0.7853 | 22.45s
+epoch   4 | train_loss 0.7648 | train_acc 0.7741 | test/loss 0.5903 | test/acc 0.7695 | test/score 0.8002 | 23.6s
+epoch   5 | train_loss 0.7405 | train_acc 0.7885 | test/loss 0.5495 | test/acc 0.7897 | test/score 0.7910 | 24.16s
+epoch   6 | train_loss 0.7256 | train_acc 0.7987 | test/loss 0.5693 | test/acc 0.7771 | test/score 0.8043 | 22.0s
+epoch   7 | train_loss 0.7166 | train_acc 0.8043 | test/loss 0.5527 | test/acc 0.7981 | test/score 0.8101 | 23.54s
+epoch   8 | train_loss 0.7055 | train_acc 0.8107 | test/loss 0.5873 | test/acc 0.7679 | test/score 0.8055 | 22.96s
+epoch   9 | train_loss 0.6989 | train_acc 0.8140 | test/loss 0.5510 | test/acc 0.7878 | test/score 0.8086 | 22.26s
+epoch  10 | train_loss 0.6899 | train_acc 0.8203 | test/loss 0.5723 | test/acc 0.7743 | test/score 0.8109 | 23.23s
+epoch  11 | train_loss 0.6821 | train_acc 0.8248 | test/loss 0.5564 | test/acc 0.7864 | test/score 0.8046 | 23.69s
+epoch  12 | train_loss 0.6779 | train_acc 0.8261 | test/loss 0.5427 | test/acc 0.7903 | test/score 0.8126 | 23.06s
+epoch  13 | train_loss 0.6720 | train_acc 0.8307 | test/loss 0.5479 | test/acc 0.7878 | test/score 0.8039 | 23.01s
+epoch  14 | train_loss 0.6668 | train_acc 0.8332 | test/loss 0.5384 | test/acc 0.7945 | test/score 0.8074 | 23.41s
+epoch  15 | train_loss 0.6626 | train_acc 0.8355 | test/loss 0.5488 | test/acc 0.7911 | test/score 0.8103 | 22.64s
+epoch  16 | train_loss 0.6564 | train_acc 0.8396 | test/loss 0.5529 | test/acc 0.7855 | test/score 0.8061 | 24.75s
+epoch  17 | train_loss 0.6534 | train_acc 0.8405 | test/loss 0.5372 | test/acc 0.7941 | test/score 0.8076 | 26.06s
+epoch  18 | train_loss 0.6490 | train_acc 0.8429 | test/loss 0.5330 | test/acc 0.7985 | test/score 0.8123 | 24.53s
+epoch  19 | train_loss 0.6451 | train_acc 0.8451 | test/loss 0.5501 | test/acc 0.7928 | test/score 0.8155 | 24.18s
+epoch  20 | train_loss 0.6423 | train_acc 0.8473 | test/loss 0.5330 | test/acc 0.7993 | test/score 0.8111 | 25.57s
+epoch  21 | train_loss 0.6376 | train_acc 0.8479 | test/loss 0.5534 | test/acc 0.7899 | test/score 0.8105 | 24.18s
+epoch  22 | train_loss 0.6342 | train_acc 0.8509 | test/loss 0.5306 | test/acc 0.8006 | test/score 0.8105 | 24.47s
+epoch  23 | train_loss 0.6317 | train_acc 0.8520 | test/loss 0.5382 | test/acc 0.7981 | test/score 0.8136 | 23.35s
+epoch  24 | train_loss 0.6285 | train_acc 0.8555 | test/loss 0.5385 | test/acc 0.7993 | test/score 0.8093 | 23.79s
+epoch  25 | train_loss 0.6274 | train_acc 0.8560 | test/loss 0.5230 | test/acc 0.8075 | test/score 0.8111 | 25.11s
+epoch  26 | train_loss 0.6237 | train_acc 0.8572 | test/loss 0.5260 | test/acc 0.8025 | test/score 0.8103 | 22.49s
+epoch  27 | train_loss 0.6218 | train_acc 0.8583 | test/loss 0.5311 | test/acc 0.8024 | test/score 0.8140 | 22.01s
+epoch  28 | train_loss 0.6210 | train_acc 0.8589 | test/loss 0.5263 | test/acc 0.8045 | test/score 0.8139 | 23.74s
+epoch  29 | train_loss 0.6182 | train_acc 0.8607 | test/loss 0.5307 | test/acc 0.8031 | test/score 0.8167 | 23.07s
+epoch  30 | train_loss 0.6180 | train_acc 0.8604 | test/loss 0.5320 | test/acc 0.7998 | test/score 0.8147 | 23.16s
+epoch  31 | train_loss 0.6169 | train_acc 0.8605 | test/loss 0.5225 | test/acc 0.8048 | test/score 0.8120 | 23.49s
+epoch  32 | train_loss 0.6180 | train_acc 0.8600 | test/loss 0.5303 | test/acc 0.8012 | test/score 0.8119 | 23.71s
