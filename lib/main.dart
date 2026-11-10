@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'services/app_metrics.dart';
+import 'services/change_latency.dart';
 import 'services/app_settings.dart';
 import 'services/live_feed.dart';
 import 'services/notifications.dart';
@@ -177,6 +178,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final SocialSampleProcessor _socialProcessor;
   late final SensorController _sensor;
   late final PerfSampler _sampler;
+
+  /// Social label currently on screen (null while paused / disconnected).
+  String? _lastSocialShown;
   ActivityReminders? _reminders;
 
   UserSession get _session => widget.session ?? userSession;
@@ -198,10 +202,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         _historyWriter.captureSocial(event);
         appMetrics.recordSocialInference(
             event.processingDuration, event.completedAt);
+        // Live time to show a social change: the card shows every result
+        // unsmoothed, so a new label is a switch on screen. A result after a
+        // pause (moving) or reconnect is not a switch.
+        final label = event.prediction.label;
+        final before = _lastSocialShown;
+        if (before != null && before != label) {
+          appMetrics.recordShownChange(
+              ChangeTask.social, before, label, DateTime.now());
+        }
+        _lastSocialShown = label;
         liveFeed.addSocial(event);
         widget.onSocialPrediction?.call(event);
       },
     );
+    _socialProcessor.addListener(_socialStatusChanged);
     final notifications = widget.notifications;
     if (notifications != null) {
       _reminders = ActivityReminders(
@@ -253,6 +268,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
   }
 
+  // Nothing (or "paused while moving") on the social card: the next result
+  // is not a switch from the label shown before.
+  void _socialStatusChanged() {
+    if (_socialProcessor.latestPrediction == null) _lastSocialShown = null;
+  }
+
   // A changed reminder setting starts the counts afresh.
   void _resetReminders() => _reminders?.reset();
 
@@ -283,6 +304,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     appSettings.stepSamples.removeListener(_applyStep);
+    _socialProcessor.removeListener(_socialStatusChanged);
     if (_reminders != null) {
       appSettings.reminders.removeListener(_resetReminders);
     }
@@ -317,8 +339,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         snackBarTheme: _snackBars,
       ),
       darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: _seed, brightness: Brightness.dark),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: _seed, brightness: Brightness.dark),
         useMaterial3: true,
         snackBarTheme: _snackBars,
       ),

@@ -7,14 +7,18 @@
 // updated from the BLE callback (no I/O, no notifications); PerfSampler reads
 // them once a second together with CPU, memory, battery and storage.
 
-/// Count, last, mean and maximum of a series of durations.
+import 'change_latency.dart';
+
+/// Count, last, min, mean and maximum of a series of durations.
 class DurationStat {
   int count = 0;
   Duration last = Duration.zero;
+  Duration min = Duration.zero;
   Duration max = Duration.zero;
   int _totalMicros = 0;
 
   void add(Duration d) {
+    if (count == 0 || d < min) min = d;
     count++;
     last = d;
     if (d > max) max = d;
@@ -23,12 +27,14 @@ class DurationStat {
 
   int get totalMicros => _totalMicros;
 
-  Duration get mean =>
-      count == 0 ? Duration.zero : Duration(microseconds: _totalMicros ~/ count);
+  Duration get mean => count == 0
+      ? Duration.zero
+      : Duration(microseconds: _totalMicros ~/ count);
 
   void reset() {
     count = 0;
     last = Duration.zero;
+    min = Duration.zero;
     max = Duration.zero;
     _totalMicros = 0;
   }
@@ -60,9 +66,83 @@ class AppMetrics {
   DateTime? _lastHarAt;
   DateTime? _lastSocialAt;
 
+  /// Time between consecutive packets arriving on the phone (nominal 2.56 s:
+  /// 32 samples at 12.5 Hz).
+  final DurationStat packetInterval = DurationStat();
+
+  /// RESpeck -> phone transmission delay above the fastest packet among the
+  /// last [delayWindow] packets ("extra delay"). Each packet carries the
+  /// RESpeck's own timestamp, but the two clocks are not synchronised, so the
+  /// fixed part of the delay cannot be measured - only how much later than
+  /// the quickest recent packet each one arrived (BLE scheduling, retries,
+  /// the phone being busy). The rolling minimum also absorbs slow drift
+  /// between the two clocks.
+  final DurationStat packetExtraDelay = DurationStat();
+  static const int delayWindow = 100; // ~4 min of packets
+  final List<int> _offsetsMs = [];
+
+  /// Packet arrival -> its results handed to the display (decoding, both
+  /// models for every result in the packet, smoothing). The screen draws on
+  /// the next frame (<= 16 ms later).
+  final DurationStat packetToDisplay = DurationStat();
+
+  /// Live time to show a change: from where the raw signal changed to the
+  /// screen switching label (see change_latency.dart).
+  final ChangeLatencyEstimator changeEstimator = ChangeLatencyEstimator();
+  final DurationStat activityChange = DurationStat();
+  final DurationStat socialChange = DurationStat();
+  int activityUnclear = 0, socialUnclear = 0;
+
+  /// The latest measured switches, oldest first (for the chart).
+  final List<ChangeEstimate> recentChanges = [];
+  static const int recentCapacity = 40;
+
+  void recordSample(double x, double y, double z, DateTime at) =>
+      changeEstimator.addSample(x, y, z, at);
+
+  void recordPacketProcessing(Duration elapsed) => packetToDisplay.add(elapsed);
+
+  /// The shown label switched [from] -> [to] at [shownAt]. Returns the
+  /// estimate, or null when the signal shows no clear change ("unclear").
+  ChangeEstimate? recordShownChange(
+      ChangeTask task, String from, String to, DateTime shownAt) {
+    final e = changeEstimator.estimate(
+        task: task, from: from, to: to, shownAt: shownAt);
+    final stat = task == ChangeTask.activity ? activityChange : socialChange;
+    if (e == null) {
+      if (task == ChangeTask.activity) {
+        activityUnclear++;
+      } else {
+        socialUnclear++;
+      }
+      return null;
+    }
+    stat.add(e.latency);
+    recentChanges.add(e);
+    if (recentChanges.length > recentCapacity) recentChanges.removeAt(0);
+    return e;
+  }
+
   /// Record one decoded BLE packet carrying [sampleCount] samples.
-  void recordPacket(int sequence, int sampleCount, DateTime receivedAt) {
+  /// [respeckMs] is the packet's timestamp from the RESpeck clock.
+  void recordPacket(int sequence, int sampleCount, DateTime receivedAt,
+      {int? respeckMs}) {
     streamStartedAt ??= receivedAt;
+    final previousAt = lastPacketAt;
+    if (previousAt != null) {
+      packetInterval.add(receivedAt.difference(previousAt));
+    }
+    if (respeckMs != null) {
+      final offset = receivedAt.millisecondsSinceEpoch - respeckMs;
+      // A jump of more than a minute means the RESpeck clock restarted.
+      if (_offsetsMs.isNotEmpty && (offset - _offsetsMs.last).abs() > 60000) {
+        _offsetsMs.clear();
+      }
+      _offsetsMs.add(offset);
+      if (_offsetsMs.length > delayWindow) _offsetsMs.removeAt(0);
+      final fastest = _offsetsMs.reduce((a, b) => a < b ? a : b);
+      packetExtraDelay.add(Duration(milliseconds: offset - fastest));
+    }
     lastPacketAt = receivedAt;
     packets++;
     samples += sampleCount;
@@ -120,6 +200,8 @@ class AppMetrics {
     _lastSequence = null;
     _lastHarAt = null;
     _lastSocialAt = null;
+    _offsetsMs.clear();
+    changeEstimator.clear();
   }
 
   void reset() {
@@ -129,6 +211,14 @@ class AppMetrics {
     lostPackets = 0;
     harInference.reset();
     socialInference.reset();
+    packetInterval.reset();
+    packetExtraDelay.reset();
+    packetToDisplay.reset();
+    activityChange.reset();
+    socialChange.reset();
+    activityUnclear = 0;
+    socialUnclear = 0;
+    recentChanges.clear();
     harUpdateInterval.reset();
     socialUpdateInterval.reset();
   }

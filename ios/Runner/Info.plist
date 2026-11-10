@@ -32,6 +32,11 @@
 	<string>This app uses Bluetooth to connect to nearby devices</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>This app uses Bluetooth to communicate with peripheral devices</string>
+	<!-- Keep receiving RESpeck data in the background (history, reminders) -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>We need camera access to scan QR codes</string>
 	<key>UIApplicationSceneManifest</key>

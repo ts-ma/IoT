@@ -61,8 +61,8 @@ const int sampleBytes = 6;
 // the review, it needs checking against a v5 sensor.
 const int sampleDataOffset = 8;
 
-Future<void> scanForRespeck(SensorController _ui) async {
-  ui = _ui;
+Future<void> scanForRespeck(SensorController ui) async {
+  ui = ui;
   // listen to scan results
   // Note: `onScanResults` clears the results between scans. You should use
   //  `scanResults` if you want the current scan results *or* the results from the previous scan.
@@ -108,9 +108,9 @@ Future<void> scanForRespeck(SensorController _ui) async {
               final hex = bytes
                   .map((b) => b.toRadixString(16).padLeft(2, '0'))
                   .toList();
-              final hex_str = hex.join(':').toUpperCase();
+              final hexStr = hex.join(':').toUpperCase();
               //print('Found service data: GAP UUID: $hex_str');
-              if (hex_str == respeckUUID) {
+              if (hexStr == respeckUUID) {
                 if (r.advertisementData.advName == "Res6AM") {
                   respeck = r.device;
                   respeckVersion = 6;
@@ -218,7 +218,9 @@ Future<void> notify({
       //https://stackoverflow.com/questions/72418830/how-to-target-specific-int-bits-in-an-int-array-into-uint16-or-32
 
       // Timestamp when this packet was received, according to the phone clock
-      DateTime packet_received_ts = DateTime.now();
+      DateTime packetReceivedTs = DateTime.now();
+      // Packet arrival -> results handed to the display (Performance tab).
+      final processing = Stopwatch()..start();
 
       Uint8List ul = Uint8List.fromList(value);
       ByteData bd = ul.buffer.asByteData();
@@ -229,7 +231,7 @@ Future<void> notify({
         return;
       }
 
-      _lastPacketAt = packet_received_ts;
+      _lastPacketAt = packetReceivedTs;
       ui.receivedPacket = true;
       if (!firstPacket.isCompleted) firstPacket.complete();
 
@@ -260,6 +262,10 @@ Future<void> notify({
       StringBuffer csv = StringBuffer();
       int seqNumInPacket = 0;
       int samplesWritten = 0;
+      // The last sample was measured just before sending; each earlier one
+      // 80 ms (1 / 12.5 Hz) before that.
+      final int packetSamples =
+          (bd.lengthInBytes - sampleDataOffset) ~/ sampleBytes;
       double x = 0, y = 0, z = 0;
       // The newest activity prediction made while decoding this packet, or
       // null if no sample in this packet completed a classification window
@@ -289,7 +295,7 @@ Future<void> notify({
 
         if (isRecording) {
           csv.write(
-              "${packet_received_ts.millisecondsSinceEpoch},$ts,$packetSeqNumber,$seqNumInPacket,$x,$y,$z\n");
+              "${packetReceivedTs.millisecondsSinceEpoch},$ts,$packetSeqNumber,$seqNumInPacket,$x,$y,$z\n");
           samplesWritten++;
         }
 
@@ -297,6 +303,12 @@ Future<void> notify({
         // not we are recording. addSample() returns null for most samples and
         // a prediction only when a new window has been classified. Emit each
         // raw result once, while retaining the latest result for packet UI.
+        appMetrics.recordSample(
+            x,
+            y,
+            z,
+            packetReceivedTs.subtract(Duration(
+                milliseconds: (packetSamples - 1 - seqNumInPacket) * 80)));
         final newPrediction = processDecodedSample(
           x, y, z,
           onPrediction: onPrediction,
@@ -310,7 +322,8 @@ Future<void> notify({
       }
 
       appMetrics.recordPacket(
-          packetSeqNumber, seqNumInPacket, packet_received_ts);
+          packetSeqNumber, seqNumInPacket, packetReceivedTs,
+          respeckMs: ts);
 
       // Write to the raw CSV. All appends go through one open sink, so they
       // stay in order - reopening the file per packet let concurrent writes
@@ -330,12 +343,13 @@ Future<void> notify({
         accel: accelText,
         battery: battLevel,
         charging: charging,
-        receivedAt: packet_received_ts,
+        receivedAt: packetReceivedTs,
         // SensorController.connect's onPrediction already passed every result
         // of this packet to the display (and its smoother) the moment it was
         // made; only a caller without that callback relies on this one.
         prediction: onPrediction == null ? prediction : null,
       );
+      appMetrics.recordPacketProcessing(processing.elapsed);
     }, onError: (Object error, StackTrace stack) {
       // A notification error confirms an interruption, but says nothing about
       // how many samples were lost. Preserve existing HAR/connection handling.

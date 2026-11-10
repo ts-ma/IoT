@@ -40,20 +40,20 @@ void main() {
     expect(runner.calls, 0);
   });
 
-  test('first inference at 100, none at 99 or 124, second at 125', () async {
+  test('first inference at 75, none at 74 or 99, second at 100', () async {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    expect(feed(classifier, 0, 99), isNull);
+    expect(feed(classifier, 0, 74), isNull);
     expect(runner.calls, 0);
-    final first = feed(classifier, 99, 100)!;
+    final first = feed(classifier, 74, 75)!;
     expect(first.label, 'coughing');
     expect(first.confidence, 0.6);
     expect(first.probabilities, [0.1, 0.6, 0.2, 0.1]);
     expect(runner.calls, 1);
-    expect(feed(classifier, 100, 124), isNull);
+    expect(feed(classifier, 75, 99), isNull);
     expect(runner.calls, 1);
-    final second = feed(classifier, 124, 125)!;
+    final second = feed(classifier, 99, 100)!;
     expect(runner.calls, 2);
     expect(identical(first, second), isFalse);
     expect(first.probabilities.every((p) => p.isFinite && p >= 0 && p <= 1),
@@ -61,10 +61,10 @@ void main() {
     expect(() => first.probabilities[0] = 0, throwsUnsupportedError);
     // Exactly raw axes in g: no scaling, normalization or axis permutation.
     expect(runner.windows[0].single, [
-      for (var i = 0; i < 100; i++) [i.toDouble(), -i.toDouble(), 0.5]
+      for (var i = 0; i < 75; i++) [i.toDouble(), -i.toDouble(), 0.5]
     ]);
     expect(runner.windows[1].single, [
-      for (var i = 25; i < 125; i++) [i.toDouble(), -i.toDouble(), 0.5]
+      for (var i = 25; i < 100; i++) [i.toDouble(), -i.toDouble(), 0.5]
     ]);
   });
 
@@ -78,32 +78,32 @@ void main() {
     addTearDown(second.dispose);
     final harWindow = SampleWindow(50, 25);
     harWindow.add(9, 8, 7);
-    feed(first, 0, 100);
-    feed(second, 0, 99);
+    feed(first, 0, 75);
+    feed(second, 0, 74);
     first.reset();
     expect(firstRunner.calls, 1);
     expect(secondRunner.calls, 0);
-    expect(second.addSample(99, -99, 0.5), isNotNull);
+    expect(second.addSample(74, -74, 0.5), isNotNull);
     expect(harWindow.batch.single, [
       [9.0, 8.0, 7.0]
     ]);
-    expect(first.addSample(100, 0, 0), isNull);
+    expect(first.addSample(75, 0, 0), isNull);
   });
 
   test('reset clears a partial window and restarts the full warm-up', () async {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 99);
+    feed(classifier, 0, 74);
     classifier.reset();
-    expect(feed(classifier, 100, 199), isNull);
+    expect(feed(classifier, 75, 149), isNull);
     expect(runner.calls, 0);
-    expect(feed(classifier, 199, 200), isNotNull);
-    expect(runner.windows.single.single.first, [100.0, -100.0, 0.5]);
+    expect(feed(classifier, 149, 150), isNotNull);
+    expect(runner.windows.single.single.first, [75.0, -75.0, 0.5]);
     classifier.reset();
-    expect(feed(classifier, 200, 299), isNull);
+    expect(feed(classifier, 150, 224), isNull);
     expect(runner.calls, 1);
-    expect(feed(classifier, 299, 300), isNotNull);
+    expect(feed(classifier, 224, 225), isNotNull);
   });
 
   final invalidMetadata = <String, void Function(Map<String, dynamic>)>{
@@ -185,12 +185,12 @@ void main() {
       final runner = _FakeRunner()..probabilities = probabilities;
       final classifier = await load(runner);
       addTearDown(classifier.dispose);
-      feed(classifier, 0, 99);
-      expect(() => classifier.addSample(99, -99, 0.5), throwsStateError);
+      feed(classifier, 0, 74);
+      expect(() => classifier.addSample(74, -74, 0.5), throwsStateError);
       runner.probabilities = [0.1, 0.6, 0.2, 0.1];
-      expect(feed(classifier, 100, 199), isNull);
+      expect(feed(classifier, 75, 149), isNull);
       expect(runner.calls, 1);
-      expect(feed(classifier, 199, 200), isNotNull);
+      expect(feed(classifier, 149, 150), isNotNull);
     });
   }
 
@@ -199,9 +199,9 @@ void main() {
     final runner = _FakeRunner();
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 99);
+    feed(classifier, 0, 74);
     expect(() => classifier.addSample(0, double.nan, 0), throwsArgumentError);
-    expect(feed(classifier, 100, 199), isNull);
+    expect(feed(classifier, 75, 149), isNull);
     expect(runner.calls, 0);
   });
 
@@ -210,11 +210,11 @@ void main() {
     final runner = _FakeRunner()..error = StateError('inference failed');
     final classifier = await load(runner);
     addTearDown(classifier.dispose);
-    feed(classifier, 0, 99);
-    expect(() => classifier.addSample(99, -99, 0.5), throwsStateError);
+    feed(classifier, 0, 74);
+    expect(() => classifier.addSample(74, -74, 0.5), throwsStateError);
     runner.error = null;
-    expect(feed(classifier, 100, 199), isNull);
-    expect(feed(classifier, 199, 200), isNotNull);
+    expect(feed(classifier, 75, 149), isNull);
+    expect(feed(classifier, 149, 150), isNotNull);
   });
 
   test('dispose closes once and rejects further use', () async {
@@ -300,7 +300,7 @@ void main() {
 
 class _FakeRunner implements SocialModelRunner {
   @override
-  List<int> inputShape = [1, 100, 3];
+  List<int> inputShape = [1, 75, 3];
   @override
   TensorType inputType = TensorType.float32;
   @override

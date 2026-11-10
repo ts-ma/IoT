@@ -31,6 +31,11 @@ class PerfSample {
     this.streaming,
     this.activityShown,
     this.socialStatus,
+    this.packetDelayMs,
+    this.packetIntervalS,
+    this.packetToDisplayMs,
+    this.activityChangeS,
+    this.socialChangeS,
   });
 
   final DateTime time;
@@ -63,11 +68,26 @@ class PerfSample {
   /// SocialPredictionStatus name, e.g. ready or pausedMoving.
   final String? socialStatus;
 
+  /// RESpeck -> phone delay above the fastest recent packet (mean of the
+  /// packets in this second; see AppMetrics.packetExtraDelay).
+  final double? packetDelayMs;
+
+  /// Time since the previous packet, for the packets in this second.
+  final double? packetIntervalS;
+
+  /// Packet arrival -> results handed to the display (mean this second).
+  final double? packetToDisplayMs;
+
+  /// Live time to show a change, for switches shown in this second.
+  final double? activityChangeS;
+  final double? socialChangeS;
+
   static const csvHeader = 'local_time,cpu_percent_one_core,rss_mb,'
       'phone_battery_pct,phone_charging,phone_current_ma,phone_power_mw,'
       'respeck_battery_pct,har_inference_ms,social_inference_ms,'
       'sample_rate_hz,lost_packets_total,storage_mb,streaming,'
-      'activity_shown,social_status';
+      'activity_shown,social_status,respeck_extra_delay_ms,packet_interval_s,'
+      'packet_to_display_ms,activity_change_shown_s,social_change_shown_s';
 
   String toCsv() {
     String f(num? v, [int digits = 2]) =>
@@ -89,6 +109,11 @@ class PerfSample {
       streaming == null ? '' : (streaming! ? 1 : 0),
       activityShown ?? '',
       socialStatus ?? '',
+      f(packetDelayMs, 0),
+      f(packetIntervalS, 3),
+      f(packetToDisplayMs, 2),
+      f(activityChangeS, 2),
+      f(socialChangeS, 2),
     ].join(',');
   }
 }
@@ -180,6 +205,11 @@ class PerfSampler extends ChangeNotifier {
   DateTime? _lastCpuAt;
   int _lastHarCount = 0, _lastSocialCount = 0;
   int _lastHarTotalUs = 0, _lastSocialTotalUs = 0;
+  int _lastDelayCount = 0, _lastDelayTotalUs = 0;
+  int _lastIntervalCount = 0, _lastIntervalTotalUs = 0;
+  int _lastProcCount = 0, _lastProcTotalUs = 0;
+  int _lastActChangeCount = 0, _lastActChangeTotalUs = 0;
+  int _lastSocChangeCount = 0, _lastSocChangeTotalUs = 0;
   int _lastSamples = 0;
   DateTime? _lastSamplesAt;
   PhoneBattery? _battery;
@@ -226,13 +256,15 @@ class PerfSampler extends ChangeNotifier {
         'phone_model': 'fill in by hand',
         ...?describeSettings?.call(),
       };
-      final out = File(file.path.replaceFirst(RegExp(r'\.csv$'), '.conditions.json'));
-      await out.writeAsString(
-          const JsonEncoder.withIndent('  ').convert(info), flush: true);
+      final out =
+          File(file.path.replaceFirst(RegExp(r'\.csv$'), '.conditions.json'));
+      await out.writeAsString(const JsonEncoder.withIndent('  ').convert(info),
+          flush: true);
     } catch (e) {
       debugPrint('Could not write the log conditions: $e');
     }
   }
+
   bool get logging => _log != null;
   File? get logFile => _logFile;
 
@@ -290,6 +322,26 @@ class PerfSampler extends ChangeNotifier {
       _lastHarTotalUs = _metrics.harInference.totalMicros;
       _lastSocialCount = _metrics.socialInference.count;
       _lastSocialTotalUs = _metrics.socialInference.totalMicros;
+      final delayMs =
+          meanMs(_metrics.packetExtraDelay, _lastDelayCount, _lastDelayTotalUs);
+      final intervalMs = meanMs(
+          _metrics.packetInterval, _lastIntervalCount, _lastIntervalTotalUs);
+      _lastDelayCount = _metrics.packetExtraDelay.count;
+      _lastDelayTotalUs = _metrics.packetExtraDelay.totalMicros;
+      _lastIntervalCount = _metrics.packetInterval.count;
+      _lastIntervalTotalUs = _metrics.packetInterval.totalMicros;
+      final procMs =
+          meanMs(_metrics.packetToDisplay, _lastProcCount, _lastProcTotalUs);
+      final actMs = meanMs(
+          _metrics.activityChange, _lastActChangeCount, _lastActChangeTotalUs);
+      final socMs = meanMs(
+          _metrics.socialChange, _lastSocChangeCount, _lastSocChangeTotalUs);
+      _lastProcCount = _metrics.packetToDisplay.count;
+      _lastProcTotalUs = _metrics.packetToDisplay.totalMicros;
+      _lastActChangeCount = _metrics.activityChange.count;
+      _lastActChangeTotalUs = _metrics.activityChange.totalMicros;
+      _lastSocChangeCount = _metrics.socialChange.count;
+      _lastSocChangeTotalUs = _metrics.socialChange.totalMicros;
 
       double? rate;
       final streaming = sensor?.streaming ?? false;
@@ -323,6 +375,11 @@ class PerfSampler extends ChangeNotifier {
         streaming: sensor == null ? null : streaming,
         activityShown: sensor?.harShown?.label,
         socialStatus: sensor?.socialProcessor?.status.name,
+        packetDelayMs: delayMs,
+        packetIntervalS: intervalMs == null ? null : intervalMs / 1000,
+        packetToDisplayMs: procMs,
+        activityChangeS: actMs == null ? null : actMs / 1000,
+        socialChangeS: socMs == null ? null : socMs / 1000,
       );
       _samples.addLast(sample);
       while (_samples.length > capacity) {

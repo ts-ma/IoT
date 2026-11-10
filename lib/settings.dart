@@ -58,7 +58,8 @@ class SettingsPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         'How often both models give a new result. Each result '
-                        'still looks at the last 4 s (activity) or 8 s '
+                        'still looks at the last 4 s (activity) or '
+                        '${socialWindowSeconds.toStringAsFixed(0)} s '
                         '(social signal), so accuracy is the same; shorter '
                         'intervals show changes up to one interval sooner and '
                         'run the models more often (a few ms each). The models '
@@ -99,22 +100,30 @@ class SettingsPage extends StatelessWidget {
                             Text('Activity: ${harModelAsset.split('/').last}'),
                         subtitle: Text(har == null
                             ? 'Not loaded'
-                            : '${har.classes.length} classes · '
+                            : 'Multi-branch CNN · ${har.classes.length} classes · '
                                 '${har.window.length}-sample window '
                                 '(${(har.window.length / sensorHz).toStringAsFixed(0)} s), '
-                                'new result every ${har.window.step} samples'),
+                                'new result every ${har.window.step} samples.\n'
+                                'Trained on datasetJan2026 and both group '
+                                'members\' recordings, mixed. Official 10-fold '
+                                'cross-validation: static 99.4 %, dynamic '
+                                '90.6 % (targets 90 % and 85 %).'),
                       ),
                       ListTile(
                         contentPadding: EdgeInsets.zero,
                         leading: const Icon(Icons.graphic_eq),
                         title:
                             Text('Social: ${socialModelAsset.split('/').last}'),
-                        subtitle: Text('${socialLabels.length} classes · '
+                        subtitle: Text('Conv-GRU · ${socialLabels.length} classes · '
                             '$socialWindowSamples-sample window '
                             '(${socialWindowSeconds.toStringAsFixed(0)} s), new '
                             'result every $step samples while you are still; '
                             'paused while the activity is walking, stairs, '
-                            'running, shuffling or other movement'),
+                            'running, shuffling or other movement.\n'
+                            'Trained on datasetJan2026 and both group '
+                            'members\' recordings, mixed. Official 10-fold '
+                            'cross-validation: 81.7 % mean of the 4 classes, '
+                            'each class at least 78 % (target 75 %).'),
                       ),
                       Text(
                         'Both models run on the phone with TensorFlow Lite; '
@@ -220,8 +229,10 @@ class SettingsPage extends StatelessWidget {
             ),
           const SizedBox(height: 4),
           Text(
-            'Reminders need the RESpeck connected and the app open on the '
-            'screen: the app does not run in the background.',
+            'Reminders need the RESpeck connected. The app keeps running in '
+            'the background and with the screen off while it is connected '
+            '(Android shows a "PDIoT is monitoring" notification). Closing '
+            'the app from the app switcher stops it.',
             style: textTheme.bodySmall,
           ),
         ],

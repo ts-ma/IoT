@@ -219,11 +219,11 @@ Decisions (Harry):
   - *Wake-up alarm* (default off, time picker): after the alarm time, if you are lying for most of the last 2 min, it notifies every 5 min until you have been up for most of 2 min. It is then done for the day, or 6 h after the alarm time.
 - [x] 8.4 **Notifications** (`lib/services/notifications.dart`, `flutter_local_notifications` **22.3.3**). v23 needs AGP 9.1 / compileSdk 37, more than this project has.
   - Permission is asked on the first connect.
-  - **No background running** (removed at Harry's request): reminders only fire while the app is open with the RESpeck connected.
+  - **Background running** (re-added 2026-11-10 at Harry's request): Android foreground service of type connectedDevice with an ongoing "PDIoT is monitoring" notification while connected, stopped on disconnect; iOS `UIBackgroundModes: bluetooth-central`.
 - [x] 8.5 Native changes:
   - `ios/Runner/AppDelegate.swift`: the notification-centre delegate, so reminders show while the app is open;
   - `android/app/build.gradle`: core library desugaring `desugar_jdk_libs:2.1.4`, Java/Kotlin target 17, multidex (required by the plugin).
-  - The iOS background mode and the Android foreground service were added, then removed.
+  - `ios/Runner/Info.plist` (`UIBackgroundModes: bluetooth-central`); `android/app/src/main/AndroidManifest.xml` (`FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_CONNECTED_DEVICE`, the plugin's `ForegroundService` with `stopWithTask=true`). Added, removed on 2026-11-09, re-added on 2026-11-10.
 - [x] 8.6 Tests:
   - `reminders_test` (8): 60 min + 30 min repeat, a walk restarts the count, short breaks or misreads do not, lying excluded, custom minutes, wake every 5 min until up, already up, next day;
   - `latency_test_test` (5);
@@ -253,3 +253,4 @@ Decisions (Harry):
 - 2026-11-09: Task 7 (social paused while moving, smoothing fix, 0.5 s default, shown latency, performance-log conditions).
 - 2026-11-09: Task 8 (times coughed, latency test, reminders, HAR window study).
 - 2026-11-09: background running removed (no iOS background mode, no Android foreground service).
+- 2026-11-10: background running re-added; models updated to pipeline v2 (social window 75 samples / 6 s).

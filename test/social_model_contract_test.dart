@@ -35,9 +35,9 @@ void main() {
     expect(meta['model_file'], 'harry_social_rnn.tflite');
     expect(meta['task'], 'social_signal');
     expect(meta['sampling_frequency_hz'], 12.5);
-    expect(meta['window_samples'], 100);
+    expect(meta['window_samples'], 75);
     expect(meta['step_samples'], 25);
-    expect(meta['input']['shape'], [1, 100, 3]);
+    expect(meta['input']['shape'], [1, 75, 3]);
     expect(meta['input']['dtype'], 'float32');
     expect(meta['input']['channels'], ['accelX', 'accelY', 'accelZ']);
     expect(meta['input']['units'], 'g (raw accelerometer values)');
@@ -60,7 +60,7 @@ void main() {
     // TensorType.FLOAT32 is enum value 0 (also the omitted-field default).
     expect(model.byteField(input, 1), 0);
     expect(model.byteField(output, 1), 0);
-    expect(model.ints(input, 7), [-1, 100, 3]);
+    expect(model.ints(input, 7), [-1, 75, 3]);
     expect(model.ints(output, 7), [-1, 4]);
   });
 
@@ -95,7 +95,7 @@ void main() {
     expect(model.byteField(output, 1), 0);
   });
 
-  test('saved input has 100 rows of three finite numeric axis values', () {
+  test('saved input has 75 rows of three finite numeric axis values', () {
     final rows = example['input_window'] as List<dynamic>;
     expect(rows, hasLength(meta['window_samples'] as int));
     for (final row in rows) {

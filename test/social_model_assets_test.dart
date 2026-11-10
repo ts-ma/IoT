@@ -20,7 +20,7 @@ void main() {
       name: 'harry_social_rnn',
       asset: socialModelAsset,
       meta: socialMetaAsset,
-      window: 100,
+      window: 75,
       classes: 4
     ),
   ]) {

@@ -9,11 +9,11 @@ import 'har.dart' show SampleWindow;
 const socialModelAsset = 'assets/models/harry_social_rnn.tflite';
 const socialMetaAsset = 'assets/models/harry_social_rnn_meta.json';
 
-/// Contract of the bundled Social model (must match its _meta.json): 100
-/// samples = 8 s at 12.5 Hz, long enough to contain whole breaths. The model
+/// Contract of the bundled Social model (must match its _meta.json): 75
+/// samples = 6 s at 12.5 Hz, about one and a half breaths. The model
 /// was trained with a 25-sample (2 s) step; the app applies the update
 /// interval chosen in Settings at run time (see [SocialClassifier.step]).
-const int socialWindowSamples = 100;
+const int socialWindowSamples = 75;
 const int socialStepSamples = 25;
 const double socialWindowSeconds = socialWindowSamples / 12.5;
 const socialLabels = [
@@ -73,7 +73,7 @@ class _TfliteSocialRunner implements SocialModelRunner {
   void close() => _interpreter.close();
 }
 
-/// Independent eight-second window classifier. Feed raw X/Y/Z values in g.
+/// Independent six-second window classifier. Feed raw X/Y/Z values in g.
 /// Standardization is embedded in the model; no preprocessing is applied here.
 class SocialClassifier {
   SocialClassifier._(this._runner);
@@ -85,7 +85,7 @@ class SocialClassifier {
 
   List<String> get classes => socialLabels;
 
-  /// Samples between results (see SampleWindow.step); the window stays 100.
+  /// Samples between results (see SampleWindow.step); the window stays [socialWindowSamples].
   int get step => _window.step;
   set step(int value) => _window.step = value;
 
@@ -159,7 +159,7 @@ class SocialClassifier {
         'normalization');
   }
 
-  /// Returns null until sample 100, then until each further [step] samples
+  /// Returns null until sample [socialWindowSamples] (75), then until each further [step] samples
   /// arrive (25 by default).
   /// The model sees the latest complete window, oldest sample first.
   /// With [infer] false the sample is only buffered (social signals are paused

@@ -438,7 +438,8 @@ class HomePageState extends State<HomePage> {
       SocialPredictionStatus.unavailable => 'Social model unavailable',
       SocialPredictionStatus.disconnected => 'Disconnected',
       SocialPredictionStatus.collecting =>
-        'Collecting data... (first result after about 8 s)',
+        'Collecting data... (first result after about '
+        '${socialWindowSeconds.toStringAsFixed(0)} s)',
       SocialPredictionStatus.ready => 'Live prediction',
       SocialPredictionStatus.error =>
         'Social inference error — reconnect to retry',

@@ -80,11 +80,11 @@ void main() {
       () {
     final baseline = _HarDouble();
     final expected = <HarPrediction>[];
-    for (var i = 0; i < 125; i++) {
+    for (var i = 0; i < 100; i++) {
       final p = baseline.addSample(i / 100, -i / 100, 0.75);
       if (p != null) expected.add(p);
     }
-    for (var i = 0; i < 125; i++) {
+    for (var i = 0; i < 100; i++) {
       final before = processor.inferenceCount;
       final result = processDecodedSample(
         i / 100,
@@ -106,15 +106,15 @@ void main() {
     expect(har.resets, 0);
   });
 
-  test('Social events occur at samples 100 and 125, never 99 or 124', () {
-    feedPacket(0, 99);
+  test('Social events occur at samples 75 and 100, never 74 or 99', () {
+    feedPacket(0, 74);
     expect(events, isEmpty);
     expect(runner.calls, 0);
+    feedPacket(74, 75);
+    expect(events, hasLength(1));
+    feedPacket(75, 99);
+    expect(events, hasLength(1));
     feedPacket(99, 100);
-    expect(events, hasLength(1));
-    feedPacket(100, 124);
-    expect(events, hasLength(1));
-    feedPacket(124, 125);
     expect(events, hasLength(2));
     expect(runner.calls, 2);
     expect(runner.windows[0].single.first, [0.0, 0.0, 0.75]);
@@ -133,7 +133,7 @@ void main() {
       },
       onPrediction: events.add,
     )..startSession();
-    feedPacket(0, 175); // Four Social results at 100, 125, 150 and 175.
+    feedPacket(0, 150); // Four Social results at 75, 100, 125 and 175.
     expect(events, hasLength(4));
     expect(clockReads, 4);
     expect(events.map((e) => e.completedAt), [
@@ -150,11 +150,11 @@ void main() {
 
   test('null does not replay a cached result; equal labels remain separate',
       () {
-    feedPacket(0, 100);
+    feedPacket(0, 75);
     final first = events.single;
-    feedPacket(100, 124);
+    feedPacket(75, 99);
     expect(events, [first]);
-    feedPacket(124, 125);
+    feedPacket(99, 100);
     expect(events, hasLength(2));
     expect(events.last.prediction.label, first.prediction.label);
     expect(identical(events.last, first), isFalse);
@@ -176,9 +176,9 @@ void main() {
     runner.fail = false;
     processor.endSession();
     processor.startSession();
-    feedPacket(125, 224);
+    feedPacket(125, 199);
     expect(events, isEmpty);
-    feedPacket(224, 225);
+    feedPacket(199, 200);
     expect(events, hasLength(1));
     expect(processor.failed, isFalse);
   });
@@ -190,9 +190,9 @@ void main() {
       onPrediction: (event) => throw StateError('observer failed'),
       onError: (error, stack) => throw StateError('reporter failed'),
     )..startSession();
-    expect(() => feedPacket(0, 100), returnsNormally);
-    expect(har.samples, hasLength(100));
-    expect(harEvents, hasLength(3));
+    expect(() => feedPacket(0, 75), returnsNormally);
+    expect(har.samples, hasLength(75));
+    expect(harEvents, hasLength(2));
     expect(processor.inferenceCount, 1);
     expect(processor.deliveryErrorCount, 1);
     expect(processor.failed, isFalse);
@@ -215,30 +215,30 @@ void main() {
   });
 
   test('disconnect and reconnect clear Social state without resetting HAR', () {
-    feedPacket(0, 99);
+    feedPacket(0, 74);
     processor.endSession();
     expect(processor.isActive, isFalse);
-    feedPacket(99, 100); // A late callback cannot feed Social after disconnect.
+    feedPacket(74, 75); // A late callback cannot feed Social after disconnect.
     expect(events, isEmpty);
     processor.startSession();
-    feedPacket(100, 199);
+    feedPacket(75, 149);
     expect(events, isEmpty);
-    feedPacket(199, 200);
+    feedPacket(149, 150);
     expect(events, hasLength(1));
-    expect(runner.windows.single.single.first, [1.0, -1.0, 0.75]);
-    expect(har.samples, hasLength(200));
+    expect(runner.windows.single.single.first, [0.75, -0.75, 0.75]);
+    expect(har.samples, hasLength(150));
     expect(har.resets, 0);
   });
 
   test('confirmed stream interruption requires a full fresh Social window', () {
-    feedPacket(0, 100);
+    feedPacket(0, 75);
     processor.resetStream();
     expect(processor.isActive, isTrue);
-    feedPacket(100, 199);
+    feedPacket(75, 149);
     expect(events, hasLength(1));
-    feedPacket(199, 200);
+    feedPacket(149, 150);
     expect(events, hasLength(2));
-    expect(runner.windows.last.single.first, [1.0, -1.0, 0.75]);
+    expect(runner.windows.last.single.first, [0.75, -0.75, 0.75]);
     expect(har.resets, 0);
   });
 
@@ -261,7 +261,7 @@ void main() {
     feedPacket(0, 125, capture: writer.capture);
     // All samples and Social events finish before a delayed DB even opens.
     expect(har.samples, hasLength(125));
-    expect(events, hasLength(2));
+    expect(events, hasLength(3)); // Social windows complete at 75, 100, 125.
     expect(writer.pendingCount, 4);
     expect(repository.saved, isEmpty);
     gate.complete();
@@ -295,7 +295,7 @@ void main() {
     connectedProcessor.startSession();
     final recorder = shell.sensor.recorder;
     // The extracted decoded-sample path has no dependency on CSV/UI state.
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 75; i++) {
       expect(recorder.active, isFalse);
       processDecodedSample(0, 0, 1, socialProcessor: connectedProcessor);
     }
@@ -350,7 +350,7 @@ class _SocialRunner implements SocialModelRunner {
   bool fail = false;
   final List<List<List<List<double>>>> windows = [];
   @override
-  List<int> get inputShape => [1, 100, 3];
+  List<int> get inputShape => [1, 75, 3];
   @override
   List<int> get outputShape => [1, 4];
   @override

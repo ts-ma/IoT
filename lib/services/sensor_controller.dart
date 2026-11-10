@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import '../activity_catalog.dart';
@@ -5,7 +7,9 @@ import '../ble.dart' as ble;
 import '../globals.dart';
 import '../har.dart';
 import '../utils.dart';
+import 'app_metrics.dart';
 import 'app_settings.dart';
+import 'change_latency.dart';
 import 'live_feed.dart';
 import 'notifications.dart';
 import 'prediction_history_writer.dart';
@@ -28,8 +32,10 @@ class SensorController extends ChangeNotifier {
     this.notifications,
     UserSession? session,
     RawRecorder? recorder,
+    AppMetrics? metrics,
   })  : session = session ?? userSession,
-        recorder = recorder ?? RawRecorder() {
+        recorder = recorder ?? RawRecorder(),
+        metrics = metrics ?? appMetrics {
     ble.ui = this;
     appSettings.smoothHar.addListener(_resetDisplay);
   }
@@ -40,8 +46,11 @@ class SensorController extends ChangeNotifier {
   /// Move reminder and wake-up alarm, fed with every shown activity result.
   final ActivityReminders? reminders;
 
-  /// Asks for notification permission (reminders) on the first connect.
+  /// Notification permission and (Android) the monitoring foreground service.
   final AppNotifications? notifications;
+
+  /// Performance counters (live change latency is recorded here).
+  final AppMetrics metrics;
   final UserSession session;
   final RawRecorder recorder;
 
@@ -103,10 +112,17 @@ class SensorController extends ChangeNotifier {
     harRaw = prediction;
     final shown =
         appSettings.smoothHar.value ? _smoother.add(prediction) : prediction;
+    final before = harShown?.label;
+    if (before != null && before != shown.label) {
+      // Live time to show this change (Performance tab).
+      metrics.recordShownChange(
+          ChangeTask.activity, before, shown.label, DateTime.now());
+    }
     harShown = shown;
     harUpdatedAt = at ?? DateTime.now();
     socialProcessor?.setPaused(isMoving(shown.label));
-    reminders?.onActivity(shown.label, harUpdatedAt!, appSettings.resultInterval);
+    reminders?.onActivity(
+        shown.label, harUpdatedAt!, appSettings.resultInterval);
     return shown;
   }
 
@@ -118,6 +134,7 @@ class SensorController extends ChangeNotifier {
   /// shows a stale state.
   void connectionChanged() {
     if (!respeckConnected) {
+      unawaited(notifications?.stopMonitoring());
       _resetDisplay();
       return;
     }
@@ -165,7 +182,11 @@ class SensorController extends ChangeNotifier {
         },
         socialProcessor: socialProcessor,
       );
+      // Keep running in the background / with the screen off (Android
+      // foreground service; iOS uses the bluetooth-central background mode)
+      // so the stream, history and reminders go on.
       await notifications?.requestPermission();
+      await notifications?.startMonitoring(respeckUUID);
       return null;
     } catch (e) {
       debugPrint('Connect failed: $e');
@@ -177,6 +198,7 @@ class SensorController extends ChangeNotifier {
   }
 
   Future<void> disconnect() async {
+    unawaited(notifications?.stopMonitoring());
     try {
       await ble.disconnect();
     } catch (e) {

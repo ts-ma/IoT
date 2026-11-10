@@ -47,8 +47,8 @@ void main() {
   });
 
   test('live HAR events carry the shown result (raw when not given)', () {
-    final raw = const HarPrediction('running', 0.6);
-    final shown = const HarPrediction('normalWalking', 0.8);
+    const raw = HarPrediction('running', 0.6);
+    const shown = HarPrediction('normalWalking', 0.8);
     expect(LiveHarEvent(raw, DateTime.utc(2026)).shown, same(raw));
     expect(LiveHarEvent(raw, DateTime.utc(2026), shown: shown).shown,
         same(shown));

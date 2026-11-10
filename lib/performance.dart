@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'har.dart';
 import 'services/app_metrics.dart';
 import 'services/app_settings.dart';
+import 'services/change_latency.dart';
 import 'services/perf_sampler.dart';
 import 'services/prediction_history_writer.dart';
 import 'services/sensor_controller.dart';
@@ -38,6 +39,18 @@ class PerformancePage extends StatefulWidget {
 
 class _PerformancePageState extends State<PerformancePage> {
   AppMetrics get _m => widget.metrics ?? appMetrics;
+
+  static String _statMs(DurationStat d, {int digits = 0}) {
+    if (d.count == 0) return '–';
+    String f(Duration x) => (x.inMicroseconds / 1000).toStringAsFixed(digits);
+    return '${f(d.last)} / ${f(d.min)} / ${f(d.mean)} / ${f(d.max)} ms';
+  }
+
+  static String _statS(DurationStat d) {
+    if (d.count == 0) return '–';
+    String f(Duration x) => (x.inMilliseconds / 1000).toStringAsFixed(2);
+    return '${f(d.last)} / ${f(d.min)} / ${f(d.mean)} / ${f(d.max)} s';
+  }
 
   static const _cpuColor = Color(0xFF00E5FF);
   static const _memColor = Color(0xFFB388FF);
@@ -125,6 +138,15 @@ class _PerformancePageState extends State<PerformancePage> {
     final step = appSettings.stepSamples.value;
     final interval = step / sensorHz;
     final storage = sampler?.storage;
+
+    // Live switches of the shown labels, timed from where the raw signal
+    // changed (change_latency.dart), oldest first.
+    final recent = m.recentChanges;
+    double secs(Duration d) => d.inMilliseconds / 1000;
+    List<double?> changeSeries(ChangeTask t) =>
+        [for (final e in recent) e.task == t ? secs(e.latency) : null];
+    final measured = m.activityChange.count + m.socialChange.count;
+    final unclear = m.activityUnclear + m.socialUnclear;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
@@ -218,14 +240,60 @@ class _PerformancePageState extends State<PerformancePage> {
             title: 'Model inference time',
             unit: 'ms',
             series: [
-              ChartSeries('HAR', _harColor, pick((s) => s.harMs)),
-              ChartSeries('Social', _socialColor, pick((s) => s.socialMs)),
+              ChartSeries('HAR', _harColor, pick((s) => s.harMs),
+                  connectGaps: true),
+              ChartSeries('Social', _socialColor, pick((s) => s.socialMs),
+                  connectGaps: true),
             ],
             capacity: cap,
             minRange: 2,
             digits: 2,
-            footnote: 'time inside the TFLite call',
+            fill: false,
+            dots: true,
+            footnote: 'time inside the TFLite call · the models run when a '
+                'RESpeck packet arrives (every 2.56 s)',
           ),
+        ],
+        LiveLineChart(
+          title: 'Time to show a change (live)',
+          unit: 's',
+          series: [
+            ChartSeries(
+                'Activity', _harColor, changeSeries(ChangeTask.activity),
+                connectGaps: true),
+            ChartSeries('Social', _socialColor, changeSeries(ChangeTask.social),
+                connectGaps: true),
+          ],
+          capacity: recent.length < 10 ? 10 : recent.length,
+          minRange: 5,
+          digits: 1,
+          fill: false,
+          dots: true,
+          footnote: measured == 0
+              ? 'each time the shown activity or social signal switches, the '
+                  'app finds where the raw signal changed and times it'
+              : 'one dot per switch on screen, timed from where the raw '
+                  'signal changed (about ±1 s) · last ${recent.length}'
+                  '${unclear > 0 ? ' · $unclear switches without a clear '
+                      'change in the signal (not counted)' : ''}',
+        ),
+        if (sampler != null)
+          LiveLineChart(
+            title: 'Packet → display update',
+            unit: 'ms',
+            series: [
+              ChartSeries(
+                  'Processing', _storageColor, pick((s) => s.packetToDisplayMs),
+                  connectGaps: true)
+            ],
+            capacity: cap,
+            minRange: 5,
+            digits: 1,
+            dots: true,
+            footnote: 'each packet: decoding + every model check in it + '
+                'smoothing, until the result is handed to the screen',
+          ),
+        if (sampler != null) ...[
           LiveLineChart(
             title: 'Sensor sample rate',
             unit: 'Hz',
@@ -235,6 +303,37 @@ class _PerformancePageState extends State<PerformancePage> {
             capacity: cap,
             minRange: 15,
             footnote: 'nominal 12.5 Hz · ${m.lostPackets} packets lost',
+          ),
+          LiveLineChart(
+            title: 'RESpeck → phone extra delay',
+            unit: 'ms',
+            series: [
+              ChartSeries('Delay', _respeckColor, pick((s) => s.packetDelayMs),
+                  connectGaps: true)
+            ],
+            capacity: cap,
+            minRange: 50,
+            digits: 0,
+            dots: true,
+            footnote: 'how much later each packet arrived than the fastest of '
+                'the last ${AppMetrics.delayWindow} · the fixed BLE delay is '
+                'not measurable (the clocks are not synchronised) · samples '
+                'also wait up to 2.56 s in the RESpeck to fill a packet',
+          ),
+          LiveLineChart(
+            title: 'Packet interval',
+            unit: 's',
+            series: [
+              ChartSeries(
+                  'Interval', _rateColor, pick((s) => s.packetIntervalS),
+                  connectGaps: true)
+            ],
+            capacity: cap,
+            minRange: 3,
+            digits: 2,
+            dots: true,
+            footnote: 'time between packets on the phone · nominal 2.56 s '
+                '(32 samples at 12.5 Hz)',
           ),
           LiveLineChart(
             title: 'Storage used',
@@ -267,12 +366,21 @@ class _PerformancePageState extends State<PerformancePage> {
                   '${_s(m.harUpdateInterval.mean)} / ${_s(m.harUpdateInterval.max)}'),
               _row('Social result interval (mean / max)',
                   '${_s(m.socialUpdateInterval.mean)} / ${_s(m.socialUpdateInterval.max)}'),
+              _row('Activity change shown (last / min / avg / max)',
+                  _statS(m.activityChange)),
+              _row('Social change shown (last / min / avg / max)',
+                  _statS(m.socialChange)),
+              _row('Switches without a clear signal change',
+                  'activity ${m.activityUnclear} · social ${m.socialUnclear}'),
+              _row('Packet → display (last / min / avg / max)',
+                  _statMs(m.packetToDisplay, digits: 1)),
               const SizedBox(height: 6),
               Text(
                 'Time until a change is shown ≈ wait for the RESpeck packet '
                 'holding it (32 samples = 2.56 s, so 1.3 s on average) + time '
                 'for enough of the window to hold the new activity (about 2 s '
-                'of the 4 s HAR window, 4 s of the 8 s Social window) + up to '
+                'of the 4 s HAR window, ${(socialWindowSeconds / 2).toStringAsFixed(0)} s '
+                'of the ${socialWindowSeconds.toStringAsFixed(0)} s Social window) + up to '
                 'one update interval (${interval.toStringAsFixed(1)} s) + '
                 'smoothing (about one interval) + inference (a few ms). '
                 'Inference runs on the phone, so there is no network delay. '
@@ -299,6 +407,10 @@ class _PerformancePageState extends State<PerformancePage> {
                   '${m.sampleRateHz.toStringAsFixed(2)} Hz (nominal 12.5 Hz)'),
               _row('Lost packets',
                   '${m.lostPackets} (${m.packetLossPercent.toStringAsFixed(2)}%)'),
+              _row('Packet interval (last / min / avg / max)',
+                  _statS(m.packetInterval)),
+              _row('Extra RESpeck → phone delay (last / min / avg / max)',
+                  _statMs(m.packetExtraDelay)),
               _row(
                   'Last packet',
                   m.lastPacketAt == null
@@ -391,6 +503,20 @@ class _PerformancePageState extends State<PerformancePage> {
             'for power there.\n'
             '• RESpeck battery: reported in every packet (v6 firmware).\n'
             '• Inference: time inside each TFLite call, measured in the app.\n'
+            '• Time to show a change (live): the models re-check the last 4 s '
+            '(activity) / 6 s (social) at every update; after you change, the '
+            'window fills with the new movement and the screen switches. At '
+            'each switch the app looks back 12 s / 14 s in the raw data, finds '
+            'where the signal changed (best single split by per-axis '
+            'variance, of the jerk or, for posture, the raw values) and times '
+            'from there. Switches with no clear change are not counted. '
+            'Checked offline on our recordings: 95-98 % within 1 s.\n'
+            '• Packet → display: from a packet arriving to its results being '
+            'handed to the screen (decoding, every model check, smoothing).\n'
+            '• RESpeck → phone: each packet carries the RESpeck clock time. '
+            'The clocks are not synchronised, so the app shows the delay '
+            'above the fastest recent packet (variation, not the absolute '
+            'BLE delay) and the time between packets.\n'
             '• For the report, compare with Android Studio Profiler or Xcode '
             'Instruments, and state the phone, run time and that inference '
             'runs on the device.',

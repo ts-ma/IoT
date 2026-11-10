@@ -101,7 +101,7 @@ The windows and models stay the same, so per-window accuracy does not change.
 
 - **Move reminder:** sitting/standing for N minutes (default 60) within the last N + 10 minutes → "walk for 5 minutes". Repeats every 30 min; 5 min of movement restarts the count; lying down is not counted.
 - **Wake-up alarm:** after the set time, while you are still lying down, a reminder every 5 min until you get up.
-- Reminders only work while the app is open with the RESpeck connected: the app does not run in the background (no data, history or reminders with the screen off). Notification permission is asked on the first connect.
+- While the RESpeck is connected the app keeps running in the background and with the screen off: Android runs a foreground service (ongoing "PDIoT is monitoring" notification), iOS uses the `bluetooth-central` background mode. Data, history and reminders continue; closing the app from the app switcher stops it. Notification permission is asked on the first connect.
 
 ### Social signals only while still
 

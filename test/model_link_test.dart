@@ -7,7 +7,7 @@ import 'package:pdiot/services/evaluation.dart';
 import 'package:pdiot/social.dart';
 
 // Checks that the bundled models are the ones the code is wired to, and that
-// the real-time test skips each model's own warm-up (HAR 4 s, Social 8 s).
+// the real-time test skips each model's own warm-up (HAR 4 s, Social 6 s).
 void main() {
   test('code constants match the bundled model metadata', () {
     final har = jsonDecode(File(harMetaAsset).readAsStringSync());
@@ -16,7 +16,7 @@ void main() {
     expect(social['model_file'], socialModelAsset.split('/').last);
     expect(social['window_samples'], socialWindowSamples);
     expect(social['step_samples'], socialStepSamples);
-    expect(socialWindowSeconds, 8.0);
+    expect(socialWindowSeconds, 6.0);
     expect(har['window_samples'], 50);
     for (final path in [harModelAsset, socialModelAsset]) {
       expect(File(path).existsSync(), isTrue, reason: path);

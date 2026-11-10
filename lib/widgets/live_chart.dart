@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 
 /// One line in a [LiveLineChart]. Null values are gaps (no data that second).
 class ChartSeries {
-  const ChartSeries(this.name, this.color, this.values);
+  const ChartSeries(this.name, this.color, this.values,
+      {this.connectGaps = false});
 
   final String name;
   final Color color;
   final List<double?> values;
+
+  /// Draw the line straight across null values instead of breaking it. For
+  /// sparse series (e.g. inference, which only runs when a RESpeck packet
+  /// arrives every 2.56 s, so most one-second samples are empty).
+  final bool connectGaps;
 
   double? get last {
     for (var i = values.length - 1; i >= 0; i--) {
@@ -36,6 +42,8 @@ class LiveLineChart extends StatelessWidget {
     this.digits = 1,
     this.footnote,
     this.height = 96,
+    this.fill = true,
+    this.dots = false,
   });
 
   final String title;
@@ -52,6 +60,12 @@ class LiveLineChart extends StatelessWidget {
   final int digits;
   final String? footnote;
   final double height;
+
+  /// Shade the area under the first line (off for charts with two lines).
+  final bool fill;
+
+  /// Mark every value with a small dot (useful for sparse series).
+  final bool dots;
 
   static const Color panel = Color(0xFF0E141B);
   static const Color grid = Color(0xFF243140);
@@ -79,14 +93,19 @@ class LiveLineChart extends StatelessWidget {
     ]));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final main = series.first;
-    final values = main.present.toList();
+  /// "min 1.0 · avg 2.0 · max 3.0" of one series' values.
+  String _stats(ChartSeries s) {
+    final values = s.present.toList();
     final mn = values.isEmpty ? null : values.reduce(math.min);
     final mx = values.isEmpty ? null : values.reduce(math.max);
     final avg =
         values.isEmpty ? null : values.reduce((a, b) => a + b) / values.length;
+    return 'min ${_fmt(mn)} · avg ${_fmt(avg)} · max ${_fmt(mx)}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final main = series.first;
     final allValues = [for (final s in series) ...s.present];
     final dataMax =
         allValues.isEmpty ? minY + minRange : allValues.reduce(math.max);
@@ -133,12 +152,23 @@ class LiveLineChart extends StatelessWidget {
                 maxY: top,
                 labelStyle: labelStyle.copyWith(color: muted, fontSize: 9),
                 digits: digits,
+                fill: fill,
+                dots: dots,
               ),
             ),
           ),
           const SizedBox(height: 4),
-          Text('min ${_fmt(mn)} · avg ${_fmt(avg)} · max ${_fmt(mx)}',
-              style: labelStyle.copyWith(color: muted)),
+          if (series.length == 1)
+            Text(_stats(main), style: labelStyle.copyWith(color: muted))
+          else
+            for (final s in series)
+              Text.rich(TextSpan(children: [
+                TextSpan(
+                    text: '${s.name} ',
+                    style: labelStyle.copyWith(color: s.color)),
+                TextSpan(
+                    text: _stats(s), style: labelStyle.copyWith(color: muted)),
+              ])),
           if (footnote != null)
             Text(footnote!, style: labelStyle.copyWith(color: muted)),
         ],
@@ -164,8 +194,12 @@ class _LinePainter extends CustomPainter {
     required this.maxY,
     required this.labelStyle,
     required this.digits,
+    required this.fill,
+    required this.dots,
   });
 
+  final bool fill;
+  final bool dots;
   final List<ChartSeries> series;
   final int capacity;
   final double minY;
@@ -199,7 +233,7 @@ class _LinePainter extends CustomPainter {
       for (var i = 0; i < n; i++) {
         final v = s.values[i];
         if (v == null) {
-          current = null;
+          if (!s.connectGaps) current = null;
           continue;
         }
         final x = (offset + i) * step;
@@ -213,7 +247,7 @@ class _LinePainter extends CustomPainter {
         }
         points.add(Offset(x, y));
       }
-      if (si == 0) {
+      if (si == 0 && fill) {
         // Filled area under the main line.
         for (final path in paths) {
           final bounds = path.getBounds();
@@ -250,6 +284,12 @@ class _LinePainter extends CustomPainter {
       for (final path in paths) {
         canvas.drawPath(path, glow);
         canvas.drawPath(path, line);
+      }
+      if (dots) {
+        final dot = Paint()..color = s.color;
+        for (final pt in points) {
+          canvas.drawCircle(pt, 2, dot);
+        }
       }
       if (points.isNotEmpty) {
         canvas.drawCircle(points.last, 3, Paint()..color = s.color);
