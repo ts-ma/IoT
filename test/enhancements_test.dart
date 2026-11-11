@@ -340,16 +340,29 @@ void main() {
       feed.addHar(const HarPrediction('lyingBack', 0.6),
           at: now.add(const Duration(seconds: 7)));
       await tester.pump();
+      // A packet update right after the start: inside the warm-up, so it
+      // gives the shown latency but is not scored.
+      sensor.updateFromPacket(
+          accel: null,
+          battery: null,
+          charging: false,
+          receivedAt: now,
+          prediction: const HarPrediction('sittingStanding', 0.8));
+      await tester.pump();
 
       await tester.tap(find.text('Finish now'));
       await tester.pump();
       final saved = store.saved.single;
       expect(saved.trueActivity, 'sittingStanding');
       expect(saved.harPredictions, ['sittingStanding', 'lyingBack']);
+      expect(saved.harConfidences, [0.9, 0.6]);
       expect(saved.harCorrect, 1);
       expect(saved.harLatency, isNotNull);
+      expect(saved.harShownLatency, isNotNull);
+      expect(saved.harShown, isEmpty);
+      expect(saved.stepSamples, isNotNull);
       expect(find.text('Start trial'), findsOneWidget);
-      expect(find.text('1/2'), findsOneWidget);
+      expect(find.text('50.0%'), findsWidgets); // raw accuracy 1/2
       await tester.pump(const Duration(seconds: 5));
       await tester.pumpWidget(const SizedBox.shrink());
     });

@@ -12,6 +12,9 @@ import 'package:flutter/services.dart';
 // | CPU time      | getrusage(RUSAGE_SELF) via dart:ffi      | getrusage(RUSAGE_SELF) via dart:ffi |
 // |               | (fallback: /proc/self/stat utime+stime)  |                                   |
 // | Memory        | ProcessInfo.currentRss (resident set)    | ProcessInfo.currentRss            |
+// | Memory (as    | Debug.MemoryInfo total PSS (channel      | TASK_VM_INFO phys_footprint       |
+// |  profilers)   | "pdiot/power", = dumpsys meminfo)        | (= Xcode memory gauge)            |
+// | Phone model   | Build.MANUFACTURER / MODEL               | uname machine, e.g. iPhone15,2    |
 // | Phone battery | BatteryManager (channel "pdiot/power"):  | UIDevice (channel "pdiot/power"): |
 // |               | level, charging, current µA, voltage mV  | level and charging only (no       |
 // |               |                                          | public API for current draw)      |
@@ -165,7 +168,22 @@ class PhoneBattery {
   }
 }
 
-/// Native battery reader (MainActivity.kt / AppDelegate.swift).
+/// The app's memory as the platform's own tools report it: Android total PSS
+/// (`adb shell dumpsys meminfo`, Android Studio) or iOS phys_footprint (Xcode
+/// memory gauge). Differs from RSS, which also counts shared pages.
+class PlatformMemory {
+  const PlatformMemory(this.kind, this.bytes);
+
+  /// "android_total_pss" or "ios_phys_footprint".
+  final String kind;
+  final int bytes;
+
+  String get label =>
+      kind == 'ios_phys_footprint' ? 'Footprint (Xcode)' : 'Total PSS';
+}
+
+/// Native battery, memory and phone-model reader (MainActivity.kt /
+/// AppDelegate.swift).
 class PowerChannel {
   PowerChannel({MethodChannel? channel})
       : _channel = channel ?? const MethodChannel('pdiot/power');
@@ -184,6 +202,39 @@ class PowerChannel {
       return null;
     } catch (e) {
       debugPrint('Battery read failed: $e');
+      return null;
+    }
+  }
+
+  /// Null if the platform side is missing or fails.
+  Future<PlatformMemory?> memory() async {
+    if (_missing) return null;
+    try {
+      final m = await _channel.invokeMapMethod<Object?, Object?>('memory');
+      final bytes = m?['bytes'];
+      final kind = m?['kind'];
+      if (bytes is! num || kind is! String || bytes <= 0) return null;
+      return PlatformMemory(kind, bytes.toInt());
+    } on MissingPluginException {
+      _missing = true;
+      return null;
+    } catch (e) {
+      debugPrint('Memory read failed: $e');
+      return null;
+    }
+  }
+
+  /// Phone maker, model and OS version, e.g. {manufacturer: Google, model:
+  /// Pixel 7, osVersion: 15}. Null if unavailable.
+  Future<Map<String, Object?>?> device() async {
+    if (_missing) return null;
+    try {
+      return await _channel.invokeMapMethod<String, Object?>('device');
+    } on MissingPluginException {
+      _missing = true;
+      return null;
+    } catch (e) {
+      debugPrint('Device read failed: $e');
       return null;
     }
   }

@@ -18,6 +18,7 @@ class PerfSample {
     required this.time,
     this.cpuPercent,
     this.rssMb,
+    this.platformMemMb,
     this.phoneLevel,
     this.phoneCharging,
     this.phoneCurrentMa,
@@ -43,6 +44,10 @@ class PerfSample {
   /// Process CPU use since the previous sample, % of one core.
   final double? cpuPercent;
   final double? rssMb;
+
+  /// Android total PSS / iOS phys_footprint (see PlatformMemory), read every
+  /// 5 s: the figure the platform's profiler shows.
+  final double? platformMemMb;
   final int? phoneLevel;
   final bool? phoneCharging;
   final double? phoneCurrentMa;
@@ -87,7 +92,8 @@ class PerfSample {
       'respeck_battery_pct,har_inference_ms,social_inference_ms,'
       'sample_rate_hz,lost_packets_total,storage_mb,streaming,'
       'activity_shown,social_status,respeck_extra_delay_ms,packet_interval_s,'
-      'packet_to_display_ms,activity_change_shown_s,social_change_shown_s';
+      'packet_to_display_ms,activity_change_shown_s,social_change_shown_s,'
+      'platform_memory_mb';
 
   String toCsv() {
     String f(num? v, [int digits = 2]) =>
@@ -114,6 +120,7 @@ class PerfSample {
       f(packetToDisplayMs, 2),
       f(activityChangeS, 2),
       f(socialChangeS, 2),
+      f(platformMemMb, 1),
     ].join(',');
   }
 }
@@ -213,6 +220,17 @@ class PerfSampler extends ChangeNotifier {
   int _lastSamples = 0;
   DateTime? _lastSamplesAt;
   PhoneBattery? _battery;
+  PlatformMemory? _platformMemory;
+
+  /// Android total PSS / iOS footprint, latest reading (null if unavailable).
+  PlatformMemory? get platformMemory => _platformMemory;
+
+  /// Phone maker / model / OS version, read once (null until read).
+  Map<String, Object?>? device;
+
+  /// Running totals of the log in progress, split by whether the RESpeck was
+  /// streaming, written to the conditions file when the log stops.
+  _LogStats? _logStats;
 
   /// First battery readings since the sampler started, for drain rates.
   ({DateTime at, int level})? _phoneStart;
@@ -253,8 +271,12 @@ class PerfSampler extends ChangeNotifier {
         'duration_s': ended?.difference(started).inSeconds,
         'sample_interval_s': interval.inMilliseconds / 1000,
         'classification': 'on the phone (TensorFlow Lite), no server',
-        'phone_model': 'fill in by hand',
+        'phone': device ?? 'not readable - fill in by hand',
+        'phone_marketing_name':
+            'fill in by hand (e.g. iPhone15,2 = iPhone 14 Pro)',
+        'memory_platform_metric': _platformMemory?.kind,
         ...?describeSettings?.call(),
+        if (ended != null && _logStats != null) 'summary': _logStats!.toJson(),
       };
       final out =
           File(file.path.replaceFirst(RegExp(r'\.csv$'), '.conditions.json'));
@@ -298,7 +320,11 @@ class PerfSampler extends ChangeNotifier {
 
       final rss = currentRssBytes();
 
-      if (_ticks % 5 == 0) _battery = await _power.read() ?? _battery;
+      device ??= await _power.device();
+      if (_ticks % 5 == 0) {
+        _battery = await _power.read() ?? _battery;
+        _platformMemory = await _power.memory() ?? _platformMemory;
+      }
       final b = _battery;
       if (b?.level != null && _phoneStart == null) {
         _phoneStart = (at: now, level: b!.level!);
@@ -361,6 +387,9 @@ class PerfSampler extends ChangeNotifier {
         time: now,
         cpuPercent: cpuPercent,
         rssMb: rss == null ? null : rss / (1024 * 1024),
+        platformMemMb: _platformMemory == null
+            ? null
+            : _platformMemory!.bytes / (1024 * 1024),
         phoneLevel: b?.level,
         phoneCharging: b?.charging,
         phoneCurrentMa:
@@ -385,7 +414,10 @@ class PerfSampler extends ChangeNotifier {
       while (_samples.length > capacity) {
         _samples.removeFirst();
       }
-      _log?.writeln(sample.toCsv());
+      if (_log != null) {
+        _log!.writeln(sample.toCsv());
+        _logStats?.add(sample);
+      }
       _ticks++;
       notifyListeners();
     } catch (e) {
@@ -435,6 +467,7 @@ class PerfSampler extends ChangeNotifier {
       final sink = file.openWrite();
       sink.done.catchError((Object e) => debugPrint('Perf log error: $e'));
       sink.writeln(PerfSample.csvHeader);
+      _logStats = _LogStats();
       _log = sink;
       _logFile = file;
       _logStarted = DateTime.now();
@@ -445,6 +478,9 @@ class PerfSampler extends ChangeNotifier {
       return 'Could not create the performance log';
     }
   }
+
+  /// Summary of the log in progress (null when not logging).
+  Map<String, Object?>? get logSummary => _logStats?.toJson();
 
   /// Clears the graphs and the drain baselines (the Reset button).
   void resetHistory() {
@@ -462,4 +498,95 @@ class PerfSampler extends ChangeNotifier {
     unawaited(sink?.close());
     super.dispose();
   }
+}
+
+/// Mean / max of one quantity.
+class _Acc {
+  int n = 0;
+  double sum = 0;
+  double? max;
+
+  void add(double? v) {
+    if (v == null || !v.isFinite) return;
+    n++;
+    sum += v;
+    if (max == null || v > max!) max = v;
+  }
+
+  Map<String, Object?> toJson(int digits) => {
+        'samples': n,
+        'mean': n == 0 ? null : double.parse((sum / n).toStringAsFixed(digits)),
+        'max': max == null ? null : double.parse(max!.toStringAsFixed(digits)),
+      };
+}
+
+/// Per-state totals of one performance log ("streaming" = RESpeck data
+/// arriving and both models running; "idle" = app open without data), so a
+/// baseline and a measurement can come from one log.
+class _LogStats {
+  final Map<String, Map<String, _Acc>> _by = {};
+  ({DateTime at, int level})? _firstBattery, _lastBattery;
+  ({DateTime at, int level})? _firstRespeck, _lastRespeck;
+  bool _charged = false;
+  DateTime? _first, _last;
+
+  void add(PerfSample s) {
+    _first ??= s.time;
+    _last = s.time;
+    final state = s.streaming == true ? 'streaming' : 'idle';
+    final m = _by.putIfAbsent(state, () => {});
+    _Acc acc(String k) => m.putIfAbsent(k, _Acc.new);
+    acc('cpu_percent_one_core').add(s.cpuPercent);
+    acc('rss_mb').add(s.rssMb);
+    acc('platform_memory_mb').add(s.platformMemMb);
+    acc('phone_power_mw').add(s.phonePowerMw);
+    acc('phone_current_ma').add(s.phoneCurrentMa);
+    acc('har_inference_ms').add(s.harMs);
+    acc('social_inference_ms').add(s.socialMs);
+    acc('packet_to_display_ms').add(s.packetToDisplayMs);
+    acc('packet_interval_s').add(s.packetIntervalS);
+    acc('sample_rate_hz').add(s.sampleRateHz);
+    final seconds = m.putIfAbsent('seconds', _Acc.new);
+    seconds.add(1);
+    if (s.phoneCharging == true) _charged = true;
+    if (s.phoneLevel != null) {
+      _firstBattery ??= (at: s.time, level: s.phoneLevel!);
+      _lastBattery = (at: s.time, level: s.phoneLevel!);
+    }
+    if (s.respeckLevel != null) {
+      _firstRespeck ??= (at: s.time, level: s.respeckLevel!);
+      _lastRespeck = (at: s.time, level: s.respeckLevel!);
+    }
+  }
+
+  static Map<String, Object?>? _drop(
+      ({DateTime at, int level})? a, ({DateTime at, int level})? b) {
+    if (a == null || b == null) return null;
+    final minutes = b.at.difference(a.at).inSeconds / 60;
+    return {
+      'start_pct': a.level,
+      'end_pct': b.level,
+      'drop_pct': a.level - b.level,
+      'minutes': double.parse(minutes.toStringAsFixed(1)),
+      'pct_per_hour': minutes < 10
+          ? null
+          : double.parse(
+              ((a.level - b.level) / minutes * 60).toStringAsFixed(2)),
+    };
+  }
+
+  Map<String, Object?> toJson() => {
+        'logged_seconds': _first == null || _last == null
+            ? 0
+            : _last!.difference(_first!).inSeconds,
+        'phone_was_charging': _charged,
+        'phone_battery': _drop(_firstBattery, _lastBattery),
+        'respeck_battery': _drop(_firstRespeck, _lastRespeck),
+        for (final e in _by.entries)
+          e.key: {
+            'seconds': e.value['seconds']?.n ?? 0,
+            for (final k in e.value.entries)
+              if (k.key != 'seconds') k.key: k.value.toJson(2),
+          },
+      };
 }

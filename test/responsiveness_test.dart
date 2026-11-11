@@ -72,13 +72,14 @@ void main() {
     expect(EvaluationTrial.fromJson(old).harShownLatency, isNull);
 
     final csv = trialsToCsv([t]).split('\n');
-    expect(csv.first.split(',').last, 'har_shown_latency_s');
-    expect(csv[1].split(',').last, '3.6');
+    final col = csv.first.split(',').indexOf('har_shown_latency_s');
+    expect(col, greaterThan(0));
+    expect(csv[1].split(',')[col], '3.6');
     final summary = EvaluationSummary.from([t]);
     expect(summary.scores.single.meanShownLatency,
         const Duration(milliseconds: 3600));
     final sumCsv = summaryToCsv(summary).split('\n');
-    expect(sumCsv.first.split(',').last, 'mean_shown_latency_s');
+    expect(sumCsv.first.split(','), contains('mean_shown_latency_s'));
     // Every row has the same number of columns.
     final cols = sumCsv.first.split(',').length;
     for (final row in sumCsv.where((r) => r.isNotEmpty)) {

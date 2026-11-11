@@ -144,7 +144,7 @@ void main() {
     await tester
         .pumpWidget(MaterialApp(home: PerformancePage(sampler: sampler)));
     expect(find.text('Live monitor'), findsOneWidget);
-    expect(find.text('MEMORY (RSS)'), findsOneWidget);
+    expect(find.text('MEMORY'), findsOneWidget);
     expect(find.text('Response time'), findsOneWidget);
     expect(find.text('How each number is measured'), findsOneWidget);
     sampler.dispose();

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'har.dart';
 import 'services/app_metrics.dart';
 import 'services/app_settings.dart';
-import 'services/change_latency.dart';
 import 'services/perf_sampler.dart';
 import 'services/prediction_history_writer.dart';
 import 'services/sensor_controller.dart';
@@ -87,6 +86,16 @@ class _PerformancePageState extends State<PerformancePage> {
       ..showSnackBar(SnackBar(content: Text(text)));
   }
 
+  static String _deviceText(Map<String, Object?>? d) {
+    if (d == null) return '';
+    final name = [d['manufacturer'], d['model']]
+        .whereType<String>()
+        .where((t) => t.isNotEmpty)
+        .join(' ');
+    return '\nPhone: $name · ${Platform.isIOS ? 'iOS' : 'Android'} '
+        '${d['osVersion'] ?? ''}';
+  }
+
   Future<void> _toggleLog(PerfSampler sampler, bool on) async {
     final error = await sampler.setLogging(on);
     if (error != null) {
@@ -95,7 +104,8 @@ class _PerformancePageState extends State<PerformancePage> {
       _snack('Logging every second to performance/'
           '${sampler.logFile?.uri.pathSegments.last}');
     } else {
-      _snack('Performance log saved');
+      _snack('Performance log saved · averages per state (streaming / idle) '
+          'are in its .conditions.json');
     }
   }
 
@@ -139,15 +149,6 @@ class _PerformancePageState extends State<PerformancePage> {
     final interval = step / sensorHz;
     final storage = sampler?.storage;
 
-    // Live switches of the shown labels, timed from where the raw signal
-    // changed (change_latency.dart), oldest first.
-    final recent = m.recentChanges;
-    double secs(Duration d) => d.inMilliseconds / 1000;
-    List<double?> changeSeries(ChangeTask t) =>
-        [for (final e in recent) e.task == t ? secs(e.latency) : null];
-    final measured = m.activityChange.count + m.socialChange.count;
-    final unclear = m.activityUnclear + m.socialUnclear;
-
     return ListView(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
       children: [
@@ -162,7 +163,8 @@ class _PerformancePageState extends State<PerformancePage> {
               children: [
                 Text(
                   'Sampled every second, last ${cap ~/ 60} minutes. Leave the '
-                  'app running with the sensor connected to measure it.',
+                  'app running with the sensor connected to measure it.'
+                  '${_deviceText(sampler.device)}',
                   style: textTheme.bodySmall,
                 ),
                 SwitchListTile(
@@ -189,12 +191,29 @@ class _PerformancePageState extends State<PerformancePage> {
             footnote: '% of one core · $cores cores · ${sampler.cpuSource}',
           ),
           LiveLineChart(
-            title: 'Memory (RSS)',
+            title: 'Memory',
             unit: 'MB',
-            series: [ChartSeries('RAM', _memColor, pick((s) => s.rssMb))],
+            series: [
+              if (sampler.platformMemory != null)
+                ChartSeries(sampler.platformMemory!.label, _memColor,
+                    pick((s) => s.platformMemMb),
+                    connectGaps: true),
+              ChartSeries(
+                  'RSS',
+                  sampler.platformMemory != null ? _cpuColor : _memColor,
+                  pick((s) => s.rssMb)),
+            ],
             capacity: cap,
             minRange: 50,
             digits: 0,
+            fill: sampler.platformMemory == null,
+            footnote: sampler.platformMemory == null
+                ? 'resident set size (RSS) of the app'
+                : Platform.isIOS
+                    ? 'Footprint = what Xcode\'s memory gauge shows (read every '
+                        '5 s) · RSS also counts shared pages'
+                    : 'Total PSS = "TOTAL PSS" of adb dumpsys meminfo (read '
+                        'every 5 s) · RSS also counts shared libraries',
           ),
           LiveLineChart(
             title: 'Phone battery',
@@ -254,29 +273,6 @@ class _PerformancePageState extends State<PerformancePage> {
                 'RESpeck packet arrives (every 2.56 s)',
           ),
         ],
-        LiveLineChart(
-          title: 'Time to show a change (live)',
-          unit: 's',
-          series: [
-            ChartSeries(
-                'Activity', _harColor, changeSeries(ChangeTask.activity),
-                connectGaps: true),
-            ChartSeries('Social', _socialColor, changeSeries(ChangeTask.social),
-                connectGaps: true),
-          ],
-          capacity: recent.length < 10 ? 10 : recent.length,
-          minRange: 5,
-          digits: 1,
-          fill: false,
-          dots: true,
-          footnote: measured == 0
-              ? 'each time the shown activity or social signal switches, the '
-                  'app finds where the raw signal changed and times it'
-              : 'one dot per switch on screen, timed from where the raw '
-                  'signal changed (about ±1 s) · last ${recent.length}'
-                  '${unclear > 0 ? ' · $unclear switches without a clear '
-                      'change in the signal (not counted)' : ''}',
-        ),
         if (sampler != null)
           LiveLineChart(
             title: 'Packet → display update',
@@ -496,11 +492,14 @@ class _PerformancePageState extends State<PerformancePage> {
           child: Text(
             '• CPU: CPU time of the whole app process (all threads) from '
             'getrusage(), on Android and iOS; % of one core per second.\n'
-            '• Memory: resident memory (RSS) of the app process.\n'
+            '• Memory: Android total PSS (Debug.MemoryInfo, the "TOTAL PSS" of '
+            'adb shell dumpsys meminfo) / iOS phys_footprint (TASK_VM_INFO, '
+            'what Xcode\'s memory gauge shows), every 5 s; plus the resident '
+            'set size (RSS), which also counts shared pages.\n'
             '• Phone battery: Android BatteryManager gives level, current and '
             'voltage (power = current × voltage, whole phone incl. screen); '
-            'iOS only gives the level, so use Xcode Instruments (Energy Log) '
-            'for power there.\n'
+            'iOS only gives the level, so use Xcode Instruments (Power Profiler) '
+            'or Settings › Battery for power there.\n'
             '• RESpeck battery: reported in every packet (v6 firmware).\n'
             '• Inference: time inside each TFLite call, measured in the app.\n'
             '• Time to show a change (live): the models re-check the last 4 s '
