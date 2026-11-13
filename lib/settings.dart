@@ -105,9 +105,10 @@ class SettingsPage extends StatelessWidget {
                                 '(${(har.window.length / sensorHz).toStringAsFixed(0)} s), '
                                 'new result every ${har.window.step} samples.\n'
                                 'Trained on datasetJan2026 and both group '
-                                'members\' recordings, mixed. Official 10-fold '
+                                'members\' recordings, mixed, to answer from '
+                                'the most recent seconds. Official 10-fold '
                                 'cross-validation: static 99.4 %, dynamic '
-                                '90.6 % (targets 90 % and 85 %).'),
+                                '89.6 % (targets 90 % and 85 %).'),
                       ),
                       ListTile(
                         contentPadding: EdgeInsets.zero,

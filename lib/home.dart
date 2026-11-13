@@ -396,6 +396,13 @@ class HomePageState extends State<HomePage> {
           : 'Updated ${DateFormat('HH:mm:ss').format(_sensor.harUpdatedAt!.toLocal())}';
       final smoothing =
           appSettings.smoothHar.value ? ' · majority of last 3 results' : '';
+      // Every class's probability from the latest model result, as on the
+      // Social card. The bars always show the model's latest window, so with
+      // smoothing on the shown label can briefly differ from the top bar.
+      final classes = harClassifier!.classes;
+      final probabilities = raw?.probabilities;
+      final showBars =
+          probabilities != null && probabilities.length == classes.length;
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -407,6 +414,22 @@ class HomePageState extends State<HomePage> {
             labelKey: const ValueKey('har-prediction-label'),
             confidenceKey: const ValueKey('har-prediction-confidence'),
           ),
+          if (showBars) ...[
+            const SizedBox(height: 12),
+            Text(
+                appSettings.smoothHar.value
+                    ? 'Model output for the latest window'
+                    : 'Model output',
+                style: textTheme.bodySmall),
+            const SizedBox(height: 4),
+            Column(
+              key: const ValueKey('har-probabilities'),
+              children: [
+                for (var i = 0; i < classes.length; i++)
+                  _ProbabilityRow(classes[i], probabilities[i]),
+              ],
+            ),
+          ],
           const SizedBox(height: 8),
           Text('$updated$smoothing · new result every $interval',
               style: textTheme.bodySmall),
@@ -611,7 +634,8 @@ class _RespeckIdDialogState extends State<_RespeckIdDialog> {
   }
 }
 
-/// One class probability as a thin bar, for the full Social output.
+/// One class probability as a thin bar, for the full Social and activity
+/// model output.
 class _ProbabilityRow extends StatelessWidget {
   const _ProbabilityRow(this.label, this.probability);
 

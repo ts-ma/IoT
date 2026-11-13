@@ -117,7 +117,11 @@ class HarPrediction {
   // The model's probability for `label`. The probabilities of all classes sum
   // to 1, so with 11 classes a value near 0.09 means the model is guessing.
   final double confidence;
-  const HarPrediction(this.label, this.confidence);
+  // The model's probability for every class, in the order of
+  // HarClassifier.classes (shown as bars on the Home tab). Null when not
+  // known, e.g. for the smoothed result, which only has a label.
+  final List<double>? probabilities;
+  const HarPrediction(this.label, this.confidence, [this.probabilities]);
 }
 
 // Wraps the TFLite interpreter together with the sliding window. Feed it
@@ -177,7 +181,8 @@ class HarClassifier {
     for (int i = 1; i < probs.length; i++) {
       if (probs[i] > probs[best]) best = i;
     }
-    return HarPrediction(classes[best], probs[best]);
+    return HarPrediction(
+        classes[best], probs[best], List<double>.unmodifiable(probs));
   }
 
   // Forget the buffered samples, e.g. after a disconnect. Otherwise the first
