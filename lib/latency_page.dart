@@ -12,8 +12,8 @@ import 'services/sensor_controller.dart';
 import 'services/user_session.dart';
 import 'widgets/common.dart';
 
-/// Tools → Latency test: cued changes timed on the phone (see
-/// services/latency_test.dart for the definitions).
+/// Tools → Latency test: self-started changes timed on the phone (see
+/// services/latency_test.dart for the definitions and honesty checks).
 class LatencyTestPage extends StatefulWidget {
   const LatencyTestPage({
     super.key,
@@ -31,7 +31,7 @@ class LatencyTestPage extends StatefulWidget {
   final LatencyStore? store;
   final bool requireSensor;
 
-  /// Replaces the vibration + sound (tests).
+  /// Replaces the haptic confirmation of the start press (tests).
   final void Function()? onCue;
 
   @override
@@ -95,9 +95,7 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
       widget.onCue!();
       return;
     }
-    HapticFeedback.heavyImpact();
-    SystemSound.play(SystemSoundType.alert);
-    Future.delayed(const Duration(milliseconds: 150), HapticFeedback.heavyImpact);
+    HapticFeedback.mediumImpact(); // confirms the press; timing has started
   }
 
   void _start() {
@@ -262,10 +260,11 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Do the first class until the app shows it. After a random 2-5 s '
-            'the phone vibrates and beeps: change to the second class at once. '
-            'The app times how long until the new class is shown. Repeat for '
-            'each change and each group member.',
+            'Do the first class until the app shows it steadily: a start '
+            'button appears. When you are ready, press it and change to the '
+            'second class straight away - press first, then change. Timing '
+            'starts at the press. Repeat for each change and each group '
+            'member.',
             style: textTheme.bodySmall,
           ),
           const SizedBox(height: 8),
@@ -339,6 +338,7 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
     final textTheme = Theme.of(context).textTheme;
     final scheme = Theme.of(context).colorScheme;
     final cued = run.phase == LatencyPhase.cued;
+    final ready = run.phase == LatencyPhase.ready;
     final since = run.cueAt == null
         ? null
         : DateTime.now().toUtc().difference(run.cueAt!).inMilliseconds / 1000;
@@ -348,15 +348,17 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
           'Do this until the screen shows it…',
           scheme.surfaceContainerHighest
         ),
-      LatencyPhase.holding => (
+      LatencyPhase.ready => (
           displayName(run.from),
-          'Keep going - get ready to change',
+          run.canStart
+              ? 'Ready. Press the button when you change'
+              : 'Wait until the screen shows ${displayName(run.from)} again',
           scheme.surfaceContainerHighest
         ),
       LatencyPhase.cued => (
-          'NOW: ${displayName(run.to)}',
-          'Change now!',
-          Colors.orange.shade300
+          displayName(run.to),
+          'Timing since your press',
+          Colors.green.shade200
         ),
       _ => ('', '', scheme.surface),
     };
@@ -387,6 +389,29 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
                     style: textTheme.displaySmall),
             ]),
           ),
+          if (ready) ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 72,
+              child: FilledButton.icon(
+                key: const ValueKey('latency-go'),
+                onPressed: run.canStart ? run.startChange : null,
+                icon: const Icon(Icons.swap_horiz, size: 32),
+                label: Text('Change to ${displayName(run.to)} now',
+                    style: textTheme.titleLarge
+                        ?.copyWith(color: scheme.onPrimary)),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              run.fromReached
+                  ? 'Press first, then change straight away. Do not start '
+                      'changing before you press.'
+                  : '${displayName(run.from)} was not recognised within '
+                      '30 s: this change will be flagged.',
+              style: textTheme.bodySmall,
+            ),
+          ],
           const SizedBox(height: 12),
           Text('Screen shows: '
               '${run.shownLabel == null ? '–' : displayName(run.shownLabel!)}',
@@ -427,29 +452,38 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
                 DataColumn(label: Text('Steady'), numeric: true),
                 DataColumn(label: Text('First correct'), numeric: true),
                 DataColumn(label: Text('Timeouts'), numeric: true),
+                DataColumn(label: Text('Changing at press'), numeric: true),
               ],
               rows: [
                 for (final s in stats)
                   DataRow(cells: [
                     DataCell(Text(
-                        '${displayName(s.from)} → ${displayName(s.to)}')),
+                        '${displayName(s.from)} → ${displayName(s.to)}'
+                        '${s.start == 'cue' ? ' (cue, old method)' : ''}')),
                     DataCell(Text('${s.n}')),
                     DataCell(Text(f(s.shownMean))),
                     DataCell(Text(f(s.stableMean))),
                     DataCell(Text(f(s.firstCorrectMean))),
                     DataCell(Text('${s.timeouts}')),
+                    DataCell(Text('${s.changingAtStart}')),
                   ]),
               ],
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Means from the cue. Shown = the screen first showed the new class; '
-            'Steady = it then stayed for 3 s; First correct = the first raw '
-            'model result. All include your reaction to the cue (~0.3 s) and '
-            'the wait for the RESpeck packet (data arrives every 2.56 s). '
-            'Timeouts: not steady within 30 s. Export gives every change and '
-            'the per-change mean / median as CSV.',
+            'Means from your press. Shown = the screen first showed the new '
+            'class. Steady = the start of the first stretch in which the new '
+            'class stayed 3 s without flickering back (the 3 s is a check, not '
+            'added: Steady = Shown when it never flickered). First correct = '
+            'the first raw model result. All include the moment between your '
+            'press and starting to change, and the wait for the RESpeck packet '
+            '(data arrives every 2.56 s). Timeouts: not steady within 30 s. '
+            'Changing at press: the model already said the new class when you '
+            'pressed (you started early, so that change looks too fast - '
+            'exclude it). Older cue-started results are listed separately. '
+            'Export gives every change and the per-change mean / median as '
+            'CSV.',
             style: textTheme.bodySmall,
           ),
         ],
