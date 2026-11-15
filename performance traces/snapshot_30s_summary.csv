@@ -1,0 +1,5 @@
+measure,n,mean,median,min,max,note
+app_cpu_percent_one_core,30,5.87,2.68,1.16,27.17,Runner only; first row has no CPU value (no previous sample)
+app_memory_footprint_mb,31,138.7,141.8,104.0,149.3,Runner only; same figure as the Xcode memory gauge
+phone_battery_percent_per_hour_all,30,15.3,8.42,6.7,69.28,"whole phone, includes the recording start-up"
+phone_battery_percent_per_hour_from_3s,28,11.53,8.16,6.7,62.98,"whole phone, first 3 s dropped"
