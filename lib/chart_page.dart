@@ -37,8 +37,8 @@ class DayTotals {
 }
 
 /// Chart tab, the coursework's "history of activities and social signals
-/// performed each day": the day timeline, time per activity, how many times
-/// the wearer coughed and time per social signal for any chosen day, plus a
+/// performed each day": the day timeline, time per activity, coughing
+/// episodes and time per social signal for any chosen day, plus a
 /// 7-day trend.
 class ChartPage extends StatefulWidget {
   const ChartPage(
@@ -60,6 +60,12 @@ class _ChartPageState extends State<ChartPage> {
   bool _failed = false;
   DayTotals? _totals;
   List<DayTotals> _week = [];
+
+  /// The day timeline of each of the last 7 days (same order as [_week]).
+  List<TimelineData> _weekTimelines = [];
+
+  /// What the "Last 7 days" card shows (chosen in its drop-down).
+  _WeekView _weekView = _WeekView.totals;
   TimelineData? _timeline;
   TimelineRange _range = TimelineRange.monitored;
 
@@ -132,15 +138,19 @@ class _ChartPageState extends State<ChartPage> {
       final timeline = await loadTimeline(repo, _day, range: _range);
       final totals = await _totalsFor(repo, _day);
       final week = <DayTotals>[];
+      final weekTimelines = <TimelineData>[];
       for (var i = 6; i >= 0; i--) {
         final d = DateTime(_day.year, _day.month, _day.day - i);
         week.add(i == 0 ? totals : await _totalsFor(repo, d));
+        weekTimelines.add(
+            i == 0 ? timeline : await loadTimeline(repo, d, range: _range));
       }
       if (!mounted) return;
       setState(() {
         _timeline = timeline;
         _totals = totals;
         _week = week;
+        _weekTimelines = weekTimelines;
         _loading = false;
       });
     } catch (e) {
@@ -415,7 +425,7 @@ class _ChartPageState extends State<ChartPage> {
               _Stat(formatDuration(t.harTime), 'monitored'),
               _Stat(formatDuration(t.staticTime), 'static'),
               _Stat(formatDuration(t.dynamicTime), 'active'),
-              _Stat('${t.coughEpisodes}', 'times coughed'),
+              _Stat('${t.coughEpisodes}', 'coughing episodes'),
             ],
           ),
           if (t.harTime > Duration.zero) ...[
@@ -458,6 +468,7 @@ class _ChartPageState extends State<ChartPage> {
       child: labels.isEmpty
           ? const Text('No activity results on this day.')
           : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (final l in labels)
                   _BarRow(
@@ -465,6 +476,13 @@ class _ChartPageState extends State<ChartPage> {
                     fraction: t.har[l]!.inMilliseconds / (max == 0 ? 1 : max),
                     value: formatDuration(t.har[l]!),
                   ),
+                const SizedBox(height: 4),
+                Text(
+                  'Times are estimated: each result counts as one update '
+                  'interval, and gaps in the Bluetooth stream are not '
+                  'counted.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ],
             ),
     );
@@ -497,8 +515,8 @@ class _ChartPageState extends State<ChartPage> {
                     Expanded(
                       child: Text(
                         t.coughEpisodes == 1
-                            ? 'Coughed once'
-                            : 'Coughed ${t.coughEpisodes} times',
+                            ? '1 coughing episode'
+                            : '${t.coughEpisodes} coughing episodes',
                         style: textTheme.titleMedium,
                       ),
                     ),
@@ -514,10 +532,13 @@ class _ChartPageState extends State<ChartPage> {
                   ),
                 const SizedBox(height: 4),
                 Text(
-                  'Each time coughing is detected counts once: coughing '
-                  'results less than 5 s apart are the same time, and a '
-                  'single stray result is not counted. Social signals are '
-                  'only detected while you are still.',
+                  'A coughing episode is counted when coughing is detected '
+                  'for at least 4 s within 5 s, and lasts until 5 s pass '
+                  'without coughing, so one episode can hold many coughs. '
+                  'Times are estimated: each result counts as one update '
+                  'interval, and gaps in the Bluetooth stream are not '
+                  'counted. Social signals are only detected while you are '
+                  'still.',
                   style: textTheme.bodySmall,
                 ),
               ],
@@ -527,6 +548,29 @@ class _ChartPageState extends State<ChartPage> {
 
   Widget _weekCard(BuildContext context) {
     if (_week.isEmpty) return const SizedBox.shrink();
+    return _Card(
+      title: 'Last 7 days',
+      icon: Icons.bar_chart,
+      trailing: DropdownButton<_WeekView>(
+        key: const ValueKey('week-view'),
+        value: _weekView,
+        underline: const SizedBox.shrink(),
+        onChanged: (v) => setState(() => _weekView = v ?? _weekView),
+        items: const [
+          DropdownMenuItem(
+              value: _WeekView.totals, child: Text('Static / dynamic')),
+          DropdownMenuItem(
+              value: _WeekView.timelines, child: Text('Day timelines')),
+        ],
+      ),
+      child: _weekView == _WeekView.totals
+          ? _weekTotals(context)
+          : _weekTimelinesView(context),
+    );
+  }
+
+  /// Static and dynamic time per day as stacked bars, and coughing episodes.
+  Widget _weekTotals(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final maxCount = _week
@@ -535,88 +579,131 @@ class _ChartPageState extends State<ChartPage> {
     const staticColor = Color(0xFF5C6BC0);
     const dynamicColor = Color(0xFF66BB6A);
     const chartHeight = 120.0;
-    return _Card(
-      title: 'Last 7 days',
-      icon: Icons.bar_chart,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: chartHeight + 72,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                for (final d in _week)
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => _goTo(d.day),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              d.harTime == Duration.zero
-                                  ? ''
-                                  : '${d.harTime.inMinutes}m',
-                              style: textTheme.labelSmall,
-                            ),
-                            const SizedBox(height: 2),
-                            if (maxCount > 0 && d.dynamicTime.inSeconds > 0)
-                              Container(
-                                height: chartHeight *
-                                    d.dynamicTime.inSeconds /
-                                    maxCount,
-                                decoration: const BoxDecoration(
-                                  color: dynamicColor,
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(4)),
-                                ),
-                              ),
-                            if (maxCount > 0 && d.staticTime.inSeconds > 0)
-                              Container(
-                                height: chartHeight *
-                                    d.staticTime.inSeconds /
-                                    maxCount,
-                                color: staticColor,
-                              ),
-                            const SizedBox(height: 4),
-                            Text(
-                              DateFormat('E').format(d.day).substring(0, 2),
-                              style: textTheme.labelSmall?.copyWith(
-                                fontWeight: d.day == _day
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: d.day == _day ? scheme.primary : null,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: chartHeight + 72,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              for (final d in _week)
+                Expanded(
+                  child: InkWell(
+                    onTap: () => _goTo(d.day),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            d.harTime == Duration.zero
+                                ? ''
+                                : '${d.harTime.inMinutes}m',
+                            style: textTheme.labelSmall,
+                          ),
+                          const SizedBox(height: 2),
+                          if (maxCount > 0 && d.dynamicTime.inSeconds > 0)
+                            Container(
+                              height: chartHeight *
+                                  d.dynamicTime.inSeconds /
+                                  maxCount,
+                              decoration: const BoxDecoration(
+                                color: dynamicColor,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(4)),
                               ),
                             ),
-                            Text(
-                              d.coughEpisodes > 0 ? '${d.coughEpisodes}c' : '',
-                              style: textTheme.labelSmall?.copyWith(
-                                  color: labelInfo('coughing').color),
+                          if (maxCount > 0 && d.staticTime.inSeconds > 0)
+                            Container(
+                              height: chartHeight *
+                                  d.staticTime.inSeconds /
+                                  maxCount,
+                              color: staticColor,
                             ),
-                          ],
-                        ),
+                          const SizedBox(height: 4),
+                          Text(
+                            DateFormat('E').format(d.day).substring(0, 2),
+                            style: textTheme.labelSmall?.copyWith(
+                              fontWeight: d.day == _day
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: d.day == _day ? scheme.primary : null,
+                            ),
+                          ),
+                          Text(
+                            d.coughEpisodes > 0 ? '${d.coughEpisodes}c' : '',
+                            style: textTheme.labelSmall?.copyWith(
+                                color: labelInfo('coughing').color),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 16,
-            children: [
-              _legend(staticColor, 'Static'),
-              _legend(dynamicColor, 'Dynamic'),
-              _legend(labelInfo('coughing').color, 'c = times coughed'),
+                ),
             ],
           ),
-          const SizedBox(height: 4),
-          Text('Tap a day to open it.', style: textTheme.bodySmall),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 16,
+          children: [
+            _legend(staticColor, 'Static'),
+            _legend(dynamicColor, 'Dynamic'),
+            _legend(labelInfo('coughing').color, 'c = coughing episodes'),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text('Tap a day to open it.', style: textTheme.bodySmall),
+      ],
+    );
+  }
+
+  /// The day timeline of each of the 7 days, oldest first. Uses the same
+  /// range as the Day timeline card (monitored hours or 24 h).
+  Widget _weekTimelinesView(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final scheme = Theme.of(context).colorScheme;
+    return Column(
+      key: const ValueKey('week-timelines'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var i = 0; i < _weekTimelines.length; i++) ...[
+          InkWell(
+            onTap: () => _goTo(_week[i].day),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 2),
+              child: Text(
+                DateFormat('EEE d MMM').format(_week[i].day),
+                style: textTheme.labelLarge?.copyWith(
+                  fontWeight: _week[i].day == _day
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                  color: _week[i].day == _day ? scheme.primary : null,
+                ),
+              ),
+            ),
+          ),
+          if (_weekTimelines[i].isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Text('No results', style: textTheme.bodySmall),
+            )
+          else
+            DayTimeline(data: _weekTimelines[i], compact: true),
+          if (i < _weekTimelines.length - 1) const SizedBox(height: 6),
         ],
-      ),
+        const SizedBox(height: 4),
+        Text(
+          _range == TimelineRange.fullDay
+              ? 'Each day from midnight to midnight. Tap a date to open it.'
+              : 'Each day over its monitored hours (switch to 24 h in the '
+                  'Day timeline card to line the days up). Tap a date to '
+                  'open it.',
+          style: textTheme.bodySmall,
+        ),
+      ],
     );
   }
 
@@ -638,11 +725,19 @@ class _ChartPageState extends State<ChartPage> {
 }
 
 class _Card extends StatelessWidget {
-  const _Card({required this.title, required this.icon, required this.child});
+  const _Card({
+    required this.title,
+    required this.icon,
+    required this.child,
+    this.trailing,
+  });
 
   final String title;
   final IconData icon;
   final Widget child;
+
+  /// Shown at the right of the title (e.g. a drop-down).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -663,11 +758,14 @@ class _Card extends StatelessWidget {
             Row(children: [
               Icon(icon, size: 20, color: scheme.primary),
               const SizedBox(width: 8),
-              Text(title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              Expanded(
+                child: Text(title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
+              if (trailing != null) trailing!,
             ]),
             const SizedBox(height: 12),
             child,
@@ -752,3 +850,5 @@ class _BarRow extends StatelessWidget {
     );
   }
 }
+
+enum _WeekView { totals, timelines }

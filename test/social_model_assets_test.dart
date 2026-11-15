@@ -17,7 +17,7 @@ void main() {
       classes: 11
     ),
     (
-      name: 'harry_social_rnn',
+      name: 'harry_social_cnn',
       asset: socialModelAsset,
       meta: socialMetaAsset,
       window: 75,
@@ -48,7 +48,7 @@ void main() {
       expect(example['input_window'], hasLength(model.window));
       final labels = List<String>.from(meta['output']['classes']);
       expect(labels, hasLength(model.classes));
-      if (model.name == 'harry_social_rnn') expect(labels, socialLabels);
+      if (model.name == 'harry_social_cnn') expect(labels, socialLabels);
       final probabilities =
           (example['expected_probabilities'] as List).cast<num>();
       expect(probabilities, hasLength(model.classes));

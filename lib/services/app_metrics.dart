@@ -2,12 +2,10 @@
 //
 // The coursework report must state the app's communication latency, model
 // cost and data rate. These counters cover what only the app can see: how
-// fast samples arrive, whether BLE packets are lost, how long each model call
-// takes and how often predictions are actually shown. They are plain counters
+// fast samples arrive, whether BLE packets are lost and how long each model
+// call takes. They are plain counters
 // updated from the BLE callback (no I/O, no notifications); PerfSampler reads
 // them once a second together with CPU, memory, battery and storage.
-
-import 'change_latency.dart';
 
 /// Count, last, min, mean and maximum of a series of durations.
 class DurationStat {
@@ -51,6 +49,10 @@ class AppMetrics {
   int packets = 0;
   int samples = 0;
 
+  /// Samples of the current stream only (reset on disconnect), for the
+  /// measured sample rate. [samples] counts every stream since the last reset.
+  int streamSamples = 0;
+
   /// Packets missing according to the RESpeck's 16-bit sequence numbers.
   int lostPackets = 0;
   int? _lastSequence;
@@ -58,13 +60,6 @@ class AppMetrics {
   /// Time spent inside the TFLite call for each model.
   final DurationStat harInference = DurationStat();
   final DurationStat socialInference = DurationStat();
-
-  /// Time between consecutive HAR / Social predictions - how often the
-  /// display actually updates (expected ~2 s).
-  final DurationStat harUpdateInterval = DurationStat();
-  final DurationStat socialUpdateInterval = DurationStat();
-  DateTime? _lastHarAt;
-  DateTime? _lastSocialAt;
 
   /// Time between consecutive packets arriving on the phone (nominal 2.56 s:
   /// 32 samples at 12.5 Hz).
@@ -81,46 +76,17 @@ class AppMetrics {
   static const int delayWindow = 100; // ~4 min of packets
   final List<int> _offsetsMs = [];
 
-  /// Packet arrival -> its results handed to the display (decoding, both
-  /// models for every result in the packet, smoothing). The screen draws on
-  /// the next frame (<= 16 ms later).
-  final DurationStat packetToDisplay = DurationStat();
-
-  /// Live time to show a change: from where the raw signal changed to the
-  /// screen switching label (see change_latency.dart).
-  final ChangeLatencyEstimator changeEstimator = ChangeLatencyEstimator();
-  final DurationStat activityChange = DurationStat();
-  final DurationStat socialChange = DurationStat();
-  int activityUnclear = 0, socialUnclear = 0;
-
-  /// The latest measured switches, oldest first (for the chart).
-  final List<ChangeEstimate> recentChanges = [];
-  static const int recentCapacity = 40;
-
-  void recordSample(double x, double y, double z, DateTime at) =>
-      changeEstimator.addSample(x, y, z, at);
-
-  void recordPacketProcessing(Duration elapsed) => packetToDisplay.add(elapsed);
-
-  /// The shown label switched [from] -> [to] at [shownAt]. Returns the
-  /// estimate, or null when the signal shows no clear change ("unclear").
-  ChangeEstimate? recordShownChange(
-      ChangeTask task, String from, String to, DateTime shownAt) {
-    final e = changeEstimator.estimate(
-        task: task, from: from, to: to, shownAt: shownAt);
-    final stat = task == ChangeTask.activity ? activityChange : socialChange;
-    if (e == null) {
-      if (task == ChangeTask.activity) {
-        activityUnclear++;
-      } else {
-        socialUnclear++;
-      }
-      return null;
-    }
-    stat.add(e.latency);
-    recentChanges.add(e);
-    if (recentChanges.length > recentCapacity) recentChanges.removeAt(0);
-    return e;
+  /// Packets missing between the previous packet and one with [sequence]
+  /// (the RESpeck's 16-bit counter, wrapping at 65535), without recording
+  /// anything. 0 for the first packet of a stream, and for a very large jump,
+  /// which means the sensor restarted its counter rather than that thousands
+  /// of packets vanished.
+  int packetGap(int sequence) {
+    final previous = _lastSequence;
+    if (previous == null) return 0;
+    final expected = (previous + 1) & 0xFFFF;
+    final gap = (sequence - expected) & 0xFFFF;
+    return gap > 0 && gap < 1000 ? gap : 0;
   }
 
   /// Record one decoded BLE packet carrying [sampleCount] samples.
@@ -146,40 +112,27 @@ class AppMetrics {
     lastPacketAt = receivedAt;
     packets++;
     samples += sampleCount;
-    final previous = _lastSequence;
-    if (previous != null) {
-      final expected = (previous + 1) & 0xFFFF;
-      final gap = (sequence - expected) & 0xFFFF;
-      // A very large gap means the sensor restarted its counter rather than
-      // that thousands of packets vanished, so it is not counted as loss.
-      if (gap > 0 && gap < 1000) lostPackets += gap;
-    }
+    streamSamples += sampleCount;
+    lostPackets += packetGap(sequence);
     _lastSequence = sequence;
   }
 
-  void recordHarInference(Duration elapsed) {
-    harInference.add(elapsed);
-    final now = _clock();
-    final last = _lastHarAt;
-    if (last != null) harUpdateInterval.add(now.difference(last));
-    _lastHarAt = now;
-  }
+  /// [elapsed] is the time inside the TFLite call only.
+  void recordHarInference(Duration elapsed) => harInference.add(elapsed);
 
-  void recordSocialInference(Duration elapsed, DateTime completedAt) {
-    socialInference.add(elapsed);
-    final last = _lastSocialAt;
-    if (last != null) socialUpdateInterval.add(completedAt.difference(last));
-    _lastSocialAt = completedAt;
-  }
+  /// [elapsed] is the time inside the TFLite call only, as for HAR.
+  void recordSocialInference(Duration elapsed) => socialInference.add(elapsed);
 
-  /// Measured sample rate of the current stream (Hz). The RESpeck nominally
-  /// streams at 12.5 Hz; a lower value points to lost packets.
+  /// Measured sample rate of the current stream (Hz): its samples over its
+  /// duration. The RESpeck nominally streams at 12.5 Hz; a lower value points
+  /// to lost packets. The first packet's samples were measured before the
+  /// stream's start time, so a short stream reads slightly high.
   double get sampleRateHz {
     final start = streamStartedAt;
     final end = lastPacketAt;
     if (start == null || end == null) return 0;
     final seconds = end.difference(start).inMilliseconds / 1000;
-    return seconds <= 0 ? 0 : samples / seconds;
+    return seconds <= 0 ? 0 : streamSamples / seconds;
   }
 
   double get packetLossPercent {
@@ -192,16 +145,13 @@ class AppMetrics {
     return start == null ? Duration.zero : _clock().difference(start);
   }
 
-  /// Called on disconnect: a new stream starts its own rate/loss statistics
-  /// and the time across the gap is not counted as an update interval.
+  /// Called on disconnect: a new stream starts its own rate/loss statistics.
   void endStream() {
     streamStartedAt = null;
     lastPacketAt = null;
+    streamSamples = 0;
     _lastSequence = null;
-    _lastHarAt = null;
-    _lastSocialAt = null;
     _offsetsMs.clear();
-    changeEstimator.clear();
   }
 
   void reset() {
@@ -213,14 +163,6 @@ class AppMetrics {
     socialInference.reset();
     packetInterval.reset();
     packetExtraDelay.reset();
-    packetToDisplay.reset();
-    activityChange.reset();
-    socialChange.reset();
-    activityUnclear = 0;
-    socialUnclear = 0;
-    recentChanges.clear();
-    harUpdateInterval.reset();
-    socialUpdateInterval.reset();
   }
 }
 

@@ -114,8 +114,7 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
           : _participant.text.trim(),
       harEvents: feed.harEvents,
       socialEvents: feed.socialEvents,
-      stepSamples: appSettings.stepSamples.value,
-      smoothing: appSettings.smoothHar.value,
+      stepSamples: updateStepSamples,
       onCue: _cue,
       onFinished: (reps) => unawaited(_finished(reps)),
     )..addListener(_changed);
@@ -476,7 +475,8 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
             'class. Steady = the start of the first stretch in which the new '
             'class stayed 3 s without flickering back (the 3 s is a check, not '
             'added: Steady = Shown when it never flickered). First correct = '
-            'the first raw model result. All include the moment between your '
+            'the first model result with the new class, even one replaced on '
+            'screen within the same packet. All include the moment between your '
             'press and starting to change, and the wait for the RESpeck packet '
             '(data arrives every 2.56 s). Timeouts: not steady within 30 s. '
             'Changing at press: the model already said the new class when you '

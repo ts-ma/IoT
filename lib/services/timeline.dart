@@ -87,7 +87,7 @@ class TimelineData {
   final Duration binSize;
   final List<TimelineBin> bins;
 
-  /// How many times coughing was detected in the shown range
+  /// Coughing episodes in the shown range (see countLabelEpisodes)
   /// ([countLabelEpisodes]).
   final int coughBouts;
 

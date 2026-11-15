@@ -22,12 +22,12 @@ Flutter app for PDIoT Coursework 3 (2026/27).
 
 | Tab | What it does |
 |---|---|
-| **Home** | **Sensor card.** If no sensor is paired: *Scan QR code* or *Enter ID*. Once paired: *Connect* / *Disconnect*, the RESpeck battery, live acceleration, and *Change* / *Forget sensor*.<br>**Detected activity:** icon, name, confidence and smoothing note.<br>**Social signal:** class, confidence and all four probabilities while you are still; *Paused while you are moving* (with the detected activity) while walking, on stairs, running, shuffling or moving about.<br>**Today:** monitored time, active time, times coughed and the day timeline. |
-| **Tools** | **Real-time test:** timed, scored trials per participant, activity and social signal, with a warm-up skip, the latency to the first correct result and to the right class being *shown* (after smoothing); social is fixed to *not assessed* for moving activities; **Latency test:** the phone cues a change (vibration + beep) and times until the new class is first correct, shown and steady, with CSV export; a per-class / per-group accuracy table; CSV export. Each trial also saves its **raw sensor CSV** to `<user>/raw/`.<br>**Free recording:** raw data with labels and no time limit, also to `raw/`. |
-| **Performance** | **Live moving graphs (last 5 min):** CPU, memory, phone battery, phone power (Android), RESpeck battery, HAR / Social inference time, sensor sample rate, storage.<br>**Figures:** response time, sensor stream, power and storage breakdown.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/` (with streaming state, shown activity and social status per second) plus a `.conditions.json` with platform, OS, app version, settings, models and duration. |
+| **Home** | **Sensor card.** If no sensor is paired: *Scan QR code* or *Enter ID*. Once paired: *Connect* / *Disconnect*, the RESpeck battery, live acceleration, and *Change* / *Forget sensor*.<br>**Detected activity:** icon, name, confidence and a probability bar for every class (the latest model result).<br>**Social signal:** class, confidence and all four probabilities while you are still; *Paused while you are moving* (with the detected activity) while walking, on stairs, running, shuffling or moving about.<br>**Today:** monitored time, active time, coughing episodes and the day timeline. |
+| **Tools** | One card per tool; each opens on its own page.<br>**Real-time test:** timed, scored trials per participant, activity and social signal, with a warm-up skip and the latency to the first correct result and to the right class being *shown*; social is fixed to *not assessed* for moving activities; a per-class / per-group accuracy table with the classes tested per group (a tested class with no result counts as 0 %); **Open dashboard:** every dynamic activity and every static activity + social signal pair, per participant; CSV export. Each trial also saves its **raw sensor CSV** to `<user>/raw/`. You cannot leave the page while a trial runs.<br>**Latency test:** once you are steady, press the button and change; it times from the press until the new class is first correct, shown and steady, with CSV export.<br>**Sensor-to-app delay test:** the time from the RESpeck finishing a packet (measuring its last sample) to that packet arriving in the app: waiting for a Bluetooth slot, transmission and the phone's Bluetooth stack, plus any small processing inside the RESpeck (the 2.56 s packet filling comes before it and is not included). Hold the RESpeck flat against the back of the phone and flick both together when prompted; the phone's own accelerometer times each flick, and the delay at which the RESpeck's copy lines up best is the result. Median, mean, range and SD; CSV export of every flick and sample.<br>**Free recording:** raw data with labels and no time limit, also to `raw/`; keeps recording if you leave the page. |
+| **Performance** | **Live moving graphs (last 5 min):** CPU and memory of the app, HAR / Social inference time, packet interval.<br>**Response time:** one model at a time (drop-down: activity or social signal): file, architecture, classes, window, update interval, training data, official 10-fold CV, the mean and median time to show a change from your latency tests, and inference time on this phone.<br>**Figures:** sensor stream and storage breakdown. Power is not shown: measure it with Xcode Instruments or Android Studio.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/` (with streaming state, shown activity and social status per second) plus a `.conditions.json` with platform, OS, app version, settings, models and duration. |
 | **History** | The activity **and** the social signal of the same moment side by side, for any day.<br>**Episodes:** runs where neither label changed, with start–end, duration and mean confidence.<br>**Every result:** each activity result with its paired social result (±¾ of the update interval), paginated. |
-| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, times coughed, time per social signal, the share of the day, and a **7-day trend**. Export the day as CSV, or delete it. |
-| **Settings** (gear) | **Update interval** (2 s / 1 s / 0.5 s), activity smoothing, **reminders** (move after 30–90 min of sitting/standing; wake-up alarm while still lying after a set time), installed models, the user's folder, version. |
+| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, coughing episodes, time per social signal, the share of the day, and the **last 7 days** with a drop-down: static/dynamic time and coughing episodes per day, or each day's timeline. Export the day as CSV, or delete it. |
+| **Settings** (gear) | **Reminders** (move after 30–90 min of sitting/standing; wake-up alarm while still lying after a set time) and the user's folder. The models are described on Performance › Response time. |
 
 Light and dark themes follow the phone setting.
 
@@ -45,6 +45,7 @@ The last user is logged in again at start-up. The app only reads and writes the 
     profile.json            user name, created, paired RESpeck ID
     history.db              every saved result (SQLite, schema v2)
     realtime_trials.json    real-time test trials
+    latency_tests.json      latency test changes
     raw/                    raw sensor CSVs (real-time test, free recording)
     exports/                daily-summary and real-time-test CSV exports
     performance/            performance logs (Performance tab)
@@ -59,43 +60,37 @@ The last user is logged in again at start-up. The app only reads and writes the 
 ```
 RESpeck ──BLE 12.5 Hz──► ble.dart (decode x,y,z in g) ──► SensorController (shared state)
                             │ every sample
-                            ├──► HarClassifier (har.dart)        50-sample window ─► result every <step>
-                            ├──► SocialSampleProcessor ─► SocialClassifier (social.dart) 100-sample window ─► result every <step>
+                            ├──► HarClassifier (har.dart)        50-sample window ─► result every 0.5 s
+                            ├──► SocialSampleProcessor ─► SocialClassifier (social.dart)  75-sample window ─► result every 0.5 s
                             └──► RawRecorder ─► <user>/raw/*.csv (only while recording)
 results ─► PredictionHistoryWriter ─► <user>/history.db ─► History / Chart / Home timeline
         ─► LivePredictionFeed (real-time test)
-PerfSampler (1 s) ─► CPU, memory, batteries, model timing, storage ─► Performance tab (+ CSV log)
+PerfSampler (1 s) ─► CPU, memory, model timing, storage ─► Performance tab (+ CSV log, which also keeps battery readings)
 ```
 
 ### Model input and output
 
 - Both models take a `[1, window, 3]` window of raw acceleration in g; normalisation happens inside the model.
 - Both output softmax probabilities.
-- HAR uses a 4 s window (50 samples). Social uses an 8 s window (100 samples), long enough to contain whole breaths.
+- HAR uses a 4 s window (50 samples). Social uses a 6 s window (75 samples), long enough to contain whole breaths.
+- Both models were trained to favour the most recent seconds of their window, so they react to a change sooner.
+- **Lost packets:** each packet carries a sequence number. If one or more packets are missing, both windows are emptied before the new samples go in, so no window joins data from either side of the gap.
 - Inference runs on the device, so there is no network latency and no data leaves the phone.
 
 ### Update interval
 
-The update interval is the step between windows. It is set in Settings:
-
-| Setting | Step | Note |
-|---|---|---|
-| 2 s | 25 samples | the step used in training |
-| 1 s | 12 samples | |
-| 0.5 s | 6 samples | default |
-
-The windows and models stay the same, so per-window accuracy does not change.
+Both models give a new result every **0.5 s** (6 samples; 0.48 s exactly). This is fixed; there is no setting. The window each result looks at (4 s / 6 s) does not depend on it, so accuracy per result is the same as with the 2 s step used in training. The RESpeck sends 32 samples (2.56 s) per packet and all of a packet's results are made when it arrives, so the screen changes once per packet; the small step only makes the last result of each packet as fresh as possible (its window ends at most 0.4 s before the newest sample, instead of up to 1.9 s with a 2 s step). It costs about 2 + 2 model runs per second, a few ms of CPU.
 
 ### Durations
 
 - Each saved result stores the interval it stands for (`interval_ms`, schema v2).
-- Durations are sums of those intervals, so they stay correct when the setting changes.
+- Durations are sums of those intervals, so they stay correct when the setting changes. They are estimates: time lost to Bluetooth gaps (and the window refilling after one) is not counted. The app says so under the charts.
 - Rows from before v2 count as 2 s.
 
-### Times coughed and smoothing
+### Coughing episodes
 
-- **Times coughed** counts each time coughing is detected: `coughing` results less than 5 s apart are one time (so one misread window in between does not split it), a lone result is ignored, and a longer gap (or a disconnect) starts a new time.
-- **Smoothing** (on by default) only changes what Home shows: the most common of the last 3 HAR results (every result counts, so it spans 3 update intervals). History, charts and the real-time test always use raw results.
+- A **coughing episode** is counted once coughing adds up to at least 4 s within any 5 s (each result counts its update interval). It lasts until 5 s pass without a coughing result, so one episode holds every cough of a coughing fit, and a single cough or stray result is not an episode.
+- There is **no smoothing**: the activity card shows each model result as it is.
 
 ### Reminders
 
@@ -105,23 +100,24 @@ The windows and models stay the same, so per-window accuracy does not change.
 
 ### Social signals only while still
 
-Social signals are defined for stationary activities only (CW3 task 2, course feedback). When the shown activity is dynamic (walking, shuffle walking, stairs, running, miscellaneous movement), the social model is paused: nothing is classified, shown, saved to history or sent to the real-time test. Samples keep filling its window, so the first result after you stop arrives straight away. The shown (smoothed) activity drives the pause, so one misread window during a cough does not hide the cough.
+Social signals are defined for stationary activities only (CW3 task 2, course feedback). When the shown activity is dynamic (walking, shuffle walking, stairs, running, miscellaneous movement), the social model is paused: nothing is classified, shown, saved to history or sent to the real-time test. Samples keep filling its window, so the first result after you stop arrives straight away (that first window still holds some movement). The shown activity drives the pause.
 
 ### Update speed vs. accuracy
 
 See `progress.md`, *Task 7*. In short:
 - **The RESpeck sends 32 samples (2.56 s) per BLE packet**, so the app can only change the screen once per packet, on average 1.3 s after something happens (up to 2.56 s).
-- **Activity:** shown about 4 s after a change (simulated mean 3.8–4.3 s on both members' recordings, at 0.5 s with smoothing). Before the 2026-11-09 fix the smoother only saw one result per packet, which added about 2 s.
-- **Social:** about 6–6.5 s on average (p90 ~9–10 s), because the 8 s window must be about half full of the new signal. Faster social needs a shorter or recency-trained social model; `model_harry/social_window_study.py` measures what that costs in CV accuracy.
+- **Activity:** a change is shown after a median of about 3.0 s (replaying recordings through the app logic, pipeline v3). Measure it on the phone with *Tools → Latency test*.
+- **Social:** a median of about 4.3 s (pipeline v4 replay), for the 6 s window trained to favour the most recent seconds.
 
 ## Live recognition models
 
 | Task | Bundled asset (`assets/models/`) | Architecture | Window | Classes |
 |---|---|---|---|---|
-| HAR | `harry_har_cnn.tflite` | multi-branch CNN (gravity + dilated CNN + spectral) | 50 samples (4 s) | 11 |
-| Social | `harry_social_rnn.tflite` | gravity-split front end + conv stem + GRU + spectral | 100 samples (8 s) | 4 |
+| HAR | `harry_har_cnn.tflite` | multi-branch CNN (gravity + dilated CNN + spectral), trained to favour the most recent seconds | 50 samples (4 s) | 11 |
+| Social | `harry_social_cnn.tflite` | multi-branch CNN, trained to favour the most recent seconds | 75 samples (6 s) | 4 |
 
-- **Training:** both were pre-trained on datasetJan2026 and fine-tuned on our real RESpeck recordings (`model_harry/run_pipeline.py`; scores in `model_harry/models/README.md`).
+- **Training:** both were trained on datasetJan2026 and both group members' recordings, mixed (IoT-Models repo: HAR from `model_harry/pipeline_v3`, social from `model_harry/pipeline_v4`, candidate `cnn_w75rec`).
+- **Official 10-fold CV:** HAR static 99.4 %, dynamic 89.5 %; social breathing 89.3 %, coughing 78.0 %, hyperventilation 79.2 %, other 76.6 % (social CV trained on datasetJan2026 only). Details: `assets/models/INSTALL.md`.
 - **Metadata:**
   - each `.tflite` has a matching `*_meta.json` (window, training step, class order) and `*_example.json` (parity-check window) next to it;
   - the `.keras` training copies are in `model/` and are not bundled.
@@ -131,11 +127,10 @@ See `progress.md`, *Task 7*. In short:
 | Metric | Android | iOS |
 |---|---|---|
 | CPU | `getrusage(RUSAGE_SELF)` through `dart:ffi` (whole app process, all threads); fallback `/proc/self/stat` | `getrusage(RUSAGE_SELF)` through `dart:ffi` |
-| Memory | `ProcessInfo.currentRss` (resident memory) | `ProcessInfo.currentRss` |
-| Phone battery / power | `BatteryManager` via the `pdiot/power` channel (`MainActivity.kt`): level, charging, current (µA), voltage (mV). Power = current × voltage for the whole phone, screen included | `UIDevice` via `pdiot/power` (`AppDelegate.swift`): level and charging only. iOS has no public current API, so use Xcode Instruments → Energy Log |
-| RESpeck battery | sent in every packet (v6 firmware) | same |
-| Model response | time inside each TFLite call; interval between results | same |
-| Latency to show an activity | *Tools → Real-time test*: time from trial start to the first correct result and until the class is shown (CSV: `har_latency_s`, `har_shown_latency_s`, `social_latency_s`) | same |
+| Memory | total PSS (`Debug.MemoryInfo`, as `adb shell dumpsys meminfo`) + `ProcessInfo.currentRss` | `phys_footprint` (what Xcode's memory gauge shows) + `ProcessInfo.currentRss` |
+| Power | not shown in the app; Android Studio Energy Profiler / `dumpsys batterystats`. The CSV log keeps the whole-phone battery current and voltage | not shown in the app; Xcode Instruments → **Power Profiler**, Settings › Battery |
+| Model response | time inside each TFLite call (HAR and social measured the same way) | same |
+| Latency to show a change | *Tools → Latency test*: from the button press to the new class first correct, shown and steady. *Tools → Real-time test*: from trial start to the first correct / shown result | same |
 | Storage | file sizes in the user's folder (DB, `raw/`, `exports/`, logs) | same |
 
 ### For the report
@@ -156,6 +151,7 @@ See `progress.md`, *Task 7*. In short:
 | `lib/main.dart` | Start-up: settings, storage, last user, model loading, debug-only parity check, app wiring, theme. |
 | `lib/app_shell.dart` | Bottom bar and the five tabs (IndexedStack, rebuilt on user change). |
 | `lib/home.dart`, `lib/tools_page.dart`, `lib/performance.dart`, `lib/history.dart`, `lib/chart_page.dart` | The tabs. |
+| `lib/realtime_test_page.dart`, `lib/realtime_dashboard_page.dart`, `lib/latency_page.dart`, `lib/ble_delay_page.dart`, `lib/free_recording_page.dart` | The tools (each opened from Tools) and the real-time accuracy dashboard. |
 | `lib/settings.dart`, `lib/user_page.dart`, `lib/scanning.dart` | Settings, user, and the QR scanner page. |
 | `lib/ble.dart` | RESpeck scanning, connection and packet decoding. Feeds both classifiers, the raw recorder and the metrics. |
 | `lib/har.dart` / `lib/social.dart` | TFLite classifiers with sliding windows (adjustable step). |
@@ -169,13 +165,13 @@ What `lib/services/` contains:
 - `user_session` — users and folders;
 - `sensor_controller` — shared live sensor state;
 - `raw_recorder` — raw CSVs;
-- `app_settings` — update interval and smoothing;
+- `app_settings` — the fixed update interval (0.5 s) and reminders;
 - `prediction_repository` / `prediction_history_writer` — SQLite;
 - `timeline` — day bins;
-- `perf_sampler` / `device_stats` — CPU, memory, battery, storage;
+- `perf_sampler` / `device_stats` — CPU, memory, battery (CSV log only), storage;
 - `app_metrics` — model and stream counters;
 - `evaluation` — real-time test scoring;
-- the Social stream processor, live feed and smoother.
+- the Social stream processor and live feed.
 
 ## Swapping in a new model
 
@@ -202,7 +198,7 @@ flutter run            # or: flutter run --profile for measurements
 1. Tap the round user button at the top left, type a name, then **Create user**.
 2. On **Home**, press **Scan QR code** and scan the label on the back of the RESpeck. You can also press **Enter ID**.
 3. Wake the RESpeck by shaking it (green light), then press **Connect**.
-4. The first activity result appears about 4 s later and the first social result about 8 s later. After that, results arrive every update interval.
+4. The first activity result appears about 5 s later and the first social result about 8 s later (each window must fill, then the next 2.56 s packet arrives). After that, a new result is made every 0.5 s and the screen changes once per RESpeck packet (2.56 s).
 5. For the report:
    - run trials in **Tools** (raw data is saved automatically);
    - record a performance log in **Performance**;

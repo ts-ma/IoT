@@ -4,7 +4,6 @@ import 'package:pdiot/app_shell.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/home.dart';
 import 'package:pdiot/main.dart';
-import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/services/sensor_controller.dart';
 import 'package:pdiot/services/social_sample_processor.dart';
 import 'package:pdiot/services/user_session.dart';
@@ -13,6 +12,9 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 
 // Widget/state tests use the real classifier's validation and windowing with a
 // fake native runner. They do not claim native inference or device BLE parity.
+const _collecting = 'Collecting data... (first result after about 8 s: the '
+    '6 s window must fill and the next RESpeck packet arrive)';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late _Runner runner;
@@ -21,7 +23,6 @@ void main() {
   late SensorController sensor;
 
   setUp(() async {
-    appSettings.stepSamples.value = 25; // trained step; Settings default is 6
     sensor = SensorController(session: UserSession(rememberLastUser: false));
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
@@ -95,7 +96,7 @@ void main() {
     expect(labelFinder, findsNothing);
     processor.startSession();
     await tester.pump();
-    expect(status(tester), 'Collecting data... (first result after about 6 s)');
+    expect(status(tester), _collecting);
     feed(74);
     await tester.pump();
     expect(labelFinder, findsNothing);
@@ -154,19 +155,19 @@ void main() {
     processor.startSession();
     feed(74);
     await tester.pump();
-    expect(status(tester), 'Collecting data... (first result after about 6 s)');
+    expect(status(tester), _collecting);
     expect(labelFinder, findsNothing);
     feed(1);
     await tester.pump();
     processor.resetStream();
     await tester.pump();
-    expect(status(tester), 'Collecting data... (first result after about 6 s)');
+    expect(status(tester), _collecting);
     expect(labelFinder, findsNothing);
     feed(75);
     await tester.pump();
     processor.startSession(); // Even without a separate end-session event.
     await tester.pump();
-    expect(status(tester), 'Collecting data... (first result after about 6 s)');
+    expect(status(tester), _collecting);
     expect(labelFinder, findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
   });
@@ -222,7 +223,7 @@ void main() {
     runner.fail = false;
     processor.startSession();
     await tester.pump();
-    expect(status(tester), 'Collecting data... (first result after about 6 s)');
+    expect(status(tester), _collecting);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
@@ -266,7 +267,7 @@ void main() {
     expect(processor.inferenceCount, before);
     expect(processor.latestPrediction, isNull);
 
-    // Still again (majority of the last 3 is static): the buffered window is
+    // Still again: the buffered window is
     // classified on the very next sample, not a full step later.
     har('sittingStanding');
     har('sittingStanding');

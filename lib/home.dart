@@ -7,7 +7,6 @@ import 'activity_catalog.dart';
 import 'app_shell.dart' show AppTab, shellTab;
 import 'har.dart';
 import 'scanning.dart';
-import 'services/app_settings.dart';
 import 'services/prediction_repository.dart';
 import 'services/sensor_controller.dart';
 import 'services/social_sample_processor.dart';
@@ -376,17 +375,16 @@ class HomePageState extends State<HomePage> {
 
   Widget _harCard(BuildContext context) {
     final shown = _sensor.harShown;
-    final raw = _sensor.harRaw;
     final textTheme = Theme.of(context).textTheme;
-    final interval = stepLabel(appSettings.stepSamples.value);
     Widget body;
     if (harClassifier == null) {
       body = const Text('Classifier not available');
     } else if (shown == null) {
       body = Text(
         _sensor.streaming
-            ? 'Collecting data… the first result appears about 4 s after '
-                'data starts, then every $interval.'
+            ? 'Collecting data… the first result appears about 5 s after '
+                'data starts (once the 4 s window is full and the next '
+                'RESpeck packet arrives), then with every packet (2.56 s).'
             : 'Connect the RESpeck to start activity recognition.',
         style: textTheme.bodyMedium,
       );
@@ -394,13 +392,10 @@ class HomePageState extends State<HomePage> {
       final updated = _sensor.harUpdatedAt == null
           ? ''
           : 'Updated ${DateFormat('HH:mm:ss').format(_sensor.harUpdatedAt!.toLocal())}';
-      final smoothing =
-          appSettings.smoothHar.value ? ' · majority of last 3 results' : '';
       // Every class's probability from the latest model result, as on the
-      // Social card. The bars always show the model's latest window, so with
-      // smoothing on the shown label can briefly differ from the top bar.
+      // Social card.
       final classes = harClassifier!.classes;
-      final probabilities = raw?.probabilities;
+      final probabilities = shown.probabilities;
       final showBars =
           probabilities != null && probabilities.length == classes.length;
       body = Column(
@@ -416,11 +411,7 @@ class HomePageState extends State<HomePage> {
           ),
           if (showBars) ...[
             const SizedBox(height: 12),
-            Text(
-                appSettings.smoothHar.value
-                    ? 'Model output for the latest window'
-                    : 'Model output',
-                style: textTheme.bodySmall),
+            Text('Model output', style: textTheme.bodySmall),
             const SizedBox(height: 4),
             Column(
               key: const ValueKey('har-probabilities'),
@@ -431,14 +422,8 @@ class HomePageState extends State<HomePage> {
             ),
           ],
           const SizedBox(height: 8),
-          Text('$updated$smoothing · new result every $interval',
+          Text('$updated · new result with every RESpeck packet (2.56 s)',
               style: textTheme.bodySmall),
-          if (raw != null && raw.label != shown.label)
-            Text(
-              'Latest raw result: ${displayName(raw.label)} '
-              '(${(raw.confidence * 100).toStringAsFixed(0)}%)',
-              style: textTheme.bodySmall,
-            ),
         ],
       );
     }
@@ -461,8 +446,9 @@ class HomePageState extends State<HomePage> {
       SocialPredictionStatus.unavailable => 'Social model unavailable',
       SocialPredictionStatus.disconnected => 'Disconnected',
       SocialPredictionStatus.collecting =>
-        'Collecting data... (first result after about '
-        '${socialWindowSeconds.toStringAsFixed(0)} s)',
+        'Collecting data... (first result after about 8 s: the '
+        '${socialWindowSeconds.toStringAsFixed(0)} s window must fill and the '
+        'next RESpeck packet arrive)',
       SocialPredictionStatus.ready => 'Live prediction',
       SocialPredictionStatus.error =>
         'Social inference error — reconnect to retry',
@@ -574,7 +560,7 @@ class HomePageState extends State<HomePage> {
                         formatDuration(
                             data.groupTime(LabelGroup.dynamicActivity)),
                         'active'),
-                    _StatTile('${data.coughBouts}', 'times coughed'),
+                    _StatTile('${data.coughBouts}', 'coughing episodes'),
                   ],
                 ),
                 const SizedBox(height: 12),

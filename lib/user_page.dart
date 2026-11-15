@@ -173,8 +173,9 @@ class _UserPageState extends State<UserPage> {
                 const SizedBox(height: 24),
                 Text(
                   'Each user has a folder${_session.root == null ? '' : ' in ${_session.root!.path}'} '
-                  'holding their history, real-time test results, raw sensor '
-                  'recordings (raw/) and exports. The app only reads and '
+                  'holding their history, real-time and latency test results, '
+                  'raw sensor recordings (raw/), exports and performance logs. '
+                  'The app only reads and '
                   'writes the logged-in user\'s folder.',
                   style: textTheme.bodySmall,
                 ),

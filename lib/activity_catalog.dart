@@ -61,7 +61,7 @@ const List<String> harClassOrder = [
   'miscMovement',
 ];
 
-/// Social classes in model output order (harry_social_rnn_meta.json).
+/// Social classes in model output order (harry_social_cnn_meta.json).
 const List<String> socialClassOrder = [
   'breathingNormally',
   'coughing',

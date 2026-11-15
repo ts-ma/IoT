@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,21 +6,22 @@ import 'package:flutter/material.dart';
 import 'har.dart';
 import 'services/app_metrics.dart';
 import 'services/app_settings.dart';
+import 'services/latency_test.dart';
 import 'services/perf_sampler.dart';
-import 'services/prediction_history_writer.dart';
 import 'services/sensor_controller.dart';
 import 'services/user_session.dart';
-import 'social.dart' show socialWindowSeconds;
+import 'social.dart'
+    show socialLabels, socialModelAsset, socialWindowSamples;
 import 'widgets/common.dart';
 import 'widgets/live_chart.dart';
 
 /// Performance tab: live graphs of what the report's "Mobile app
-/// performance" section asks for (CPU, memory, power, latency) plus the
-/// sensor stream, model timing and storage, and a 1 s CSV log of all of it.
+/// performance" section asks for (CPU, memory, latency) plus the sensor
+/// stream, model timing and storage, and a 1 s CSV log of all of it. Power is
+/// measured outside the app (Xcode Instruments / Android Studio).
 class PerformancePage extends StatefulWidget {
   const PerformancePage({
     super.key,
-    this.historyWriter,
     this.metrics,
     this.sensor,
     this.sampler,
@@ -27,7 +29,6 @@ class PerformancePage extends StatefulWidget {
   });
 
   final UserSession? session;
-  final PredictionHistoryWriter? historyWriter;
   final AppMetrics? metrics;
   final SensorController? sensor;
   final PerfSampler? sampler;
@@ -39,34 +40,68 @@ class PerformancePage extends StatefulWidget {
 class _PerformancePageState extends State<PerformancePage> {
   AppMetrics get _m => widget.metrics ?? appMetrics;
 
-  static String _statMs(DurationStat d, {int digits = 0}) {
-    if (d.count == 0) return '–';
-    String f(Duration x) => (x.inMicroseconds / 1000).toStringAsFixed(digits);
-    return '${f(d.last)} / ${f(d.min)} / ${f(d.mean)} / ${f(d.max)} ms';
+  /// The model shown in the Response time card.
+  _Model _model = _Model.har;
+
+  /// Saved latency tests (Tools › Latency test), reloaded at most every 10 s
+  /// while the page is shown, so new tests appear without a restart.
+  List<LatencyRep> _latency = const [];
+  DateTime? _latencyLoadedAt;
+  bool _latencyLoading = false;
+
+  UserSession get _session => widget.session ?? userSession;
+
+  void _refreshLatency() {
+    final loaded = _latencyLoadedAt;
+    if (_latencyLoading ||
+        (loaded != null &&
+            DateTime.now().difference(loaded) < const Duration(seconds: 10))) {
+      return;
+    }
+    _latencyLoading = true;
+    _latencyLoadedAt = DateTime.now();
+    unawaited(() async {
+      // Never change state while the page is being drawn.
+      await Future<void>.value();
+      var reps = const <LatencyRep>[];
+      try {
+        final file = _session.latencyFile;
+        if (file != null) reps = await LatencyStore(() async => file).load();
+      } catch (e) {
+        debugPrint('Could not read latency tests: $e');
+      }
+      _latencyLoading = false;
+      if (mounted) setState(() => _latency = reps);
+    }());
   }
+
+  /// "Shown" times (s) of the latency tests for [task]: button-started
+  /// changes that were shown, leaving out those started too early.
+  List<double> _shownSeconds(LatencyTask task) => [
+        for (final r in _latency)
+          if (r.task == task &&
+              r.start == 'button' &&
+              r.shown != null &&
+              !r.changingAtStart)
+            r.shown!.inMilliseconds / 1000,
+      ]..sort();
+
+
+
+  static const _cpuColor = Color(0xFF00E5FF);
+  static const _memColor = Color(0xFFB388FF);
+  static const _harColor = Color(0xFFFF6E40);
+  static const _socialColor = Color(0xFFFF4081);
+  static const _rateColor = Color(0xFF76FF03);
+
+  static String _ms(Duration d) =>
+      '${(d.inMicroseconds / 1000).toStringAsFixed(2)} ms';
 
   static String _statS(DurationStat d) {
     if (d.count == 0) return '–';
     String f(Duration x) => (x.inMilliseconds / 1000).toStringAsFixed(2);
     return '${f(d.last)} / ${f(d.min)} / ${f(d.mean)} / ${f(d.max)} s';
   }
-
-  static const _cpuColor = Color(0xFF00E5FF);
-  static const _memColor = Color(0xFFB388FF);
-  static const _phoneColor = Color(0xFF69F0AE);
-  static const _powerColor = Color(0xFFFFD740);
-  static const _respeckColor = Color(0xFF40C4FF);
-  static const _harColor = Color(0xFFFF6E40);
-  static const _socialColor = Color(0xFFFF4081);
-  static const _rateColor = Color(0xFF76FF03);
-  static const _storageColor = Color(0xFFFFAB40);
-
-  static String _ms(Duration d) =>
-      '${(d.inMicroseconds / 1000).toStringAsFixed(2)} ms';
-
-  static String _s(Duration d) => d == Duration.zero
-      ? '–'
-      : '${(d.inMilliseconds / 1000).toStringAsFixed(2)} s';
 
   static String _uptime(Duration d) {
     final h = d.inHours;
@@ -140,13 +175,8 @@ class _PerformancePageState extends State<PerformancePage> {
     final cap = sampler?.capacity ?? 300;
     List<double?> pick(double? Function(PerfSample) f) =>
         [for (final s in samples) f(s)];
-    final latest = sampler?.latest;
     final cores = Platform.numberOfProcessors;
-    final hasPower = samples.any((s) => s.phonePowerMw != null);
     final m = _m;
-    final har = harClassifier;
-    final step = appSettings.stepSamples.value;
-    final interval = step / sensorHz;
     final storage = sampler?.storage;
 
     return ListView(
@@ -188,7 +218,8 @@ class _PerformancePageState extends State<PerformancePage> {
             series: [ChartSeries('CPU', _cpuColor, pick((s) => s.cpuPercent))],
             capacity: cap,
             minRange: 10,
-            footnote: '% of one core · $cores cores · ${sampler.cpuSource}',
+            footnote: 'this app only · 100 % = one core fully busy '
+                '(this phone has $cores, so up to ${cores * 100} %)',
           ),
           LiveLineChart(
             title: 'Memory',
@@ -216,46 +247,6 @@ class _PerformancePageState extends State<PerformancePage> {
                         'every 5 s) · RSS also counts shared libraries',
           ),
           LiveLineChart(
-            title: 'Phone battery',
-            unit: '%',
-            series: [
-              ChartSeries(
-                  'Phone', _phoneColor, pick((s) => s.phoneLevel?.toDouble()))
-            ],
-            capacity: cap,
-            maxY: 100,
-            digits: 0,
-            footnote: _drainText(sampler.phoneDrainPerHour,
-                latest?.phoneCharging == true ? 'charging' : null),
-          ),
-          if (hasPower || !Platform.isIOS)
-            LiveLineChart(
-              title: 'Phone power draw',
-              unit: 'mW',
-              series: [
-                ChartSeries('Power', _powerColor, pick((s) => s.phonePowerMw))
-              ],
-              capacity: cap,
-              minRange: 500,
-              digits: 0,
-              footnote: hasPower
-                  ? 'whole phone · ${latest?.phoneCurrentMa?.toStringAsFixed(0) ?? '–'} mA'
-                  : 'waiting for the battery current…',
-            ),
-          LiveLineChart(
-            title: 'RESpeck battery',
-            unit: '%',
-            series: [
-              ChartSeries('RESpeck', _respeckColor,
-                  pick((s) => s.respeckLevel?.toDouble()))
-            ],
-            capacity: cap,
-            maxY: 100,
-            digits: 0,
-            footnote: _drainText(sampler.respeckDrainPerHour, null,
-                empty: 'connect a v6 RESpeck'),
-          ),
-          LiveLineChart(
             title: 'Model inference time',
             unit: 'ms',
             series: [
@@ -273,49 +264,7 @@ class _PerformancePageState extends State<PerformancePage> {
                 'RESpeck packet arrives (every 2.56 s)',
           ),
         ],
-        if (sampler != null)
-          LiveLineChart(
-            title: 'Packet → display update',
-            unit: 'ms',
-            series: [
-              ChartSeries(
-                  'Processing', _storageColor, pick((s) => s.packetToDisplayMs),
-                  connectGaps: true)
-            ],
-            capacity: cap,
-            minRange: 5,
-            digits: 1,
-            dots: true,
-            footnote: 'each packet: decoding + every model check in it + '
-                'smoothing, until the result is handed to the screen',
-          ),
         if (sampler != null) ...[
-          LiveLineChart(
-            title: 'Sensor sample rate',
-            unit: 'Hz',
-            series: [
-              ChartSeries('Rate', _rateColor, pick((s) => s.sampleRateHz))
-            ],
-            capacity: cap,
-            minRange: 15,
-            footnote: 'nominal 12.5 Hz · ${m.lostPackets} packets lost',
-          ),
-          LiveLineChart(
-            title: 'RESpeck → phone extra delay',
-            unit: 'ms',
-            series: [
-              ChartSeries('Delay', _respeckColor, pick((s) => s.packetDelayMs),
-                  connectGaps: true)
-            ],
-            capacity: cap,
-            minRange: 50,
-            digits: 0,
-            dots: true,
-            footnote: 'how much later each packet arrived than the fastest of '
-                'the last ${AppMetrics.delayWindow} · the fixed BLE delay is '
-                'not measurable (the clocks are not synchronised) · samples '
-                'also wait up to 2.56 s in the RESpeck to fill a packet',
-          ),
           LiveLineChart(
             title: 'Packet interval',
             unit: 's',
@@ -331,62 +280,8 @@ class _PerformancePageState extends State<PerformancePage> {
             footnote: 'time between packets on the phone · nominal 2.56 s '
                 '(32 samples at 12.5 Hz)',
           ),
-          LiveLineChart(
-            title: 'Storage used',
-            unit: 'MB',
-            series: [
-              ChartSeries('Storage', _storageColor, pick((s) => s.storageMb))
-            ],
-            capacity: cap,
-            minRange: 1,
-            digits: 2,
-            footnote: 'your folder (updated every 15 s)',
-          ),
         ],
-        SectionCard(
-          icon: Icons.timer_outlined,
-          title: 'Response time',
-          child: Column(
-            children: [
-              _row('Update interval (Settings)',
-                  '${interval.toStringAsFixed(2)} s ($step samples)'),
-              _row('HAR window',
-                  '${((har?.window.length ?? 50) / sensorHz).toStringAsFixed(0)} s'),
-              _row('Social window',
-                  '${socialWindowSeconds.toStringAsFixed(0)} s'),
-              _row('HAR inference (last / mean / max)',
-                  '${_ms(m.harInference.last)} / ${_ms(m.harInference.mean)} / ${_ms(m.harInference.max)}'),
-              _row('Social inference (last / mean / max)',
-                  '${_ms(m.socialInference.last)} / ${_ms(m.socialInference.mean)} / ${_ms(m.socialInference.max)}'),
-              _row('HAR result interval (mean / max)',
-                  '${_s(m.harUpdateInterval.mean)} / ${_s(m.harUpdateInterval.max)}'),
-              _row('Social result interval (mean / max)',
-                  '${_s(m.socialUpdateInterval.mean)} / ${_s(m.socialUpdateInterval.max)}'),
-              _row('Activity change shown (last / min / avg / max)',
-                  _statS(m.activityChange)),
-              _row('Social change shown (last / min / avg / max)',
-                  _statS(m.socialChange)),
-              _row('Switches without a clear signal change',
-                  'activity ${m.activityUnclear} · social ${m.socialUnclear}'),
-              _row('Packet → display (last / min / avg / max)',
-                  _statMs(m.packetToDisplay, digits: 1)),
-              const SizedBox(height: 6),
-              Text(
-                'Time until a change is shown ≈ wait for the RESpeck packet '
-                'holding it (32 samples = 2.56 s, so 1.3 s on average) + time '
-                'for enough of the window to hold the new activity (about 2 s '
-                'of the 4 s HAR window, ${(socialWindowSeconds / 2).toStringAsFixed(0)} s '
-                'of the ${socialWindowSeconds.toStringAsFixed(0)} s Social window) + up to '
-                'one update interval (${interval.toStringAsFixed(1)} s) + '
-                'smoothing (about one interval) + inference (a few ms). '
-                'Inference runs on the phone, so there is no network delay. '
-                'Social signals are paused while you move. The real-time test '
-                'in Tools measures the observed latency.',
-                style: textTheme.bodySmall,
-              ),
-            ],
-          ),
-        ),
+        _modelCard(context, m),
         SectionCard(
           icon: Icons.sensors,
           title: 'Sensor stream',
@@ -405,50 +300,9 @@ class _PerformancePageState extends State<PerformancePage> {
                   '${m.lostPackets} (${m.packetLossPercent.toStringAsFixed(2)}%)'),
               _row('Packet interval (last / min / avg / max)',
                   _statS(m.packetInterval)),
-              _row('Extra RESpeck → phone delay (last / min / avg / max)',
-                  _statMs(m.packetExtraDelay)),
-              _row(
-                  'Last packet',
-                  m.lastPacketAt == null
-                      ? '–'
-                      : '${DateTime.now().difference(m.lastPacketAt!).inMilliseconds} ms ago'),
-              _row(
-                  'RESpeck battery',
-                  widget.sensor?.respeckBattery == null
-                      ? '–'
-                      : '${widget.sensor!.respeckBattery}%'),
             ],
           ),
         ),
-        if (sampler != null)
-          SectionCard(
-            icon: Icons.battery_charging_full,
-            title: 'Power',
-            child: Column(
-              children: [
-                _row(
-                    'Phone battery',
-                    latest?.phoneLevel == null
-                        ? '–'
-                        : '${latest!.phoneLevel}%'
-                            '${latest.phoneCharging == true ? ' (charging)' : ''}'),
-                _row(
-                    'Phone drain', _drainText(sampler.phoneDrainPerHour, null)),
-                _row(
-                    'Battery current',
-                    latest?.phoneCurrentMa == null
-                        ? 'n/a on this phone'
-                        : '${latest!.phoneCurrentMa!.toStringAsFixed(0)} mA'),
-                _row(
-                    'Power draw (whole phone)',
-                    latest?.phonePowerMw == null
-                        ? 'n/a on this phone'
-                        : '${latest!.phonePowerMw!.toStringAsFixed(0)} mW'),
-                _row('RESpeck drain',
-                    _drainText(sampler.respeckDrainPerHour, null)),
-              ],
-            ),
-          ),
         if (storage != null)
           SectionCard(
             icon: Icons.sd_storage_outlined,
@@ -473,52 +327,38 @@ class _PerformancePageState extends State<PerformancePage> {
               ],
             ),
           ),
-        if (widget.historyWriter != null)
-          SectionCard(
-            icon: Icons.storage,
-            title: 'History writer',
-            child: Column(
-              children: [
-                _row('Pending writes', '${widget.historyWriter!.pendingCount}'),
-                _row('Write errors', '${widget.historyWriter!.errorCount}'),
-                _row('Dropped records',
-                    '${widget.historyWriter!.droppedRecordCount}'),
-              ],
-            ),
-          ),
         SectionCard(
           icon: Icons.info_outline,
           title: 'How each number is measured',
           child: Text(
-            '• CPU: CPU time of the whole app process (all threads) from '
-            'getrusage(), on Android and iOS; % of one core per second.\n'
-            '• Memory: Android total PSS (Debug.MemoryInfo, the "TOTAL PSS" of '
-            'adb shell dumpsys meminfo) / iOS phys_footprint (TASK_VM_INFO, '
-            'what Xcode\'s memory gauge shows), every 5 s; plus the resident '
-            'set size (RSS), which also counts shared pages.\n'
-            '• Phone battery: Android BatteryManager gives level, current and '
-            'voltage (power = current × voltage, whole phone incl. screen); '
-            'iOS only gives the level, so use Xcode Instruments (Power Profiler) '
-            'or Settings › Battery for power there.\n'
-            '• RESpeck battery: reported in every packet (v6 firmware).\n'
-            '• Inference: time inside each TFLite call, measured in the app.\n'
-            '• Time to show a change (live): the models re-check the last 4 s '
-            '(activity) / 6 s (social) at every update; after you change, the '
-            'window fills with the new movement and the screen switches. At '
-            'each switch the app looks back 12 s / 14 s in the raw data, finds '
-            'where the signal changed (best single split by per-axis '
-            'variance, of the jerk or, for posture, the raw values) and times '
-            'from there. Switches with no clear change are not counted. '
-            'Checked offline on our recordings: 95-98 % within 1 s.\n'
-            '• Packet → display: from a packet arriving to its results being '
-            'handed to the screen (decoding, every model check, smoothing).\n'
-            '• RESpeck → phone: each packet carries the RESpeck clock time. '
-            'The clocks are not synchronised, so the app shows the delay '
-            'above the fastest recent packet (variation, not the absolute '
-            'BLE delay) and the time between packets.\n'
-            '• For the report, compare with Android Studio Profiler or Xcode '
-            'Instruments, and state the phone, run time and that inference '
-            'runs on the device.',
+            '• Live monitor: everything below is sampled once a second; the '
+            'graphs show the last ${cap ~/ 60} minutes. Record performance '
+            'log writes one CSV row per second to performance/, plus a '
+            '.conditions.json with the phone, settings, models and run time.\n'
+            '• CPU: CPU time used by this app\'s own process (all its '
+            'threads), from getrusage(), once a second. 100 % = one core fully '
+            'busy, so a phone with $cores cores can reach ${cores * 100} %.\n'
+            '• Memory: the app\'s memory as the system counts it, every 5 s: '
+            'on iOS the footprint (what Xcode\'s memory gauge shows), on '
+            'Android the total PSS (as adb shell dumpsys meminfo). RSS is also '
+            'drawn; it counts shared pages too, so it reads higher.\n'
+            '• Model inference time: time inside each TFLite model call only '
+            '(the same for both models), averaged per second. The models run '
+            'when a RESpeck packet arrives (every 2.56 s).\n'
+            '• Packet interval: time between two packets arriving on the '
+            'phone. It averages 2.56 s (32 samples at 12.5 Hz); a late packet '
+            'makes one interval longer and the next one shorter.\n'
+            '• Response time: one model at a time (drop-down). Model details '
+            'and the official 10-fold cross-validation come from training. '
+            'Time to show a change = mean and median of your latency tests '
+            '(Tools › Latency test) for that model: from the button press to '
+            'the new class on screen, leaving out changes started too early '
+            'and changes never shown. Inference is measured in the app.\n'
+            '• Sensor stream: the sample rate counts this connection only; '
+            'lost packets come from the RESpeck\'s packet numbers (after a '
+            'loss both model windows start afresh); the packet interval is '
+            'as above.\n'
+            '• Storage: sizes of the files in your folder, updated every 15 s.',
             style: textTheme.bodySmall,
           ),
         ),
@@ -526,12 +366,91 @@ class _PerformancePageState extends State<PerformancePage> {
     );
   }
 
-  String _drainText(double? perHour, String? state, {String? empty}) {
-    if (state != null) return state;
-    if (perHour == null) {
-      return empty ?? 'drain shown after 10 min and a 1 % drop';
-    }
-    return '${perHour.toStringAsFixed(1)} %/h';
+  /// Response time card: everything about one model at a time (chosen in
+  /// the drop-down): what it is, how it was trained and scored, how quickly
+  /// it shows a change, and its measured inference time on this phone.
+  Widget _modelCard(BuildContext context, AppMetrics m) {
+    final textTheme = Theme.of(context).textTheme;
+    final isHar = _model == _Model.har;
+    final har = harClassifier;
+    _refreshLatency();
+    final shown =
+        _shownSeconds(isHar ? LatencyTask.activity : LatencyTask.social);
+    final n = shown.length;
+    final mean = n == 0 ? null : shown.reduce((a, b) => a + b) / n;
+    final median = n == 0
+        ? null
+        : n.isOdd
+            ? shown[n ~/ 2]
+            : (shown[n ~/ 2 - 1] + shown[n ~/ 2]) / 2;
+    String secs(double? v) => v == null
+        ? '– (no latency tests yet)'
+        : '${v.toStringAsFixed(2)} s ($n change${n == 1 ? '' : 's'})';
+    final stat = isHar ? m.harInference : m.socialInference;
+    final windowSamples =
+        isHar ? (har?.window.length ?? 50) : socialWindowSamples;
+    final classes = isHar ? (har?.classes.length ?? 11) : socialLabels.length;
+    final file = (isHar ? harModelAsset : socialModelAsset).split('/').last;
+    return SectionCard(
+      icon: Icons.timer_outlined,
+      title: 'Response time',
+      trailing: DropdownButton<_Model>(
+        key: const ValueKey('model-select'),
+        value: _model,
+        underline: const SizedBox.shrink(),
+        onChanged: (v) => setState(() => _model = v ?? _model),
+        items: const [
+          DropdownMenuItem(value: _Model.har, child: Text('Activity (HAR)')),
+          DropdownMenuItem(value: _Model.social, child: Text('Social signal')),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _row('Model file', file),
+          _row('Architecture', 'Multi-branch CNN'),
+          _row('Classes', '$classes'),
+          _row('Window',
+              '$windowSamples samples (${(windowSamples / sensorHz).toStringAsFixed(0)} s)'),
+          _row('New result every',
+              '${(updateInterval.inMilliseconds / 1000).toStringAsFixed(2)} s '
+                  '($updateStepSamples samples)'),
+          if (!isHar) _row('Runs', 'only while you are still'),
+          _row('Runs on', 'this phone (TensorFlow Lite), no server'),
+          _row('Trained on',
+              'datasetJan2026 + both members\' recordings, mixed; favours '
+                  'the most recent seconds'),
+          if (isHar)
+            _row('Official 10-fold CV',
+                'static 99.4 % · dynamic 89.5 % (targets 90 % / 85 %)')
+          else
+            _row(
+                'Official 10-fold CV',
+                'breathing 89.3 % · coughing 78.0 % · hyperventilation '
+                    '79.2 % · other 76.6 % (target 75 % each)'),
+          _row('Time to show a change, mean (latency test)', secs(mean)),
+          _row('Time to show a change, median (latency test)', secs(median)),
+          _row('Inference (last / mean / max)',
+              stat.count == 0
+                  ? '–'
+                  : '${_ms(stat.last)} / ${_ms(stat.mean)} / ${_ms(stat.max)}'),
+          _row('Inferences on this phone', '${stat.count}'),
+          const SizedBox(height: 6),
+          Text(
+            'Time to show a change ≈ wait for the RESpeck packet holding it '
+            '(32 samples = 2.56 s, 1.3 s on average) + time for the model to '
+            'see enough of the new ${isHar ? 'activity' : 'signal'} (it '
+            'favours the most recent seconds of its '
+            '${(windowSamples / sensorHz).toStringAsFixed(0)} s window) + '
+            'inference (a few ms). Mean and median are from your saved latency '
+            'tests (Tools › Latency test) for this model, from the button press '
+            'to the new class on screen; changes started too early or never '
+            'shown are left out.${isHar ? '' : ' Social signals are paused while you move.'}',
+            style: textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _row(String name, String value) {
@@ -552,3 +471,5 @@ class _PerformancePageState extends State<PerformancePage> {
     );
   }
 }
+
+enum _Model { har, social }

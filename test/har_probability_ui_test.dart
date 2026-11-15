@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/home.dart';
-import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/services/sensor_controller.dart';
 import 'package:pdiot/services/user_session.dart';
 
@@ -12,18 +11,15 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late SensorController sensor;
   HarClassifier? oldHar;
-  late bool oldSmooth;
 
   setUp(() {
     oldHar = harClassifier;
-    oldSmooth = appSettings.smoothHar.value;
     harClassifier = _Har();
     sensor = SensorController(session: UserSession(rememberLastUser: false));
   });
 
   tearDown(() {
     harClassifier = oldHar;
-    appSettings.smoothHar.value = oldSmooth;
     sensor.dispose();
   });
 
@@ -43,7 +39,6 @@ void main() {
 
   testWidgets('one bar per class with the model probabilities',
       (tester) async {
-    appSettings.smoothHar.value = false;
     await show(tester, const HarPrediction('lyingBack', 0.7, [0.7, 0.2, 0.1]));
     final bars = find.byKey(const ValueKey('har-probabilities'));
     expect(bars, findsOneWidget);
@@ -61,19 +56,7 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('with smoothing on, the bars show the latest window',
-      (tester) async {
-    appSettings.smoothHar.value = true;
-    await show(tester, const HarPrediction('running', 0.6, [0.1, 0.6, 0.3]));
-    final bars = find.byKey(const ValueKey('har-probabilities'));
-    expect(find.descendant(of: bars, matching: find.text('60%')),
-        findsOneWidget);
-    expect(find.text('Model output for the latest window'), findsOneWidget);
-    await tester.pumpWidget(const SizedBox.shrink());
-  });
-
   testWidgets('no bars when the probabilities are unknown', (tester) async {
-    appSettings.smoothHar.value = false;
     await show(tester, const HarPrediction('lyingBack', 0.9));
     expect(find.byKey(const ValueKey('har-probabilities')), findsNothing);
     expect(find.text('Confidence: 90%'), findsOneWidget);

@@ -119,7 +119,7 @@ class HarPrediction {
   final double confidence;
   // The model's probability for every class, in the order of
   // HarClassifier.classes (shown as bars on the Home tab). Null when not
-  // known, e.g. for the smoothed result, which only has a label.
+  // known.
   final List<double>? probabilities;
   const HarPrediction(this.label, this.confidence, [this.probabilities]);
 }

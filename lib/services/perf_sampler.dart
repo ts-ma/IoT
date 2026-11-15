@@ -34,9 +34,6 @@ class PerfSample {
     this.socialStatus,
     this.packetDelayMs,
     this.packetIntervalS,
-    this.packetToDisplayMs,
-    this.activityChangeS,
-    this.socialChangeS,
   });
 
   final DateTime time;
@@ -80,19 +77,11 @@ class PerfSample {
   /// Time since the previous packet, for the packets in this second.
   final double? packetIntervalS;
 
-  /// Packet arrival -> results handed to the display (mean this second).
-  final double? packetToDisplayMs;
-
-  /// Live time to show a change, for switches shown in this second.
-  final double? activityChangeS;
-  final double? socialChangeS;
-
   static const csvHeader = 'local_time,cpu_percent_one_core,rss_mb,'
       'phone_battery_pct,phone_charging,phone_current_ma,phone_power_mw,'
       'respeck_battery_pct,har_inference_ms,social_inference_ms,'
       'sample_rate_hz,lost_packets_total,storage_mb,streaming,'
       'activity_shown,social_status,respeck_extra_delay_ms,packet_interval_s,'
-      'packet_to_display_ms,activity_change_shown_s,social_change_shown_s,'
       'platform_memory_mb';
 
   String toCsv() {
@@ -117,9 +106,6 @@ class PerfSample {
       socialStatus ?? '',
       f(packetDelayMs, 0),
       f(packetIntervalS, 3),
-      f(packetToDisplayMs, 2),
-      f(activityChangeS, 2),
-      f(socialChangeS, 2),
       f(platformMemMb, 1),
     ].join(',');
   }
@@ -214,9 +200,6 @@ class PerfSampler extends ChangeNotifier {
   int _lastHarTotalUs = 0, _lastSocialTotalUs = 0;
   int _lastDelayCount = 0, _lastDelayTotalUs = 0;
   int _lastIntervalCount = 0, _lastIntervalTotalUs = 0;
-  int _lastProcCount = 0, _lastProcTotalUs = 0;
-  int _lastActChangeCount = 0, _lastActChangeTotalUs = 0;
-  int _lastSocChangeCount = 0, _lastSocChangeTotalUs = 0;
   int _lastSamples = 0;
   DateTime? _lastSamplesAt;
   PhoneBattery? _battery;
@@ -247,7 +230,7 @@ class PerfSampler extends ChangeNotifier {
   DateTime? _logStarted;
 
   /// Called when a log starts/stops for the settings in force (update
-  /// interval, smoothing, models). Set by the app; tests leave it null.
+  /// interval, models). Set by the app; tests leave it null.
   Map<String, Object?> Function()? describeSettings;
 
   /// `<log>.conditions.json` next to the CSV: what the report has to state
@@ -356,18 +339,6 @@ class PerfSampler extends ChangeNotifier {
       _lastDelayTotalUs = _metrics.packetExtraDelay.totalMicros;
       _lastIntervalCount = _metrics.packetInterval.count;
       _lastIntervalTotalUs = _metrics.packetInterval.totalMicros;
-      final procMs =
-          meanMs(_metrics.packetToDisplay, _lastProcCount, _lastProcTotalUs);
-      final actMs = meanMs(
-          _metrics.activityChange, _lastActChangeCount, _lastActChangeTotalUs);
-      final socMs = meanMs(
-          _metrics.socialChange, _lastSocChangeCount, _lastSocChangeTotalUs);
-      _lastProcCount = _metrics.packetToDisplay.count;
-      _lastProcTotalUs = _metrics.packetToDisplay.totalMicros;
-      _lastActChangeCount = _metrics.activityChange.count;
-      _lastActChangeTotalUs = _metrics.activityChange.totalMicros;
-      _lastSocChangeCount = _metrics.socialChange.count;
-      _lastSocChangeTotalUs = _metrics.socialChange.totalMicros;
 
       double? rate;
       final streaming = sensor?.streaming ?? false;
@@ -406,9 +377,6 @@ class PerfSampler extends ChangeNotifier {
         socialStatus: sensor?.socialProcessor?.status.name,
         packetDelayMs: delayMs,
         packetIntervalS: intervalMs == null ? null : intervalMs / 1000,
-        packetToDisplayMs: procMs,
-        activityChangeS: actMs == null ? null : actMs / 1000,
-        socialChangeS: socMs == null ? null : socMs / 1000,
       );
       _samples.addLast(sample);
       while (_samples.length > capacity) {
@@ -543,7 +511,6 @@ class _LogStats {
     acc('phone_current_ma').add(s.phoneCurrentMa);
     acc('har_inference_ms').add(s.harMs);
     acc('social_inference_ms').add(s.socialMs);
-    acc('packet_to_display_ms').add(s.packetToDisplayMs);
     acc('packet_interval_s').add(s.packetIntervalS);
     acc('sample_rate_hz').add(s.sampleRateHz);
     final seconds = m.putIfAbsent('seconds', _Acc.new);

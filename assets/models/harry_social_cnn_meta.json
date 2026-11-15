@@ -1,13 +1,13 @@
 {
-  "model_file": "social_cnn.tflite",
+  "model_file": "harry_social_cnn.tflite",
   "task": "social_signal",
   "sampling_frequency_hz": 12.5,
-  "window_samples": 50,
+  "window_samples": 75,
   "step_samples": 25,
   "input": {
     "shape": [
       1,
-      50,
+      75,
       3
     ],
     "channels": [
@@ -31,5 +31,11 @@
     ],
     "dtype": "float32"
   },
-  "normalization": "inside the model \u2013 feed raw values"
+  "normalization": "inside the model \u2013 feed raw values",
+  "trained_on": "datasetJan2026 (all, incl. recordings not in the fold CSVs) + both group members' recordings, mixed; trained to favour the most recent seconds (recency splices)",
+  "architecture": "harry_cnn",
+  "window_seconds": 6.0,
+  "recency_training": true,
+  "class_weights": "balanced^0.6",
+  "exported": "2026-11-13 13:58"
 }

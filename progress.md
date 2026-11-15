@@ -4,6 +4,15 @@ Branch: `ui-enhancement-v2.0-harry` (from `main` @ `c25c030`, after PR #1).
 
 Legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[-]` dropped (reason given)
 
+> **Current state (2026-11-15).** This file is a dated log; later entries replace earlier ones. What the app does now:
+> - **Models:** activity `harry_har_cnn` (multi-branch CNN, 4 s / 50 samples, pipeline v3) and social `harry_social_cnn` (multi-branch CNN, 6 s / 75 samples, pipeline v4 `cnn_w75rec`; renamed from `harry_social_rnn` on 2026-11-15). Both are trained to favour the most recent seconds.
+> - **Update interval:** fixed at 0.5 s (6 samples); the Settings option was removed on 2026-11-15 (the first decision table made it a setting with a 1 s default).
+> - **Smoothing removed** (2026-11-15): the activity card shows every result as it is.
+> - **Latency test:** starts when you press a button once steady (no vibration cue).
+> - **Lost packets** empty both model windows; **coughing episodes** need 4 s of coughing within 5 s; the real-time test counts a class with no result as 0 % and has a dashboard (Tools › Results › Open dashboard).
+> - The Performance page no longer shows phone or RESpeck battery and power (measure power with Xcode Instruments / Android Studio).
+> - The model descriptions moved from Settings to Performance › Response time (one model at a time, drop-down). The live change-time estimate, screen-update interval and packet → display time were removed, with their CSV log columns.
+
 ## Decisions (from Harry, 2026-11-03)
 
 | Topic | Decision |

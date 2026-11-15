@@ -20,7 +20,6 @@ void main() {
         socialShownConfidences: const [0.8, null],
         socialShownLatency: const Duration(milliseconds: 6400),
         stepSamples: 6,
-        smoothing: true,
         platform: 'ios',
       );
 
@@ -52,7 +51,6 @@ void main() {
     expect(back.socialShownConfidences, [0.8, null]);
     expect(back.harConfidences, t.harConfidences);
     expect(back.stepSamples, 6);
-    expect(back.smoothing, isTrue);
     expect(back.platform, 'ios');
 
     final old = Map<String, dynamic>.of(t.toJson())

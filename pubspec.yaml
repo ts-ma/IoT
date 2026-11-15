@@ -46,6 +46,7 @@ dependencies:
   path: ^1.9.1
   ffi: ^2.2.0
   flutter_local_notifications: ^22.3.3
+  sensors_plus: ^7.1.1
 
 dev_dependencies:
   flutter_test:
@@ -78,9 +79,9 @@ flutter:
     - assets/models/harry_har_cnn_meta.json
     - assets/models/harry_har_cnn_example.json
     # Live Social signal recognition model, metadata and parity example.
-    - assets/models/harry_social_rnn.tflite
-    - assets/models/harry_social_rnn_meta.json
-    - assets/models/harry_social_rnn_example.json
+    - assets/models/harry_social_cnn.tflite
+    - assets/models/harry_social_cnn_meta.json
+    - assets/models/harry_social_cnn_example.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -44,7 +44,8 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('settings-button')));
     await tester.pumpAndSettle();
-    expect(find.text('Update interval'), findsOneWidget);
+    expect(find.text('Reminders'), findsOneWidget);
+    expect(find.text('Update interval'), findsNothing); // fixed at 0.5 s
     expect(find.text('Pairing'), findsNothing); // moved to the Home sensor card
     await tester.pageBack();
     await tester.pumpAndSettle();
@@ -137,17 +138,9 @@ void main() {
     });
   });
 
-  test('update interval choices and labels', () {
-    expect(stepChoices, [25, 12, 6]);
-    expect(stepChoices.map(stepLabel), ['2 s', '1 s', '0.5 s']);
-    final s = AppSettings();
-    expect(s.stepSamples.value, defaultStepSamples);
-    expect(defaultStepSamples, 6); // 0.5 s: the freshest result per packet
-    expect(s.resultIntervalMs, 480);
-    s.stepSamples.value = 12;
-    expect(s.resultIntervalMs, 960);
-    s.stepSamples.value = 25;
-    expect(s.resultIntervalMs, 2000);
-    expect(() => s.setStepSamples(7), throwsArgumentError);
+  test('the update interval is fixed at 0.5 s (6 samples)', () {
+    expect(updateStepSamples, 6);
+    expect(updateInterval, const Duration(milliseconds: 480));
+    expect(updateStepSamples / sensorHz, closeTo(0.48, 1e-9));
   });
 }

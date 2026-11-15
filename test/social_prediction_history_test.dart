@@ -8,7 +8,6 @@ import 'package:pdiot/ble.dart';
 import 'package:pdiot/har.dart';
 import 'package:pdiot/history.dart';
 import 'package:pdiot/app_shell.dart';
-import 'package:pdiot/services/app_settings.dart';
 import 'package:pdiot/main.dart';
 import 'package:pdiot/models/prediction_record.dart';
 import 'package:pdiot/services/prediction_history_writer.dart';
@@ -34,7 +33,6 @@ void main() {
   final writerTime = DateTime.utc(2026, 11, 3); // Deliberately different.
 
   setUp(() async {
-    appSettings.stepSamples.value = 25; // trained step; Settings default is 6
     runner = _Runner();
     classifier = await SocialClassifier.load(createRunner: () async => runner);
     repository = _Repository();
@@ -283,9 +281,11 @@ void main() {
     }
     await tester.pump();
     await writer.flush();
-    expect(repository.saved, hasLength(2));
-    expect(observed, hasLength(2));
-    expect(source.deliveryErrorCount, 2);
+    // The app classifies every 6 samples (fixed 0.5 s): a full 75-sample
+    // window at sample 75, then 81, 87, 93 and 99 = 5 results.
+    expect(repository.saved, hasLength(5));
+    expect(observed, hasLength(5));
+    expect(source.deliveryErrorCount, 5);
     expect(find.text('Hyperventilating'), findsWidgets);
     await tester.pumpWidget(app());
     for (final t in ['tools', 'history', 'chart', 'home']) {
@@ -296,7 +296,7 @@ void main() {
     source.endSession();
     await tester.pump();
     await writer.flush();
-    expect(repository.saved, hasLength(2));
+    expect(repository.saved, hasLength(5)); // nothing new after the rebuilds
     expect(repository.saved.map((r) => r.timestamp),
         observed.map((e) => e.completedAt));
     await tester.pumpWidget(const SizedBox.shrink());

@@ -6,8 +6,8 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 
 import 'har.dart' show SampleWindow;
 
-const socialModelAsset = 'assets/models/harry_social_rnn.tflite';
-const socialMetaAsset = 'assets/models/harry_social_rnn_meta.json';
+const socialModelAsset = 'assets/models/harry_social_cnn.tflite';
+const socialMetaAsset = 'assets/models/harry_social_cnn_meta.json';
 
 /// Contract of the bundled Social model (must match its _meta.json): 75
 /// samples = 6 s at 12.5 Hz, about one and a half breaths. The model
@@ -85,6 +85,10 @@ class SocialClassifier {
 
   List<String> get classes => socialLabels;
 
+  /// Time inside the model call for the latest result (not the windowing or
+  /// the checks around it).
+  Duration lastRunDuration = Duration.zero;
+
   /// Samples between results (see SampleWindow.step); the window stays [socialWindowSamples].
   int get step => _window.step;
   set step(int value) => _window.step = value;
@@ -130,7 +134,7 @@ class SocialClassifier {
     if (input is! Map<String, dynamic> || output is! Map<String, dynamic>) {
       throw const FormatException('Social metadata must describe input/output');
     }
-    require(value['model_file'] == 'harry_social_rnn.tflite', 'model_file');
+    require(value['model_file'] == 'harry_social_cnn.tflite', 'model_file');
     require(value['task'] == 'social_signal', 'task');
     require(value['sampling_frequency_hz'] == 12.5, 'sampling_frequency_hz');
     require(
@@ -179,7 +183,12 @@ class SocialClassifier {
     }
     if (!_window.add(x, y, z)) return null;
     try {
-      final probabilities = _runner.run(_window.batch);
+      final batch = _window.batch;
+      // Time only the model call, as for HAR (Performance tab).
+      final timer = Stopwatch()..start();
+      final probabilities = _runner.run(batch);
+      timer.stop();
+      lastRunDuration = timer.elapsed;
       if (probabilities.length != 4 ||
           probabilities.any((p) => !p.isFinite || p < 0 || p > 1) ||
           (probabilities.fold<double>(0, (a, b) => a + b) - 1).abs() > 1e-4) {

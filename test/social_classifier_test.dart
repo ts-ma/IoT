@@ -16,7 +16,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   Map<String, dynamic> metadata() => jsonDecode(
-        File('assets/models/harry_social_rnn_meta.json').readAsStringSync(),
+        File('assets/models/harry_social_cnn_meta.json').readAsStringSync(),
       ) as Map<String, dynamic>;
 
   Future<SocialClassifier> load(_FakeRunner runner) =>

@@ -69,7 +69,6 @@ class AppShellState extends State<AppShell> {
               children: [
                 ToolsPage(sensor: widget.sensor, session: _session),
                 PerformancePage(
-                    historyWriter: widget.historyWriter,
                     sensor: widget.sensor,
                     sampler: widget.sampler,
                     session: _session),

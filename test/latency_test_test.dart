@@ -42,7 +42,6 @@ void main() {
           onCue: cue,
           onFinished: (r) => done?.addAll(r),
           stepSamples: 6,
-          smoothing: true,
         );
 
     testWidgets('settle on FROM, press, then first correct / shown / steady',

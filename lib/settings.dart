@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'globals.dart';
-import 'har.dart';
 import 'services/app_settings.dart';
 import 'services/user_session.dart';
-import 'social.dart';
 import 'widgets/common.dart';
 
-/// Settings (the gear at the top left): how often results update, display
-/// smoothing, the installed models and where the user's files are. Sensor
+/// Settings (the gear at the top left): reminders and where the user's files
+/// are. The models are described on the Performance tab (Response time). Sensor
 /// pairing lives on the Home sensor card.
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key, this.session});
@@ -19,7 +16,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = session ?? userSession;
     final textTheme = Theme.of(context).textTheme;
-    final har = harClassifier;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -28,112 +24,14 @@ class SettingsPage extends StatelessWidget {
       body: SafeArea(
         child: ListenableBuilder(
           listenable: Listenable.merge([
-            appSettings.stepSamples,
-            appSettings.smoothHar,
             appSettings.reminders,
             s
           ]),
           builder: (context, _) {
-            final step = appSettings.stepSamples.value;
             return ListView(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
               children: [
-                SectionCard(
-                  icon: Icons.update,
-                  title: 'Update interval',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SegmentedButton<int>(
-                        key: const ValueKey('step-setting'),
-                        segments: [
-                          for (final c in stepChoices)
-                            ButtonSegment(value: c, label: Text(stepLabel(c))),
-                        ],
-                        selected: {step},
-                        showSelectedIcon: false,
-                        onSelectionChanged: (v) =>
-                            appSettings.setStepSamples(v.single),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'How often both models give a new result. Each result '
-                        'still looks at the last 4 s (activity) or '
-                        '${socialWindowSeconds.toStringAsFixed(0)} s '
-                        '(social signal), so accuracy is the same; shorter '
-                        'intervals show changes up to one interval sooner and '
-                        'run the models more often (a few ms each). The models '
-                        'were trained with 2 s. The RESpeck sends its data in '
-                        'packets of 2.56 s, so the screen changes at most once '
-                        'per packet whatever the interval.',
-                        style: textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
-                SectionCard(
-                  icon: Icons.tune,
-                  title: 'Display',
-                  child: SwitchListTile(
-                    key: const ValueKey('smooth-setting'),
-                    contentPadding: EdgeInsets.zero,
-                    value: appSettings.smoothHar.value,
-                    onChanged: appSettings.setSmoothHar,
-                    title: const Text('Smooth activity results'),
-                    subtitle: Text('Show the most common of the last 3 results '
-                        '(${(3 * step / sensorHz).toStringAsFixed(1)} s) to stop '
-                        'the display flickering. History and tests always use '
-                        'the raw results.'),
-                  ),
-                ),
                 _remindersCard(context),
-                SectionCard(
-                  icon: Icons.memory,
-                  title: 'Models',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.directions_run),
-                        title:
-                            Text('Activity: ${harModelAsset.split('/').last}'),
-                        subtitle: Text(har == null
-                            ? 'Not loaded'
-                            : 'Multi-branch CNN · ${har.classes.length} classes · '
-                                '${har.window.length}-sample window '
-                                '(${(har.window.length / sensorHz).toStringAsFixed(0)} s), '
-                                'new result every ${har.window.step} samples.\n'
-                                'Trained on datasetJan2026 and both group '
-                                'members\' recordings, mixed, to answer from '
-                                'the most recent seconds. Official 10-fold '
-                                'cross-validation: static 99.4 %, dynamic '
-                                '89.6 % (targets 90 % and 85 %).'),
-                      ),
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.graphic_eq),
-                        title:
-                            Text('Social: ${socialModelAsset.split('/').last}'),
-                        subtitle: Text('Conv-GRU · ${socialLabels.length} classes · '
-                            '$socialWindowSamples-sample window '
-                            '(${socialWindowSeconds.toStringAsFixed(0)} s), new '
-                            'result every $step samples while you are still; '
-                            'paused while the activity is walking, stairs, '
-                            'running, shuffling or other movement.\n'
-                            'Trained on datasetJan2026 and both group '
-                            'members\' recordings, mixed. Official 10-fold '
-                            'cross-validation: 81.7 % mean of the 4 classes, '
-                            'each class at least 78 % (target 75 %).'),
-                      ),
-                      Text(
-                        'Both models run on the phone with TensorFlow Lite; '
-                        'no data leaves the device.',
-                        style: textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
                 SectionCard(
                   icon: Icons.folder_outlined,
                   title: 'Storage',
@@ -146,17 +44,13 @@ class SettingsPage extends StatelessWidget {
                               : '${s.root!.path} (log in to use your folder)')),
                       const SizedBox(height: 4),
                       Text(
-                        'Your history, real-time test results, raw recordings '
-                        '(raw/), exports and performance logs are kept here.',
+                        'Your history, real-time and latency test results, raw '
+                        'recordings (raw/), exports and performance logs are '
+                        'kept here.',
                         style: textTheme.bodySmall,
                       ),
                     ],
                   ),
-                ),
-                SectionCard(
-                  icon: Icons.info_outline,
-                  title: 'About',
-                  child: Text('App version $appVersionName'),
                 ),
               ],
             );

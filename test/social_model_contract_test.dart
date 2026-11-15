@@ -21,18 +21,18 @@ void main() {
 
   setUpAll(() {
     meta = jsonDecode(
-            File('assets/models/harry_social_rnn_meta.json').readAsStringSync())
+            File('assets/models/harry_social_cnn_meta.json').readAsStringSync())
         as Map<String, dynamic>;
-    example = jsonDecode(File('assets/models/harry_social_rnn_example.json')
+    example = jsonDecode(File('assets/models/harry_social_cnn_example.json')
         .readAsStringSync()) as Map<String, dynamic>;
     model = _FlatBuffer(
-        File('assets/models/harry_social_rnn.tflite').readAsBytesSync());
+        File('assets/models/harry_social_cnn.tflite').readAsBytesSync());
     graph = model.tables(model.root, 2).single;
     tensors = model.tables(graph, 0);
   });
 
   test('metadata fixes the Social sampling, window and channel contract', () {
-    expect(meta['model_file'], 'harry_social_rnn.tflite');
+    expect(meta['model_file'], 'harry_social_cnn.tflite');
     expect(meta['task'], 'social_signal');
     expect(meta['sampling_frequency_hz'], 12.5);
     expect(meta['window_samples'], 75);

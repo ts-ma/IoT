@@ -10,9 +10,8 @@ import 'package:pdiot/services/app_metrics.dart';
 import 'package:pdiot/services/evaluation.dart';
 import 'package:pdiot/services/live_feed.dart';
 import 'package:pdiot/services/prediction_repository.dart';
-import 'package:pdiot/services/prediction_smoother.dart';
 import 'package:pdiot/chart_page.dart';
-import 'package:pdiot/tools_page.dart';
+import 'package:pdiot/realtime_test_page.dart';
 import 'package:pdiot/services/sensor_controller.dart';
 import 'package:pdiot/services/user_session.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -53,65 +52,60 @@ void main() {
     });
   });
 
-  group('PredictionSmoother', () {
-    test('passes the first prediction through unchanged', () {
-      final s = PredictionSmoother();
-      final p = s.add(const HarPrediction('running', 0.91));
-      expect(p.label, 'running');
-      expect(p.confidence, closeTo(0.91, 1e-9));
-    });
-
-    test('a single odd prediction does not change the display', () {
-      final s = PredictionSmoother(size: 3);
-      s.add(const HarPrediction('normalWalking', 0.8));
-      s.add(const HarPrediction('normalWalking', 0.6));
-      final p = s.add(const HarPrediction('ascending', 0.9));
-      expect(p.label, 'normalWalking');
-      expect(p.confidence, closeTo(0.7, 1e-9));
-    });
-
-    test('a real change shows once it has the majority; ties go newest', () {
-      final s = PredictionSmoother(size: 2);
-      s.add(const HarPrediction('a', 0.5));
-      expect(s.add(const HarPrediction('b', 0.5)).label, 'b');
-      s.reset();
-      expect(s.length, 0);
-      expect(() => PredictionSmoother(size: 0), throwsArgumentError);
-    });
-  });
-
   group('countLabelEpisodes', () {
     final t0 = DateTime.utc(2026, 11, 3, 12);
-    ({String label, DateTime at}) r(String label, int seconds) =>
-        (label: label, at: t0.add(Duration(seconds: seconds)));
+    // One result every 0.5 s (step 6), each standing for 0.5 s.
+    ({String label, DateTime at, Duration interval}) r(String label, double s) =>
+        (
+          label: label,
+          at: t0.add(Duration(milliseconds: (s * 1000).round())),
+          interval: const Duration(milliseconds: 500),
+        );
+    List<({String label, DateTime at, Duration interval})> run(
+            String label, double from, double to) =>
+        [for (var s = from; s < to - 1e-9; s += 0.5) r(label, s)];
 
-    test('times coughed: misreads merge, lone results and gaps', () {
-      final records = [
-        r('coughing', 0),
-        r('coughing', 2),
-        r('other', 4), // one misread window does not split the time
-        r('coughing', 6),
-        r('breathingNormally', 8),
-        r('coughing', 30), // lone stray result: not counted
-        r('other', 32),
-        r('coughing', 60), // a new time after a long gap
-        r('coughing', 61),
-        r('coughing', 64), // 3 s later: still the same time
+    test('4 s of coughing within 5 s is one episode, however many coughs', () {
+      // A 10 s coughing fit with misread windows in between: one episode.
+      final fit = [
+        ...run('coughing', 0, 2),
+        r('other', 2),
+        ...run('coughing', 2.5, 6),
+        r('breathingNormally', 6),
+        ...run('coughing', 6.5, 10),
       ];
-      expect(countLabelEpisodes(records, 'coughing'), 2);
-      expect(countLabelEpisodes(records, 'coughing', minResults: 1), 3);
-      expect(countLabelEpisodes(records, 'other'), 0);
-      expect(countLabelEpisodes(records, 'other', minResults: 1), 2);
+      expect(countLabelEpisodes(fit, 'coughing'), 1);
+      expect(countLabelEpisodes(fit, 'other'), 0);
       expect(countLabelEpisodes([], 'coughing'), 0);
-      // Exactly 5 s apart is a new time (the merge gap is "less than 5 s").
+    });
+
+    test('short or sparse coughing is not an episode', () {
+      // 3.5 s of coughing: below 4 s.
+      expect(countLabelEpisodes(run('coughing', 0, 3.5), 'coughing'), 0);
+      // 8 single results 1 s apart = 4 s in total but spread over 8 s:
+      // never 4 s within any 5 s.
       expect(
-          countLabelEpisodes([
-            r('coughing', 0),
-            r('coughing', 1),
-            r('coughing', 6),
-            r('coughing', 7),
-          ], 'coughing'),
-          2);
+          countLabelEpisodes(
+              [for (var s = 0; s < 8; s++) r('coughing', s.toDouble())],
+              'coughing'),
+          0);
+      // Exactly 4 s within 5 s counts.
+      expect(countLabelEpisodes(run('coughing', 0, 4), 'coughing'), 1);
+    });
+
+    test('a new episode needs 5 s without coughing in between', () {
+      final twoFits = [
+        ...run('coughing', 0, 4),
+        ...run('breathingNormally', 4, 9),
+        ...run('coughing', 9, 13), // 5.5 s after the last cough: new episode
+      ];
+      expect(countLabelEpisodes(twoFits, 'coughing'), 2);
+      final oneFit = [
+        ...run('coughing', 0, 4),
+        ...run('breathingNormally', 4, 7),
+        ...run('coughing', 7, 11), // only 3.5 s gap: same episode
+      ];
+      expect(countLabelEpisodes(oneFit, 'coughing'), 1);
     });
   });
 
@@ -137,16 +131,37 @@ void main() {
       expect(m.packets, 0);
     });
 
-    test('tracks inference time and result interval', () {
-      var now = DateTime.utc(2026, 11, 3);
-      final m = AppMetrics(clock: () => now);
+    test('sample rate is per stream; gaps are found before decoding', () {
+      final m = AppMetrics();
+      final t = DateTime.utc(2026, 11, 3);
+      // 10 min of streaming (7,500 samples), then a disconnect.
+      m.recordPacket(0, 7500, t);
+      m.recordPacket(1, 0, t.add(const Duration(minutes: 10)));
+      m.endStream();
+      // Reconnected: 1 min of 12.5 Hz must not read as (7,500 + 750) / 60.
+      m.recordPacket(5, 0, t.add(const Duration(minutes: 20)));
+      m.recordPacket(6, 750, t.add(const Duration(minutes: 21)));
+      expect(m.sampleRateHz, closeTo(12.5, 1e-9));
+      expect(m.samples, 8250, reason: 'the total still counts every stream');
+      // packetGap only looks: 7 is next, 9 means two packets are missing.
+      expect(m.packetGap(7), 0);
+      expect(m.packetGap(9), 2);
+      expect(m.packetGap(40000), 0, reason: 'counter restart, not loss');
+      expect(m.lostPackets, 0);
+      m.recordPacket(9, 32, t.add(const Duration(minutes: 22)));
+      expect(m.lostPackets, 2);
+    });
+
+    test('tracks inference time of both models', () {
+      final m = AppMetrics();
       m.recordHarInference(const Duration(milliseconds: 2));
-      now = now.add(const Duration(seconds: 2));
       m.recordHarInference(const Duration(milliseconds: 4));
+      m.recordSocialInference(const Duration(milliseconds: 5));
       expect(m.harInference.count, 2);
       expect(m.harInference.mean, const Duration(milliseconds: 3));
       expect(m.harInference.max, const Duration(milliseconds: 4));
-      expect(m.harUpdateInterval.mean, const Duration(seconds: 2));
+      expect(m.socialInference.count, 1);
+      expect(m.socialInference.last, const Duration(milliseconds: 5));
     });
   });
 
@@ -243,7 +258,7 @@ void main() {
           confidence: 0.9,
         ));
 
-    test('counts per label and times coughed within one day only', () async {
+    test('counts per label and coughing episodes within one day only', () async {
       await add(PredictionTaskType.har, 'normalWalking', 0);
       await add(PredictionTaskType.har, 'normalWalking', 2);
       await add(PredictionTaskType.har, 'running', 4);
@@ -267,12 +282,12 @@ void main() {
               end: end,
               taskType: PredictionTaskType.social,
               label: 'coughing'),
-          1); // 0, 2, (other), 6: one time
+          1); // 0, 2, (other), 6 (2 s each): one episode
     });
   });
 
   group('pages', () {
-    testWidgets('daily summary shows time per activity and times coughed',
+    testWidgets('daily summary shows time per activity and coughing episodes',
         (tester) async {
       tester.view.physicalSize = const Size(1080, 4000);
       tester.view.devicePixelRatio = 1;
@@ -297,8 +312,29 @@ void main() {
       expect(find.text('Walking'), findsWidgets);
       expect(find.text('1 min 00 s'), findsWidgets);
       expect(find.text('30 min 00 s'), findsWidgets);
-      expect(find.text('Coughed 4 times'), findsOneWidget);
+      expect(find.text('4 coughing episodes'), findsOneWidget);
       expect(find.text('Last 7 days'), findsOneWidget);
+
+      // The 7-day card shows one view at a time, chosen in its drop-down.
+      expect(find.text('c = coughing episodes'), findsOneWidget);
+      expect(find.byKey(const ValueKey('week-timelines')), findsNothing);
+      expect(find.byKey(const ValueKey('day-timeline')), findsOneWidget);
+      await tester.ensureVisible(find.byKey(const ValueKey('week-view')));
+      await tester.tap(find.byKey(const ValueKey('week-view')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Day timelines').last);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('week-timelines')), findsOneWidget);
+      expect(find.text('c = coughing episodes'), findsNothing);
+      // The day's own timeline + one per day of the week.
+      expect(find.byKey(const ValueKey('day-timeline')), findsNWidgets(8));
+      await tester.tap(find.byKey(const ValueKey('week-view')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Static / dynamic').last);
+      await tester.pumpAndSettle();
+      expect(find.text('c = coughing episodes'), findsOneWidget);
+      expect(find.byKey(const ValueKey('week-timelines')), findsNothing);
+
       await tester.pumpWidget(const SizedBox.shrink());
       expect(repo.closed, isTrue);
     });
@@ -323,7 +359,7 @@ void main() {
           SensorController(session: UserSession(rememberLastUser: false));
       addTearDown(sensor.dispose);
       await tester.pumpWidget(MaterialApp(
-        home: ToolsPage(
+        home: RealtimeTestPage(
             sensor: sensor, store: store, feed: feed, requireSensor: false),
       ));
       await tester.pumpAndSettle();
@@ -432,8 +468,8 @@ class _SummaryRepository implements PredictionRepository {
     required DateTime end,
     required PredictionTaskType taskType,
     required String label,
-    Duration maxGap = const Duration(seconds: 5),
-    int minResults = 2,
+    Duration window = const Duration(seconds: 5),
+    Duration minTime = const Duration(seconds: 4),
     PredictionSource? source,
   }) async =>
       coughs;

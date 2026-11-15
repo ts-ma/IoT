@@ -9,13 +9,13 @@ import 'user_session.dart';
 // optionally, one known social signal) for a fixed time while the app records
 // two things:
 //   shown  what the screen displayed after each RESpeck packet (every 2.56 s):
-//          the activity after smoothing (if on) and the social signal, or
+//          the activity and the social signal, or
 //          "paused"/"none" when no social signal was on screen. This is what
 //          CW3 asks for ("how many times the correct classification result is
 //          shown on your app") and is the main figure.
-//   raw    every model result (every update step), before smoothing. Several
-//          raw results are made per packet but only the last reaches the
-//          screen; kept for the critical analysis (smoothing, model vs app).
+//   raw    every model result (every update step). Several raw results
+//          are made per packet but only the last stays on the screen; kept
+//          for the critical analysis (model vs app).
 // Scoring follows the coursework's offline scheme: accuracy per class, then
 // the mean over the classes of each group, so classes with more trials do not
 // carry more weight.
@@ -63,7 +63,6 @@ class EvaluationTrial {
     List<String>? socialShown,
     List<double?>? socialShownConfidences,
     this.stepSamples,
-    this.smoothing,
     this.platform,
   })  : startedAt = startedAt.toUtc(),
         socialSettleSeconds = socialSettleSeconds ?? settleSeconds,
@@ -86,7 +85,7 @@ class EvaluationTrial {
   /// scored: their window still contains data from before the trial.
   final int settleSeconds;
 
-  /// The same for Social predictions, whose window is longer (8 s). Trials
+  /// The same for Social predictions, whose window is longer (6 s). Trials
   /// saved before this field existed fall back to [settleSeconds].
   final int socialSettleSeconds;
 
@@ -107,10 +106,9 @@ class EvaluationTrial {
   final List<String> socialShown;
   final List<double?> socialShownConfidences;
 
-  /// Settings in force: update step (samples), activity smoothing, and
-  /// "ios"/"android". Null for older trials.
+  /// Settings in force: update step (samples) and "ios"/"android". Null for
+  /// older trials.
   final int? stepSamples;
-  final bool? smoothing;
   final String? platform;
 
   /// Start of trial until the first correct prediction (scored or not): the
@@ -188,7 +186,6 @@ class EvaluationTrial {
         'socialShown': socialShown,
         'socialShownConfidences': socialShownConfidences,
         'stepSamples': stepSamples,
-        'smoothing': smoothing,
         'platform': platform,
       };
 
@@ -226,7 +223,6 @@ class EvaluationTrial {
                 (x as num?)?.toDouble()
             ],
       stepSamples: (json['stepSamples'] as num?)?.toInt(),
-      smoothing: json['smoothing'] as bool?,
       platform: json['platform'] as String?,
     );
   }
@@ -258,11 +254,22 @@ class ClassScore {
   /// Latency until the true class was shown on screen.
   final List<Duration> shownLatencies = [];
 
+  /// Trials that produced nothing to score for this class: no model result
+  /// and no screen update (e.g. the model never answered). They count as
+  /// failures, so a class that never gets a result scores 0 %, not "–".
+  int noResultTrials = 0;
+
   /// Raw accuracy: correct model results / model results.
-  double? get accuracy => windows == 0 ? null : correct / windows;
+  double? get accuracy => windows > 0
+      ? correct / windows
+      : (noResultTrials > 0 ? 0.0 : null);
 
   /// Shown accuracy: correct screen updates / screen updates (main figure).
-  double? get shownAccuracy => shown == 0 ? null : shownCorrect / shown;
+  /// 0 when every trial of the class gave no result. Null only for trials
+  /// saved before screen updates were recorded.
+  double? get shownAccuracy => shown > 0
+      ? shownCorrect / shown
+      : (noResultTrials > 0 ? 0.0 : null);
 
   double? get shownMajorityAccuracy =>
       shownTrials == 0 ? null : shownMajorityCorrect / shownTrials;
@@ -295,6 +302,7 @@ class EvaluationSummary {
         List<double> confidences, Duration? latency, Duration? shownLatency) {
       final score = byLabel.putIfAbsent(label, () => ClassScore(label));
       score.trials++;
+      if (predictions.isEmpty && shown.isEmpty) score.noResultTrials++;
       score.windows += predictions.length;
       score.correct += predictions.where((p) => p == label).length;
       if (majorityLabel(predictions) == label) score.majorityCorrect++;
@@ -334,7 +342,23 @@ class EvaluationSummary {
   Iterable<ClassScore> inGroup(LabelGroup group) =>
       scores.where((s) => labelInfo(s.label).group == group);
 
+  /// Every class of [group] the test should cover (11 activities + 4 social
+  /// signals in total).
+  static List<String> expectedIn(LabelGroup group) => [
+        for (final l in [...harClassOrder, ...socialClassOrder])
+          if (labelInfo(l).group == group) l,
+      ];
+
+  /// Classes of [group] with at least one trial. Untested classes are not in
+  /// the group mean, so report this next to it.
+  int testedIn(LabelGroup group) =>
+      inGroup(group).where((s) => s.trials > 0).length;
+
+  /// Trials (per task) that gave no result at all; each counts as 0 %.
+  int get noResultTrials => scores.fold(0, (a, s) => a + s.noResultTrials);
+
   /// Mean of the per-class RAW accuracies within [group] (coursework scheme).
+  /// A tested class without any result counts as 0 (see [ClassScore]).
   double? groupMean(LabelGroup group) =>
       _mean(inGroup(group).map((s) => s.accuracy));
 
@@ -383,7 +407,7 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       'social_shown_correct,social_shown_accuracy_pct,social_shown_majority,'
       'social_shown_latency_s,social_mean_confidence_pct,'
       'social_shown_mean_confidence_pct,har_shown,social_shown,'
-      'har_confidences,social_confidences,step_samples,smoothing,platform\n');
+      'har_confidences,social_confidences,step_samples,platform\n');
   for (final t in trials) {
     b.writeln([
       t.participant,
@@ -425,7 +449,6 @@ String trialsToCsv(List<EvaluationTrial> trials) {
       t.harConfidences.map((c) => c.toStringAsFixed(3)).join(' '),
       t.socialConfidences.map((c) => c.toStringAsFixed(3)).join(' '),
       t.stepSamples ?? '',
-      t.smoothing == null ? '' : (t.smoothing! ? 1 : 0),
       t.platform ?? '',
     ].map(_csv).join(','));
   }
@@ -491,7 +514,7 @@ String summaryToCsv(EvaluationSummary summary) {
   final b = StringBuffer('group,class,trials,windows,correct,accuracy_pct,'
       'majority_correct_trials,mean_latency_s,mean_shown_latency_s,'
       'shown_updates,shown_correct,shown_accuracy_pct,shown_trials,'
-      'shown_majority_correct_trials,mean_confidence_pct\n');
+      'shown_majority_correct_trials,mean_confidence_pct,no_result_trials\n');
   for (final s in summary.scores) {
     b.writeln([
       labelInfo(s.label).group.title,
@@ -509,12 +532,16 @@ String summaryToCsv(EvaluationSummary summary) {
       s.shownTrials,
       s.shownMajorityCorrect,
       _pct(s.meanConfidence),
+      s.noResultTrials,
     ].map(_csv).join(','));
   }
+  // Group rows: "trials" holds the classes tested out of those expected.
   for (final g in LabelGroup.values) {
     b.writeln([
-      g.title, 'MEAN', '', '', '', _pct(summary.groupMean(g)), '', '', '', //
-      '', '', _pct(summary.groupShownMean(g)), '', '', '',
+      g.title, 'MEAN', //
+      '${summary.testedIn(g)}/${EvaluationSummary.expectedIn(g).length} classes',
+      '', '', _pct(summary.groupMean(g)), '', '', '', //
+      '', '', _pct(summary.groupShownMean(g)), '', '', '', '',
     ].map(_csv).join(','));
   }
   b.writeln([
@@ -533,6 +560,7 @@ String summaryToCsv(EvaluationSummary summary) {
     '',
     '',
     '',
+    summary.noResultTrials,
   ].map(_csv).join(','));
   return b.toString();
 }

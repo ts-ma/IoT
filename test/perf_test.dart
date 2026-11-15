@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:pdiot/performance.dart';
 import 'package:pdiot/services/app_metrics.dart';
 import 'package:pdiot/services/device_stats.dart';
+import 'package:pdiot/services/latency_test.dart';
 import 'package:pdiot/services/perf_sampler.dart';
 import 'package:pdiot/services/user_session.dart';
 import 'package:pdiot/widgets/live_chart.dart';
@@ -147,6 +148,89 @@ void main() {
     expect(find.text('MEMORY'), findsOneWidget);
     expect(find.text('Response time'), findsOneWidget);
     expect(find.text('How each number is measured'), findsOneWidget);
+    // Battery, power and the removed latency rows are gone.
+    expect(find.text('Phone battery'), findsNothing);
+    expect(find.text('RESpeck battery'), findsNothing);
+    expect(find.text('PACKET → DISPLAY UPDATE'), findsNothing);
+    expect(find.text('SENSOR SAMPLE RATE'), findsNothing);
+    expect(find.text('STORAGE USED'), findsNothing);
+    expect(find.text('History writer'), findsNothing);
+    expect(find.text('RESPECK → PHONE EXTRA DELAY'), findsNothing);
+    expect(find.text('PACKET INTERVAL'), findsOneWidget);
+    expect(find.textContaining('change shown'), findsNothing);
+    expect(find.textContaining('without a clear signal change'), findsNothing);
+
+    // One model at a time: activity first, social from the drop-down.
+    expect(find.text('harry_har_cnn.tflite'), findsOneWidget);
+    expect(find.textContaining('static 99.4 %'), findsOneWidget);
+    expect(find.textContaining('breathing 89.3 %'), findsNothing);
+    await tester.tap(find.byKey(const ValueKey('model-select')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Social signal').last);
+    await tester.pumpAndSettle();
+    expect(find.text('harry_social_cnn.tflite'), findsOneWidget);
+    expect(find.textContaining('breathing 89.3 %'), findsOneWidget);
+    expect(find.textContaining('static 99.4 %'), findsNothing);
+    expect(find.text('75 samples (6 s)'), findsOneWidget);
     sampler.dispose();
+  });
+
+  testWidgets('Response time shows the latency-test mean and median',
+      (tester) async {
+    tester.view.physicalSize = const Size(1080, 6000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final dir = (await tester
+        .runAsync(() => Directory.systemTemp.createTemp('pdiot_perf_lat_')))!;
+    addTearDown(() => dir.delete(recursive: true));
+    final session =
+        UserSession(storage: () async => dir, rememberLastUser: false);
+    await tester.runAsync(() async {
+      await session.init();
+      await session.create('harry');
+    });
+    LatencyRep rep(LatencyTask task, int shownMs,
+            {String start = 'button', String? rawAtStart}) =>
+        LatencyRep(
+          participant: 'harry',
+          task: task,
+          from: task == LatencyTask.activity
+              ? 'sittingStanding'
+              : 'breathingNormally',
+          to: task == LatencyTask.activity ? 'normalWalking' : 'coughing',
+          cueAt: DateTime.utc(2026, 11, 15),
+          fromReached: true,
+          shown: Duration(milliseconds: shownMs),
+          stable: Duration(milliseconds: shownMs),
+          start: start,
+          rawAtStart: rawAtStart,
+        );
+    await tester
+        .runAsync(() => LatencyStore(() async => session.latencyFile!).save([
+              rep(LatencyTask.activity, 2000),
+              rep(LatencyTask.activity, 3000),
+              rep(LatencyTask.activity, 7000),
+              // Left out: started too early, and the old cue-started method.
+              rep(LatencyTask.activity, 500, rawAtStart: 'normalWalking'),
+              rep(LatencyTask.activity, 9000, start: 'cue'),
+              rep(LatencyTask.social, 5000),
+            ]));
+    await tester
+        .pumpWidget(MaterialApp(home: PerformancePage(session: session)));
+    // The page reads the file in the background (several real I/O steps).
+    for (var i = 0; i < 10; i++) {
+      await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+      await tester.pump();
+    }
+    // Activity: 2, 3 and 7 s -> mean 4.00 s, median 3.00 s.
+    expect(find.text('4.00 s (3 changes)'), findsOneWidget);
+    expect(find.text('3.00 s (3 changes)'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('model-select')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Social signal').last);
+    await tester.pumpAndSettle();
+    expect(find.text('5.00 s (1 change)'), findsNWidgets(2));
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

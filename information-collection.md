@@ -73,7 +73,7 @@ Suggested order (5 days of device time left):
 - [ ] **X9** Model footprint: parameters, TFLite size, inference time per phone; optional float16/int8 quantisation trade-off 🖥📱
 - [ ] **X10** Confidence analysis: confidence of correct vs wrong results (real-time) and calibration (CV) 🖥📱
 - [ ] **X11** Social accuracy by posture (sitting/standing vs lying) and per-subject spread 🖥
-- [ ] **X12** Smoothing and update-step ablation: shown vs raw accuracy, step 6/12/25 latency and CPU 📟📱🖥
+- [-] **X12** Smoothing / update-step ablation — dropped: smoothing was removed and the update interval was fixed at 0.5 s on 2026-11-15, so neither can be changed in the app (the step comparison is in `progress.md`, from simulation)
 - [ ] **X13** Small usability study (System Usability Scale) for the UI marks 📟
 
 ---
@@ -102,10 +102,10 @@ Collect these facts (each one is a sentence or a diagram label):
    ```
 3. **Models:** file names, window lengths, classes:
    ```bash
-   cat assets/models/harry_har_cnn_meta.json assets/models/harry_social_rnn_meta.json
+   cat assets/models/harry_har_cnn_meta.json assets/models/harry_social_cnn_meta.json
    ls -l assets/models/*.tflite
    ```
-4. **Data path for the diagram:** RESpeck → BLE packet → decode → both models fed every sample (HAR 50-sample window, social 75-sample window, new result every 6 samples) → HAR smoothing (majority of 3) → social shown only while the shown activity is static → screen + SQLite history + notifications.
+4. **Data path for the diagram:** RESpeck → BLE packet → decode → both models fed every sample (HAR 50-sample window, social 75-sample window, new result every 6 samples; a lost packet empties both windows) → each result shown as it is (no smoothing) → social shown only while the shown activity is static → screen + SQLite history + notifications.
 5. Draw the diagram (draw.io / PowerPoint). Re-use it in the slides (N14).
 
 ## N3 / N4 — Model methodology 🖥
@@ -114,15 +114,15 @@ From the model repo (`pipeline_v2/`, now in its own repository; start with `resu
 
 1. **Data:** datasetJan2026 + both members' recordings; class merges required by CW3 (sitting + standing; all stationary × breathing; talking/eating/singing/laughing → "other").
 2. **Preprocessing:** window length and overlap used in training (`step_samples` in the meta files = 25), normalisation (inside the model), any filtering.
-3. **Model:** architecture (HAR multi-branch CNN; social Conv-GRU), layer list and parameter count:
+3. **Model:** architecture (HAR multi-branch CNN, 4 s; social multi-branch CNN, 6 s; both trained to favour the most recent seconds), layer list and parameter count.:
    ```bash
    ~/miniconda3/envs/lerobot/bin/python -c "
    import keras
-   for f in ['assets/models/harry_har_cnn.keras','assets/models/harry_social_rnn.keras']:
+   for f in ['assets/models/harry_har_cnn.keras','assets/models/harry_social_cnn.keras']:
        m = keras.models.load_model(f); print(f, m.count_params()); m.summary()"
    ```
 4. **Training:** optimiser, learning rate, epochs/early stopping, batch size, class weights (social: balanced^0.6), seed — from the pipeline config.
-5. **References:** at least one per design choice (1-D CNN for HAR, GRU, class weighting, subject-wise CV). Keep a BibTeX list.
+5. **References:** at least one per design choice (1-D CNN, recency training, class weighting, subject-wise CV). Keep a BibTeX list.
 
 ## N5 — App implementation + screenshots 📟
 
@@ -146,9 +146,9 @@ Describe the layers: BLE (`ble.dart`) → models (`har.dart`, `social.dart`, `se
 
 1. Unit/widget tests:
    ```bash
-   cd ~/IoT && flutter test 2>&1 | tail -1      # currently: 196 passed, 1 skipped
+   cd ~/IoT && flutter test 2>&1 | tail -1      # check the current count
    ```
-   Note what they cover (window logic, model contract, smoothing, scoring, history, latency test).
+   Note what they cover (window logic, model contract, lost packets, scoring, coughing episodes, history, latency test, dashboard).
 2. Model conversion check: the tests compare the TFLite output with the example in `*_example.json` (the Keras result).
 3. Device testing table: for each phone (model, OS) — connects, classifies, history saved, background running, notifications. Fill it in during C3.
 4. User testing = N9 + X13.
@@ -157,8 +157,8 @@ Describe the layers: BLE (`ble.dart`) → models (`har.dart`, `social.dart`, `se
 
 What CW3 wants: for **each class**, accuracy averaged across all 10 folds; plus the mean of the **static** classes, **dynamic** classes and the **social** classes. Folds from Learn (`folds_daily_activity.csv`, `folds_social_signal.csv`); a subject never in train and test of the same fold.
 
-1. In the model repo, open `pipeline_v2/results/KNOWLEDGE.md` and the tables folder. You need:
-   - per-fold, per-class accuracy (recall) for the deployed HAR CNN and social Conv-GRU;
+1. In the model repo, the deployed models come from `pipeline_v3` (HAR CNN, `results/report.md`) and `pipeline_v4` (social CNN 6 s, candidate `cnn_w75rec`, `results/report.md`, `recall_per_class.csv`). You need:
+   - per-fold, per-class accuracy (recall) for the deployed HAR CNN and social CNN;
    - fold mean per class, fold mean of group means, and the SD across folds.
 2. Check the "as marked" numbers are computed on **Jan2026 test windows only** with the official folds (the members were extra subjects in folds 8–9; state this).
 3. **Honesty note (important):** v2 trains with the members' recordings mixed in. That is allowed ("continue improving … offline"), but the report must say so. Also report the **Jan2026-only** result of the same recipe (from v1 / X4) so the marker can compare like with like.
@@ -171,10 +171,12 @@ What CW3 wants: for **each class**, accuracy averaged across all 10 folds; plus 
 
 **What the app records (📱 Tools → Real-time test):**
 - *Shown*: what the screen displayed after every RESpeck packet (every 2.56 s), i.e. exactly what the user saw. Main figure.
-- *Raw*: every model result (every 0.48 s) before smoothing. Secondary (for X12).
+- *Raw*: every model result (every 0.48 s), including those replaced on screen within the same packet. Secondary (for X12).
 - Confidence of every result, the warm-up excluded (HAR 4 s, social 6 s), shown-latency, the settings in force, the platform and the raw accelerometer file.
 - Social shown as "paused" (because the shown activity was a movement) **counts as wrong**.
-- Export → 3 CSVs: per trial, per class summary, confusion matrices (shown and raw).
+- A trial that gives no result at all counts as 0 % for its class; untested classes are listed as "x of y tested".
+- **Tools → Results → Open dashboard:** every dynamic activity and every static activity + social signal pair (20), per participant.
+- Export → 3 CSVs: per trial, per class summary (with `no_result_trials` and classes tested per group), confusion matrices (shown and raw).
 
 **Protocol (decide before starting, do not change mid-way):**
 
@@ -203,15 +205,15 @@ What CW3 wants: for **each class**, accuracy averaged across all 10 folds; plus 
 
 CW3: "How long (in seconds) does it take for the classification output to be shown on your mobile app after performing the activity?"
 
-**App method (📱 Tools → Latency test):** the phone cues the change (vibration + sound), times *first correct model result*, *shown on screen*, and *stable for 3 s*. Includes the participant's reaction to the cue (≈ 0.2–0.4 s; state it; X5 measures it).
+**App method (📱 Tools → Latency test):** once the FROM class has been steady for 3 s, a button appears; the participant presses it and changes straight away. The app times from the press to the *first correct model result*, *shown on screen*, and *steady for 3 s*. The press-to-movement gap is small; state it. Smoothing is gone, so the result shown is the model's latest.
 
 1. Changes to test (5 repeats each, both members if time allows):
    - Activity: sitting → walking, walking → sitting, sitting → lying back, lying back → lying left, standing → running (outdoors).
    - Social (stay seated): breathing → coughing, breathing → hyperventilating, breathing → talking ("other"), coughing → breathing.
-2. Tools → Latency test → choose task, participant, From, Change to, Repeats = 5 → Start. Do the FROM activity until the screen shows it; change the moment the cue comes.
+2. Tools → Latency test → choose task, participant, From, Change to, Repeats = 5 → Start. Do the FROM activity until the button appears; press it and change at once.
 3. Export (download icon) → `exports/` → copy off (C2).
-4. Also from the Performance log (N11): packet interval (should be 2.56 s), lost packets, extra BLE delay (jitter).
-5. Report: mean, median, min, max per change; a box plot; explain the budget: window fill (4 s / 6 s) + wait for the next 2.56 s packet + smoothing.
+4. Also: Tools › Sensor-to-app delay test (median of 10+ flicks: RESpeck finishing a packet → packet in the app), and from the Performance log (N11) the packet interval (should average 2.56 s), lost packets and the extra delay (variation).
+5. Report: mean, median, min, max per change; a box plot; explain the budget: wait for the next 2.56 s packet + time for the model to see enough of the new class (both models favour the most recent seconds of their 4 s / 6 s windows).
 
 ## N11 — Power, CPU, memory 📟📱
 
@@ -292,7 +294,7 @@ Per platform: table (mean / max CPU, memory, power, battery %/h, inference ms, l
 
 1. **Most confused classes:** CV confusion matrices (pipeline `confusion_long.csv`, summed over folds) + the real-time confusion CSV from N9. List the top 3 confusions per task and why (e.g. shuffle vs walking, misc vs walking, "other" vs breathing when posture changes).
 2. **Why methods differ:** X1 + X2 numbers.
-3. **Real-time vs CV:** put N8 and N9 per class side by side. Explanations to check with data: warm-up/transitions, smoothing, members were in the training data (real-time is not subject-independent), sensor placement, the "paused" social results.
+3. **Real-time vs CV:** put N8 and N9 per class side by side. Explanations to check with data: warm-up/transitions, members were in the training data (real-time is not subject-independent), sensor placement, the "paused" social results.
 4. **Limitations / improvements:** window length vs latency (X3), packet granularity 2.56 s, social pauses while moving, small number of real-time subjects.
 
 ## N13 — Daily history evidence 📟📱
@@ -353,9 +355,9 @@ Real-time: the trials CSV has a confidence for every result → histogram for co
 ## X11 — Accuracy by posture and per subject 🖥
 Fix the posture lookup in `pipeline_v2/analyze.py` first (it checks `startswith("lying")`, but posture tags are back/left/right/stomach, so every recording is counted as sitting/standing). Then social accuracy by posture, and the distribution of per-subject accuracy (how many subjects below 75 %).
 
-## X12 — Smoothing and update step 📟📱🖥
+## X12 — Update step 📟📱🖥
 - Shown vs raw accuracy is already in the N9 export (no extra work).
-- Step: Settings → update interval 25 / 12 / 6 samples; run 10-min performance logs and 5 latency repeats for each. Plot CPU and latency vs step.
+- Dropped (2026-11-15): the update interval is fixed at 0.5 s and no longer a setting. Use the simulated step comparison in `progress.md` if the report needs it.
 
 ## X13 — Usability (SUS) 📟
 5–8 people use the app for 5 min (connect, read the live result, open history, export). They fill the 10-question System Usability Scale; score 0–100. Report n, mean, and the main comments. Be honest about the small sample.
@@ -411,7 +413,7 @@ Use the same build for every measurement. If the app or models change, earlier r
 ## C5 — Honesty rules (CW3 "true, accurate, no cheating")
 - Decide the protocol, trial counts and order **before** testing; keep a paper/notes log (date, phone, participant, trial, anything unusual).
 - Never drop or repeat a trial because the result was poor. Cancel only for technical faults and record why.
-- The same models and settings for everyone; record the step (6) and smoothing (on) — the app stores them per trial.
+- The same models and settings for everyone; record the step (6) — the app stores it per trial.
 - Report CV exactly as CW3 defines it (official folds, per class over 10 folds, group means) and say what extra data was in training.
 - Say what each tool measures (whole-phone vs app-only power, % of one core vs all cores, PSS/footprint vs RSS).
 - Keep all raw files (they are the evidence).

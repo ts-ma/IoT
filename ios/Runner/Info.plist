@@ -37,6 +37,8 @@
 	<array>
 		<string>bluetooth-central</string>
 	</array>
+	<key>NSMotionUsageDescription</key>
+	<string>The Bluetooth delay test compares the phone's motion with the RESpeck's to time how long its data takes to arrive.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need camera access to scan QR codes</string>
 	<key>UIApplicationSceneManifest</key>

@@ -11,7 +11,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'services/app_metrics.dart';
-import 'services/change_latency.dart';
 import 'services/app_settings.dart';
 import 'services/live_feed.dart';
 import 'services/notifications.dart';
@@ -40,7 +39,7 @@ void main() async {
     print("Could not read package info: $e");
   }
 
-  // Update interval and display smoothing (Settings).
+  // Reminders (Settings).
   await appSettings.load();
 
   // get storage folder - must be accessible to the user for PDIoT
@@ -179,8 +178,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late final SensorController _sensor;
   late final PerfSampler _sampler;
 
-  /// Social label currently on screen (null while paused / disconnected).
-  String? _lastSocialShown;
   ActivityReminders? _reminders;
 
   UserSession get _session => widget.session ?? userSession;
@@ -200,23 +197,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         // Single Social persistence owner: the raw new-inference callback,
         // never Home notifications, cached predictions, or startup examples.
         _historyWriter.captureSocial(event);
-        appMetrics.recordSocialInference(
-            event.processingDuration, event.completedAt);
-        // Live time to show a social change: the card shows every result
-        // unsmoothed, so a new label is a switch on screen. A result after a
-        // pause (moving) or reconnect is not a switch.
-        final label = event.prediction.label;
-        final before = _lastSocialShown;
-        if (before != null && before != label) {
-          appMetrics.recordShownChange(
-              ChangeTask.social, before, label, DateTime.now());
-        }
-        _lastSocialShown = label;
+        appMetrics.recordSocialInference(event.processingDuration);
         liveFeed.addSocial(event);
         widget.onSocialPrediction?.call(event);
       },
     );
-    _socialProcessor.addListener(_socialStatusChanged);
     final notifications = widget.notifications;
     if (notifications != null) {
       _reminders = ActivityReminders(
@@ -240,9 +225,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _sampler = PerfSampler(sensor: _sensor, session: _session)
       ..describeSettings = () => {
             'app_version': '$appVersionName+$appVersionCode',
-            'update_interval_samples': appSettings.stepSamples.value,
-            'update_interval_s': appSettings.resultIntervalSeconds,
-            'activity_smoothing': appSettings.smoothHar.value,
+            'update_interval_samples': updateStepSamples,
+            'update_interval_s': updateInterval.inMilliseconds / 1000,
             'har_model': harModelAsset.split('/').last,
             'har_window_samples': harClassifier?.window.length,
             'social_model': socialModelAsset.split('/').last,
@@ -262,25 +246,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       await _historyWriter.reopen();
       _reminders?.reset();
     };
-    // Update interval from Settings, applied to both models now and on change.
-    appSettings.stepSamples.addListener(_applyStep);
+    // Both models give a new result every 0.5 s (fixed; see app_settings).
     _applyStep();
     WidgetsBinding.instance.addObserver(this);
-  }
-
-  // Nothing (or "paused while moving") on the social card: the next result
-  // is not a switch from the label shown before.
-  void _socialStatusChanged() {
-    if (_socialProcessor.latestPrediction == null) _lastSocialShown = null;
   }
 
   // A changed reminder setting starts the counts afresh.
   void _resetReminders() => _reminders?.reset();
 
   void _applyStep() {
-    final step = appSettings.stepSamples.value;
-    harClassifier?.window.step = step;
-    widget.socialSession?.classifier?.step = step;
+    harClassifier?.window.step = updateStepSamples;
+    widget.socialSession?.classifier?.step = updateStepSamples;
   }
 
   void _reportHistoryError() {
@@ -303,8 +279,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    appSettings.stepSamples.removeListener(_applyStep);
-    _socialProcessor.removeListener(_socialStatusChanged);
     if (_reminders != null) {
       appSettings.reminders.removeListener(_resetReminders);
     }

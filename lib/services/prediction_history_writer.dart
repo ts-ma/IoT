@@ -21,7 +21,7 @@ class PredictionHistoryWriter extends ChangeNotifier {
     this.capacity = 256,
   })  : _openRepository = openRepository ?? PredictionRepository.open,
         _clock = clock ?? DateTime.now,
-        _intervalMs = intervalMs ?? (() => appSettings.resultIntervalMs) {
+        _intervalMs = intervalMs ?? (() => updateInterval.inMilliseconds) {
     if (capacity <= 0) throw ArgumentError.value(capacity, 'capacity');
   }
 

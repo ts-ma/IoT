@@ -9,11 +9,9 @@ import '../har.dart';
 import '../utils.dart';
 import 'app_metrics.dart';
 import 'app_settings.dart';
-import 'change_latency.dart';
 import 'live_feed.dart';
 import 'notifications.dart';
 import 'prediction_history_writer.dart';
-import 'prediction_smoother.dart';
 import 'raw_recorder.dart';
 import 'reminders.dart';
 import 'social_sample_processor.dart';
@@ -37,7 +35,6 @@ class SensorController extends ChangeNotifier {
         recorder = recorder ?? RawRecorder(),
         metrics = metrics ?? appMetrics {
     ble.ui = this;
-    appSettings.smoothHar.addListener(_resetDisplay);
   }
 
   final PredictionHistoryWriter? historyWriter;
@@ -67,12 +64,10 @@ class SensorController extends ChangeNotifier {
   int? respeckBattery;
   bool respeckCharging = false;
 
-  // What the activity card shows (smoothed when enabled), the raw model
-  // output it came from, and when it arrived.
+  // What the activity card shows (the latest model result, with every
+  // class probability) and when it arrived.
   HarPrediction? harShown;
-  HarPrediction? harRaw;
   DateTime? harUpdatedAt;
-  final PredictionSmoother _smoother = PredictionSmoother(size: 3);
 
   bool _disposed = false;
 
@@ -98,32 +93,20 @@ class SensorController extends ChangeNotifier {
     _notify();
   }
 
-  /// One raw activity result, as soon as the model produced it (several per
+  /// One activity result, as soon as the model produced it (several per
   /// RESpeck packet: a packet carries 32 samples = 2.56 s, the step is 0.5-2
-  /// s). Every result goes into the smoother, so "majority of the last 3"
-  /// spans 3 update intervals. (Feeding only the last result of each packet
-  /// made it span 3 packets = 7.7 s and delayed every change by ~2 s.)
+  /// s). The activity card shows each result as it is.
   ///
   /// The shown activity also switches social signals on and off: they are
-  /// only classified while the wearer is still. The smoothed result is used,
-  /// so a single misread window during a cough does not hide the cough.
+  /// only classified while the wearer is still.
   /// Does not notify: the packet's [updateFromPacket] does, once.
   HarPrediction addHarResult(HarPrediction prediction, {DateTime? at}) {
-    harRaw = prediction;
-    final shown =
-        appSettings.smoothHar.value ? _smoother.add(prediction) : prediction;
-    final before = harShown?.label;
-    if (before != null && before != shown.label) {
-      // Live time to show this change (Performance tab).
-      metrics.recordShownChange(
-          ChangeTask.activity, before, shown.label, DateTime.now());
-    }
-    harShown = shown;
+    harShown = prediction;
     harUpdatedAt = at ?? DateTime.now();
-    socialProcessor?.setPaused(isMoving(shown.label));
+    socialProcessor?.setPaused(isMoving(prediction.label));
     reminders?.onActivity(
-        shown.label, harUpdatedAt!, appSettings.resultInterval);
-    return shown;
+        prediction.label, harUpdatedAt!, updateInterval);
+    return prediction;
   }
 
   /// Dynamic activities (walking, stairs, running, shuffling, misc.).
@@ -142,9 +125,7 @@ class SensorController extends ChangeNotifier {
   }
 
   void _resetDisplay() {
-    _smoother.reset();
     harShown = null;
-    harRaw = null;
     harUpdatedAt = null;
     socialProcessor?.setPaused(false);
     _notify();
@@ -220,7 +201,6 @@ class SensorController extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
-    appSettings.smoothHar.removeListener(_resetDisplay);
     super.dispose();
   }
 }

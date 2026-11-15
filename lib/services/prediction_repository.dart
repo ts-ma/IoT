@@ -219,21 +219,21 @@ class PredictionRepository {
     return (rows.single['n'] as num).toInt();
   }
 
-  /// How many times [label] was detected in [start, end) (e.g. "coughed N
-  /// times"); see [countLabelEpisodes] for the merging rule.
+  /// Episodes of [label] in [start, end) (e.g. coughing episodes); see
+  /// [countLabelEpisodes] for the rule.
   Future<int> countEpisodes({
     required DateTime start,
     required DateTime end,
     required PredictionTaskType taskType,
     required String label,
-    Duration maxGap = const Duration(seconds: 5),
-    int minResults = 2,
+    Duration window = const Duration(seconds: 5),
+    Duration minTime = const Duration(seconds: 4),
     PredictionSource? source,
   }) async {
     _validateRange(start, end);
     final rows = await _database.query(
       _table,
-      columns: ['label', 'timestamp'],
+      columns: ['label', 'timestamp', 'interval_ms'],
       where: _rangeWhere(taskType, source),
       whereArgs: _rangeArgs(start, end, taskType, source),
       orderBy: 'timestamp ASC, id ASC',
@@ -245,11 +245,14 @@ class PredictionRepository {
             label: row['label'] as String,
             at: DateTime.fromMicrosecondsSinceEpoch(row['timestamp'] as int,
                 isUtc: true),
+            interval: Duration(
+                milliseconds: (row['interval_ms'] as num?)?.toInt() ??
+                    PredictionRecord.legacyIntervalMs),
           ),
       ],
       label,
-      maxGap: maxGap,
-      minResults: minResults,
+      window: window,
+      minTime: minTime,
     );
   }
 
@@ -315,32 +318,37 @@ class TimelineCell {
   final Duration duration;
 }
 
-/// Counts how many times [label] was detected ("coughed N times") in
-/// chronologically ordered [records]. Results of [label] less than [maxGap]
-/// apart are one episode, even with other results in between: at one result
-/// every 0.5 s a single misread window (coughing, other, coughing) must not
-/// count as two. An episode needs at least [minResults] results, so one stray
-/// result is not counted. A longer gap (no coughing, or a disconnect) starts
-/// a new episode.
+/// Counts episodes of [label] (e.g. coughing episodes) in chronologically
+/// ordered [records]. Each result stands for its [interval] of time (one
+/// update step). An episode is counted once [label] adds up to at least
+/// [minTime] within any [window] (default: 4 s of coughing within 5 s), so a
+/// single cough or a stray result is not an episode. The episode then lasts
+/// until [window] passes with no [label] result, so one episode holds every
+/// cough of a coughing fit, and other results in between do not split it.
 int countLabelEpisodes(
-  List<({String label, DateTime at})> records,
+  List<({String label, DateTime at, Duration interval})> records,
   String label, {
-  Duration maxGap = const Duration(seconds: 5),
-  int minResults = 2,
+  Duration window = const Duration(seconds: 5),
+  Duration minTime = const Duration(seconds: 4),
 }) {
   var episodes = 0;
-  var inEpisode = 0; // results of [label] in the current episode
+  var inEpisode = false;
+  final recent = <({DateTime at, Duration interval})>[];
   DateTime? lastHit;
   for (final record in records) {
     if (record.label != label) continue;
-    if (lastHit != null && record.at.difference(lastHit) < maxGap) {
-      inEpisode++;
-    } else {
-      if (inEpisode >= minResults) episodes++;
-      inEpisode = 1;
+    if (lastHit != null && record.at.difference(lastHit) >= window) {
+      inEpisode = false; // a full window without it: the episode is over
+      recent.clear();
     }
     lastHit = record.at;
+    recent.add((at: record.at, interval: record.interval));
+    recent.removeWhere((r) => record.at.difference(r.at) >= window);
+    final total = recent.fold<Duration>(Duration.zero, (a, r) => a + r.interval);
+    if (!inEpisode && total >= minTime) {
+      episodes++;
+      inEpisode = true;
+    }
   }
-  if (inEpisode >= minResults) episodes++;
   return episodes;
 }

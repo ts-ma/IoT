@@ -58,7 +58,8 @@ void main() {
           binSizeFor(const Duration(minutes: 10)), const Duration(seconds: 10));
     });
 
-    test('monitored range, dominant activity per bin, times coughed', () async {
+    test('monitored range, dominant activity per bin, coughing episodes',
+        () async {
       final repo = await openDb();
       final day = DateTime(2026, 11, 3);
       final t = DateTime(2026, 11, 3, 10, 0, 5).toUtc();
@@ -75,7 +76,7 @@ void main() {
       for (var i = 20; i < 25; i++) {
         await add(PredictionTaskType.har, 'normalWalking', i);
       }
-      for (final s in [3, 4, 12]) {
+      for (final s in [3, 4, 5, 6, 12]) {
         await add(PredictionTaskType.social, 'coughing', s);
       }
       final data = await loadTimeline(repo, day);
@@ -85,7 +86,8 @@ void main() {
       expect(data.bins.first.harLabel, 'sittingStanding'); // 10:00:00-10:00:30
       expect(data.bins.first.har['normalWalking'], const Duration(seconds: 5));
       expect(data.monitored, const Duration(seconds: 25));
-      expect(data.coughBouts, 1); // 3 s + 4 s = one time; 12 s alone is ignored
+      // 3-6 s: 4 s of coughing within 5 s = one episode; 12 s alone (1 s) is not.
+      expect(data.coughBouts, 1);
       expect(data.activities, ['sittingStanding', 'normalWalking']);
       final full = await loadTimeline(repo, day, range: TimelineRange.fullDay);
       expect(full.bins, hasLength(144));
@@ -193,7 +195,18 @@ void main() {
       ),
     ));
     await tester.pumpAndSettle();
-    expect(find.text('Free recording'), findsOneWidget);
+    // Every tool is a card that opens its own page.
+    for (final key in [
+      'open-realtime-test',
+      'open-latency-test',
+      'open-ble-delay-test',
+      'open-free-recording',
+    ]) {
+      expect(find.byKey(ValueKey(key)), findsOneWidget);
+    }
+    await tester.tap(find.byKey(const ValueKey('open-realtime-test')));
+    await tester.pumpAndSettle();
+    expect(find.text('Real-time test'), findsWidgets);
     await tester.runAsync(() async {
       await tester.tap(find.text('Start trial'));
       await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -218,9 +231,14 @@ void main() {
     expect(lines, hasLength(3));
     expect(sensor.recorder.active, isFalse);
 
-    // Free recording needs live data.
+    // Back to Tools, then the free recording page: it needs live data.
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('open-free-recording')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('free-start')));
-    await tester.pump();
+    // The trial's "saved" message animates out first.
+    await tester.pumpAndSettle();
     expect(find.text('Connect the RESpeck on Home first'), findsOneWidget);
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpWidget(const SizedBox.shrink());

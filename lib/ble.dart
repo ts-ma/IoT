@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'utils.dart';
 import 'globals.dart';
 import 'har.dart';
+import 'services/packet_feed.dart';
 import 'services/app_metrics.dart';
 import 'services/sensor_controller.dart';
 import 'services/social_sample_processor.dart';
@@ -38,6 +39,13 @@ HarPrediction? processDecodedSample(
   }
   socialProcessor?.addSample(x, y, z);
   return newPrediction;
+}
+
+/// Empty both model windows, e.g. after lost packets, so no window mixes data
+/// from before and after a gap in the stream.
+void resetModelWindows(SocialSampleProcessor? socialProcessor) {
+  harClassifier?.reset();
+  socialProcessor?.resetStream();
 }
 
 // A cached connection flag alone cannot tell whether the sensor is streaming.
@@ -219,8 +227,6 @@ Future<void> notify({
 
       // Timestamp when this packet was received, according to the phone clock
       DateTime packetReceivedTs = DateTime.now();
-      // Packet arrival -> results handed to the display (Performance tab).
-      final processing = Stopwatch()..start();
 
       Uint8List ul = Uint8List.fromList(value);
       ByteData bd = ul.buffer.asByteData();
@@ -244,6 +250,15 @@ Future<void> notify({
       int packetSeqNumber = bd.getUint16(4);
       //print(packetSeqNumber);
 
+      // Lost packets: checked BEFORE any sample reaches the models. Without
+      // this, both model windows would join the samples from either side of
+      // the missing 2.56 s as if they were one continuous movement. Both
+      // windows start afresh instead (the next results come once they are
+      // full again); recordPacket below still counts the loss.
+      if (appMetrics.packetGap(packetSeqNumber) > 0) {
+        resetModelWindows(socialProcessor);
+      }
+
       // Battery status (respeck version 6 only)
       int? battLevel;
       bool charging = false;
@@ -261,11 +276,11 @@ Future<void> notify({
 
       StringBuffer csv = StringBuffer();
       int seqNumInPacket = 0;
+      // Raw samples for the sensor-to-app delay test, only while it listens.
+      final packetSamples = respeckPacketFeed.hasListener
+          ? <({double x, double y, double z})>[]
+          : null;
       int samplesWritten = 0;
-      // The last sample was measured just before sending; each earlier one
-      // 80 ms (1 / 12.5 Hz) before that.
-      final int packetSamples =
-          (bd.lengthInBytes - sampleDataOffset) ~/ sampleBytes;
       double x = 0, y = 0, z = 0;
       // The newest activity prediction made while decoding this packet, or
       // null if no sample in this packet completed a classification window
@@ -303,12 +318,6 @@ Future<void> notify({
         // not we are recording. addSample() returns null for most samples and
         // a prediction only when a new window has been classified. Emit each
         // raw result once, while retaining the latest result for packet UI.
-        appMetrics.recordSample(
-            x,
-            y,
-            z,
-            packetReceivedTs.subtract(Duration(
-                milliseconds: (packetSamples - 1 - seqNumInPacket) * 80)));
         final newPrediction = processDecodedSample(
           x, y, z,
           onPrediction: onPrediction,
@@ -318,7 +327,15 @@ Future<void> notify({
           prediction = newPrediction;
         }
 
+        packetSamples?.add((x: x, y: y, z: z));
         seqNumInPacket++;
+      }
+      if (packetSamples != null && packetSamples.isNotEmpty) {
+        respeckPacketFeed.add(RespeckPacket(
+          receivedAt: packetReceivedTs,
+          sequence: packetSeqNumber,
+          samples: packetSamples,
+        ));
       }
 
       appMetrics.recordPacket(
@@ -345,11 +362,10 @@ Future<void> notify({
         charging: charging,
         receivedAt: packetReceivedTs,
         // SensorController.connect's onPrediction already passed every result
-        // of this packet to the display (and its smoother) the moment it was
+        // of this packet to the display the moment it was
         // made; only a caller without that callback relies on this one.
         prediction: onPrediction == null ? prediction : null,
       );
-      appMetrics.recordPacketProcessing(processing.elapsed);
     }, onError: (Object error, StackTrace stack) {
       // A notification error confirms an interruption, but says nothing about
       // how many samples were lost. Preserve existing HAR/connection handling.

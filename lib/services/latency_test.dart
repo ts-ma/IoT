@@ -18,8 +18,7 @@ import 'social_sample_processor.dart';
 // when ready and changes to the TO class straight away. The app times, from
 // the press:
 //   first correct  the first raw model result equal to TO
-//   shown          the first time the screen showed TO (activity: after the
-//                  display smoothing; social results are shown unsmoothed)
+//   shown          the first time the screen showed TO
 //   stable         the start of the first run in which the screen kept TO for
 //                  3 s (no flicker back), i.e. a clear change for a user. The
 //                  3 s are a condition, not added: stable = shown if the new
@@ -57,7 +56,6 @@ class LatencyRep {
     this.shown,
     this.stable,
     this.stepSamples,
-    this.smoothing,
     this.start = 'button',
     this.shownAtStart,
     this.rawAtStart,
@@ -92,9 +90,8 @@ class LatencyRep {
   final Duration? shown;
   final Duration? stable;
 
-  /// Update interval and smoothing in force (they change the latency).
+  /// Update interval in force (it changes the latency).
   final int? stepSamples;
-  final bool? smoothing;
 
   bool get timedOut => stable == null;
 
@@ -109,7 +106,6 @@ class LatencyRep {
         'shownMs': shown?.inMilliseconds,
         'stableMs': stable?.inMilliseconds,
         'stepSamples': stepSamples,
-        'smoothing': smoothing,
         'start': start,
         'shownAtStart': shownAtStart,
         'rawAtStart': rawAtStart,
@@ -129,7 +125,6 @@ class LatencyRep {
       shown: ms(j['shownMs']),
       stable: ms(j['stableMs']),
       stepSamples: (j['stepSamples'] as num?)?.toInt(),
-      smoothing: j['smoothing'] as bool?,
       start: j['start'] as String? ?? 'cue', // saved before the button version
       shownAtStart: j['shownAtStart'] as String?,
       rawAtStart: j['rawAtStart'] as String?,
@@ -150,7 +145,6 @@ class LatencyRun extends ChangeNotifier {
     this.onCue,
     this.onFinished,
     this.stepSamples,
-    this.smoothing,
     DateTime Function()? clock,
     this.settleFor = const Duration(seconds: 3),
     this.settleTimeout = const Duration(seconds: 30),
@@ -173,7 +167,6 @@ class LatencyRun extends ChangeNotifier {
   final void Function()? onCue;
   final void Function(List<LatencyRep>)? onFinished;
   final int? stepSamples;
-  final bool? smoothing;
   final Stream<LiveHarEvent> _har;
   final Stream<SocialPredictionEvent> _social;
   final DateTime Function() _clock;
@@ -305,7 +298,6 @@ class LatencyRun extends ChangeNotifier {
       shown: shown,
       stable: stable,
       stepSamples: stepSamples,
-      smoothing: smoothing,
       start: 'button',
       shownAtStart: _shownAtStart,
       rawAtStart: _rawAtStart,
@@ -415,8 +407,7 @@ String _f(double? v) => v == null ? '' : v.toStringAsFixed(2);
 String latencyRepsToCsv(List<LatencyRep> reps) {
   final b = StringBuffer('participant,task,from,to,start_method,start_utc,'
       'from_reached,shown_at_start,raw_at_start,changing_at_start,'
-      'first_correct_s,shown_s,stable_s,timed_out,update_interval_samples,'
-      'smoothing\n');
+      'first_correct_s,shown_s,stable_s,timed_out,update_interval_samples\n');
   for (final r in reps) {
     b.writeln([
       r.participant,
@@ -434,7 +425,6 @@ String latencyRepsToCsv(List<LatencyRep> reps) {
       _s(r.stable),
       r.timedOut ? 1 : 0,
       r.stepSamples ?? '',
-      r.smoothing == null ? '' : (r.smoothing! ? 1 : 0),
     ].map(_csv).join(','));
   }
   return b.toString();

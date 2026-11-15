@@ -151,20 +151,18 @@ class SocialSampleProcessor extends ChangeNotifier {
         classifier.addSample(x, y, z, infer: false);
         return;
       }
-      final timer = Stopwatch()..start();
       final prediction = classifier.addSample(x, y, z);
-      timer.stop();
       if (prediction == null) return;
       final completedAt = _clock(); // Capture before observers or async work.
-      lastInferenceDuration = timer.elapsed;
-      if (timer.elapsed > maxInferenceDuration) {
-        maxInferenceDuration = timer.elapsed;
-      }
+      // Time inside the model call only, measured the same way as HAR.
+      final elapsed = classifier.lastRunDuration;
+      lastInferenceDuration = elapsed;
+      if (elapsed > maxInferenceDuration) maxInferenceDuration = elapsed;
       inferenceCount++;
       event = SocialPredictionEvent(
         prediction: prediction,
         completedAt: completedAt,
-        processingDuration: timer.elapsed,
+        processingDuration: elapsed,
       );
     } catch (error, stack) {
       // Do not repeatedly throw/log on every subsequent sample. HAR and CSV
