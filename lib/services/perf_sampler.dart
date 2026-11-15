@@ -26,13 +26,9 @@ class PerfSample {
     this.respeckLevel,
     this.harMs,
     this.socialMs,
-    this.sampleRateHz,
     this.lostPackets,
     this.storageMb,
     this.streaming,
-    this.activityShown,
-    this.socialStatus,
-    this.packetDelayMs,
     this.packetIntervalS,
   });
 
@@ -55,24 +51,14 @@ class PerfSample {
   final double? harMs;
   final double? socialMs;
 
-  /// Samples received from the RESpeck in this second (nominal 12.5).
-  final double? sampleRateHz;
   final int? lostPackets;
 
   /// Size of the user's folder (history, raw data, exports, logs).
   final double? storageMb;
 
-  /// Test conditions per second, so a log can be split into "sensor streaming
-  /// / idle" and "moving (social paused) / still" when reporting power & CPU.
+  /// Whether RESpeck data was arriving, so a log can be split into "sensor
+  /// streaming" and "idle" when reporting power & CPU.
   final bool? streaming;
-  final String? activityShown;
-
-  /// SocialPredictionStatus name, e.g. ready or pausedMoving.
-  final String? socialStatus;
-
-  /// RESpeck -> phone delay above the fastest recent packet (mean of the
-  /// packets in this second; see AppMetrics.packetExtraDelay).
-  final double? packetDelayMs;
 
   /// Time since the previous packet, for the packets in this second.
   final double? packetIntervalS;
@@ -80,8 +66,7 @@ class PerfSample {
   static const csvHeader = 'local_time,cpu_percent_one_core,rss_mb,'
       'phone_battery_pct,phone_charging,phone_current_ma,phone_power_mw,'
       'respeck_battery_pct,har_inference_ms,social_inference_ms,'
-      'sample_rate_hz,lost_packets_total,storage_mb,streaming,'
-      'activity_shown,social_status,respeck_extra_delay_ms,packet_interval_s,'
+      'lost_packets_total,storage_mb,streaming,packet_interval_s,'
       'platform_memory_mb';
 
   String toCsv() {
@@ -98,13 +83,9 @@ class PerfSample {
       respeckLevel ?? '',
       f(harMs, 3),
       f(socialMs, 3),
-      f(sampleRateHz, 2),
       lostPackets ?? '',
       f(storageMb, 3),
       streaming == null ? '' : (streaming! ? 1 : 0),
-      activityShown ?? '',
-      socialStatus ?? '',
-      f(packetDelayMs, 0),
       f(packetIntervalS, 3),
       f(platformMemMb, 1),
     ].join(',');
@@ -198,10 +179,7 @@ class PerfSampler extends ChangeNotifier {
   DateTime? _lastCpuAt;
   int _lastHarCount = 0, _lastSocialCount = 0;
   int _lastHarTotalUs = 0, _lastSocialTotalUs = 0;
-  int _lastDelayCount = 0, _lastDelayTotalUs = 0;
   int _lastIntervalCount = 0, _lastIntervalTotalUs = 0;
-  int _lastSamples = 0;
-  DateTime? _lastSamplesAt;
   PhoneBattery? _battery;
   PlatformMemory? _platformMemory;
 
@@ -331,24 +309,12 @@ class PerfSampler extends ChangeNotifier {
       _lastHarTotalUs = _metrics.harInference.totalMicros;
       _lastSocialCount = _metrics.socialInference.count;
       _lastSocialTotalUs = _metrics.socialInference.totalMicros;
-      final delayMs =
-          meanMs(_metrics.packetExtraDelay, _lastDelayCount, _lastDelayTotalUs);
       final intervalMs = meanMs(
           _metrics.packetInterval, _lastIntervalCount, _lastIntervalTotalUs);
-      _lastDelayCount = _metrics.packetExtraDelay.count;
-      _lastDelayTotalUs = _metrics.packetExtraDelay.totalMicros;
       _lastIntervalCount = _metrics.packetInterval.count;
       _lastIntervalTotalUs = _metrics.packetInterval.totalMicros;
 
-      double? rate;
       final streaming = sensor?.streaming ?? false;
-      if (streaming && _lastSamplesAt != null) {
-        final dt = now.difference(_lastSamplesAt!).inMicroseconds / 1e6;
-        final dn = _metrics.samples - _lastSamples;
-        if (dt > 0 && dn >= 0) rate = dn / dt;
-      }
-      _lastSamples = _metrics.samples;
-      _lastSamplesAt = now;
 
       if (_ticks % 15 == 0) {
         storage = await StorageStats.scan(_session.userDir);
@@ -369,13 +335,9 @@ class PerfSampler extends ChangeNotifier {
         respeckLevel: respeck,
         harMs: harMs,
         socialMs: socialMs,
-        sampleRateHz: rate,
         lostPackets: streaming ? _metrics.lostPackets : null,
         storageMb: storage.total / (1024 * 1024),
         streaming: sensor == null ? null : streaming,
-        activityShown: sensor?.harShown?.label,
-        socialStatus: sensor?.socialProcessor?.status.name,
-        packetDelayMs: delayMs,
         packetIntervalS: intervalMs == null ? null : intervalMs / 1000,
       );
       _samples.addLast(sample);
@@ -512,7 +474,6 @@ class _LogStats {
     acc('har_inference_ms').add(s.harMs);
     acc('social_inference_ms').add(s.socialMs);
     acc('packet_interval_s').add(s.packetIntervalS);
-    acc('sample_rate_hz').add(s.sampleRateHz);
     final seconds = m.putIfAbsent('seconds', _Acc.new);
     seconds.add(1);
     if (s.phoneCharging == true) _charged = true;

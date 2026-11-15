@@ -1,0 +1,30 @@
+{
+  "log_file": "perf_20261115_192828.csv",
+  "platform": "ios",
+  "os_version": "Version 27.2 (Build 24B119)",
+  "cpu_cores": 6,
+  "cpu_source": "getrusage",
+  "dart": "3.13.4",
+  "started": "2026-11-15T19:28:28.061785",
+  "ended": null,
+  "duration_s": null,
+  "sample_interval_s": 1.0,
+  "classification": "on the phone (TensorFlow Lite), no server",
+  "phone": {
+    "model": "iPhone14,5",
+    "osVersion": "27.2",
+    "manufacturer": "Apple"
+  },
+  "phone_marketing_name": "fill in by hand (e.g. iPhone15,2 = iPhone 14 Pro)",
+  "memory_platform_metric": "ios_phys_footprint",
+  "app_version": "2.1.5+9",
+  "update_interval_samples": 6,
+  "update_interval_s": 0.48,
+  "har_model": "harry_har_cnn.tflite",
+  "har_window_samples": 50,
+  "social_model": "harry_social_cnn.tflite",
+  "social_window_samples": 75,
+  "social_paused_while_moving": true,
+  "respeck": "F6:1D:C9:DD:79:31",
+  "user": "Pinru"
+}

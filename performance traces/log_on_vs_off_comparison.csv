@@ -1,0 +1,7 @@
+measure,log_on_5min_mean,log_off_5min_mean,log_on_5min_median,log_off_5min_median,log_on_5min_sd,log_off_5min_sd,difference_mean_A_minus_B,log_on_5min_minute_means,log_off_5min_minute_means,minute_to_minute_sd
+App CPU (% of one core),4.322,4.315,2.183,2.124,3.363,3.397,0.006,4.44 4.37 4.24 4.10,4.19 4.43 4.61 3.96,0.216
+App memory footprint (MB),135.363,136.386,135.346,136.142,3.726,3.874,-1.023,135.03 135.45 135.55 135.42,136.43 136.17 136.55 136.40,0.196
+Phone battery use (% per hour),14.42,15.655,14.178,15.151,1.21,2.015,-1.235,13.82 14.86 14.51 14.50,15.65 15.92 15.80 15.29,0.354
+"Phone CPU, all processes (% of one core)",60.013,63.447,59.501,59.558,13.506,22.412,-3.435,60.24 63.00 60.61 56.07,61.41 63.51 64.59 64.24,2.152
+App CPU time used / real time (% of one core),4.288,4.34,,,,,-0.052,,,
+App disk writes (KB per minute),24327.626,23926.922,,,,,400.704,,,
