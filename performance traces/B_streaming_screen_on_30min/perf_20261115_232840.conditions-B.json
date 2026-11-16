@@ -1,0 +1,91 @@
+{
+  "log_file": "perf_20261115_232840.csv",
+  "platform": "ios",
+  "os_version": "Version 27.2 (Build 24B119)",
+  "cpu_cores": 6,
+  "cpu_source": "getrusage",
+  "dart": "3.13.4",
+  "started": "2026-11-15T23:28:40.618731",
+  "ended": "2026-11-16T00:07:39.173763",
+  "duration_s": 2338,
+  "sample_interval_s": 1.0,
+  "classification": "on the phone (TensorFlow Lite), no server",
+  "phone": {
+    "manufacturer": "Apple",
+    "osVersion": "27.2",
+    "model": "iPhone14,5"
+  },
+  "phone_marketing_name": "fill in by hand (e.g. iPhone15,2 = iPhone 14 Pro)",
+  "memory_platform_metric": "ios_phys_footprint",
+  "app_version": "2.1.5+9",
+  "update_interval_samples": 6,
+  "update_interval_s": 0.48,
+  "har_model": "harry_har_cnn.tflite",
+  "har_window_samples": 50,
+  "social_model": "harry_social_cnn.tflite",
+  "social_window_samples": 75,
+  "social_paused_while_moving": true,
+  "respeck": "F6:1D:C9:DD:79:31",
+  "user": "Pinru",
+  "summary": {
+    "logged_seconds": 2337,
+    "phone_was_charging": true,
+    "phone_battery": {
+      "start_pct": 100,
+      "end_pct": 100,
+      "drop_pct": 0,
+      "minutes": 39.0,
+      "pct_per_hour": 0.0
+    },
+    "respeck_battery": {
+      "start_pct": 65,
+      "end_pct": 65,
+      "drop_pct": 0,
+      "minutes": 39.0,
+      "pct_per_hour": 0.0
+    },
+    "streaming": {
+      "seconds": 2339,
+      "cpu_percent_one_core": {
+        "samples": 2339,
+        "mean": 3.96,
+        "max": 27.66
+      },
+      "rss_mb": {
+        "samples": 2339,
+        "mean": 71.82,
+        "max": 81.84
+      },
+      "platform_memory_mb": {
+        "samples": 2339,
+        "mean": 131.99,
+        "max": 140.24
+      },
+      "phone_power_mw": {
+        "samples": 0,
+        "mean": null,
+        "max": null
+      },
+      "phone_current_ma": {
+        "samples": 0,
+        "mean": null,
+        "max": null
+      },
+      "har_inference_ms": {
+        "samples": 912,
+        "mean": 0.71,
+        "max": 1.0
+      },
+      "social_inference_ms": {
+        "samples": 901,
+        "mean": 1.12,
+        "max": 2.66
+      },
+      "packet_interval_s": {
+        "samples": 912,
+        "mean": 2.57,
+        "max": 2.93
+      }
+    }
+  }
+}

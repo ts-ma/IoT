@@ -1,0 +1,13 @@
+measure,part,n,mean,median,sd,min,max,note
+App CPU (% of one core),whole run,1738,3.906,2.136,3.072,0.656,17.912,process Runner only
+App CPU (% of one core),from 60 s,1681,3.904,2.139,3.072,0.656,17.912,process Runner only
+App memory footprint (MB),whole run,1739,132.236,132.189,3.867,126.174,141.017,process Runner only
+App memory footprint (MB),from 60 s,1681,132.256,132.205,3.856,126.174,141.017,process Runner only
+"Phone CPU, all processes (% of one core)",whole run,1738,44.952,40.396,21.087,23.05,325.496,includes Instruments helper
+"Phone CPU, all processes (% of one core)",from 60 s,1681,44.782,40.25,20.978,23.468,325.496,includes Instruments helper
+Phone battery use (% per hour),whole run,1801,5.421,5.277,0.747,4.197,18.261,whole phone; Apple's estimate
+Phone battery use (% per hour),from 60 s,1741,5.402,5.272,0.645,4.197,14.657,whole phone; Apple's estimate
+Display brightness (%),whole run,1801,0.0,0.0,0.0,0.0,0.0,
+Display brightness (%),from 60 s,1741,0.0,0.0,0.0,0.0,0.0,
+App CPU time used / real time (% of one core),from 60 s,1681,3.914,,,,,68.13 s CPU in 1740.6 s
+App disk writes (KB per minute),from 60 s,1681,26582.73,,,,,771172.0 KB in 1740.6 s
