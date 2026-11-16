@@ -503,9 +503,9 @@ class _RealtimeTestPageState extends State<RealtimeTestPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ask the participant to begin the activity, then press Start at '
-            'the same moment. Every live result during the trial is compared '
-            'with the activity and social signal chosen here.',
+            'Press Start as the participant begins the activity. Every live '
+            'result during the trial is compared with the activity and '
+            'social signal chosen here.',
             style: textTheme.bodySmall,
           ),
           const SizedBox(height: 8),

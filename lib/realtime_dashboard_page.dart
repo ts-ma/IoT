@@ -24,7 +24,8 @@ class RealtimeDashboardPage extends StatefulWidget {
   State<RealtimeDashboardPage> createState() => _RealtimeDashboardPageState();
 }
 
-/// Coursework targets: each static class 90 %, dynamic 85 %, social 75 %.
+/// Coursework targets used to colour the tiles: static 90 % and dynamic 85 %
+/// (the coursework applies these to the group mean), each social signal 75 %.
 double targetFor(LabelGroup group) => switch (group) {
       LabelGroup.staticActivity => 0.90,
       LabelGroup.dynamicActivity => 0.85,
@@ -198,7 +199,8 @@ class _RealtimeDashboardPageState extends State<RealtimeDashboardPage> {
         'a trial that gave no result at all counts as 0 %. Group values are '
         'the mean of their tested classes, as in the coursework marking; '
         'untested classes are not in the mean, so check "x of y tested". '
-        'Targets: each static class 90 %, dynamic 85 %, social 75 %.',
+        'Colours use the coursework targets: static 90 % and dynamic 85 % '
+        '(targets for the group mean), each social signal 75 %.',
         style: Theme.of(context).textTheme.bodySmall,
       ),
     );

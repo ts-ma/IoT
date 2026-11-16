@@ -15,8 +15,10 @@ import 'prediction_repository.dart';
 //       profile.json            user name, creation time, paired RESpeck
 //       history.db              every saved activity and social result
 //       realtime_trials.json    real-time test trials
+//       latency_tests.json      latency test changes
 //       raw/                    raw sensor CSVs (real-time test, free recording)
-//       exports/                CSV exports (daily summary, real-time results)
+//       exports/                CSV exports (history day, real-time, latency and
+//                               sensor-to-app delay tests)
 //       performance/            performance logs (Performance tab)
 //
 // <storage> is the app's external Downloads folder on Android (reachable over

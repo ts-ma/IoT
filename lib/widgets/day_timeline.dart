@@ -185,7 +185,8 @@ class _TimelinePainter extends CustomPainter {
     for (final b in data.bins) {
       final label = b.socialLabel;
       if (label == null) continue;
-      // Social results while moving are unreliable: drawn faint.
+      // Social results next to a movement (just before the pause, or from
+      // an older version) are unreliable: drawn faint.
       final alpha = b.moving ? 0.3 : 0.9;
       canvas.drawRect(
           Rect.fromLTWH(b.index * w, socialTop, w + 0.5, socialHeight),

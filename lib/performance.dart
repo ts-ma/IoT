@@ -10,8 +10,7 @@ import 'services/latency_test.dart';
 import 'services/perf_sampler.dart';
 import 'services/sensor_controller.dart';
 import 'services/user_session.dart';
-import 'social.dart'
-    show socialLabels, socialModelAsset, socialWindowSamples;
+import 'social.dart' show socialLabels, socialModelAsset, socialWindowSamples;
 import 'widgets/common.dart';
 import 'widgets/live_chart.dart';
 
@@ -85,8 +84,6 @@ class _PerformancePageState extends State<PerformancePage> {
               !r.changingAtStart)
             r.shown!.inMilliseconds / 1000,
       ]..sort();
-
-
 
   static const _cpuColor = Color(0xFF00E5FF);
   static const _memColor = Color(0xFFB388FF);
@@ -412,12 +409,14 @@ class _PerformancePageState extends State<PerformancePage> {
           _row('Classes', '$classes'),
           _row('Window',
               '$windowSamples samples (${(windowSamples / sensorHz).toStringAsFixed(0)} s)'),
-          _row('New result every',
+          _row(
+              'New result every',
               '${(updateInterval.inMilliseconds / 1000).toStringAsFixed(2)} s '
                   '($updateStepSamples samples)'),
           if (!isHar) _row('Runs', 'only while you are still'),
           _row('Runs on', 'this phone (TensorFlow Lite), no server'),
-          _row('Trained on',
+          _row(
+              'Trained on',
               'datasetJan2026 + both members\' recordings, mixed; favours '
                   'the most recent seconds'),
           if (isHar)
@@ -430,7 +429,8 @@ class _PerformancePageState extends State<PerformancePage> {
                     '79.2 % · other 76.6 % (target 75 % each)'),
           _row('Time to show a change, mean (latency test)', secs(mean)),
           _row('Time to show a change, median (latency test)', secs(median)),
-          _row('Inference (last / mean / max)',
+          _row(
+              'Inference (last / mean / max)',
               stat.count == 0
                   ? '–'
                   : '${_ms(stat.last)} / ${_ms(stat.mean)} / ${_ms(stat.max)}'),

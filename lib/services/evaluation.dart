@@ -106,8 +106,8 @@ class EvaluationTrial {
   final List<String> socialShown;
   final List<double?> socialShownConfidences;
 
-  /// Settings in force: update step (samples) and "ios"/"android". Null for
-  /// older trials.
+  /// Update step in force (samples) and the platform ("ios"/"android").
+  /// Null for older trials.
   final int? stepSamples;
   final String? platform;
 
@@ -260,16 +260,14 @@ class ClassScore {
   int noResultTrials = 0;
 
   /// Raw accuracy: correct model results / model results.
-  double? get accuracy => windows > 0
-      ? correct / windows
-      : (noResultTrials > 0 ? 0.0 : null);
+  double? get accuracy =>
+      windows > 0 ? correct / windows : (noResultTrials > 0 ? 0.0 : null);
 
   /// Shown accuracy: correct screen updates / screen updates (main figure).
   /// 0 when every trial of the class gave no result. Null only for trials
   /// saved before screen updates were recorded.
-  double? get shownAccuracy => shown > 0
-      ? shownCorrect / shown
-      : (noResultTrials > 0 ? 0.0 : null);
+  double? get shownAccuracy =>
+      shown > 0 ? shownCorrect / shown : (noResultTrials > 0 ? 0.0 : null);
 
   double? get shownMajorityAccuracy =>
       shownTrials == 0 ? null : shownMajorityCorrect / shownTrials;

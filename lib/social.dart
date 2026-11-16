@@ -10,9 +10,9 @@ const socialModelAsset = 'assets/models/harry_social_cnn.tflite';
 const socialMetaAsset = 'assets/models/harry_social_cnn_meta.json';
 
 /// Contract of the bundled Social model (must match its _meta.json): 75
-/// samples = 6 s at 12.5 Hz, about one and a half breaths. The model
-/// was trained with a 25-sample (2 s) step; the app applies the update
-/// interval chosen in Settings at run time (see [SocialClassifier.step]).
+/// samples = 6 s at 12.5 Hz, about one and a half breaths. The model was
+/// trained with a 25-sample (2 s) step; the app runs it every 6 samples
+/// (0.48 s, see [SocialClassifier.step] and app_settings.dart).
 const int socialWindowSamples = 75;
 const int socialStepSamples = 25;
 const double socialWindowSeconds = socialWindowSamples / 12.5;
@@ -163,9 +163,9 @@ class SocialClassifier {
         'normalization');
   }
 
-  /// Returns null until sample [socialWindowSamples] (75), then until each further [step] samples
-  /// arrive (25 by default).
-  /// The model sees the latest complete window, oldest sample first.
+  /// Returns null until sample [socialWindowSamples] (75), then until each
+  /// further [step] samples arrive (6 in the app). The model sees the latest
+  /// complete window, oldest sample first.
   /// With [infer] false the sample is only buffered (social signals are paused
   /// while the wearer moves); the first sample after the pause that has a full
   /// window behind it is classified at once.

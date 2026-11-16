@@ -203,8 +203,8 @@ class LatencyRun extends ChangeNotifier {
     if (phase != LatencyPhase.idle) return;
     _sub = task == LatencyTask.activity
         ? _har.listen((e) => _onResult(e.prediction.label, e.shown.label, e.at))
-        : _social.listen((e) => _onResult(e.prediction.label,
-            e.prediction.label, e.completedAt));
+        : _social.listen((e) =>
+            _onResult(e.prediction.label, e.prediction.label, e.completedAt));
     _settle();
   }
 
@@ -335,7 +335,8 @@ class LatencyRun extends ChangeNotifier {
 
 /// Summary of the reps of one FROM -> TO change.
 class LatencyStats {
-  LatencyStats(this.task, this.from, this.to, this.reps, {this.start = 'button'});
+  LatencyStats(this.task, this.from, this.to, this.reps,
+      {this.start = 'button'});
 
   final LatencyTask task;
   final String from;
@@ -435,8 +436,8 @@ String latencySummaryToCsv(List<LatencyRep> reps) {
   final b = StringBuffer('task,from,to,start_method,n,timeouts,'
       'changing_at_start,first_correct_mean_s,shown_mean_s,shown_median_s,'
       'stable_mean_s,stable_median_s\n');
-  void row(String task, String from, String to, String start,
-      List<LatencyRep> r) {
+  void row(
+      String task, String from, String to, String start, List<LatencyRep> r) {
     final s = LatencyStats(LatencyTask.activity, from, to, r);
     b.writeln([
       task,

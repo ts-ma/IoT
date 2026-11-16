@@ -26,10 +26,12 @@ void main() {
     });
 
     void send(String raw, String shown, double s) => har.add(LiveHarEvent(
-        HarPrediction(raw, 0.9), t0.add(Duration(milliseconds: (s * 1000).round())),
+        HarPrediction(raw, 0.9),
+        t0.add(Duration(milliseconds: (s * 1000).round())),
         shown: HarPrediction(shown, 0.9)));
 
-    LatencyRun make({int reps = 1, List<LatencyRep>? done, void Function()? cue}) =>
+    LatencyRun make(
+            {int reps = 1, List<LatencyRep>? done, void Function()? cue}) =>
         LatencyRun(
           task: LatencyTask.activity,
           from: 'sittingStanding',
@@ -91,7 +93,8 @@ void main() {
       run.dispose();
     });
 
-    testWidgets('button disabled while the screen leaves FROM; early start flagged',
+    testWidgets(
+        'button disabled while the screen leaves FROM; early start flagged',
         (tester) async {
       final done = <LatencyRep>[];
       final run = make(done: done);
@@ -116,8 +119,8 @@ void main() {
       expect(r.changingAtStart, isTrue);
       final stats = LatencyStats.of(done).single;
       expect(stats.changingAtStart, 1);
-      expect(latencyRepsToCsv(done).trim().split('\n').last,
-          contains(',button,'));
+      expect(
+          latencyRepsToCsv(done).trim().split('\n').last, contains(',button,'));
       run.dispose();
     });
 
@@ -214,7 +217,8 @@ void main() {
           expect(l.split(',').length, n, reason: l);
         }
       }
-      expect(latencySummaryToCsv(reps), contains('activity,ALL,ALL,button,1,0'));
+      expect(
+          latencySummaryToCsv(reps), contains('activity,ALL,ALL,button,1,0'));
       expect(LatencyStats.of(reps).first.shownMean, 2.6);
     });
   });

@@ -1,7 +1,7 @@
 enum PredictionTaskType { har, social }
 
-/// Where a result came from. Only live sensor data is classified now (the
-/// replay demo mode was removed); kept as a column for future sources.
+/// Where a result came from. The app only classifies live sensor data; the
+/// column leaves room for other sources.
 enum PredictionSource { live }
 
 /// One classified window. Dates are normalized to UTC and stored as epoch
@@ -16,12 +16,12 @@ class PredictionRecord {
   final DateTime? windowStart;
   final DateTime? windowEnd;
 
-  /// Activity time this result stands for: the update interval in force when
-  /// it was produced (Settings can change it). Null for rows saved before
-  /// schema v2, which are counted as the original 2 s step.
+  /// Activity time this result stands for: the update interval when it was
+  /// produced (480 ms in the current app). Null for rows saved before schema
+  /// v2, which count as 2 s, the step used then.
   final int? intervalMs;
 
-  /// Interval assumed for rows without [intervalMs] (the original 2 s step).
+  /// Interval assumed for rows without [intervalMs] (the step before v2).
   static const int legacyIntervalMs = 2000;
 
   int get effectiveIntervalMs => intervalMs ?? legacyIntervalMs;

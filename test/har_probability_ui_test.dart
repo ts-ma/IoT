@@ -37,17 +37,17 @@ void main() {
     await tester.pump();
   }
 
-  testWidgets('one bar per class with the model probabilities',
-      (tester) async {
+  testWidgets('one bar per class with the model probabilities', (tester) async {
     await show(tester, const HarPrediction('lyingBack', 0.7, [0.7, 0.2, 0.1]));
     final bars = find.byKey(const ValueKey('har-probabilities'));
     expect(bars, findsOneWidget);
     expect(
-        find.descendant(of: bars, matching: find.byType(LinearProgressIndicator)),
+        find.descendant(
+            of: bars, matching: find.byType(LinearProgressIndicator)),
         findsNWidgets(3));
     for (final pct in ['70%', '20%', '10%']) {
-      expect(find.descendant(of: bars, matching: find.text(pct)),
-          findsOneWidget);
+      expect(
+          find.descendant(of: bars, matching: find.text(pct)), findsOneWidget);
     }
     expect(find.descendant(of: bars, matching: find.text('Running')),
         findsOneWidget);

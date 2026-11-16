@@ -4,7 +4,8 @@ import '../har.dart';
 import 'social_sample_processor.dart';
 
 /// One new HAR result with the phone time it was produced, and the result
-/// the Home screen shows after it (the same result).
+/// the Home screen shows after it ([shown]; the same result, since Home
+/// shows every result as it is).
 class LiveHarEvent {
   LiveHarEvent(this.prediction, DateTime at, {HarPrediction? shown})
       : at = at.toUtc(),

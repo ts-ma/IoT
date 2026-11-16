@@ -25,7 +25,12 @@
          POST_NOTIFICATIONS comes from flutter_local_notifications. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
-    
+
+    <!-- The sensor-to-app delay test reads the phone's accelerometer at the
+         fastest rate. Android 12+ limits apps to 200 Hz without this
+         (normal permission: granted at install, no prompt). -->
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+
     <application
         android:label="pdiot"
         android:name="${applicationName}"

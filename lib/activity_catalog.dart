@@ -77,11 +77,17 @@ const Map<String, LabelInfo> _catalog = {
       Color(0xFF26A69A), LabelGroup.staticActivity),
   'lyingLeft': LabelInfo('lyingLeft', 'Lying on Left Side', Icons.hotel,
       Color(0xFF42A5F5), LabelGroup.staticActivity),
-  'lyingRight': LabelInfo('lyingRight', 'Lying on Right Side',
-      Icons.airline_seat_individual_suite, Color(0xFF7E57C2),
+  'lyingRight': LabelInfo(
+      'lyingRight',
+      'Lying on Right Side',
+      Icons.airline_seat_individual_suite,
+      Color(0xFF7E57C2),
       LabelGroup.staticActivity),
-  'lyingStomach': LabelInfo('lyingStomach', 'Lying on Stomach',
-      Icons.airline_seat_flat_angled, Color(0xFF8D6E63),
+  'lyingStomach': LabelInfo(
+      'lyingStomach',
+      'Lying on Stomach',
+      Icons.airline_seat_flat_angled,
+      Color(0xFF8D6E63),
       LabelGroup.staticActivity),
   // Dynamic activities
   'normalWalking': LabelInfo('normalWalking', 'Walking', Icons.directions_walk,
@@ -99,8 +105,8 @@ const Map<String, LabelInfo> _catalog = {
   // Social signals
   'breathingNormally': LabelInfo('breathingNormally', 'Normal Breathing',
       Icons.air, Color(0xFF29B6F6), LabelGroup.social),
-  'coughing': LabelInfo('coughing', 'Coughing', Icons.sick, Color(0xFFEC407A),
-      LabelGroup.social),
+  'coughing': LabelInfo(
+      'coughing', 'Coughing', Icons.sick, Color(0xFFEC407A), LabelGroup.social),
   'hyperventilation': LabelInfo('hyperventilation', 'Hyperventilating',
       Icons.speed, Color(0xFFFFCA28), LabelGroup.social),
   'other': LabelInfo('other', 'Other Social Signals', Icons.record_voice_over,

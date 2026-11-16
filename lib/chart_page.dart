@@ -634,8 +634,8 @@ class _ChartPageState extends State<ChartPage> {
                           ),
                           Text(
                             d.coughEpisodes > 0 ? '${d.coughEpisodes}c' : '',
-                            style: textTheme.labelSmall?.copyWith(
-                                color: labelInfo('coughing').color),
+                            style: textTheme.labelSmall
+                                ?.copyWith(color: labelInfo('coughing').color),
                           ),
                         ],
                       ),

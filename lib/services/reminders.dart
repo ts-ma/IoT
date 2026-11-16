@@ -35,11 +35,14 @@ class ReminderConfig {
 /// * **Move**: sitting/standing adds up to [ReminderConfig.sitMinutes] within
 ///   the last sitMinutes + 10 min, so a few misread or short breaks do not
 ///   restart the count. Lying is not counted (resting or sleeping). After a
-///   reminder it repeats every 30 min until you move; 5 min of movement
-///   (within 10 min) starts the count again from zero.
+///   reminder it repeats every 5 min for 30 min (6 reminders) until you move;
+///   no reminder is sent while you are moving, and 5 min of movement (within
+///   10 min) starts the count again from zero. If
+///   you have not moved after those 30 min it stops, and the sitting count
+///   starts again from zero.
 /// * **Wake-up alarm**: after the alarm time, if you are still lying down
-///   (lying for most of the last 2 min) it notifies, and again every 5 min,
-///   until you have been up (not lying) for most of 2 min. Once up, or 6 h
+///   (lying for most of the last 2 min) it notifies, and again every minute,
+///   until you have been up (not lying) for most of 2 min. Once up, or 2 h
 ///   after the alarm time, it is done for the day.
 ///
 /// Fed with every shown activity result and the time it stands for, so it
@@ -56,21 +59,24 @@ class ActivityReminders {
   static const _extraWindow = Duration(minutes: 10);
   static const moveNeeded = Duration(minutes: 5);
   static const _moveWindow = Duration(minutes: 10);
-  static const remindAgainAfter = Duration(minutes: 30);
+  static const moveRepeat = Duration(minutes: 5);
+  static const moveRemindFor = Duration(minutes: 30);
   static const _wakeLook = Duration(minutes: 2);
   static const _wakeMostly = Duration(seconds: 90);
-  static const wakeRepeat = Duration(minutes: 5);
-  static const _wakeGiveUp = Duration(hours: 6);
+  static const wakeRepeat = Duration(minutes: 1);
+  static const wakeRemindFor = Duration(hours: 2);
 
   final Queue<({DateTime at, String label, Duration span})> _recent = Queue();
   DateTime? _countFrom; // sitting before this does not count
+  DateTime? _firstMoveReminder; // first reminder of the current round
   DateTime? _lastMoveReminder;
   DateTime? _lastWakeReminder;
   DateTime? _wakeDoneFor; // local date the alarm is finished for
 
   /// Sitting/standing time counted towards the move reminder now.
   Duration get sitTime => _sum((l) => l == 'sittingStanding',
-      _recent.isEmpty ? null : _recent.last.at, _sitWindow, from: _countFrom);
+      _recent.isEmpty ? null : _recent.last.at, _sitWindow,
+      from: _countFrom);
 
   Duration get _sitWindow =>
       Duration(minutes: _config().sitMinutes) + _extraWindow;
@@ -92,12 +98,25 @@ class ActivityReminders {
     if (moved >= moveNeeded) {
       // A proper break: start counting again.
       _countFrom = at;
+      _firstMoveReminder = null;
+      _lastMoveReminder = null;
+      return;
+    }
+    final first = _firstMoveReminder;
+    if (first != null && at.difference(first) >= moveRemindFor) {
+      // Reminded for 30 min without a walk: stop, and count sitting again
+      // from zero.
+      _countFrom = at;
+      _firstMoveReminder = null;
       _lastMoveReminder = null;
       return;
     }
     if (sitTime < Duration(minutes: cfg.sitMinutes)) return;
+    // Already walking (or moving): no "time to move" mid-walk.
+    if (_isMoving(_recent.last.label)) return;
     final last = _lastMoveReminder;
-    if (last != null && at.difference(last) < remindAgainAfter) return;
+    if (last != null && at.difference(last) < moveRepeat) return;
+    _firstMoveReminder ??= at;
     _lastMoveReminder = at;
     _send(
         ReminderKind.move,
@@ -112,7 +131,7 @@ class ActivityReminders {
     if (_wakeDoneFor == today) return;
     final alarm = today.add(Duration(minutes: cfg.wakeMinuteOfDay));
     if (local.isBefore(alarm)) return;
-    if (local.difference(alarm) > _wakeGiveUp) {
+    if (local.difference(alarm) >= wakeRemindFor) {
       _wakeDoneFor = today;
       return;
     }
@@ -163,6 +182,7 @@ class ActivityReminders {
   void reset() {
     _recent.clear();
     _countFrom = null;
+    _firstMoveReminder = null;
     _lastMoveReminder = null;
     _lastWakeReminder = null;
     _wakeDoneFor = null;

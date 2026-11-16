@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:path_provider/path_provider.dart';
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'app_shell.dart';
 import 'globals.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'har.dart';
-import 'social.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart';
-import 'dart:async';
 import 'services/app_metrics.dart';
 import 'services/app_settings.dart';
 import 'services/live_feed.dart';
@@ -20,6 +21,7 @@ import 'services/reminders.dart';
 import 'services/sensor_controller.dart';
 import 'services/social_sample_processor.dart';
 import 'services/user_session.dart';
+import 'social.dart';
 
 // This file starts the app: settings, storage, the logged-in user, the models,
 // and the shell with its five tabs.
@@ -27,22 +29,21 @@ import 'services/user_session.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Read app version information. This must be awaited, otherwise the settings
-  // page can be built before the real version has arrived and will show the
-  // "0.0.0" default instead.
+  // App version and build number, read before the first screen is built.
   try {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    appVersionName = packageInfo.version; // App version
-    appVersionCode = int.tryParse(packageInfo.buildNumber) ?? 0; // Build number
+    appVersionName = packageInfo.version;
+    appVersionCode = int.tryParse(packageInfo.buildNumber) ?? 0;
   } catch (e) {
-    // A missing version is not worth blocking startup for
-    print("Could not read package info: $e");
+    // A missing version is not worth blocking start-up for.
+    debugPrint('Could not read package info: $e');
   }
 
-  // Reminders (Settings).
+  // Saved settings (reminders).
   await appSettings.load();
 
-  // get storage folder - must be accessible to the user for PDIoT
+  // Storage folder: the app's Downloads folder on Android (reachable over
+  // USB), its Documents folder on iOS (visible in the Files app).
   try {
     if (Platform.isAndroid) {
       storageFolder = await getDownloadsDirectory();
@@ -50,25 +51,25 @@ void main() async {
       storageFolder = await getApplicationDocumentsDirectory();
     }
   } catch (e) {
-    print("Could not get storage folder: $e");
+    debugPrint('Could not get storage folder: $e');
   }
 
   // Fall back to the app documents directory if the downloads folder was not
   // available, so that recording still works (the files are just harder to
-  // reach over USB)
+  // reach over USB).
   if (storageFolder == null) {
     try {
       storageFolder = await getApplicationDocumentsDirectory();
     } catch (e) {
-      print("Could not get fallback storage folder: $e");
+      debugPrint('Could not get fallback storage folder: $e');
     }
   }
-  print("storageFolder:${storageFolder?.path}");
+  debugPrint('Storage folder: ${storageFolder?.path}');
 
   // <storage>/PDIoT/ and the last logged-in user (if their folder exists).
   // Their profile holds the paired RESpeck.
   await userSession.init();
-  print("user:${userSession.username} respeck:$respeckUUID");
+  debugPrint('User: ${userSession.username}, RESpeck: $respeckUUID');
 
   // Load the activity recognition model and its metadata from the app's
   // assets (see har.dart). This is done once at startup, before the UI is
@@ -78,7 +79,7 @@ void main() async {
   try {
     harClassifier = await HarClassifier.load();
   } catch (e) {
-    print("Could not load HAR model: $e");
+    debugPrint('Could not load HAR model: $e');
   }
 
   // Model parity check (Lab 4, Step 5.1), debug builds only: feed the
@@ -100,11 +101,12 @@ void main() async {
       }
       final expected = (example['expected_probabilities'] as List)
           .reduce((a, b) => a > b ? a : b);
-      print("EXAMPLE app: ${p?.label} ${p?.confidence.toStringAsFixed(4)} | "
-          "Lab 3: ${example['expected_class']} "
-          "${(expected as num).toStringAsFixed(4)}");
+      debugPrint(
+          'EXAMPLE app: ${p?.label} ${p?.confidence.toStringAsFixed(4)} | '
+          'Lab 3: ${example['expected_class']} '
+          '${(expected as num).toStringAsFixed(4)}');
     } catch (e) {
-      print("HAR example check skipped: $e");
+      debugPrint('HAR example check skipped: $e');
     } finally {
       // Clear the test window before receiving live data, and do not count
       // the check in the performance figures.
@@ -113,8 +115,8 @@ void main() async {
     }
   }
 
-  // Independent of HAR and its example check. The app owns one Social session
-  // and supplies it to the decoded-sample processor for live BLE inference.
+  // The social model, loaded independently of HAR. The app owns this session
+  // and hands its classifier to the social sample processor.
   final socialSession = SocialClassifierSession();
   try {
     await socialSession.load();
@@ -165,7 +167,8 @@ class MyApp extends StatefulWidget {
   /// The user session (tests inject one with a temporary folder).
   final UserSession? session;
 
-  /// Sample CPU, memory and batteries for the Performance tab.
+  /// Sample CPU, memory and model timing for the Performance tab (off in
+  /// tests).
   final bool startPerfSampler;
 
   @override
@@ -299,7 +302,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static const SnackBarThemeData _snackBars =
       SnackBarThemeData(behavior: SnackBarBehavior.floating);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

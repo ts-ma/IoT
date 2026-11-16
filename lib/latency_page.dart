@@ -12,7 +12,7 @@ import 'services/sensor_controller.dart';
 import 'services/user_session.dart';
 import 'widgets/common.dart';
 
-/// Tools → Latency test: self-started changes timed on the phone (see
+/// Tools › Latency test: self-started changes timed on the phone (see
 /// services/latency_test.dart for the definitions and honesty checks).
 class LatencyTestPage extends StatefulWidget {
   const LatencyTestPage({
@@ -123,8 +123,8 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
         : widget.sensor.socialProcessor?.latestPrediction?.prediction.label;
     setState(() => _run = run);
     run.start();
-    _ticker = Timer.periodic(
-        const Duration(milliseconds: 200), (_) => _changed());
+    _ticker =
+        Timer.periodic(const Duration(milliseconds: 200), (_) => _changed());
   }
 
   void _changed() {
@@ -304,7 +304,8 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
             _from = v;
             if (_to == v) _to = _classes.firstWhere((c) => c != v);
           }),
-          const Text('Change to', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Change to',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           _labelDropdown('latency-to', _to, (v) => _to = v, exclude: _from),
           const SizedBox(height: 8),
           const Text('Repeats', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -361,9 +362,8 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
         ),
       _ => ('', '', scheme.surface),
     };
-    String t(Duration? d) => d == null
-        ? '…'
-        : '${(d.inMilliseconds / 1000).toStringAsFixed(1)} s';
+    String t(Duration? d) =>
+        d == null ? '…' : '${(d.inMilliseconds / 1000).toStringAsFixed(1)} s';
     return SectionCard(
       icon: Icons.timer_outlined,
       title: 'Change ${run.currentRep} of ${run.reps}',
@@ -412,7 +412,8 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
             ),
           ],
           const SizedBox(height: 12),
-          Text('Screen shows: '
+          Text(
+              'Screen shows: '
               '${run.shownLabel == null ? '–' : displayName(run.shownLabel!)}',
               style: textTheme.titleMedium),
           if (cued) ...[
@@ -456,9 +457,9 @@ class _LatencyTestPageState extends State<LatencyTestPage> {
               rows: [
                 for (final s in stats)
                   DataRow(cells: [
-                    DataCell(Text(
-                        '${displayName(s.from)} → ${displayName(s.to)}'
-                        '${s.start == 'cue' ? ' (cue, old method)' : ''}')),
+                    DataCell(
+                        Text('${displayName(s.from)} → ${displayName(s.to)}'
+                            '${s.start == 'cue' ? ' (cue, old method)' : ''}')),
                     DataCell(Text('${s.n}')),
                     DataCell(Text(f(s.shownMean))),
                     DataCell(Text(f(s.stableMean))),

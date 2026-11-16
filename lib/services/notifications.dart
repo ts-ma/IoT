@@ -107,15 +107,15 @@ class AppNotifications implements ReminderNotifier {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.startForegroundService(
-            id: _monitorId,
-            title: 'PDIoT is monitoring',
-            body: 'RESpeck ${respeckId ?? ''} connected - activity and '
-                'social signals are being recorded.',
-            notificationDetails: _monitorChannel,
-            foregroundServiceTypes: {
-              AndroidServiceForegroundType.foregroundServiceTypeConnectedDevice,
-            },
-          );
+        id: _monitorId,
+        title: 'PDIoT is monitoring',
+        body: 'RESpeck ${respeckId ?? ''} connected - activity and '
+            'social signals are being recorded.',
+        notificationDetails: _monitorChannel,
+        foregroundServiceTypes: {
+          AndroidServiceForegroundType.foregroundServiceTypeConnectedDevice,
+        },
+      );
       _monitoring = true;
     } catch (e) {
       debugPrint('Could not start the monitoring service: $e');

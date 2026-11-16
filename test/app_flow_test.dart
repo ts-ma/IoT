@@ -87,7 +87,7 @@ void main() {
       expect(data.bins.first.har['normalWalking'], const Duration(seconds: 5));
       expect(data.monitored, const Duration(seconds: 25));
       // 3-6 s: 4 s of coughing within 5 s = one episode; 12 s alone (1 s) is not.
-      expect(data.coughBouts, 1);
+      expect(data.coughEpisodes, 1);
       expect(data.activities, ['sittingStanding', 'normalWalking']);
       final full = await loadTimeline(repo, day, range: TimelineRange.fullDay);
       expect(full.bins, hasLength(144));
@@ -110,7 +110,7 @@ void main() {
           TimelineBin(
               1, DateTime(2026, 11, 3, 10, 30), DateTime(2026, 11, 3, 11)),
         ],
-        coughBouts: 1,
+        coughEpisodes: 1,
       );
       await tester.pumpWidget(MaterialApp(
           home: Scaffold(

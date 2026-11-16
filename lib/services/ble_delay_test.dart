@@ -94,7 +94,7 @@ class BleDelaySummary {
         delaysMs = [
           for (final r in results)
             if (r.valid) r.delay!.inMicroseconds / 1000
-          ]..sort();
+        ]..sort();
 
   final int flicks;
 
@@ -103,9 +103,8 @@ class BleDelaySummary {
 
   int get valid => delaysMs.length;
 
-  double? get mean => valid == 0
-      ? null
-      : delaysMs.reduce((a, b) => a + b) / valid;
+  double? get mean =>
+      valid == 0 ? null : delaysMs.reduce((a, b) => a + b) / valid;
 
   double? get median {
     if (valid == 0) return null;
@@ -120,8 +119,8 @@ class BleDelaySummary {
   double? get sd {
     if (valid < 2) return null;
     final m = mean!;
-    final v = delaysMs.fold<double>(0, (a, d) => a + (d - m) * (d - m)) /
-        (valid - 1);
+    final v =
+        delaysMs.fold<double>(0, (a, d) => a + (d - m) * (d - m)) / (valid - 1);
     return math.sqrt(v);
   }
 }
@@ -191,7 +190,8 @@ class BleDelayAnalysis {
     // Nominal times are later than the real ones, so samples whose nominal
     // time is before the flick were measured before it.
     final quiet = respeck
-        .where((r) => r.nominal.isAfter(t(-1500)) && r.nominal.isBefore(t(-200)))
+        .where(
+            (r) => r.nominal.isAfter(t(-1500)) && r.nominal.isBefore(t(-200)))
         .toList();
     if (quiet.length < 3) {
       return FlickResult(at: at, reason: 'no RESpeck data before the flick');
@@ -315,7 +315,9 @@ String flicksToCsv(List<FlickResult> results) {
     b.writeln([
       i + 1,
       r.at.toUtc().toIso8601String(),
-      r.delay == null ? '' : (r.delay!.inMicroseconds / 1000).toStringAsFixed(1),
+      r.delay == null
+          ? ''
+          : (r.delay!.inMicroseconds / 1000).toStringAsFixed(1),
       r.correlation?.toStringAsFixed(3) ?? '',
       r.respeckPeakG?.toStringAsFixed(3) ?? '',
       r.valid ? 1 : 0,

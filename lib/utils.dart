@@ -1,9 +1,10 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+/// "Lying down on stomach" -> "lyingDownOnStomach" (recording file names).
 String sentenceToCamelCase(String sentence) {
   // Split on runs of whitespace and drop empty words, so that leading,
-  // trailing or repeated spaces cannot produce an empty word below
+  // trailing or repeated spaces cannot produce an empty word below.
   List<String> words =
       sentence.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
 
@@ -11,7 +12,7 @@ String sentenceToCamelCase(String sentence) {
     return "";
   }
 
-  String camelCase = words[0].toLowerCase(); // Keep the first word in lowercase
+  String camelCase = words[0].toLowerCase(); // first word all lower case
 
   for (int i = 1; i < words.length; i++) {
     camelCase +=
@@ -21,6 +22,7 @@ String sentenceToCamelCase(String sentence) {
   return camelCase;
 }
 
+/// Short message at the bottom of the screen (about 2 s).
 void showToast(String s) {
   Fluttertoast.showToast(
       msg: s,
@@ -32,6 +34,7 @@ void showToast(String s) {
       fontSize: 16.0);
 }
 
+/// The same, shown for longer (about 3.5 s).
 void showLongToast(String s) {
   Fluttertoast.showToast(
       msg: s,
@@ -43,10 +46,9 @@ void showLongToast(String s) {
       fontSize: 16.0);
 }
 
-// The respeck sends acceleration values as two bytes, which need to be combined
-// into a signed integer, and then scaled to report the acceleration in g.
-// `upper` must be read as a signed byte (getInt8) so that the sign of the
-// 16 bit value is preserved by the shift below.
+/// The RESpeck sends each acceleration value as two bytes, combined here into
+/// a signed 16-bit integer and scaled to g. [upper] must be read as a signed
+/// byte (getInt8) so that the shift below keeps the sign.
 double combineAccelBytes(int upper, int lower) {
   int lower2 = lower & 0xFF;
   int value = (upper << 8) | lower2;

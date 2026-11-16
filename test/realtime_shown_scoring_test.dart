@@ -10,7 +10,11 @@ void main() {
         durationSeconds: 30,
         settleSeconds: 4,
         socialSettleSeconds: 6,
-        harPredictions: const ['sittingStanding', 'lyingBack', 'sittingStanding'],
+        harPredictions: const [
+          'sittingStanding',
+          'lyingBack',
+          'sittingStanding'
+        ],
         harConfidences: const [0.9, 0.5, 0.7],
         socialPredictions: const ['coughing', 'other'],
         socialConfidences: const [0.8, 0.6],
@@ -55,8 +59,13 @@ void main() {
 
     final old = Map<String, dynamic>.of(t.toJson())
       ..removeWhere((k, _) => !const {
-            'participant', 'trueActivity', 'trueSocial', 'startedAt',
-            'durationSeconds', 'settleSeconds', 'harPredictions',
+            'participant',
+            'trueActivity',
+            'trueSocial',
+            'startedAt',
+            'durationSeconds',
+            'settleSeconds',
+            'harPredictions',
             'socialPredictions',
           }.contains(k));
     final legacy = EvaluationTrial.fromJson(old);

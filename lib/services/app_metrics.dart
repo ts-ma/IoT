@@ -1,11 +1,8 @@
-// In-app performance counters.
-//
-// The coursework report must state the app's communication latency, model
-// cost and data rate. These counters cover what only the app can see: how
-// fast samples arrive, whether BLE packets are lost and how long each model
-// call takes. They are plain counters
-// updated from the BLE callback (no I/O, no notifications); PerfSampler reads
-// them once a second together with CPU, memory, battery and storage.
+// In-app performance counters: what only the app can see, i.e. how fast
+// samples arrive, whether BLE packets are lost and how long each model call
+// takes. They are plain counters updated from the BLE callback (no I/O, no
+// notifications); PerfSampler reads them once a second together with CPU,
+// memory, battery and storage.
 
 /// Count, last, min, mean and maximum of a series of durations.
 class DurationStat {
@@ -65,17 +62,6 @@ class AppMetrics {
   /// 32 samples at 12.5 Hz).
   final DurationStat packetInterval = DurationStat();
 
-  /// RESpeck -> phone transmission delay above the fastest packet among the
-  /// last [delayWindow] packets ("extra delay"). Each packet carries the
-  /// RESpeck's own timestamp, but the two clocks are not synchronised, so the
-  /// fixed part of the delay cannot be measured - only how much later than
-  /// the quickest recent packet each one arrived (BLE scheduling, retries,
-  /// the phone being busy). The rolling minimum also absorbs slow drift
-  /// between the two clocks.
-  final DurationStat packetExtraDelay = DurationStat();
-  static const int delayWindow = 100; // ~4 min of packets
-  final List<int> _offsetsMs = [];
-
   /// Packets missing between the previous packet and one with [sequence]
   /// (the RESpeck's 16-bit counter, wrapping at 65535), without recording
   /// anything. 0 for the first packet of a stream, and for a very large jump,
@@ -90,24 +76,11 @@ class AppMetrics {
   }
 
   /// Record one decoded BLE packet carrying [sampleCount] samples.
-  /// [respeckMs] is the packet's timestamp from the RESpeck clock.
-  void recordPacket(int sequence, int sampleCount, DateTime receivedAt,
-      {int? respeckMs}) {
+  void recordPacket(int sequence, int sampleCount, DateTime receivedAt) {
     streamStartedAt ??= receivedAt;
     final previousAt = lastPacketAt;
     if (previousAt != null) {
       packetInterval.add(receivedAt.difference(previousAt));
-    }
-    if (respeckMs != null) {
-      final offset = receivedAt.millisecondsSinceEpoch - respeckMs;
-      // A jump of more than a minute means the RESpeck clock restarted.
-      if (_offsetsMs.isNotEmpty && (offset - _offsetsMs.last).abs() > 60000) {
-        _offsetsMs.clear();
-      }
-      _offsetsMs.add(offset);
-      if (_offsetsMs.length > delayWindow) _offsetsMs.removeAt(0);
-      final fastest = _offsetsMs.reduce((a, b) => a < b ? a : b);
-      packetExtraDelay.add(Duration(milliseconds: offset - fastest));
     }
     lastPacketAt = receivedAt;
     packets++;
@@ -151,7 +124,6 @@ class AppMetrics {
     lastPacketAt = null;
     streamSamples = 0;
     _lastSequence = null;
-    _offsetsMs.clear();
   }
 
   void reset() {
@@ -162,9 +134,8 @@ class AppMetrics {
     harInference.reset();
     socialInference.reset();
     packetInterval.reset();
-    packetExtraDelay.reset();
   }
 }
 
-/// App-wide instance, written by ble.dart/har.dart/main.dart.
+/// App-wide instance, written by ble.dart, har.dart and main.dart.
 final AppMetrics appMetrics = AppMetrics();

@@ -7,7 +7,6 @@ import '../ble.dart' as ble;
 import '../globals.dart';
 import '../har.dart';
 import '../utils.dart';
-import 'app_metrics.dart';
 import 'app_settings.dart';
 import 'live_feed.dart';
 import 'notifications.dart';
@@ -19,9 +18,8 @@ import 'user_session.dart';
 
 /// Connection and live-display state of the RESpeck, shared by every tab.
 ///
-/// ble.dart decodes packets and reports them here (it used to write into the
-/// home page's State, which tied the BLE code to one widget). Screens listen
-/// and rebuild; the raw recorder receives samples while a recording runs.
+/// ble.dart decodes packets and reports them here; screens listen and
+/// rebuild, and the raw recorder receives samples while a recording runs.
 class SensorController extends ChangeNotifier {
   SensorController({
     this.historyWriter,
@@ -30,10 +28,8 @@ class SensorController extends ChangeNotifier {
     this.notifications,
     UserSession? session,
     RawRecorder? recorder,
-    AppMetrics? metrics,
   })  : session = session ?? userSession,
-        recorder = recorder ?? RawRecorder(),
-        metrics = metrics ?? appMetrics {
+        recorder = recorder ?? RawRecorder() {
     ble.ui = this;
   }
 
@@ -46,8 +42,6 @@ class SensorController extends ChangeNotifier {
   /// Notification permission and (Android) the monitoring foreground service.
   final AppNotifications? notifications;
 
-  /// Performance counters (live change latency is recorded here).
-  final AppMetrics metrics;
   final UserSession session;
   final RawRecorder recorder;
 
@@ -93,9 +87,9 @@ class SensorController extends ChangeNotifier {
     _notify();
   }
 
-  /// One activity result, as soon as the model produced it (several per
-  /// RESpeck packet: a packet carries 32 samples = 2.56 s, the step is 0.5-2
-  /// s). The activity card shows each result as it is.
+  /// One activity result, as soon as the model produced it (about five per
+  /// RESpeck packet: a packet carries 32 samples = 2.56 s and the step is
+  /// 0.48 s). The activity card shows each result as it is.
   ///
   /// The shown activity also switches social signals on and off: they are
   /// only classified while the wearer is still.
@@ -104,8 +98,7 @@ class SensorController extends ChangeNotifier {
     harShown = prediction;
     harUpdatedAt = at ?? DateTime.now();
     socialProcessor?.setPaused(isMoving(prediction.label));
-    reminders?.onActivity(
-        prediction.label, harUpdatedAt!, updateInterval);
+    reminders?.onActivity(prediction.label, harUpdatedAt!, updateInterval);
     return prediction;
   }
 
@@ -155,8 +148,8 @@ class SensorController extends ChangeNotifier {
       }
       await ble.connectToRespeck(
         onPrediction: (prediction) {
-          // Raw result: persisted to history and published to live screens
-          // together with what the screen now shows (for the shown latency).
+          // Each result: shown on Home, saved to history and published to
+          // the live tools (real-time and latency tests).
           final shown = addHarResult(prediction);
           historyWriter?.capture(prediction);
           liveFeed.addHar(prediction, shown: shown);

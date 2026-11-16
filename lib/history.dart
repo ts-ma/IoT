@@ -61,7 +61,7 @@ class HistoryEpisode {
 }
 
 /// Pairs every HAR record with the nearest social record (or none, e.g.
-/// while the 8 s social window is still filling). Both models classify the
+/// while the 6 s social window is still filling). Both models classify the
 /// same sample, so a true pair is milliseconds apart; the allowed gap is 3/4
 /// of the result interval (at least 300 ms) unless [tolerance] is given, so
 /// one social result is never shown against two activity results. Both lists
@@ -474,7 +474,11 @@ class _HistoryPageState extends State<HistoryPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: e.socialLabel == null
-                    ? Text('Social: warming up', style: textTheme.bodySmall)
+                    ? Text(
+                        moving
+                            ? 'Social: paused while moving'
+                            : 'Social: no result yet',
+                        style: textTheme.bodySmall)
                     : _LabelCell(
                         label: e.socialLabel!,
                         confidence: e.socialConfidence,
@@ -527,7 +531,9 @@ class _LabelCell extends StatelessWidget {
   final String label;
   final double? confidence;
 
-  /// Social result while moving: shown faded, as it is less reliable.
+  /// A social result next to a movement (made just before the pause, or saved
+  /// by an older version): shown faded, as social signals are only defined
+  /// while still.
   final bool dim;
 
   @override

@@ -83,11 +83,10 @@ class _BleDelayTestPageState extends State<BleDelayTestPage> {
       ..showSnackBar(SnackBar(content: Text(text)));
   }
 
-  Stream<PhoneMotion> _defaultPhoneMotion() =>
-      userAccelerometerEventStream(samplingPeriod: SensorInterval.fastestInterval)
-          .map((e) => PhoneMotion(
-              e.timestamp,
-              math.sqrt(e.x * e.x + e.y * e.y + e.z * e.z) / 9.80665));
+  Stream<PhoneMotion> _defaultPhoneMotion() => userAccelerometerEventStream(
+          samplingPeriod: SensorInterval.fastestInterval)
+      .map((e) => PhoneMotion(
+          e.timestamp, math.sqrt(e.x * e.x + e.y * e.y + e.z * e.z) / 9.80665));
 
   void _start() {
     if (widget.requireSensor && !widget.sensor.streaming) {
@@ -270,13 +269,16 @@ class _BleDelayTestPageState extends State<BleDelayTestPage> {
               '(about 3 s). The stillness before and after each flick '
               'matters as much as the flick.'),
           const _Heading('Avoid'),
-          const _Step('Tapping the RESpeck or the phone: a tap is too short '
+          const _Step(
+              'Tapping the RESpeck or the phone: a tap is too short '
               'for the RESpeck, which measures only 12.5 times a second.',
               bullet: '✕'),
-          const _Step('Twisting or tilting the phone, several small shakes, '
+          const _Step(
+              'Twisting or tilting the phone, several small shakes, '
               'or flicking before the prompt.',
               bullet: '✕'),
-          const _Step('Letting the RESpeck lift off the phone during the '
+          const _Step(
+              'Letting the RESpeck lift off the phone during the '
               'flick.',
               bullet: '✕'),
           const SizedBox(height: 4),
@@ -327,8 +329,7 @@ class _BleDelayTestPageState extends State<BleDelayTestPage> {
     final elapsed = _startedAt == null
         ? Duration.zero
         : DateTime.now().difference(_startedAt!);
-    final afterFlicks =
-        elapsed >= _lead + widget.flickPeriod * _reps;
+    final afterFlicks = elapsed >= _lead + widget.flickPeriod * _reps;
     return SectionCard(
       icon: Icons.bluetooth_searching,
       title: 'Test running',
@@ -376,8 +377,7 @@ class _BleDelayTestPageState extends State<BleDelayTestPage> {
             borderRadius: BorderRadius.circular(3),
           ),
           const SizedBox(height: 8),
-          Text(
-              'Phone samples: ${_phone.length} · RESpeck packets: $_packets',
+          Text('Phone samples: ${_phone.length} · RESpeck packets: $_packets',
               style: textTheme.bodySmall),
           const SizedBox(height: 8),
           OutlinedButton(onPressed: _cancel, child: const Text('Cancel')),
@@ -409,9 +409,11 @@ class _BleDelayTestPageState extends State<BleDelayTestPage> {
               children: [
                 _Big('Median', ms(s.median)),
                 _Big('Mean', ms(s.mean)),
-                _Big('Range', s.valid == 0
-                    ? '–'
-                    : '${s.min!.toStringAsFixed(0)}–${s.max!.toStringAsFixed(0)} ms'),
+                _Big(
+                    'Range',
+                    s.valid == 0
+                        ? '–'
+                        : '${s.min!.toStringAsFixed(0)}–${s.max!.toStringAsFixed(0)} ms'),
               ],
             ),
             const SizedBox(height: 8),
@@ -488,8 +490,8 @@ class _Big extends StatelessWidget {
       child: Column(
         children: [
           Text(value,
-              style: textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+              style:
+                  textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
           Text(caption, style: textTheme.bodySmall),
         ],
       ),

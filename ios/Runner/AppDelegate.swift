@@ -31,10 +31,10 @@ import UserNotifications
     return kr == KERN_SUCCESS ? info.phys_footprint : nil
   }
 
-  // For the Performance tab (lib/services/device_stats.dart): phone battery
-  // (iOS exposes the level and charging state only; there is no public API for
-  // the battery current, so power is measured with Xcode Instruments), the
-  // app's memory footprint and the phone model.
+  // For the Performance tab and its log (lib/services/device_stats.dart): the
+  // app's memory footprint, the phone model and the battery (iOS exposes the
+  // level and charging state only; there is no public API for the battery
+  // current, so power is measured with Xcode Instruments).
   private func registerPowerChannel(_ registry: FlutterPluginRegistry) {
     guard let registrar = registry.registrar(forPlugin: "PdiotPower") else { return }
     let channel = FlutterMethodChannel(

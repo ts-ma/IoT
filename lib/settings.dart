@@ -23,10 +23,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListenableBuilder(
-          listenable: Listenable.merge([
-            appSettings.reminders,
-            s
-          ]),
+          listenable: Listenable.merge([appSettings.reminders, s]),
           builder: (context, _) {
             return ListView(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
@@ -81,8 +78,9 @@ class SettingsPage extends StatelessWidget {
             subtitle: Text('Notify me to walk for 5 minutes after sitting or '
                 'standing for ${appSettings.sitMinutes.value} minutes (counted '
                 'over the last ${appSettings.sitMinutes.value + 10} minutes, '
-                'so short breaks or misreads do not restart it). Lying down '
-                'does not count.'),
+                'so short breaks or misreads do not restart it), then every 5 '
+                'minutes for 30 minutes until I walk. Lying down does not '
+                'count.'),
           ),
           if (appSettings.moveReminder.value)
             Padding(
@@ -104,8 +102,8 @@ class SettingsPage extends StatelessWidget {
             value: appSettings.wakeAlarm.value,
             onChanged: appSettings.setWakeAlarm,
             title: const Text('Wake-up alarm'),
-            subtitle: Text('After $wakeText, notify me every 5 minutes while '
-                'I am still lying down, until I get up.'),
+            subtitle: Text('After $wakeText, notify me every minute while I '
+                'am still lying down, until I get up (for up to 2 hours).'),
           ),
           if (appSettings.wakeAlarm.value)
             OutlinedButton.icon(

@@ -78,7 +78,7 @@ class TimelineData {
     required this.end,
     required this.binSize,
     required this.bins,
-    required this.coughBouts,
+    required this.coughEpisodes,
   });
 
   /// Local time of the left edge and right edge.
@@ -87,9 +87,8 @@ class TimelineData {
   final Duration binSize;
   final List<TimelineBin> bins;
 
-  /// Coughing episodes in the shown range (see countLabelEpisodes)
-  /// ([countLabelEpisodes]).
-  final int coughBouts;
+  /// Coughing episodes in the shown range (see [countLabelEpisodes]).
+  final int coughEpisodes;
 
   bool get isEmpty => bins.every((b) => b.isEmpty);
 
@@ -163,5 +162,9 @@ Future<TimelineData> loadTimeline(
     label: 'coughing',
   );
   return TimelineData(
-      start: start, end: end, binSize: binSize, bins: bins, coughBouts: coughs);
+      start: start,
+      end: end,
+      binSize: binSize,
+      bins: bins,
+      coughEpisodes: coughs);
 }

@@ -6,41 +6,26 @@ import 'package:pdiot/widgets/live_chart.dart';
 void main() {
   final t0 = DateTime.utc(2026, 11, 10, 12);
 
-  test('packet interval and extra delay above the fastest packet', () {
+  test('packet interval: time between packets on the phone', () {
     final m = AppMetrics();
-    // RESpeck clock is 5 s behind the phone; packets every 2.56 s, the
-    // second and fourth arrive 40 ms and 120 ms late.
-    const respeck0 = 1000000;
+    // Packets every 2.56 s; the second and fourth arrive 40 ms and 120 ms
+    // late, so the intervals around them are longer and shorter.
     const late = [0, 40, 0, 120];
     for (var i = 0; i < late.length; i++) {
-      final sent = respeck0 + i * 2560;
-      final received = t0.add(Duration(milliseconds: i * 2560 + late[i]));
-      m.recordPacket(i, 32, received, respeckMs: sent);
+      m.recordPacket(i, 32, t0.add(Duration(milliseconds: i * 2560 + late[i])));
     }
-    expect(m.packetExtraDelay.count, 4);
-    expect(m.packetExtraDelay.last, const Duration(milliseconds: 120));
-    expect(m.packetExtraDelay.max, const Duration(milliseconds: 120));
-    expect(m.packetExtraDelay.min, Duration.zero);
     expect(m.packetInterval.count, 3);
     expect(m.packetInterval.min, const Duration(milliseconds: 2520));
     expect(m.packetInterval.max, const Duration(milliseconds: 2680));
   });
 
-  test('a new stream or a restarted RESpeck clock starts the delay afresh',
-      () {
+  test('a new stream does not count the gap as a packet interval', () {
     final m = AppMetrics();
-    m.recordPacket(0, 32, t0, respeckMs: 500000);
-    m.recordPacket(1, 32, t0.add(const Duration(milliseconds: 2600)),
-        respeckMs: 502560); // 40 ms late
-    expect(m.packetExtraDelay.last, const Duration(milliseconds: 40));
-    // Clock restarted: offset jumps by minutes, so it is not a 5 min delay.
-    m.recordPacket(2, 32, t0.add(const Duration(milliseconds: 5160)),
-        respeckMs: 1000);
-    expect(m.packetExtraDelay.last, Duration.zero);
+    m.recordPacket(0, 32, t0);
+    m.recordPacket(1, 32, t0.add(const Duration(milliseconds: 2600)));
     m.endStream();
-    m.recordPacket(0, 32, t0.add(const Duration(minutes: 1)), respeckMs: 9);
-    expect(m.packetExtraDelay.last, Duration.zero);
-    // The gap across endStream is not a packet interval.
+    m.recordPacket(0, 32, t0.add(const Duration(minutes: 1)));
+    m.recordPacket(1, 32, t0.add(const Duration(minutes: 1, seconds: 3)));
     expect(m.packetInterval.count, 2);
   });
 

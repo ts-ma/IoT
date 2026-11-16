@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../social.dart';
 
 /// One NEW inference, never a cached UI result. Completion time is phone UTC,
-/// not the sensor timestamp or the start/end time of the eight-second window.
+/// not the sensor timestamp or the start/end time of the six-second window.
 class SocialPredictionEvent {
   SocialPredictionEvent({
     required this.prediction,
@@ -14,8 +14,8 @@ class SocialPredictionEvent {
   final SocialPrediction prediction;
   final DateTime completedAt;
 
-  /// Time spent in addSample for the call that completed this inference,
-  /// including window maintenance. Excludes event delivery and database work.
+  /// Time inside the model call that produced this result (measured the same
+  /// way as HAR). Excludes windowing, event delivery and database work.
   final Duration processingDuration;
 }
 
@@ -31,9 +31,10 @@ enum SocialPredictionStatus {
   pausedMoving
 }
 
-/// Social-only adapter for decoded BLE samples. Owns no interpreter or BLE
-/// connection. The app supplies the already-loaded Stage 4C classifier.
-/// Observers receive transitions/results, never each buffered sample.
+/// Feeds decoded BLE samples to the social classifier and tracks its state
+/// for the screens. Owns no interpreter or BLE connection: the app supplies
+/// the loaded classifier. Observers receive state changes and results, never
+/// each buffered sample.
 class SocialSampleProcessor extends ChangeNotifier {
   SocialSampleProcessor({
     required SocialClassifier? Function() classifier,
@@ -92,6 +93,7 @@ class SocialSampleProcessor extends ChangeNotifier {
     if (value) _latestPrediction = null;
     _publish();
   }
+
   int inferenceCount = 0;
   int errorCount = 0;
   int deliveryErrorCount = 0;
@@ -119,8 +121,8 @@ class SocialSampleProcessor extends ChangeNotifier {
     _publish();
   }
 
-  /// For a confirmed notification-stream error; does not reset HAR or guess
-  /// packet-loss semantics. No result is retained or replayed across this gap.
+  /// After a BLE notification error or lost packets: the social window starts
+  /// afresh, and no result is kept across the gap.
   void resetStream() {
     _latestPrediction = null;
     _reset();

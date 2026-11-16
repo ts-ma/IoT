@@ -22,8 +22,9 @@ const Duration updateInterval = Duration(milliseconds: 480);
 /// "0.5 s", for display.
 const String updateIntervalLabel = '0.5 s';
 
-/// User-adjustable app settings, persisted in shared preferences. Screens and
-/// the classifiers listen to the notifiers, so a change applies at once.
+/// User-adjustable settings (the reminders), persisted in shared preferences.
+/// The reminders and the Settings page listen to the notifiers, so a change
+/// applies at once.
 class AppSettings {
   /// Reminders (services/reminders.dart): move after sitting/standing for
   /// [sitMinutes]; wake-up alarm at [wakeMinuteOfDay] if still lying down.
@@ -51,14 +52,15 @@ class AppSettings {
     }
   }
 
-  Future<void> setMoveReminder(bool value) =>
-      _save(moveReminder, value, () => asyncPrefs.setBool('move_reminder', value));
+  Future<void> setMoveReminder(bool value) => _save(
+      moveReminder, value, () => asyncPrefs.setBool('move_reminder', value));
 
   Future<void> setSitMinutes(int value) {
     if (!sitMinuteChoices.contains(value)) {
       throw ArgumentError.value(value, 'value', 'Not an offered duration');
     }
-    return _save(sitMinutes, value, () => asyncPrefs.setInt('sit_minutes', value));
+    return _save(
+        sitMinutes, value, () => asyncPrefs.setInt('sit_minutes', value));
   }
 
   Future<void> setWakeAlarm(bool value) =>

@@ -24,9 +24,9 @@ Flutter app for PDIoT Coursework 3 (2026/27).
 |---|---|
 | **Home** | **Sensor card.** If no sensor is paired: *Scan QR code* or *Enter ID*. Once paired: *Connect* / *Disconnect*, the RESpeck battery, live acceleration, and *Change* / *Forget sensor*.<br>**Detected activity:** icon, name, confidence and a probability bar for every class (the latest model result).<br>**Social signal:** class, confidence and all four probabilities while you are still; *Paused while you are moving* (with the detected activity) while walking, on stairs, running, shuffling or moving about.<br>**Today:** monitored time, active time, coughing episodes and the day timeline. |
 | **Tools** | One card per tool; each opens on its own page.<br>**Real-time test:** timed, scored trials per participant, activity and social signal, with a warm-up skip and the latency to the first correct result and to the right class being *shown*; social is fixed to *not assessed* for moving activities; a per-class / per-group accuracy table with the classes tested per group (a tested class with no result counts as 0 %); **Open dashboard:** every dynamic activity and every static activity + social signal pair, per participant; CSV export. Each trial also saves its **raw sensor CSV** to `<user>/raw/`. You cannot leave the page while a trial runs.<br>**Latency test:** once you are steady, press the button and change; it times from the press until the new class is first correct, shown and steady, with CSV export.<br>**Sensor-to-app delay test:** the time from the RESpeck finishing a packet (measuring its last sample) to that packet arriving in the app: waiting for a Bluetooth slot, transmission and the phone's Bluetooth stack, plus any small processing inside the RESpeck (the 2.56 s packet filling comes before it and is not included). Hold the RESpeck flat against the back of the phone and flick both together when prompted; the phone's own accelerometer times each flick, and the delay at which the RESpeck's copy lines up best is the result. Median, mean, range and SD; CSV export of every flick and sample.<br>**Free recording:** raw data with labels and no time limit, also to `raw/`; keeps recording if you leave the page. |
-| **Performance** | **Live moving graphs (last 5 min):** CPU and memory of the app, HAR / Social inference time, packet interval.<br>**Response time:** one model at a time (drop-down: activity or social signal): file, architecture, classes, window, update interval, training data, official 10-fold CV, the mean and median time to show a change from your latency tests, and inference time on this phone.<br>**Figures:** sensor stream and storage breakdown. Power is not shown: measure it with Xcode Instruments or Android Studio.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/` (with streaming state, shown activity and social status per second) plus a `.conditions.json` with platform, OS, app version, settings, models and duration. |
+| **Performance** | **Live moving graphs (last 5 min):** CPU and memory of the app, HAR / Social inference time, packet interval.<br>**Response time:** one model at a time (drop-down: activity or social signal): file, architecture, classes, window, update interval, training data, official 10-fold CV, the mean and median time to show a change from your latency tests, and inference time on this phone.<br>**Figures:** sensor stream and storage breakdown. Power is not shown: measure it with Xcode Instruments or Android Studio.<br>**Record performance log:** a 1 s CSV saved to `<user>/performance/` (CPU, memory, model timing, packet interval, lost packets, streaming state and battery levels per second) plus a `.conditions.json` with platform, OS, phone model, app version, settings, models, duration and per-state averages. |
 | **History** | The activity **and** the social signal of the same moment side by side, for any day.<br>**Episodes:** runs where neither label changed, with start–end, duration and mean confidence.<br>**Every result:** each activity result with its paired social result (±¾ of the update interval), paginated. |
-| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, coughing episodes, time per social signal, the share of the day, and the **last 7 days** with a drop-down: static/dynamic time and coughing episodes per day, or each day's timeline. Export the day as CSV, or delete it. |
+| **Chart** | The **day timeline**: a strip coloured by activity, a social-signal strip, tap for details, and *Monitored hours* or *24 h*. Below it: time per activity, static vs active time, coughing episodes, time per social signal, the share of monitored time per activity, and the **last 7 days** with a drop-down: static/dynamic time and coughing episodes per day, or each day's timeline. Export the day as CSV, or delete it. |
 | **Settings** (gear) | **Reminders** (move after 30–90 min of sitting/standing; wake-up alarm while still lying after a set time) and the user's folder. The models are described on Performance › Response time. |
 
 Light and dark themes follow the phone setting.
@@ -47,7 +47,7 @@ The last user is logged in again at start-up. The app only reads and writes the 
     realtime_trials.json    real-time test trials
     latency_tests.json      latency test changes
     raw/                    raw sensor CSVs (real-time test, free recording)
-    exports/                daily-summary and real-time-test CSV exports
+    exports/                CSV exports (history day, real-time, latency and sensor-to-app delay tests)
     performance/            performance logs (Performance tab)
 ```
 
@@ -64,7 +64,8 @@ RESpeck ──BLE 12.5 Hz──► ble.dart (decode x,y,z in g) ──► Sensor
                             ├──► SocialSampleProcessor ─► SocialClassifier (social.dart)  75-sample window ─► result every 0.5 s
                             └──► RawRecorder ─► <user>/raw/*.csv (only while recording)
 results ─► PredictionHistoryWriter ─► <user>/history.db ─► History / Chart / Home timeline
-        ─► LivePredictionFeed (real-time test)
+        ─► LivePredictionFeed (real-time and latency tests)
+ble.dart ─► RespeckPacketFeed (raw packets, only while the sensor-to-app delay test listens)
 PerfSampler (1 s) ─► CPU, memory, model timing, storage ─► Performance tab (+ CSV log, which also keeps battery readings)
 ```
 
@@ -76,6 +77,7 @@ PerfSampler (1 s) ─► CPU, memory, model timing, storage ─► Performance t
 - Both models were trained to favour the most recent seconds of their window, so they react to a change sooner.
 - **Lost packets:** each packet carries a sequence number. If one or more packets are missing, both windows are emptied before the new samples go in, so no window joins data from either side of the gap.
 - Inference runs on the device, so there is no network latency and no data leaves the phone.
+- There is **no smoothing**: the activity card shows each model result as it is.
 
 ### Update interval
 
@@ -84,18 +86,17 @@ Both models give a new result every **0.5 s** (6 samples; 0.48 s exactly). This 
 ### Durations
 
 - Each saved result stores the interval it stands for (`interval_ms`, schema v2).
-- Durations are sums of those intervals, so they stay correct when the setting changes. They are estimates: time lost to Bluetooth gaps (and the window refilling after one) is not counted. The app says so under the charts.
+- Durations are sums of those intervals, so results saved with different steps still add up correctly. They are estimates: time lost to Bluetooth gaps (and the window refilling after one) is not counted. The app says so under the charts.
 - Rows from before v2 count as 2 s.
 
 ### Coughing episodes
 
-- A **coughing episode** is counted once coughing adds up to at least 4 s within any 5 s (each result counts its update interval). It lasts until 5 s pass without a coughing result, so one episode holds every cough of a coughing fit, and a single cough or stray result is not an episode.
-- There is **no smoothing**: the activity card shows each model result as it is.
+A **coughing episode** is counted once coughing adds up to at least 4 s within any 5 s (each result counts its update interval). It lasts until 5 s pass without a coughing result, so one episode holds every cough of a coughing fit, and a single cough or stray result is not an episode.
 
 ### Reminders
 
-- **Move reminder:** sitting/standing for N minutes (default 60) within the last N + 10 minutes → "walk for 5 minutes". Repeats every 30 min; 5 min of movement restarts the count; lying down is not counted.
-- **Wake-up alarm:** after the set time, while you are still lying down, a reminder every 5 min until you get up.
+- **Move reminder:** sitting/standing for N minutes (default 60) within the last N + 10 minutes → "walk for 5 minutes". Repeats every 5 min for 30 min (then stops and the count starts again), never while you are walking; 5 min of movement restarts the count; lying down is not counted.
+- **Wake-up alarm:** after the set time, while you are still lying down, a reminder every minute until you get up, for up to 2 hours.
 - While the RESpeck is connected the app keeps running in the background and with the screen off: Android runs a foreground service (ongoing "PDIoT is monitoring" notification), iOS uses the `bluetooth-central` background mode. Data, history and reminders continue; closing the app from the app switcher stops it. Notification permission is asked on the first connect.
 
 ### Social signals only while still
@@ -104,9 +105,8 @@ Social signals are defined for stationary activities only (CW3 task 2, course fe
 
 ### Update speed vs. accuracy
 
-See `progress.md`, *Task 7*. In short:
 - **The RESpeck sends 32 samples (2.56 s) per BLE packet**, so the app can only change the screen once per packet, on average 1.3 s after something happens (up to 2.56 s).
-- **Activity:** a change is shown after a median of about 3.0 s (replaying recordings through the app logic, pipeline v3). Measure it on the phone with *Tools → Latency test*.
+- **Activity:** a change is shown after a median of about 3.0 s (replaying recordings through the app logic, pipeline v3). Measure it on the phone with *Tools › Latency test*.
 - **Social:** a median of about 4.3 s (pipeline v4 replay), for the 6 s window trained to favour the most recent seconds.
 
 ## Live recognition models
@@ -117,10 +117,10 @@ See `progress.md`, *Task 7*. In short:
 | Social | `harry_social_cnn.tflite` | multi-branch CNN, trained to favour the most recent seconds | 75 samples (6 s) | 4 |
 
 - **Training:** both were trained on datasetJan2026 and both group members' recordings, mixed (IoT-Models repo: HAR from `model_harry/pipeline_v3`, social from `model_harry/pipeline_v4`, candidate `cnn_w75rec`).
-- **Official 10-fold CV:** HAR static 99.4 %, dynamic 89.5 %; social breathing 89.3 %, coughing 78.0 %, hyperventilation 79.2 %, other 76.6 % (social CV trained on datasetJan2026 only). Details: `assets/models/INSTALL.md`.
-- **Metadata:**
-  - each `.tflite` has a matching `*_meta.json` (window, training step, class order) and `*_example.json` (parity-check window) next to it;
-  - the `.keras` training copies are in `model/` and are not bundled.
+- **Official 10-fold CV:** HAR static 99.4 %, dynamic 89.5 %; social breathing 89.3 %, coughing 78.0 %, hyperventilation 79.2 %, other 76.6 % (the social CV folds were trained on datasetJan2026 only).
+- **Files in `assets/models/`:**
+  - each `.tflite` has a matching `*_meta.json` (window, training step, class order) and `*_example.json` (parity-check window), all bundled with the app;
+  - the `.keras` files are the same models in Keras format, kept for reference and not bundled.
 
 ## Measuring performance for the report
 
@@ -130,19 +130,16 @@ See `progress.md`, *Task 7*. In short:
 | Memory | total PSS (`Debug.MemoryInfo`, as `adb shell dumpsys meminfo`) + `ProcessInfo.currentRss` | `phys_footprint` (what Xcode's memory gauge shows) + `ProcessInfo.currentRss` |
 | Power | not shown in the app; Android Studio Energy Profiler / `dumpsys batterystats`. The CSV log keeps the whole-phone battery current and voltage | not shown in the app; Xcode Instruments → **Power Profiler**, Settings › Battery |
 | Model response | time inside each TFLite call (HAR and social measured the same way) | same |
-| Latency to show a change | *Tools → Latency test*: from the button press to the new class first correct, shown and steady. *Tools → Real-time test*: from trial start to the first correct / shown result | same |
+| Latency to show a change | *Tools › Latency test*: from the button press to the new class first correct, shown and steady. *Tools › Real-time test*: from trial start to the first correct / shown result | same |
+| Sensor-to-app delay | *Tools › Sensor-to-app delay test* (flick test, see Tools above) | same |
 | Storage | file sizes in the user's folder (DB, `raw/`, `exports/`, logs) | same |
 
 ### For the report
 
-1. Turn on *Record performance log*.
-2. Connect the sensor and use the app normally, or run trials, for a fixed time.
-3. Use the CSV in `<user>/performance/` for the graphs.
-4. State:
-   - the phone model and OS;
-   - how long the app ran;
-   - that inference runs on the device.
-5. Cross-check against Android Studio Profiler or Xcode Instruments.
+1. Install a **release** build (`flutter run --release`), unplugged, with the same phone settings for every run (brightness, airplane mode with Bluetooth and Wi-Fi on, Do Not Disturb).
+2. Record the conditions you want to compare (e.g. no sensor / streaming, screen on / locked) for a fixed time each with **Xcode Instruments** (Activity Monitor + Power Profiler + Thermal State; `xcrun xctrace record` does the same from the command line) or the **Android Studio Profiler**. These give CPU, memory and power from outside the app.
+3. Optionally turn on *Record performance log* as well: it adds what only the app knows (inference time, packet interval, lost packets) and its CPU and memory can be checked against the profiler.
+4. State the phone model and OS, how long each condition ran and that inference runs on the device.
 
 ## Code layout
 
@@ -154,11 +151,13 @@ See `progress.md`, *Task 7*. In short:
 | `lib/realtime_test_page.dart`, `lib/realtime_dashboard_page.dart`, `lib/latency_page.dart`, `lib/ble_delay_page.dart`, `lib/free_recording_page.dart` | The tools (each opened from Tools) and the real-time accuracy dashboard. |
 | `lib/settings.dart`, `lib/user_page.dart`, `lib/scanning.dart` | Settings, user, and the QR scanner page. |
 | `lib/ble.dart` | RESpeck scanning, connection and packet decoding. Feeds both classifiers, the raw recorder and the metrics. |
-| `lib/har.dart` / `lib/social.dart` | TFLite classifiers with sliding windows (adjustable step). |
+| `lib/har.dart` / `lib/social.dart` | TFLite classifiers with sliding windows (fixed 0.48 s step). |
 | `lib/services/` | Building blocks below the screens. |
 | `lib/widgets/` | Shared card / app-bar widgets, `DayTimeline`, `LiveLineChart`. |
 | `lib/activity_catalog.dart` | Readable names, icons, colours and coursework groups for every class. |
 | `test/` | Unit and widget tests (`flutter test`). |
+| `assets/models/` | The two bundled models with their metadata and example windows. |
+| `android/`, `ios/` | Platform projects: Bluetooth, notification and sensor permissions, and the native battery / memory / phone-model channel (`MainActivity.kt`, `AppDelegate.swift`). |
 
 What `lib/services/` contains:
 
@@ -171,7 +170,10 @@ What `lib/services/` contains:
 - `perf_sampler` / `device_stats` — CPU, memory, battery (CSV log only), storage;
 - `app_metrics` — model and stream counters;
 - `evaluation` — real-time test scoring;
-- the Social stream processor and live feed.
+- `latency_test` — latency test timing and statistics;
+- `ble_delay_test` / `packet_feed` — sensor-to-app delay analysis and the raw packet feed it uses;
+- `reminders` / `notifications` — move reminder, wake-up alarm, notifications and the Android monitoring service;
+- `social_sample_processor` / `live_feed` — the social stream processor and the live result feed.
 
 ## Swapping in a new model
 
@@ -186,10 +188,10 @@ What `lib/services/` contains:
 ```
 flutter pub get
 flutter test
-flutter run            # or: flutter run --profile for measurements
+flutter run            # or: flutter run --release for measurements
 ```
 
-- Android 10+ or iOS 16+ is needed for Bluetooth.
+- Android 10+ (minSdk 29) or iOS 15+ (deployment target).
 - **iOS:** needs CocoaPods (`pod install` in `ios/`) and your own signing team in Xcode.
 - **Smaller release APK:** `flutter build apk --release --split-per-abi`.
 

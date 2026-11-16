@@ -12,7 +12,7 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 
 // Widget/state tests use the real classifier's validation and windowing with a
 // fake native runner. They do not claim native inference or device BLE parity.
-const _collecting = 'Collecting data... (first result after about 8 s: the '
+const _collecting = 'Collecting data… (first result after about 8 s: the '
     '6 s window must fill and the next RESpeck packet arrive)';
 
 void main() {
@@ -178,7 +178,8 @@ void main() {
       throw StateError('model failed to load');
     });
     await expectLater(session.load(), throwsStateError);
-    await tester.pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
+    await tester
+        .pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
     expect(status(tester), 'Social model unavailable');
     expect(labelFinder, findsNothing);
     expect(confidenceFinder, findsNothing);
@@ -285,7 +286,8 @@ void main() {
       (tester) async {
     final session = SocialClassifierSession(loader: () async => classifier);
     await session.load();
-    await tester.pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
+    await tester
+        .pumpWidget(MyApp(socialSession: session, startPerfSampler: false));
     final shellProcessor =
         tester.widget<AppShell>(find.byType(AppShell)).socialProcessor!;
     shellProcessor.startSession();

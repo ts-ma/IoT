@@ -32,7 +32,8 @@ void main() {
 
   List<PhoneMotion> phone() => [
         for (var ms = 0; ms < flicks * flickEvery + 3000; ms += 10)
-          PhoneMotion(t0.add(Duration(milliseconds: ms)), motion(ms.toDouble())),
+          PhoneMotion(
+              t0.add(Duration(milliseconds: ms)), motion(ms.toDouble())),
       ];
 
   /// RESpeck packets: gravity on z plus the jolt along x; packet k holds
@@ -114,8 +115,10 @@ void main() {
     // Not connected: nothing starts.
     await tester.tap(find.byKey(const ValueKey('ble-start')));
     await tester.pump();
-    expect(find.text('Connect the RESpeck on Home first - no live data is '
-        'arriving'), findsOneWidget);
+    expect(
+        find.text('Connect the RESpeck on Home first - no live data is '
+            'arriving'),
+        findsOneWidget);
     expect(find.byKey(const ValueKey('ble-prompt')), findsNothing);
 
     // With simulated inputs it runs: hold still first, then cancel.

@@ -18,7 +18,8 @@ void main() {
     addTearDown(sensor.dispose);
     sensor.addHarResult(const HarPrediction('sittingStanding', 0.9));
     expect(sensor.harShown!.label, 'sittingStanding');
-    final shown = sensor.addHarResult(const HarPrediction('normalWalking', 0.8));
+    final shown =
+        sensor.addHarResult(const HarPrediction('normalWalking', 0.8));
     expect(shown.label, 'normalWalking');
     expect(sensor.harShown!.label, 'normalWalking');
     expect(SensorController.isMoving('normalWalking'), isTrue);
@@ -29,8 +30,8 @@ void main() {
     const raw = HarPrediction('running', 0.6);
     const shown = HarPrediction('normalWalking', 0.8);
     expect(LiveHarEvent(raw, DateTime.utc(2026)).shown, same(raw));
-    expect(LiveHarEvent(raw, DateTime.utc(2026), shown: shown).shown,
-        same(shown));
+    expect(
+        LiveHarEvent(raw, DateTime.utc(2026), shown: shown).shown, same(shown));
   });
 
   test('trials keep the shown latency; older trials load without it', () {
@@ -47,7 +48,8 @@ void main() {
     );
     final back = EvaluationTrial.fromJson(t.toJson());
     expect(back.harShownLatency, const Duration(milliseconds: 3600));
-    final old = Map<String, dynamic>.of(t.toJson())..remove('harShownLatencyMs');
+    final old = Map<String, dynamic>.of(t.toJson())
+      ..remove('harShownLatencyMs');
     expect(EvaluationTrial.fromJson(old).harShownLatency, isNull);
 
     final csv = trialsToCsv([t]).split('\n');

@@ -47,15 +47,16 @@ void main() {
       expect(formatDuration(const Duration(seconds: 8)), '8 s');
       expect(formatDuration(const Duration(minutes: 12, seconds: 5)),
           '12 min 05 s');
-      expect(formatDuration(const Duration(hours: 1, minutes: 5)),
-          '1 h 05 min');
+      expect(
+          formatDuration(const Duration(hours: 1, minutes: 5)), '1 h 05 min');
     });
   });
 
   group('countLabelEpisodes', () {
     final t0 = DateTime.utc(2026, 11, 3, 12);
     // One result every 0.5 s (step 6), each standing for 0.5 s.
-    ({String label, DateTime at, Duration interval}) r(String label, double s) =>
+    ({String label, DateTime at, Duration interval}) r(
+            String label, double s) =>
         (
           label: label,
           at: t0.add(Duration(milliseconds: (s * 1000).round())),
@@ -215,7 +216,8 @@ void main() {
       final csv = trialsToCsv([original, trial('lyingLeft', [])]);
       final lines = csv.trim().split('\n');
       expect(lines, hasLength(3));
-      expect(lines[1], startsWith('p1,2026-11-03T00:00:00.000Z,30,4,running,1,1,100.0,'));
+      expect(lines[1],
+          startsWith('p1,2026-11-03T00:00:00.000Z,30,4,running,1,1,100.0,'));
       final summary = summaryToCsv(EvaluationSummary.from([original]));
       expect(summary, contains('Dynamic activities,running,1,1,1,100.0,1,3.0'));
       expect(summary, contains('All,MEAN,,2,2,100.0,,'));
@@ -258,7 +260,8 @@ void main() {
           confidence: 0.9,
         ));
 
-    test('counts per label and coughing episodes within one day only', () async {
+    test('counts per label and coughing episodes within one day only',
+        () async {
       await add(PredictionTaskType.har, 'normalWalking', 0);
       await add(PredictionTaskType.har, 'normalWalking', 2);
       await add(PredictionTaskType.har, 'running', 4);
@@ -303,8 +306,8 @@ void main() {
         },
         4,
       );
-      await tester.pumpWidget(MaterialApp(
-          home: ChartPage(openRepository: () async => repo)));
+      await tester.pumpWidget(
+          MaterialApp(home: ChartPage(openRepository: () async => repo)));
       await tester.pumpAndSettle();
       expect(find.text('Chart'), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
@@ -341,8 +344,8 @@ void main() {
 
     testWidgets('daily summary explains an empty day', (tester) async {
       final repo = _SummaryRepository({}, {}, 0);
-      await tester.pumpWidget(MaterialApp(
-          home: ChartPage(openRepository: () async => repo)));
+      await tester.pumpWidget(
+          MaterialApp(home: ChartPage(openRepository: () async => repo)));
       await tester.pumpAndSettle();
       expect(find.textContaining('No results saved for Today'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());

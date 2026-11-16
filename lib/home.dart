@@ -446,9 +446,9 @@ class HomePageState extends State<HomePage> {
       SocialPredictionStatus.unavailable => 'Social model unavailable',
       SocialPredictionStatus.disconnected => 'Disconnected',
       SocialPredictionStatus.collecting =>
-        'Collecting data... (first result after about 8 s: the '
-        '${socialWindowSeconds.toStringAsFixed(0)} s window must fill and the '
-        'next RESpeck packet arrive)',
+        'Collecting data… (first result after about 8 s: the '
+            '${socialWindowSeconds.toStringAsFixed(0)} s window must fill and the '
+            'next RESpeck packet arrive)',
       SocialPredictionStatus.ready => 'Live prediction',
       SocialPredictionStatus.error =>
         'Social inference error — reconnect to retry',
@@ -469,7 +469,7 @@ class HomePageState extends State<HomePage> {
     return SectionCard(
       key: const ValueKey('social-signal-result'),
       icon: Icons.graphic_eq,
-      title: 'Social Signal',
+      title: 'Social signal',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -560,7 +560,7 @@ class HomePageState extends State<HomePage> {
                         formatDuration(
                             data.groupTime(LabelGroup.dynamicActivity)),
                         'active'),
-                    _StatTile('${data.coughBouts}', 'coughing episodes'),
+                    _StatTile('${data.coughEpisodes}', 'coughing episodes'),
                   ],
                 ),
                 const SizedBox(height: 12),

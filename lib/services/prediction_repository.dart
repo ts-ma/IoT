@@ -37,8 +37,8 @@ class PredictionRepository {
         'ON $_table(task_type, timestamp)',
       );
     },
-    // v2: the activity time each result stands for. The update interval can
-    // be changed in Settings, so durations are summed rather than counted.
+    // v2: the activity time each result stands for, so durations are summed
+    // rather than counted (results saved with different steps add up).
     (db) async {
       await db.execute(
         'ALTER TABLE $_table ADD COLUMN interval_ms INTEGER '
@@ -111,7 +111,8 @@ class PredictionRepository {
       _table,
       where: _rangeWhere(taskType),
       whereArgs: _rangeArgs(start, end, taskType),
-      orderBy: newestFirst ? 'timestamp DESC, id DESC' : 'timestamp ASC, id ASC',
+      orderBy:
+          newestFirst ? 'timestamp DESC, id DESC' : 'timestamp ASC, id ASC',
       limit: limit ?? (offset > 0 ? -1 : null),
       offset: offset,
     );
@@ -120,7 +121,7 @@ class PredictionRepository {
 
   /// Number of records per label in [start, end) for one task. Used for the
   /// daily summary: each HAR record represents one prediction interval.
-  /// Pass [source] to count only live (or only replayed) results.
+  /// Pass [source] to count only results from that source.
   Future<Map<String, int>> countByLabel({
     required DateTime start,
     required DateTime end,
@@ -139,7 +140,7 @@ class PredictionRepository {
   }
 
   /// Activity time per label in [start, end) for one task: the sum of each
-  /// result's interval (old rows without one count as the original 2 s).
+  /// result's interval (rows saved before v2 count as 2 s, the step then).
   Future<Map<String, Duration>> durationByLabel({
     required DateTime start,
     required DateTime end,
@@ -213,7 +214,7 @@ class PredictionRepository {
     );
   }
 
-  /// Number of rows in the database (Performance page, storage growth).
+  /// Number of saved results.
   Future<int> count() async {
     final rows = await _database.rawQuery('SELECT COUNT(*) AS n FROM $_table');
     return (rows.single['n'] as num).toInt();
@@ -344,7 +345,8 @@ int countLabelEpisodes(
     lastHit = record.at;
     recent.add((at: record.at, interval: record.interval));
     recent.removeWhere((r) => record.at.difference(r.at) >= window);
-    final total = recent.fold<Duration>(Duration.zero, (a, r) => a + r.interval);
+    final total =
+        recent.fold<Duration>(Duration.zero, (a, r) => a + r.interval);
     if (!inEpisode && total >= minTime) {
       episodes++;
       inEpisode = true;

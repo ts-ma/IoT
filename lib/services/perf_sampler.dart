@@ -12,7 +12,7 @@ import 'device_stats.dart';
 import 'sensor_controller.dart';
 import 'user_session.dart';
 
-/// One reading per second of everything the Performance tab plots.
+/// One reading per second: what the Performance tab plots and the log saves.
 class PerfSample {
   PerfSample({
     required this.time,
@@ -142,7 +142,7 @@ class StorageStats {
   }
 }
 
-/// Samples CPU, memory, batteries, model timing and storage once a second,
+/// Samples CPU, memory, battery levels, model timing and storage once a second,
 /// keeps the last [capacity] samples for the live graphs and can log every
 /// sample to `<user>/performance/` for the report.
 class PerfSampler extends ChangeNotifier {
@@ -193,13 +193,9 @@ class PerfSampler extends ChangeNotifier {
   /// streaming, written to the conditions file when the log stops.
   _LogStats? _logStats;
 
-  /// First battery readings since the sampler started, for drain rates.
-  ({DateTime at, int level})? _phoneStart;
-  ({DateTime at, int level})? _respeckStart;
-
   StorageStats storage = StorageStats();
 
-  /// Where the CPU figure comes from (shown on the page).
+  /// Where the CPU figure comes from (written to the log's conditions file).
   String get cpuSource => (_cpu ?? CpuClock.instance).source;
   int get cores => Platform.numberOfProcessors;
 
@@ -207,14 +203,13 @@ class PerfSampler extends ChangeNotifier {
   File? _logFile;
   DateTime? _logStarted;
 
-  /// Called when a log starts/stops for the settings in force (update
-  /// interval, models). Set by the app; tests leave it null.
+  /// The app's settings for the conditions file (update interval, models,
+  /// RESpeck, user). Set by the app; tests leave it null.
   Map<String, Object?> Function()? describeSettings;
 
   /// `<log>.conditions.json` next to the CSV: what the report has to state
-  /// about how performance was measured (platform, OS, app version, settings,
-  /// start/end and duration). The phone model is not readable without an
-  /// extra plugin - note it by hand.
+  /// about how performance was measured (platform, OS, phone model, app
+  /// version, settings, start/end and duration).
   Future<void> _writeConditions({DateTime? ended}) async {
     final file = _logFile;
     final started = _logStarted;
@@ -287,13 +282,7 @@ class PerfSampler extends ChangeNotifier {
         _platformMemory = await _power.memory() ?? _platformMemory;
       }
       final b = _battery;
-      if (b?.level != null && _phoneStart == null) {
-        _phoneStart = (at: now, level: b!.level!);
-      }
       final respeck = sensor?.streaming == true ? sensor?.respeckBattery : null;
-      if (respeck != null && _respeckStart == null) {
-        _respeckStart = (at: now, level: respeck);
-      }
 
       double? meanMs(DurationStat s, int lastCount, int lastTotal) {
         final n = s.count - lastCount;
@@ -357,25 +346,6 @@ class PerfSampler extends ChangeNotifier {
     }
   }
 
-  /// Phone battery drain since sampling started, in % per hour. Null until
-  /// 10 minutes have passed and at least 1 % has gone: battery levels move in
-  /// 1 % steps, so earlier figures are mostly rounding noise.
-  double? get phoneDrainPerHour => _drain(_phoneStart, _battery?.level);
-  double? get respeckDrainPerHour =>
-      _drain(_respeckStart, sensor?.respeckBattery);
-
-  Duration? get phoneObserved =>
-      _phoneStart == null ? null : DateTime.now().difference(_phoneStart!.at);
-
-  double? _drain(({DateTime at, int level})? start, int? now) {
-    if (start == null || now == null) return null;
-    final dropped = start.level - now;
-    final elapsed = DateTime.now().difference(start.at);
-    if (dropped < 1 || elapsed < const Duration(minutes: 10)) return null;
-    final hours = elapsed.inSeconds / 3600;
-    return dropped / hours;
-  }
-
   /// Starts or stops writing every sample to `<user>/performance/`.
   Future<String?> setLogging(bool on) async {
     if (on == logging) return null;
@@ -409,14 +379,9 @@ class PerfSampler extends ChangeNotifier {
     }
   }
 
-  /// Summary of the log in progress (null when not logging).
-  Map<String, Object?>? get logSummary => _logStats?.toJson();
-
-  /// Clears the graphs and the drain baselines (the Reset button).
+  /// Clears the graphs (the Reset button).
   void resetHistory() {
     _samples.clear();
-    _phoneStart = null;
-    _respeckStart = null;
     notifyListeners();
   }
 

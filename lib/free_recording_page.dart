@@ -57,8 +57,7 @@ class _FreeRecordingPageState extends State<FreeRecordingPage> {
   bool get _freeRecording => _recorder.active && _recorder.purpose == 'free';
 
   /// A real-time trial is saving its raw data: no free recording meanwhile.
-  bool get _trialRecording =>
-      _recorder.active && _recorder.purpose == 'trial';
+  bool get _trialRecording => _recorder.active && _recorder.purpose == 'trial';
 
   @override
   void initState() {
